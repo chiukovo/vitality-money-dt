@@ -37,6 +37,13 @@ import Sound from "~/components/Sound"
 import Operating from '~/components/Operating'
 import '@/assets/sass/theme1.scss'
 export default {
+  head() {
+    return {
+      htmlAttrs: {
+         class: 'gennki'
+      }
+    }
+  },
   components: {
     Splitpanes,
     Pane,
@@ -50,13 +57,6 @@ export default {
     Operating
   },
   mixins: [websocketService],
-  head() {
-    return {
-      htmlAttrs: {
-         class: this.$store.state.customStyle.htmlClass + ' login'
-      }
-    }
-  },
   mounted() {
     let _this = this
     this.checkLogin()
