@@ -1,0 +1,92 @@
+// default
+
+// color
+$blue:      #007bff;
+$indigo:    #6610f2;
+$purple:    #6f42c1;
+$pink:      #e83e8c;
+$red:       #dc3545;
+$orange:    #fd7e14;
+$yellow:    #ffc107;
+$green:     #28a745;
+$teal:      #20c997;
+$cyan:      #17a2b8;
+$white:     #fff;
+$gray:      #6c757d;
+$gray-dark: #343a40;
+
+
+$gray-100:  #CED3DB;
+$gray-200:  #586170;
+$gray-300:  #3C424E;
+$gray-400:  #3C424E;
+$gray-500:  #2F343B;
+$gray-600:  #24282E;
+$gray-700:  #1E2126;
+$gray-800:  #191B1D;
+$gray-900:  #121315;
+$gray-990:  #0b0b0c;
+$black:     #000;
+
+
+$primary:   $blue;
+$secondary: $gray-600;
+$success:   $green;
+$info:      $cyan;
+$warning:   $yellow;
+$danger:    $red;
+$light:     $gray-100;
+$dark:      $gray-800;
+
+$theme-colors: () !default;
+$theme-colors: map-merge(
+  (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+  ),
+  $theme-colors
+);
+
+// font
+$font-size-default: 13px;
+$font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+$font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+
+// table
+$table-font-color: #fff;
+$table-font-size: 16px;
+$table-font-size-medium: 14px;
+$table-font-size-small: 13px;
+$table-font-size-mini: 16px;
+$table-bg-color: $gray-900;
+$table-header-bg-color: $gray-700;
+$table-border-color: $gray-800;
+$table-row-current-bg-color: rgba($primary, .1);
+$table-row-hover-bg-color: rgba($primary, .1);
+$table-row-height-default: 48px;
+$table-row-height-medium: 44px;
+$table-row-height-small: 40px;
+$table-row-height-mini: 36px;
+$table-row-line-height: 23px;
+$table-cell-padding: 0 10px;
+$table-header-cell-padding: 0 10px;
+
+
+// button
+$button-font-color: #606266;
+$button-border-color: $gray-800;
+$button-bg-color: #DCDFE6;
+$button-min-width: auto;
+$button-padding: 8px 12px;
+
+// theme
+$body-bg: $gray-900;
+$body-color: $white;
+$block-bg-color: $gray-100;
+$border-color: $gray-100;

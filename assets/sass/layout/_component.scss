@@ -1,0 +1,269 @@
+// height 100%
+.h-100 {
+  height: 100%
+}
+
+.hide {
+  display: none
+}
+
+// button
+button {
+  min-width: $button-min-width;
+  line-height: 1;
+  color: $dark;
+  border: $gray-200;
+  background: $light;
+  padding: $button-padding;
+  white-space: nowrap;
+  &:disabled {
+    cursor: no-drop;
+    pointer-events: none;
+    color: #b3b3b3;
+    background: #d8d8d8;
+    border-color: #d8d8d8;
+  }
+  + button {
+    margin-left: 4px;
+  }
+}
+.button {
+  color: $button-font-color;
+  border: 1px solid $button-border-color;
+  background: $button-bg-color;
+}
+@each $color, $value in $theme-colors {
+  .button__#{$color} {
+    color: #fff;
+    border: 1px solid darken($value, 3%);
+    background: $value;
+  }
+}
+.button__light {
+  color: $dark;
+}
+.button__lg {
+  font-size: 20px;
+  padding: 1.6rem 2rem;
+}
+
+
+// checkbox & radio
+.checkbox {
+  display: block;
+  white-space: nowrap;
+  &.inline {
+    display: inline-block;
+  }
+  .checkbox__label {
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+}
+.radio {
+  display: block;
+  white-space: nowrap;
+  &.inline {
+    display: inline-block;
+  }
+  .radio__label {
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+}
+
+.input {
+  input {
+    padding: 4px 6px;
+    &:disabled {
+      color: #676767;
+      border: 1px solid #b7babc;
+      background: #f9f9f9;
+    }
+  }
+  + .input {
+    margin-top: 6px;
+  }
+}
+
+
+// text
+.text__lg {
+  font-size: 1.25rem;
+}
+.text__bold {
+  font-weight: bold;
+}
+$align: center right left;
+@each $author in $align {
+  .text__#{$author} {
+    text-align: #{$author};
+  }
+}
+@each $color, $value in $theme-colors {
+  .text__#{$color} {
+    color: $value;
+    white-space: nowrap;
+  }
+}
+
+// border
+@each $color, $value in $theme-colors {
+  .border__#{$color} {
+    border-color: $value !important;
+  }
+}
+
+// bg
+@each $color, $value in $theme-colors {
+  .bg__#{$color} {
+    background: $value;
+  }
+}
+
+
+// form
+.label {
+  margin-right: 4px;
+}
+
+
+// progress bar
+.progress-bar {
+  height: 14px;
+  background: transparent;
+  .progress-bar__inner {
+    height: 100%;
+    background: $success;
+    transition: width 0.6s ease;
+  }
+  &.progress-bar__right {
+    direction: rtl;
+    .progress-bar__inner {
+      background: $danger;
+    }
+  }
+}
+
+// tabs
+.tabs-nav {
+  display: flex;
+  .tabs__item {
+    flex: none;
+    cursor: pointer;
+  }
+}
+
+// table arrow up / down
+.change-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-content: center;
+  margin-right: 4px;
+  .icon-arrow {
+    position: relative;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+  .icon-arrow-up {
+    border-width: 0 5px 8px 5px;
+    border-color: transparent transparent $danger transparent;
+  }
+  .icon-arrow-down {
+    border-width: 8px 5px 0 5px;
+    border-color: $success transparent transparent transparent;
+  }
+}
+tr.border-tr {
+  td {
+    border-top: 1px solid $primary !important;
+    border-bottom: 1px solid $primary !important;
+    &:first-child {
+      border-left: 1px solid $primary !important;
+    }
+    &:last-child {
+      border-right: 1px solid $primary !important;
+    }
+    &:nth-child(3) {
+      color: #fff;
+      background-color: $primary;
+    }
+  }
+}
+td {
+  position: relative;
+  .bg__danger, .bg__success {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  input[type="checkbox"] {
+    margin: 10px;
+  }
+}
+
+// .row
+.row {
+  align-items: center;
+}
+
+// dialog
+.dialog__header {
+  .row {
+    .col-lg-auto {
+      margin-bottom: 6px;
+    }
+    + .row {
+      margin-top: 6px;
+    }
+  }
+}
+.dialog__footer {
+  text-align: center;
+  margin-top: 6px;
+  button {
+    padding: 8px 16px;
+    + button {
+      margin-left: 6px;
+    }
+  }
+}
+
+
+
+.blink {
+  animation: blink .8s linear infinite;
+}
+
+@keyframes blink {
+  0% {
+    color: $danger;
+  }
+
+  50% {
+    color: $danger;
+  }
+
+  50.01% {
+    color: black;
+  }
+
+  100% {
+    color: black;
+  }
+}
+
+.login {
+  .el-loading-mask {
+    position: fixed;
+  }
+}
+.el-loading-mask {
+  background-color: rgba(0, 0, 0, 0.8);
+}
