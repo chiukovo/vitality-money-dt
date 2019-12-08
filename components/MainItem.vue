@@ -4,6 +4,9 @@
     Dialog(
       :click-type="dialog.clickType",
       :visible.sync="dialog.isOpen"
+      :title="dialog.title"
+      :size="dialog.size"
+      :onlyItem="dialog.onlyItem"
     )
     client-only
       vxe-table(
@@ -20,57 +23,76 @@
         auto-resize
         highlight-current-row
         highlight-hover-row)
-        //- 上升/下降 td .cell add class: '.text-up || .text-down'
-        //- 閃爍效果 td .cell add class: '.border.border__danger || .border__success'
-        vxe-table-column(title='商品' width="70px" fixed="left")
+        vxe-table-column(width="100px" fixed="left" show-header-overflow)
+          template(v-slot:header="{column}") 商品
+            button(@click.stop="customSetting = !customSetting") click
+            ul(id="customSettingContent" class="test" v-show="customSetting")
+              li 自訂商品
+              li 自訂欄位
+              li 字型大小
+              li 自訂風格
           template(slot-scope='scope') {{ scope.row['product_name'] }}
-        vxe-table-column(title='倉位' fixed="left" width="40px" align="center")
+        vxe-table-column(title='倉位多' width="50px" align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             <span class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0">{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
-            <span class="bg__success" v-else>{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
-        vxe-table-column(title='K線' width="40px" align="center")
-          template(slot-scope='scope')
-            a.btn-Kline(href="#" @click='clickKline(scope.row)') k線
-        vxe-table-column(title='走勢' width="40px" align="center")
-          template(slot-scope='scope')
-            a.btn-Chart(href="#" @click='clickChart(scope.row)') 走勢
-        vxe-table-column(title='成交')
-          template(slot-scope='scope')
-            span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
-        vxe-table-column(title='買進')
+        vxe-table-column(title='倉位空' width="50px" align="center")
+          template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
+            <span class="bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0">{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
+        vxe-table-column(title='買進價')
           template(slot-scope='scope')
             span(:class="scope.row['bp_price_change']") {{ scope.row['bp_price'] }}
-        vxe-table-column(title='賣出')
+        vxe-table-column(title='賣出價')
           template(slot-scope='scope')
             span(:class="scope.row['sp_price_change']") {{ scope.row['sp_price'] }}
-        vxe-table-column(title='漲跌')
+        vxe-table-column(title='成交價')
           template(slot-scope='scope')
-            .change-icon
-              .icon-arrow(:class="scope.row['gain'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-            span {{ scope.row['gain'] }}
-        vxe-table-column(title='漲跌幅')
+            span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
+        vxe-table-column(title='漲跌')
+          template(slot-scope='scope') {{ scope.row['gain'] }}
+        vxe-table-column(title='漲幅%')
           template(slot-scope='scope') {{ scope.row['gain_percent'] }}%
+        vxe-table-column(title='單量')
+          template(slot-scope='scope') {{ scope.row['newest_qty'] }}
         vxe-table-column(title='總量')
           template(slot-scope='scope')
             span(:class="scope.row['total_qty_change']") {{ scope.row['total_qty'] }}
-        vxe-table-column(title='開盤')
-          template(slot-scope='scope') {{ scope.row['open_price']}}
-        vxe-table-column(title='最高')
-          template(slot-scope='scope') {{ scope.row['highest_price']}}
-        vxe-table-column(title='最低')
-          template(slot-scope='scope') {{ scope.row['lowest_price']}}
-        vxe-table-column(title='昨收盤')
-          template(slot-scope='scope') {{ scope.row['yesterday_last_price'] }}
-        vxe-table-column(title='昨結算')
+        vxe-table-column(title='昨收價')
           template(slot-scope='scope') {{ scope.row['yesterday_close_price'] }}
-        vxe-table-column(title='狀態' fixed="right")
+        vxe-table-column(title='開盤價')
+          template(slot-scope='scope') {{ scope.row['open_price']}}
+        vxe-table-column(title='最高價')
+          template(slot-scope='scope') {{ scope.row['highest_price']}}
+        vxe-table-column(title='最低價')
+          template(slot-scope='scope') {{ scope.row['lowest_price']}}
+        vxe-table-column(title='時間' width="70px")
+          template(slot-scope='scope') {{ scope.row['newest_time']}}
+        vxe-table-column(title='交易')
           template(slot-scope='scope') {{ scope.row['state_name'] }}
+        vxe-table-column(title='最後成交價' width="70px")
+          template(slot-scope='scope')
+            span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
+        vxe-table-column(title='最後交易日' width="70px")
+          template(slot-scope='scope') {{ scope.row['end_date'] }}
+        vxe-table-column(title='說明')
+          template(slot-scope='scope')
+            a(href="#" @click="openModal('userDetail', '商品資訊', '', true)") 說明
+        vxe-table-column(title='商品類別')
+          template(slot-scope='scope') CFD
 </template>
 
+<style>
+  .test {
+    position: fixed;
+    z-index: 99;
+    background: #fff;
+    color: #333;
+  }
+</style>
 <script>
 
+import Vue from 'vue'
 import Dialog from "~/components/Dialog"
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 
 export default {
 	data() {
@@ -78,7 +100,11 @@ export default {
       dialog: {
         clickType: '',
         isOpen: false,
+        title: '',
+        size: '',
+        onlyItem: '',
       },
+      customSetting: false
 	  }
 	},
   computed: mapState([
@@ -88,69 +114,40 @@ export default {
     Dialog,
   },
   mounted() {
+    const _this = this
 
-  },
-  watch: {
-    mainItem() {
-      const _this = this
-
-      setTimeout(function(){
-        const success = document.querySelectorAll("#mainItemTable .vxe-cell .border__success")
-        const danger = document.querySelectorAll("#mainItemTable .vxe-cell .border__danger")
-
-        success.forEach(function(el) {
-          el.classList.remove("border")
-          el.classList.remove("border__success")
-        })
-
-        danger.forEach(function(el) {
-          el.classList.remove("border")
-          el.classList.remove("border__danger")
-        })
-      }, 400)
-    }
+    document.body.addEventListener("click", function(e) {
+      _this.closeSetting()
+    });
   },
   methods: {
+    closeSetting() {
+      this.customSetting = false
+    },
+    openModal (type, title, size, onlyItem) {
+      this.dialog.size = ''
+      this.dialog.clickType = type
+      this.dialog.title = title
+      this.dialog.isOpen = true
+
+      if (typeof size != 'undefined') {
+        this.dialog.size = size
+      }
+
+      if (typeof onlyItem != 'undefined') {
+        this.dialog.onlyItem = true
+      }
+    },
     clickItem({ row }) {
       this.$store.commit('setClickItemId', {
         id: row.product_id,
         name: row.product_name
       })
     },
-    clickKline(item) {
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': item.product_id,
-        'type': 'kline',
-        'num': 2
-      })
-
-      //dialog
-      this.dialog.clickType = 'kLine'
-      this.dialog.isOpen = true
-    },
-    clickChart(item) {
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': item.product_id,
-        'type': 'minone',
-        'num': 1
-      })
-
-      //dialog
-      this.dialog.clickType = 'chart'
-      this.dialog.isOpen = true
-    },
     tableCellClassName({ row, column, columnIndex }) {
       //判斷整行顏色
-      if(columnIndex >= 4 && columnIndex != 7 && columnIndex != 9 && columnIndex != 15) {
+      if(columnIndex >= 3 && columnIndex != 8 && columnIndex != 9 && columnIndex != 10 && columnIndex != 11 && columnIndex != 14 && columnIndex != 15 && columnIndex != 17 && columnIndex != 19) {
         return row.color
-      }
-
-      if(columnIndex == 7) {
-        if (row.gain >= 0) {
-          return 'text__danger'
-        } else {
-          return 'text__success'
-        }
       }
 
       //判斷狀態

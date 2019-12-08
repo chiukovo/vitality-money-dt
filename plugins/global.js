@@ -118,8 +118,11 @@ Vue.mixin({
     paramBclickId(clickItemId) {
       return 'h:' + clickItemId
     },
-    formatTime (time) {
+    formatTime(time) {
       return time.substring(0, 2) + ":" + time.substring(2, 4) + ":" + time.substring(4, 6)
+    },
+    formatEndDate(date) {
+      return date.substring(4, 6) + "/" + date.substring(6, 8)
     },
     objectIsEmpty (obj) {
       for(let key in obj) {

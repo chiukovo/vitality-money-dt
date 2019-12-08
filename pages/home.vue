@@ -4,20 +4,8 @@
     Header
   #main
     splitpanes(class="default-theme")
-      pane(size="18")
-        splitpanes(horizontal)
-          pane(size="33")
-            UserInfo
-          pane(size="67")
-            ItemDetail
       pane(size="82")
-        splitpanes(horizontal)
-          pane(size="42")
-            MainItem
-          pane(size="44")
-            History
-          pane(size="14")
-            Operating
+        MainItem
   #footer
     Footer
     Sound
@@ -40,7 +28,7 @@ export default {
   head() {
     return {
       htmlAttrs: {
-         class: 'gennki'
+        class: this.$store.state.customStyle.htmlClass
       }
     }
   },

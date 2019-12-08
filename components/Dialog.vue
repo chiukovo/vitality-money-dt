@@ -16,7 +16,7 @@
         Kchart(v-if="clickType == 'kLine'")
         Chart(v-if="clickType == 'chart'")
         HistoryWinLoss(v-if="clickType == 'historyWinLoss'")
-        UserDetail(v-if="clickType == 'userDetail'")
+        UserDetail(v-if="clickType == 'userDetail'" :onlyItem="onlyItem")
         HistoryPrices(v-if="clickType == 'historyPrices'")
         StoredRecords(v-if="clickType == 'storedRecords'")
         ActionLog(v-if="clickType == 'actionLog'")
@@ -36,7 +36,7 @@ import ChangPassword from "~/components/ChangPassword"
 import CustomItem from "~/components/CustomItem"
 
 export default {
-  props: ['clickType', 'visible', 'title', 'size'],
+  props: ['clickType', 'visible', 'title', 'size', 'onlyItem'],
   data () {
     return {
       dialogFullScreen: false,
