@@ -27,7 +27,7 @@
           template(v-slot:header="{column}") 商品
             button(@click.stop="customSetting = !customSetting") click
             ul(id="customSettingContent" class="test" v-show="customSetting")
-              li 自訂商品
+              li(@click="openModal('showHideItem', '自訂商品')") 自訂商品
               li 自訂欄位
               li 字型大小
               li 自訂風格
@@ -135,10 +135,6 @@ export default {
       this.dialog.clickType = type
       this.dialog.title = title
       this.dialog.isOpen = true
-
-      if (typeof size != 'undefined') {
-        this.dialog.size = size
-      }
 
       if (typeof onlyItem != 'undefined') {
         this.dialog.onlyItem = true

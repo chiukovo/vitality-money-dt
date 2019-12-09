@@ -22,6 +22,7 @@
         ActionLog(v-if="clickType == 'actionLog'")
         ChangPassword(v-if="clickType == 'changePassword'")
         CustomItem(v-if="clickType == 'customItem'")
+        ShowHideItem(v-if="clickType == 'showHideItem'")
 </template>
 <script>
 
@@ -34,13 +35,14 @@ import StoredRecords from "~/components/StoredRecords"
 import ActionLog from "~/components/ActionLog"
 import ChangPassword from "~/components/ChangPassword"
 import CustomItem from "~/components/CustomItem"
+import ShowHideItem from "~/components/ShowHideItem"
 
 export default {
   props: ['clickType', 'visible', 'title', 'size', 'onlyItem'],
   data () {
     return {
       dialogFullScreen: false,
-      diaiogSize: '86%',
+      diaiogSize: '50%',
     }
   },
   components: {
@@ -53,6 +55,7 @@ export default {
     ActionLog,
     ChangPassword,
     CustomItem,
+    ShowHideItem,
   },
   watch: {
     visible(isOpen) {
@@ -60,7 +63,7 @@ export default {
         if (this.size != '' && typeof this.size != 'undefined') {
           this.diaiogSize = this.size
         } else {
-          this.diaiogSize = '86%'
+          this.diaiogSize = '50%'
         }
       }
     }
