@@ -31,13 +31,14 @@
               li 自訂欄位
               li 字型大小
               li 自訂風格
-          template(slot-scope='scope') {{ scope.row['product_name'] }}
+          template(slot-scope='scope')
+            span(:class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''") {{ scope.row['product_name'] }}
         vxe-table-column(title='倉位多' width="50px" align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
-            <span class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0">{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
+            span(class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
         vxe-table-column(title='倉位空' width="50px" align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
-            <span class="bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0">{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
+            span(class="bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
         vxe-table-column(title='買進價')
           template(slot-scope='scope')
             span(:class="scope.row['bp_price_change']") {{ scope.row['bp_price'] }}
@@ -48,11 +49,14 @@
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
         vxe-table-column(title='漲跌')
-          template(slot-scope='scope') {{ scope.row['gain'] }}
+          template(slot-scope='scope')
+            span(:class="scope.row['gain_change']") {{ scope.row['gain'] }}
         vxe-table-column(title='漲幅%')
-          template(slot-scope='scope') {{ scope.row['gain_percent'] }}%
+          template(slot-scope='scope')
+            span(:class="scope.row['gain_percent_change']") {{ scope.row['gain_percent'] }}%
         vxe-table-column(title='單量')
-          template(slot-scope='scope') {{ scope.row['newest_qty'] }}
+          template(slot-scope='scope')
+            span(:class="scope.row['newest_qty_change']") {{ scope.row['newest_qty'] }}
         vxe-table-column(title='總量')
           template(slot-scope='scope')
             span(:class="scope.row['total_qty_change']") {{ scope.row['total_qty'] }}
@@ -65,7 +69,8 @@
         vxe-table-column(title='最低價')
           template(slot-scope='scope') {{ scope.row['lowest_price']}}
         vxe-table-column(title='時間' width="70px")
-          template(slot-scope='scope') {{ scope.row['newest_time']}}
+          template(slot-scope='scope')
+            span(:class="scope.row['newest_time_change']") {{ scope.row['newest_time'] }}
         vxe-table-column(title='交易')
           template(slot-scope='scope') {{ scope.row['state_name'] }}
         vxe-table-column(title='最後成交價' width="70px")
@@ -108,7 +113,8 @@ export default {
 	  }
 	},
   computed: mapState([
-    'mainItem'
+    'mainItem',
+    'clickItemId',
   ]),
   components: {
     Dialog,
