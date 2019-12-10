@@ -1,68 +1,42 @@
 <template lang='pug'>
 .userInfo
-  .userInfo-header {{ userInfo.Account }} (正常收單)
-  .userInfo-content
-    client-only
-      vxe-table(
-        :data="tableData"
-        :show-header='false'
-        :cell-class-name='tableCellClassName'
-        max-width="100%"
-        height="100%"
-        size="small"
-        column-min-width="74"
-        border
-        auto-resize)
-        vxe-table-column(title='標題' field='title' show-overflow)
-        vxe-table-column(title='資訊' field='info' show-overflow)
+  div(style="position: fixed;z-index: 999;")
+    button(@click="changeStyle('up')") ^
+    button(@click="changeStyle('down')") v
+    .userInfo-header(v-show="style != 0") {{ userInfo.Account }}
+    div(v-show="style == 0")
+    div(v-show="style == 1")
+      span 可用餘額 {{ userInfo.Money }}
+    div(v-show="style == 2")
+      table
+        tbody
+          tr
+            td 今日損益
+            td {{ userInfo.TodayMoney }}
+          tr
+            td 可用餘額
+            td {{ userInfo.Money }}
+          tr
+            td 預設額度
+            td {{ userInfo.TouchPoint }}
 </template>
 <script>
 import { mapState } from 'vuex';
 export default {
   data () {
     return {
-      tableData: []
+      style: 1,
     }
   },
   computed: mapState([
     'userInfo',
   ]),
-  watch: {
-    userInfo(userInfo) {
-      this.tableData = [{
-          title: '客戶名稱:',
-          info: userInfo.Name,
-        }, {
-          title: '服務人員:',
-          info: '',
-        }, {
-          title: '服務專線:',
-          info: '',
-        }, {
-          title: '預設額度:',
-          info: userInfo.TouchPoint,
-        }, {
-          title: '今日餘額:',
-          info: userInfo.Money,
-        }, {
-          title: '今日損益:',
-          info: userInfo.TodayMoney,
-        }]
-    }
-  },
   methods: {
-    tableCellClassName({ row, column, columnIndex }) {
-      if(row.title == '今日餘額:') {
-        if(columnIndex == 1) {
-          return 'text__info'
-        }
-      }
-      if(row.title == '今日損益:') {
-        if(columnIndex == 1) {
-          if(row.info < 0) {
-            return 'text__danger'
-          }
-        }
+    changeStyle(type) {
+      if (type == 'up' && this.style != 2) {
+        this.style++
+      } else if (type == 'down' && this.style != 0) {
+        this.style--
       }
     }
   }

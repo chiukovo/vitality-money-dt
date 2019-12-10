@@ -8,13 +8,16 @@
       :size="dialog.size")
     ul.navbar-nav.navbar-nav-left
       li.nav-item
-        a.nav-link(href="#") 連線
-        .dropdown-menu.animated.fadeInDown
-          a.dropdown-item(href="#") 連線登入
-          a.dropdown-item(href="#" @click="logout") 中斷連接
+        a.nav-link(href="#" @click="logout") 登出
       li.nav-item
         a.nav-link(href="#") 檢視
         .dropdown-menu
+          a.dropdown-item(href="#") 公告總攬
+          a.dropdown-item(href="#" @click="openModal('historyPrices', '會員資訊')") 歷史明細
+          a.dropdown-item(href="#" @click="openModal('userDetail', '歷史報價')") 會員資訊
+          a.dropdown-item(href="#") 帳號歷史
+          a.dropdown-item(href="#" @click="openModal('storedRecords', '儲值記錄')") 儲值記錄
+
           a.dropdown-item(href="#" @click="openModal('userDetail', '個人資料')") 個人資料
           a.dropdown-item(href="#" @click="openModal('historyWinLoss', '歷史損益')") 歷史損益
           a.dropdown-item(href="#" @click="openModal('historyPrices', '歷史報價')") 歷史報價
@@ -23,40 +26,27 @@
       li.nav-item
         a.nav-link(href="#") 設定
         .dropdown-menu
-          a.dropdown-item(href="#" @click="openModal('changePassword', '變更密碼', '360px')") 變更密碼
-          a.dropdown-item(href="#" @click="openModal('customItem', '商品選擇')") 商品選擇
-          //-a.dropdown-item(href="#") 版面選擇
-          //-a.dropdown-item(href="#") 視覺下單
-          a.dropdown-item(href="#" @click="setCustomSetting('noConfirmDelete')" :class="$store.state.localStorage.customSetting.noConfirmDelete ? 'is-active': ''") 刪單不確認
-          a.dropdown-item(href="#" @click="setCustomSetting('orderReport')" :class="$store.state.localStorage.customSetting.orderReport ? 'is-active': ''") 下單回報
-          //- a.dropdown-item(href="#" @click="setCustomSetting('clapping')") 拍手動畫
+          a.dropdown-item(href="#" @click="openModal('changePassword', '修改密碼', '360px')") 修改密碼
+          a.dropdown-item(href="#") 自訂商品
+          a.dropdown-item(href="#") 自訂欄位
+          a.dropdown-item(href="#") 開盤風控設定
       li.nav-item
         a.nav-link(href="#") 說明
         .dropdown-menu
-          a.dropdown-item(href="/rules" target="_blank") 交易規則
-          a.dropdown-item(href="#") 相關網站
-      li.nav-item.nav-item-text
-        .navbar-txt 商品: {{ $store.state.itemName }}
-        .navbar-txt 最後交易日: {{ targetItem.end_date }}
-        .navbar-txt 禁新:
-          span.text__success  {{ targetItem.new_point1 }}
-          |,
-          span.text__danger  {{ targetItem.new_point2 }}
-        .navbar-txt 強平:
-          span.text__success  {{ targetItem.cover_point1 }}
-          |,
-          span.text__danger  {{ targetItem.cover_point2 }}
+          a.dropdown-item(href="/rules" target="_blank") 規則說明
+          a.dropdown-item(href="#") 名詞說明
+          a.dropdown-item(href="#") 商品交易時間
     ul.navbar-nav.navbar-nav-right
       li.nav-item
-        a.nav-link(href="#") 換膚
-        //- .dropdown-menu
-          a.dropdown-item(href="#") 傳統
-          a.dropdown-item(href="#") 官方
-      //- 音效關閉時, 添加 class .isShutdown
-      li.nav-item(:class="$store.state.localStorage.customSetting.sound ? '': 'isShutdown'")
-        a.nav-link(href="#" @click="setCustomSetting('sound')") 提示聲
+        button 1
       li.nav-item
-        a.nav-link(href="#" @click="logout") 登出
+        button 2
+      li.nav-item
+        button 3
+      li.nav-item
+        button 4
+      li.nav-item
+        button 5
 </template>
 
 <script>

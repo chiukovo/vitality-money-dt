@@ -10,15 +10,15 @@
       li(@click="tabs = 5") 加密貨幣
     
     //-自訂
-    Custom(v-show="tabs == 1")
+    Custom(v-if="tabs == 1")
     //-指數
-    CustomIndex(v-show="tabs == 2")
+    CustomIndex(v-if="tabs == 2")
     //-指數期貨
-    Futures(v-show="tabs == 3")
+    Futures(v-if="tabs == 3")
     //-商品期貨
-    ItemFutures(v-show="tabs == 4")
+    ItemFutures(v-if="tabs == 4")
     //-加密貨幣
-    CryptMoney(v-show="tabs == 5")
+    CryptMoney(v-if="tabs == 5")
 </template>
 
 <style>

@@ -10,6 +10,10 @@
             MainItem
           pane(size="58")
             History
+      pane(size="18")
+        splitpanes(horizontal)
+          pane(size="67")
+            ItemDetail
   #footer
     Footer
     Sound
