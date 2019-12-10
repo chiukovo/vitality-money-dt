@@ -5,7 +5,7 @@
       button.button(@click="openMultiOrder") 平倉
       button.button(@click="multiOrderAllClick(true)") 全選
       button.button(@click="multiOrderAllClick(false)") 全不選
-  .history-content__body(:style="{height: height.uncovered}")
+  .history-content__body(:style="{height: $parent.height.uncovered}")
     client-only
       vxe-table(
         :data='$store.state.uncovered'
@@ -254,6 +254,29 @@ export default {
       orderReport: true,
       valueDateInterval: [],
       allCommodity: [],
+      edit: {
+        itemId: '',
+        serial: '',
+        itemName: '',
+        submit: 0,
+        submitMax: 0,
+        buyType: '',
+        sourceBuyType: '',
+        buyOrSellName: '',
+        nowPrice: 0,
+      },
+      editPoint: {
+        name: '',
+        type: '',
+        itemId: '',
+        serial: '',
+        price: 0,
+        nowPrice: 0,
+        limitPoint: 0,
+        stopPoint: 0,
+        buyOrSellName: '',
+        needLimit: true,
+      },
       openEditPointRow: [],
       selectToDelete: [],
       multiOrderData: [],
@@ -299,6 +322,28 @@ export default {
         this.editPoint.price = row.InvertedPoint
         this.profitPointDialog = true
       }
+    },
+    openMultiOrder() {
+      let _this = this
+      this.multiOrderData = []
+
+      _this.multiOrderSelect.forEach(function(serial) {
+        _this.$store.state.uncovered.forEach(function(row) {
+          if (row.Serial == serial) {
+            _this.multiOrderData.push({
+              name: row.Name,
+              userName: _this.$store.state.userInfo.Account,
+              buy: row.BuyOrSell == 0 ? '多' : '空',
+              price: row.Odtype,
+              submit: row.Quantity,
+              itemId: row.ID,
+              serial: row.Serial,
+            })
+          }
+        })
+      })
+
+      this.multiOrderConfirm = true
     },
     udpateEditPointData(type, row) {
       //商品現價

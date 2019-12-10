@@ -45,9 +45,14 @@ export default {
   },
   computed: mapState([
     'kLineData',
+    'clickItemId',
   ]),
   watch: {
-    kLineData (res) {
+    clickItemId(id) {
+      this.loading = true
+      this.ohlcv = []
+    },
+    kLineData(res) {
       let name = this.$store.state.itemName
       let _this = this
       this.volume = []

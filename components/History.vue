@@ -11,8 +11,8 @@
   Kchart(v-show='historyTabShow == 1')
   Chart(v-show='historyTabShow == 2')
   AllList(v-show='historyTabShow == 3')
-  .history-content(v-show='historyTabShow == 4')
-  .history-content(v-show="historyTabShow == 5")
+  Uncovered(v-show='historyTabShow == 4')
+  Covered(v-show='historyTabShow == 5')
   .history-content(v-show="historyTabShow == 6")
 </template>
 
@@ -22,6 +22,8 @@ import { mapState } from 'vuex'
 import axios from 'axios'
 import qs from 'qs'
 import AllList from "~/components/BetList/AllList"
+import Uncovered from "~/components/BetList/Uncovered"
+import Covered from "~/components/BetList/Covered"
 import Kchart from "~/components/Kchart"
 import Chart from "~/components/Chart"
 
@@ -45,6 +47,8 @@ export default {
   },
   components: {
     AllList,
+    Uncovered,
+    Covered,
     Kchart,
     Chart,
   },

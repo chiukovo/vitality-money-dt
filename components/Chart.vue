@@ -44,8 +44,13 @@ export default {
   },
   computed: mapState([
     'chartData',
+    'clickItemId',
   ]),
   watch: {
+    clickItemId(id) {
+      this.loading = true
+      this.items = []
+    },
     chartData (res) {
       const _this = this
       let name = this.$store.state.itemName

@@ -157,7 +157,7 @@ export default {
           let prompt = false
 
           if (typeof customGroup != 'undefined') {
-            customGroup.forEach(function(val){
+            customGroup.forEach(function(val) {
               if (val == 'prompt') {
                 prompt = true
               }
