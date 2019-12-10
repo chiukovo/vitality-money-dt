@@ -13,7 +13,7 @@
   AllList(v-show='historyTabShow == 3')
   Uncovered(v-show='historyTabShow == 4')
   Covered(v-show='historyTabShow == 5')
-  .history-content(v-show="historyTabShow == 6")
+  Commodity(v-show='historyTabShow == 6')
 </template>
 
 <script>
@@ -24,6 +24,7 @@ import qs from 'qs'
 import AllList from "~/components/BetList/AllList"
 import Uncovered from "~/components/BetList/Uncovered"
 import Covered from "~/components/BetList/Covered"
+import Commodity from "~/components/BetList/Commodity"
 import Kchart from "~/components/Kchart"
 import Chart from "~/components/Chart"
 
@@ -51,6 +52,7 @@ export default {
     Covered,
     Kchart,
     Chart,
+    Commodity,
   },
   watch: {
     historyTabShow() {

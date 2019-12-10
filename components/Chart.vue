@@ -1,15 +1,25 @@
-<template>
-  <div>
-    <highcharts v-if="items.length > 0" :options="options"></highcharts>
-    <div v-loading="loading" v-else style="height: 300px"></div>
-  </div>
+<template lang='pug'>
+.history-content
+  .history-content__header
+    div
+      button {{ nowMainItem.product_name }}
+      span 昨收 {{ nowMainItem.yesterday_close_price }}
+      span 開 {{ nowMainItem.open_price }}
+      span 高 {{ nowMainItem.highest_price }}
+      span 低 {{ nowMainItem.lowest_price }}
+      span 成交 {{ nowMainItem.newest_price }}
+      span 漲跌 {{ nowMainItem.gain }}
+  .history-content__body
+    highcharts(v-if="items.length > 0" :options="options")
+    div(v-loading="loading" v-else style="height: 300px")
 </template>
 
 <script>
 
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 import Vue from 'vue'
 import HighchartsVue from "highcharts-vue"
+import darkUnica from "highcharts/themes/dark-unica"
 import Highcharts from "highcharts"
 import stockInit from 'highcharts/modules/stock'
 import mapInit from 'highcharts/modules/map'
@@ -21,6 +31,7 @@ if (typeof Highcharts === 'object') {
     }
   })
 
+  darkUnica(Highcharts)
   stockInit(Highcharts)
   mapInit(Highcharts)
 }
@@ -45,6 +56,7 @@ export default {
   computed: mapState([
     'chartData',
     'clickItemId',
+    'nowMainItem',
   ]),
   watch: {
     clickItemId(id) {
