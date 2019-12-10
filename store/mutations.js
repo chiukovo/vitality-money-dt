@@ -43,6 +43,7 @@ export default {
     const mainItem = state.mainItem
 
     let result = []
+    let resultToOrder = []
 
     mainItem.forEach(function(val) {
       //確認此筆是否要隱藏
@@ -92,7 +93,16 @@ export default {
       }
     })
 
-    state.mainItem = result
+    //order
+    setting.forEach(function(custom) {
+      result.forEach(function(val) {
+        if (custom.id == val.product_id) {
+          resultToOrder.push(val)
+        }
+      })
+    })
+
+    state.mainItem = resultToOrder
   },
   setuserAuth(state, data) {
     //set localStorage
