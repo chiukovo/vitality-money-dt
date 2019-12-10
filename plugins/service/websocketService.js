@@ -156,11 +156,13 @@ export default {
           //看是否有勾選限價成交提示
           let prompt = false
 
-          customGroup.forEach(function(val){
-            if (val == 'prompt') {
-              prompt = true
-            }
-          })
+          if (typeof customGroup != 'undefined') {
+            customGroup.forEach(function(val){
+              if (val == 'prompt') {
+                prompt = true
+              }
+            })
+          }
 
           if (_this.$store.state.localStorage.customSetting.orderReport || _this.$store.state.isMobile) {
             let buyOrSellName = sourceFormat.BuyOrSell == 0 ? '多' : '空'

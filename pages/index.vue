@@ -1,11 +1,6 @@
 <template lang='pug'>
 .index
-	.backsite 新元氣理財【客戶端】備用站點：
-		a(href="#") http://xxx.xxx.cc
-		a(href="#") 加入最愛
-	.index-wrap
-		button.button-login(@click="loginShow = !loginShow") 網頁版登入
-	.login-wrap(v-if="loginShow == true")
+	.login-wrap
 		.login-wrap_inner
 			.login-nav
 				a(href="#") 遠端協助
@@ -47,7 +42,6 @@ export default {
 	data () {
 	  return {
 			loading: true,
-			loginShow: false,
 			account: '',
 			password: '',
 			rememberMe: '',

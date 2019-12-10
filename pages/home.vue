@@ -5,7 +5,11 @@
   #main
     splitpanes(class="default-theme")
       pane(size="82")
-        MainItem
+        splitpanes(horizontal)
+          pane(size="42")
+            MainItem
+          pane(size="58")
+            History
   #footer
     Footer
     Sound

@@ -20,6 +20,7 @@ export default {
     let first = true
     let _this = this
 
+
     if (data.length > 0) {
       _this._vm.$socket.send(_this._vm.paramB())
 
