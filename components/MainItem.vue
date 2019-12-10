@@ -8,7 +8,6 @@
       li(@click="tabs = 3") 指數期貨
       li(@click="tabs = 4") 商品期貨
       li(@click="tabs = 5") 加密貨幣
-    
     //-自訂
     Custom(v-if="tabs == 1")
     //-指數

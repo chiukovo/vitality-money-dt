@@ -10,6 +10,8 @@
             MainItem
           pane(size="58")
             History
+          pane(size="13" v-if="$store.state.localStorage.customSetting.operatingStyle == 'C'")
+            Operating
       pane(size="18")
         splitpanes(horizontal)
           pane(size="67")
@@ -37,7 +39,7 @@ export default {
     return {
       htmlAttrs: {
         class: this.$store.state.customStyle.htmlClass
-      }
+      },
     }
   },
   components: {
@@ -56,6 +58,11 @@ export default {
   mounted() {
     let _this = this
     this.checkLogin()
+  },
+  data() {
+    return {
+      show: 0
+    }
   }
 }
 </script>

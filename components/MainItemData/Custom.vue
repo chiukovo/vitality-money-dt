@@ -13,7 +13,6 @@ div(class="h-100")
       id="mainItemTable"
       :data='mainItem',
       :cell-class-name='tableCellClassName',
-      @current-change="clickItem"
       max-width="100%"
       height="100%"
       size="mini"
@@ -23,7 +22,7 @@ div(class="h-100")
       highlight-current-row
       highlight-hover-row)
       vxe-table-column(width="100px" fixed="left" show-header-overflow)
-        template(v-slot:header="{column}") 商品
+        template(v-slot:header="{column}" @click="clickItem") 商品
           button(@click.stop="customSetting = !customSetting") click
           ul(id="customSettingContent" class="test" v-show="customSetting")
             li(@click="openModal('showHideItem', '自訂商品')") 自訂商品
