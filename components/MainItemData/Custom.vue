@@ -7,80 +7,82 @@ div(class="h-100")
     :size="dialog.size"
     :onlyItem="dialog.onlyItem"
   )
-  client-only
-    vxe-table(
-      ref="xTable"
-      id="mainItemTable"
-      :data='mainItem',
-      :cell-class-name='tableCellClassName',
-      max-width="100%"
-      height="100%"
-      size="mini"
-      column-min-width="60"
-      border
-      auto-resize
-      highlight-current-row
-      highlight-hover-row)
-      vxe-table-column(width="100px" fixed="left" show-header-overflow)
-        template(v-slot:header="{column}" @click="clickItem") 商品
-          button(@click.stop="customSetting = !customSetting") click
-          ul(id="customSettingContent" class="test" v-show="customSetting")
-            li(@click="openModal('showHideItem', '自訂商品')") 自訂商品
-            li 自訂欄位
-            li 字型大小
-            li 自訂風格
-        template(slot-scope='scope')
-          span(:class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''") {{ scope.row['product_name'] }}
-      vxe-table-column(title='倉位多' width="50px" align="center")
-        template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
-          span(class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
-      vxe-table-column(title='倉位空' width="50px" align="center")
-        template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
-          span(class="bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
-      vxe-table-column(title='買進價')
-        template(slot-scope='scope')
-          span(:class="scope.row['bp_price_change']") {{ scope.row['bp_price'] }}
-      vxe-table-column(title='賣出價')
-        template(slot-scope='scope')
-          span(:class="scope.row['sp_price_change']") {{ scope.row['sp_price'] }}
-      vxe-table-column(title='成交價')
-        template(slot-scope='scope')
-          span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
-      vxe-table-column(title='漲跌')
-        template(slot-scope='scope')
-          span(:class="scope.row['gain_change']") {{ scope.row['gain'] }}
-      vxe-table-column(title='漲幅%')
-        template(slot-scope='scope')
-          span(:class="scope.row['gain_percent_change']") {{ scope.row['gain_percent'] }}%
-      vxe-table-column(title='單量')
-        template(slot-scope='scope')
-          span(:class="scope.row['newest_qty_change']") {{ scope.row['newest_qty'] }}
-      vxe-table-column(title='總量')
-        template(slot-scope='scope')
-          span(:class="scope.row['total_qty_change']") {{ scope.row['total_qty'] }}
-      vxe-table-column(title='昨收價')
-        template(slot-scope='scope') {{ scope.row['yesterday_close_price'] }}
-      vxe-table-column(title='開盤價')
-        template(slot-scope='scope') {{ scope.row['open_price']}}
-      vxe-table-column(title='最高價')
-        template(slot-scope='scope') {{ scope.row['highest_price']}}
-      vxe-table-column(title='最低價')
-        template(slot-scope='scope') {{ scope.row['lowest_price']}}
-      vxe-table-column(title='時間' width="70px")
-        template(slot-scope='scope')
-          span(:class="scope.row['newest_time_change']") {{ scope.row['newest_time'] }}
-      vxe-table-column(title='交易')
-        template(slot-scope='scope') {{ scope.row['state_name'] }}
-      vxe-table-column(title='最後成交價' width="70px")
-        template(slot-scope='scope')
-          span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
-      vxe-table-column(title='最後交易日' width="70px")
-        template(slot-scope='scope') {{ scope.row['end_date'] }}
-      vxe-table-column(title='說明')
-        template(slot-scope='scope')
-          a(href="#" @click="openModal('userDetail', '商品資訊', '', true)") 說明
-      vxe-table-column(title='商品類別')
-        template(slot-scope='scope') CFD
+  div(style="height: calc(100% - 64px)")
+    client-only
+      vxe-table(
+        ref="xTable"
+        id="mainItemTable"
+        :data='mainItem',
+        :cell-class-name='tableCellClassName',
+        max-width="100%"
+        height="100%"
+        size="mini"
+        column-min-width="60"
+        stripe
+        border
+        auto-resize
+        highlight-current-row
+        highlight-hover-row)
+        vxe-table-column(width="100px" fixed="left" show-header-overflow)
+          template(v-slot:header="{column}" @click="clickItem") 商品
+            button(@click.stop="customSetting = !customSetting") click
+            ul(id="customSettingContent" class="test" v-show="customSetting")
+              li(@click="openModal('showHideItem', '自訂商品')") 自訂商品
+              li 自訂欄位
+              li 字型大小
+              li 自訂風格
+          template(slot-scope='scope')
+            span(:class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''") {{ scope.row['product_name'] }}
+        vxe-table-column(title='倉位多' width="50px" align="center")
+          template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
+            span(class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
+        vxe-table-column(title='倉位空' width="50px" align="center")
+          template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
+            span(class="bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
+        vxe-table-column(title='買進價')
+          template(slot-scope='scope')
+            span(:class="scope.row['bp_price_change']") {{ scope.row['bp_price'] }}
+        vxe-table-column(title='賣出價')
+          template(slot-scope='scope')
+            span(:class="scope.row['sp_price_change']") {{ scope.row['sp_price'] }}
+        vxe-table-column(title='成交價')
+          template(slot-scope='scope')
+            span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
+        vxe-table-column(title='漲跌')
+          template(slot-scope='scope')
+            span(:class="scope.row['gain_change']") {{ scope.row['gain'] }}
+        vxe-table-column(title='漲幅%')
+          template(slot-scope='scope')
+            span(:class="scope.row['gain_percent_change']") {{ scope.row['gain_percent'] }}%
+        vxe-table-column(title='單量')
+          template(slot-scope='scope')
+            span(:class="scope.row['newest_qty_change']") {{ scope.row['newest_qty'] }}
+        vxe-table-column(title='總量')
+          template(slot-scope='scope')
+            span(:class="scope.row['total_qty_change']") {{ scope.row['total_qty'] }}
+        vxe-table-column(title='昨收價')
+          template(slot-scope='scope') {{ scope.row['yesterday_close_price'] }}
+        vxe-table-column(title='開盤價')
+          template(slot-scope='scope') {{ scope.row['open_price']}}
+        vxe-table-column(title='最高價')
+          template(slot-scope='scope') {{ scope.row['highest_price']}}
+        vxe-table-column(title='最低價')
+          template(slot-scope='scope') {{ scope.row['lowest_price']}}
+        vxe-table-column(title='時間' width="70px")
+          template(slot-scope='scope')
+            span(:class="scope.row['newest_time_change']") {{ scope.row['newest_time'] }}
+        vxe-table-column(title='交易')
+          template(slot-scope='scope') {{ scope.row['state_name'] }}
+        vxe-table-column(title='最後成交價' width="70px")
+          template(slot-scope='scope')
+            span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
+        vxe-table-column(title='最後交易日' width="70px")
+          template(slot-scope='scope') {{ scope.row['end_date'] }}
+        vxe-table-column(title='說明')
+          template(slot-scope='scope')
+            a(href="#" @click="openModal('userDetail', '商品資訊', '', true)") 說明
+        vxe-table-column(title='商品類別')
+          template(slot-scope='scope') CFD
 </template>
 
 <style>

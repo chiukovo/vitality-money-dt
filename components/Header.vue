@@ -10,7 +10,7 @@
       li.nav-item
         a.nav-link(href="#" @click="logout") 登出
       li.nav-item
-        a.nav-link(href="#") 檢視
+        a.nav-link.dropdown-toggle(href="#") 檢視
         .dropdown-menu
           a.dropdown-item(href="#") 公告總攬
           a.dropdown-item(href="#" @click="openModal('historyPrices', '會員資訊')") 歷史明細
@@ -24,28 +24,24 @@
           a.dropdown-item(href="#" @click="openModal('storedRecords', '儲值記錄')") 儲值記錄
           a.dropdown-item(href="#" @click="openModal('actionLog', '動作日誌')") 動作日誌
       li.nav-item
-        a.nav-link(href="#") 設定
+        a.nav-link.dropdown-toggle(href="#") 設定
         .dropdown-menu
           a.dropdown-item(href="#" @click="openModal('changePassword', '修改密碼', '360px')") 修改密碼
           a.dropdown-item(href="#") 自訂商品
           a.dropdown-item(href="#") 自訂欄位
           a.dropdown-item(href="#") 開盤風控設定
       li.nav-item
-        a.nav-link(href="#") 說明
+        a.nav-link.dropdown-toggle(href="#") 說明
         .dropdown-menu
           a.dropdown-item(href="/rules" target="_blank") 規則說明
           a.dropdown-item(href="#") 名詞說明
           a.dropdown-item(href="#") 商品交易時間
-    ul.navbar-nav.navbar-nav-right
-      li.nav-item
-        button 1
-      li.nav-item
+    .navbar-nav.navbar-nav-right
+      .mybutoule
+        button.active 1
         button 2
-      li.nav-item
         button 3
-      li.nav-item
         button 4
-      li.nav-item
         button 5
 </template>
 

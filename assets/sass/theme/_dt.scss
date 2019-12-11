@@ -4,11 +4,11 @@ $blue:      #007bff;
 $indigo:    #6610f2;
 $purple:    #6f42c1;
 $pink:      #e83e8c;
-$red:       #ec0202;
+$red:       #FF0000;
 $orange:    #fd7e14;
 $yellow:    #ffc107;
-$green:     #007b47;
-$teal:      #20c997;
+$green:     #27d627;
+$teal:      #28a745;
 $cyan:      #17a2b8;
 $white:     #fff;
 $gray:      #6c757d;
@@ -52,18 +52,20 @@ $theme-colors: map-merge(
 
 // font
 $font-size-default: 13px;
-$font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+$font-color-default: #ccc;
+$font-family-sans-serif: Lato,Arial,"微軟正黑體","Microsoft JhengHei",sans-serif;
+// $font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 $font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 
 // table
-$table-font-color: #000;
+$table-font-color: #ccc;
 $table-font-size: 14px;
 $table-font-size-medium: 14px;
 $table-font-size-small: 13px;
-$table-font-size-mini: 12px;
-$table-bg-color: #f1f1f1;
-$table-header-bg-color: #f8f8f9;
-$table-border-color: #b7babc;
+$table-font-size-mini: 15px;
+$table-bg-color: #111;
+$table-header-bg-color: #3a3a3a;
+$table-border-color: #3a3a3a;
 $table-row-current-bg-color: #e6f7ff;
 $table-row-hover-bg-color: #f5f7fa;
 $table-row-height-default: 48px;
@@ -82,6 +84,6 @@ $button-min-width: auto;
 $button-padding: 6px 8px;
 
 // theme
-$bg-color:    $white;
-$block-bg-color: $gray-100;
+$bg-color:    #171717;
+$block-bg-color: #171717;
 $border-color: $gray-100;

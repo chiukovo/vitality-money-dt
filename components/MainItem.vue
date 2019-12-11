@@ -2,12 +2,12 @@
 .mainItem
   .mainItem-content
     //-tabs
-    ul
-      li(@click="tabs = 1") 自訂
-      li(@click="tabs = 2") 指數
-      li(@click="tabs = 3") 指數期貨
-      li(@click="tabs = 4") 商品期貨
-      li(@click="tabs = 5") 加密貨幣
+    .mainItem-tabs.tabs-nav
+      #tab-item.tabs__item(@click="tabs = 1" :class="{'is-active' : tabs == 1}") 自訂
+      #tab-item.tabs__item(@click="tabs = 2" :class="{'is-active' : tabs == 2}") 指數
+      #tab-item.tabs__item(@click="tabs = 3" :class="{'is-active' : tabs == 3}") 指數期貨
+      #tab-item.tabs__item(@click="tabs = 4" :class="{'is-active' : tabs == 4}") 商品期貨
+      #tab-item.tabs__item(@click="tabs = 5" :class="{'is-active' : tabs == 5}") 加密貨幣
     //-自訂
     Custom(v-if="tabs == 1")
     //-指數
@@ -20,14 +20,6 @@
     CryptMoney(v-if="tabs == 5")
 </template>
 
-<style>
-  .test {
-    position: fixed;
-    z-index: 99;
-    background: #fff;
-    color: #333;
-  }
-</style>
 <script>
 
 import Dialog from "~/components/Dialog"

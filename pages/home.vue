@@ -1,12 +1,13 @@
 <template lang='pug'>
 .root
-  #header
+  //- #header
     Header
   #main
     splitpanes(class="default-theme")
       pane(size="82")
         splitpanes(horizontal)
           pane(size="42")
+            Header
             MainItem
           pane(size="58")
             History

@@ -31,7 +31,7 @@
 						.title DT888.CO
 						.small DayTrader
 				ul.menu
-					li.menu01(@click="loginShow = !loginShow") TML5 網頁登入
+					li.menu01(@click="loginShow = !loginShow") HTML5 網頁登入
 					li.menu02 程式版下載
 					li.menu03 手機版
 					li.menu04 遠端下載
