@@ -20,11 +20,9 @@ div(class="h-100")
         column-min-width="60"
         stripe
         border
-        auto-resize
-        highlight-current-row
-        highlight-hover-row)
+        auto-resize)
         vxe-table-column(width="100px" fixed="left" show-header-overflow)
-          template(v-slot:header="{column}" @click="clickItem") 商品
+          template(v-slot:header="{column}") 商品
             button(@click.stop="customSetting = !customSetting") click
             ul(id="customSettingContent" class="test" v-show="customSetting")
               li(@click="openModal('showHideItem', '自訂商品')") 自訂商品
@@ -32,7 +30,7 @@ div(class="h-100")
               li 字型大小
               li 自訂風格
           template(slot-scope='scope')
-            span(:class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''") {{ scope.row['product_name'] }}
+            div(:class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)") {{ scope.row['product_name'] }}
         vxe-table-column(title='倉位多' width="50px" align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             span(class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
@@ -141,7 +139,7 @@ export default {
         this.dialog.onlyItem = true
       }
     },
-    clickItem({ row }) {
+    clickItem(row) {
       this.$store.commit('setClickItemId', {
         id: row.product_id,
         name: row.product_name

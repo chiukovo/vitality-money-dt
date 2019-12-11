@@ -49,10 +49,6 @@ export default {
     }
   },
   methods: {
-    onResize(event) {
-      this.width = window.innerWidth
-      this.height = window.innerHeight
-    }
   },
   computed: mapState([
     'kLineData',

@@ -515,7 +515,7 @@ export default {
     state.uncovered = result
   },
   setFiveItemChange(state, fiveData) {
-    let _this = this
+    /*let _this = this
     let itemId = state.clickItemId
     let targetNewPrice = state.nowNewPrice[itemId]
 
@@ -547,7 +547,7 @@ export default {
 
       //多勢 %
       state.fiveTotal.morePercent = parseInt(100 / (state.fiveTotal.more + state.fiveTotal.nullNum) * state.fiveTotal.more)
-    }
+    }*/
   },
   setItemChange(state, history) {
     if (typeof history == 'undefined') {

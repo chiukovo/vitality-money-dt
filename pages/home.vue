@@ -11,7 +11,7 @@
             MainItem
           pane(size="58")
             History
-          pane(size="13" v-if="$store.state.localStorage.customSetting.operatingStyle == 'C'")
+          pane(size="13" v-if="$store.state.localStorage.customSetting.operatingStyle == 'A'")
             Operating
       pane(size="18")
         splitpanes(horizontal)
