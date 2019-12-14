@@ -9,7 +9,6 @@
       title='$store.state.itemName'
       v-dialogDrag)
     .header-custom(slot='title')
-      i.el-icon-info
       |  {{ typeof title == 'undefined' ? $store.state.itemName : title }}
     template
       client-only

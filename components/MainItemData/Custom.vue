@@ -21,14 +21,21 @@ div(class="h-100")
         stripe
         border
         auto-resize)
-        vxe-table-column(width="100px" fixed="left" show-header-overflow)
+        vxe-table-column(width="100px" fixed="left" align="left" show-header-overflow)
           template(v-slot:header="{column}") 商品
-            button(@click.stop="customSetting = !customSetting") click
-            ul(id="customSettingContent" class="test" v-show="customSetting")
-              li(@click="openModal('showHideItem', '自訂商品')") 自訂商品
-              li 自訂欄位
-              li 字型大小
-              li 自訂風格
+            .table-toggle
+              a(@click.stop="customSetting = !customSetting")
+            ul.table-dropdown.dropdown-menu(id="customSettingContent" v-show="customSetting")
+              li.dropdown-item(href="#", @click="openModal('showHideItem', '自訂商品')") 自訂商品
+              li.dropdown-item(href="#") 自訂欄位
+              .dropdown-line
+              li.dropdown-item.dropdown-toggle(href="#") 字型大小
+                ul.dropdown-submenu
+                  li 特大
+                  li 大
+                  li.is-active 中
+                  li 小
+              li.dropdown-item(href="#") 自訂風格
           template(slot-scope='scope')
             div(:class="tableClickId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)") {{ scope.row['product_name'] }}
         vxe-table-column(title='倉位多' width="50px" align="center")
@@ -83,14 +90,6 @@ div(class="h-100")
           template(slot-scope='scope') CFD
 </template>
 
-<style>
-  .test {
-    position: fixed;
-    z-index: 99;
-    background: #fff;
-    color: #333;
-  }
-</style>
 <script>
 
 import Vue from 'vue'

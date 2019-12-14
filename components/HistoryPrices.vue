@@ -12,7 +12,7 @@
                 :label="data.name"
                 :value="data.id"
               )
-          el-form-item(label='開始日期:')
+          //- el-form-item(label='開始日期:')
             el-form-item
               el-date-picker(
                 v-model='form.start',
@@ -27,7 +27,7 @@
               style="width: 132px;"
               value-format="HH:mm:ss"
               format="HH:mm:ss")
-          button.button(@click="query") 送出
+          button.button(@click="query") 查詢
     .row
       .col
         el-divider(content-position='center') 時間: {{ form.start }} {{ form.startDt }} ~ {{ form.end }} 23:59:59
