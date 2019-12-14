@@ -12,6 +12,9 @@ export default {
       state.localStorage.remember.password = password
     }
   },
+  setOperatingStyle(state, type) {
+    state.localStorage.customSetting.operatingStyle = type
+  },
   setCustomSetting(state, type) {
     state.localStorage.customSetting[type] = !state.localStorage.customSetting[type]
   },

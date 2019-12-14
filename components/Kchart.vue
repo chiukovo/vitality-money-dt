@@ -11,7 +11,7 @@
       span 漲跌 {{ nowMainItem.gain }}
   .history-content__body
     highcharts(v-if="ohlcv.length > 0" :constructor-type="'stockChart'" :options="stockOptions")
-    div(v-loading="loading" v-if="loading")
+    div(v-loading="loading" v-else)
 </template>
 
 <script>

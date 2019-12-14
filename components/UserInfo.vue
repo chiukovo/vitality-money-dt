@@ -1,6 +1,6 @@
 <template lang='pug'>
 .userInfo
-  div(style="position: fixed;z-index: 999;")
+  div
     button(@click="changeStyle('up')") ^
     button(@click="changeStyle('down')") v
     .userInfo-header(v-show="style != 0") {{ userInfo.Account }}

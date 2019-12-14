@@ -23,7 +23,7 @@
             vxe-table-column(field="flocalTime" title='時間')
             vxe-table-column(field="price" title='成交價')
             vxe-table-column(field="amount" title='單量')
-  UserInfo
+      UserInfo
   Dialog(
     :click-type="dialog.clickType",
     :visible.sync="dialog.isOpen"

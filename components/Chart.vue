@@ -14,7 +14,7 @@
     splitpanes(class="default-theme")
       pane(size="70")
         highcharts(v-if="items.length > 0" :options="options")
-        div(v-loading="loading" v-if="loading")
+        div(v-loading="loading" v-else)
       pane(size="30")
         .itemDetail__TotalTable(class="h-100")
           div

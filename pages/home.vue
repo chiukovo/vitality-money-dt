@@ -9,14 +9,17 @@
           pane(size="41")
             Header
             MainItem
-          pane(size="44")
+          pane(:size="$store.state.localStorage.customSetting.operatingStyle == 'C' ? '44' : 59")
             History
-          pane(size="15" v-if="$store.state.localStorage.customSetting.operatingStyle == 'A'")
-            Operating
+          pane(size="15" v-show="$store.state.localStorage.customSetting.operatingStyle == 'C'")
+            StyleC
       pane(size="18")
         splitpanes(horizontal)
-          pane(size="67")
+          pane
             ItemDetail
+          pane(v-show="$store.state.localStorage.customSetting.operatingStyle != 'C'")
+            StyleA(v-show="$store.state.localStorage.customSetting.operatingStyle == 'A'")
+            StyleB(v-show="$store.state.localStorage.customSetting.operatingStyle == 'B'")
   #footer
     Footer
     Sound
@@ -33,7 +36,9 @@ import ItemDetail from '~/components/ItemDetail'
 import MainItem from '~/components/MainItem'
 import History from '~/components/History'
 import Sound from "~/components/Sound"
-import Operating from '~/components/Operating'
+import StyleA from '~/components/Operating/StyleA'
+import StyleB from '~/components/Operating/StyleB'
+import StyleC from '~/components/Operating/StyleC'
 import '@/assets/sass/style.scss'
 export default {
   head() {
@@ -53,7 +58,9 @@ export default {
     ItemDetail,
     MainItem,
     History,
-    Operating
+    StyleA,
+    StyleB,
+    StyleC,
   },
   mixins: [websocketService],
   mounted() {

@@ -37,7 +37,7 @@ div(class="h-100")
                   li 小
               li.dropdown-item(href="#") 自訂風格
           template(slot-scope='scope')
-            div(:class="tableClickId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)") {{ scope.row['product_name'] }}
+            div(class="txt-left" :class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)") {{ scope.row['product_name'] }}
         vxe-table-column(title='倉位多' width="50px" align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             span(class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
@@ -108,7 +108,6 @@ export default {
       },
       customSetting: false,
       tabs: 1,
-      tableClickId: 0,
 	  }
 	},
   computed: mapState([
@@ -124,9 +123,6 @@ export default {
     document.body.addEventListener("click", function(e) {
       _this.closeSetting()
     })
-
-    //default
-    this.tableClickId = this.clickItemId
   },
   methods: {
     closeSetting() {
@@ -143,7 +139,6 @@ export default {
       }
     },
     clickItem(row) {
-      this.tableClickId = row.product_id
       //取消
       this.$socket.send('f:' + this.$store.state.clickItemId)
       this.$store.commit('setClickItemId', {
