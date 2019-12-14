@@ -6,12 +6,12 @@
     splitpanes(class="default-theme")
       pane(size="82")
         splitpanes(horizontal)
-          pane(size="42")
+          pane(size="41")
             Header
             MainItem
-          pane(size="58")
+          pane(size="44")
             History
-          pane(size="13" v-if="$store.state.localStorage.customSetting.operatingStyle == 'A'")
+          pane(size="15" v-if="$store.state.localStorage.customSetting.operatingStyle == 'A'")
             Operating
       pane(size="18")
         splitpanes(horizontal)

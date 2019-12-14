@@ -83,16 +83,26 @@ label {
 
 
 // dialog
+.el-dialog__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .el-dialog {
   margin: 0 auto;
-  margin-top: 5vh !important;
+  margin-top: 0 !important;
 }
 .el-dialog__body {
   overflow: hidden;
 }
 .el-dialog__header {
-  padding: 10px;
+  padding: 5px 8px;
   .el-dialog__headerbtn {
-    top: 12px;
+    top: 0;
+    right: 0;
+    > i {
+      font-size: 40px;
+      color: #838383;
+    }
   }
 }
