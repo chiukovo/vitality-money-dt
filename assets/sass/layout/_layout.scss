@@ -17,7 +17,7 @@
 
 // layout
 #main {
-  height: calc(100% - 100px);
+  height: calc(100% - 50px);
 }
 
 //-------------- header
@@ -211,20 +211,20 @@
 .operating {
   display: flex;
   height: 100%;
-  background-color: $block-bg-color;
+  font-size: 16px;
+  color: #000;
+  background-color: #f9f9f9;
   border: 1px solid $border-color;
   .operating-header {
     flex: 1 0 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #F5F7FA;
-    border-right: 1px solid $border-color;
+    flex-direction: column-reverse;
+    background-color: #f0f0f0;
+    border-right: 1px solid #696969;
     .header__title {
-      width: 1rem;
-    }
-    .header__mode {
-      padding-left: 6px;
+      margin-top: 10px;
     }
   }
   .operating-content {
@@ -233,6 +233,9 @@
     width: 100%;
     overflow-x: auto;
     padding: 4px 10px;
+    .el-form .el-form-item {
+      margin-bottom: 2px;
+    }
   }
   [class*="operating-"] {
     + [class*="operating-"] {

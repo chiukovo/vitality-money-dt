@@ -2,10 +2,13 @@
 .history
   .history-header
     .history-tabs.tabs-nav
-      #tab-item.tabs__item(@click='handleHistoryTabs(1)' :class="{'is-active' : historyTabShow == 1}") k線圖
+      #tab-item.tabs__item(@click='handleHistoryTabs(1)' :class="{'is-active' : historyTabShow == 1}") K線圖
       #tab-item.tabs__item(@click='handleHistoryTabs(2)' :class="{'is-active' : historyTabShow == 2}") 走勢圖
-      #tab-item.tabs__item(@click='handleHistoryTabs(3)' :class="{'is-active' : historyTabShow == 3}") 全部單({{ $store.state.buySell.length }})
-      #tab-item.tabs__item(@click='handleHistoryTabs(4)' :class="{'is-active' : historyTabShow == 4}") 未平倉單 ({{ $store.state.unCoverBuySum }},{{ $store.state.unCoverSellSum }})
+      #tab-item.tabs__item(@click='handleHistoryTabs(3)' :class="{'is-active' : historyTabShow == 3}") 全部單
+        .badge.badge-danger.mybadge {{ $store.state.buySell.length }}
+      #tab-item.tabs__item(@click='handleHistoryTabs(4)' :class="{'is-active' : historyTabShow == 4}") 未平倉單
+        .badge.badge-danger.mybadge {{ $store.state.unCoverBuySum }}
+        .badge.badge-success.mybadge {{ $store.state.unCoverSellSum }}
       #tab-item.tabs__item(@click='handleHistoryTabs(5)' :class="{'is-active' : historyTabShow == 5}") 已平倉
       #tab-item.tabs__item(@click='handleHistoryTabs(6)' :class="{'is-active' : historyTabShow == 6}") 統計
   Kchart(v-show='historyTabShow == 1')

@@ -3,8 +3,7 @@
   .operating-header
     .header__title {{ $store.state.itemName }}
     .header__mode
-      label.radio
-        input.radio__input(type="radio" checked)
+      label.select
         select
           option 一般
   .operating-content
@@ -27,43 +26,46 @@
                 input.radio__input(type="radio" v-model='buyType' value='1')
                 span.radio__label 限價單
     .operating-2
-      el-form(ref='form' size='mini' label-width='50px')
+      el-form(ref='form' size='mini' label-width='70px')
         el-form-item(label='限價:')
-          button(type="button") 現價
-          el-input-number(v-model='nowPrice' controls-position='right' :min="0" :disabled="buyType != 1")
+          button.nowPrice(type="button") 現價
+          el-input-number(v-model='nowPrice' :min="0" :disabled="buyType != 1")
         el-form-item(label='獲利點:')
-          el-input-number(v-model='profit' controls-position='right' :min="0")
+          el-input-number(v-model='profit' :min="0")
         el-form-item(label='損失點:')
-          el-input-number(v-model='damage' controls-position='right' :min="0")
+          el-input-number(v-model='damage' :min="0")
     .operating-3
       .numberbtn
         el-form(ref='form' size='mini' label-width='30px')
-          button.button(v-for="(customSubmitNum, key) in customSubmitNums" :key="key" @click="submitNum = customSubmitNum") {{ customSubmitNum }}
-          button(@click="dialogVisible = true" type="button") 設
+          button.button(type="button" v-for="(customSubmitNum, key) in customSubmitNums" :key="key" @click="submitNum = customSubmitNum") {{ customSubmitNum }}
+          button.button.button__set(@click="dialogVisible = true" type="button") 設
       .numberinput
         el-form(ref='form' size='mini' label-width='50px')
           el-form-item(label='口數:' style='margin: 2px 0;')
-            el-input-number(v-model='submitNum' controls-position='right' :min="0")
-        div 損失點/ 獲利點 為 點數 設定
+            el-input-number(v-model='submitNum' :min="0")
+        .badge-warning 損失點/ 獲利點 為
+          span.badge-rr 點數
+          |設定
       .editbtn
         el-dialog(
           :visible.sync='dialogVisible'
           :modal='false'
           width="400px"
-          title='調整數量'
+          title='口數快捷設定'
           v-dialogDrag)
-            .header-custom(slot='title') 調整數量
+            .header-custom(slot='title') 口數快捷設定
             template
               .dialog__body
-                .numberBtn-box(v-for="(customSubmitNum, key) in customSubmitNums" :key="key")
-                  el-input-number(size="mini" controls-position='right' v-model="customSubmitNums[key]" :min="0")
+                .numberBtn-wrap
+                  .numberBtn-box(v-for="(customSubmitNum, key) in customSubmitNums" :key="key")
+                    el-input-number(size="mini" controls-position='right' v-model="customSubmitNums[key]" :min="0")
               .dialog__footer
                 button.button__light(@click="dialogVisible = false") 取消
                 button.button(@click="setNum") 送出
     .operating-4
-        button.button__danger.button__lg.text__bold(@click="checkOrder(0)") 下多單
-        button(@click="checkOrderAll()") 全平
-        button.button__success.button__lg.text__bold(@click="checkOrder(1)") 下空單
+        button.button__danger.button__lg.text__bold(@click="checkOrder(0)") 多單
+        button.button__warning(@click="checkOrderAll()") 全平
+        button.button__success.button__lg.text__bold(@click="checkOrder(1)") 空單
         el-dialog(
           :visible.sync='orderConfirm'
           :modal='false'

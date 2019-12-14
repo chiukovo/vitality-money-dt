@@ -3,9 +3,9 @@
   .itemDetail-wrap
     div(class="h-100")
       .itemDetail-header
-        .header__title
-          |報價明細[{{ $store.state.itemName }}]
-          button.button(@click="openModal('historyPrices', '歷史報價查詢')") 查詢
+        .header__title 報價明細
+          .badge.badge-warning {{ $store.state.itemName }}
+          button.button(@click="openModal('historyPrices', '報價查詢')") 查詢
           label.checkbox
             input.checkbox__input(type="checkbox" checked)
             span.checkbox__label 置底
