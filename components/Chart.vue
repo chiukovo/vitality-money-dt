@@ -11,7 +11,7 @@
       span 漲跌 {{ nowMainItem.gain }}
   .history-content__body
     highcharts(v-if="items.length > 0" :options="options")
-    div(v-loading="loading" v-else style="height: 300px")
+    div(v-loading="loading" v-else)
 </template>
 
 <script>

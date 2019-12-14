@@ -5,13 +5,13 @@
     .header__mode
       label.radio
         input.radio__input(type="radio" checked)
-        span.radio__label 一般
+        select
+          option 一般
   .operating-content
     .operating-1
       table
         tbody
           tr
-            td
             td
               label.radio
                 input.radio__input(type="radio" v-model='buyType' value='0')
@@ -21,29 +21,31 @@
               label.radio
                 input.radio__input(type="radio" v-model='buyType' value='2')
                 span.radio__label 收盤單
+          tr
             td
               label.radio
                 input.radio__input(type="radio" v-model='buyType' value='1')
                 span.radio__label 限價單
     .operating-2
       el-form(ref='form' size='mini' label-width='50px')
-        el-form-item(label='限價:' v-if="buyType == 1")
-          el-input-number(v-model='nowPrice' controls-position='right' :min="0")
-        el-form-item(label='停利:')
+        el-form-item(label='限價:')
+          button(type="button") 現價
+          el-input-number(v-model='nowPrice' controls-position='right' :min="0" :disabled="buyType != 1")
+        el-form-item(label='獲利點:')
           el-input-number(v-model='profit' controls-position='right' :min="0")
-        el-form-item(label='停損:')
+        el-form-item(label='損失點:')
           el-input-number(v-model='damage' controls-position='right' :min="0")
     .operating-3
       .numberbtn
         el-form(ref='form' size='mini' label-width='30px')
           button.button(v-for="(customSubmitNum, key) in customSubmitNums" :key="key" @click="submitNum = customSubmitNum") {{ customSubmitNum }}
+          button(@click="dialogVisible = true" type="button") 設
       .numberinput
         el-form(ref='form' size='mini' label-width='50px')
           el-form-item(label='口數:' style='margin: 2px 0;')
             el-input-number(v-model='submitNum' controls-position='right' :min="0")
+        div 損失點/ 獲利點 為 點數 設定
       .editbtn
-        button.button(@click="dialogVisible = true") 編輯
-        button.button(@click="resetNum") 還原
         el-dialog(
           :visible.sync='dialogVisible'
           :modal='false'
@@ -89,14 +91,17 @@
                 button.button(@click="doOrder") 確認
     .operating-5
       label.checkbox
-        input.checkbox__input(v-model="customGroup" type="checkbox" value="overall")
-        span.checkbox__label ({{ $store.state.itemName }})全盤收平
+        input.checkbox__input(type="checkbox")
+        span.checkbox__label 不留倉
       label.checkbox
         input.checkbox__input(v-model="customGroup" type="checkbox" value="noConfirm")
         span.checkbox__label 下單不確認
       label.checkbox
-        input.checkbox__input(v-model="customGroup" type="checkbox" value="prompt")
-        span.checkbox__label 限價成交提示
+        input.checkbox__input(type="checkbox" @click="setCustomSetting('orderReport')" :checked="$store.state.localStorage.customSetting.orderReport")
+        span.checkbox__label 成交回報
+      label.checkbox
+        input.checkbox__input(v-model="customGroup" type="checkbox" value="overall")
+        span.checkbox__label 全平 + 取消委託
 </template>
 
 <script>
@@ -160,6 +165,9 @@ export default {
     }
   },
   methods: {
+    setCustomSetting(type) {
+      this.$store.commit('setCustomSetting', type)
+    },
     getNowOverall() {
       //使用者設定
       const commidyArray = this.$store.state.commidyArray
