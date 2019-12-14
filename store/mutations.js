@@ -22,10 +22,10 @@ export default {
 
 
     if (data.length > 0) {
-      _this._vm.$socket.send(_this._vm.paramB())
-
       data.forEach(function(val){
         if (val.show && first) {
+          //send 第一筆
+          _this._vm.$socket.send('h:' + val['id'])
           state.clickItemId = val['id']
           state.itemName = val['name']
 
@@ -225,6 +225,7 @@ export default {
   },
   setClickItemId(state, {id, name}) {
     const _this = this
+    _this._vm.$socket.send('h:' + id)
     //change now mainItem
     state.mainItem.forEach(function(val) {
       if (val.product_id == id) {
@@ -235,11 +236,6 @@ export default {
     state.clickItemId = id
     state.itemName = name
 
-    state.fiveTotal = {
-      more: 0,
-      morePercent: 0,
-      nullNum: 0,
-    }
     let history = state.historyPrice[id]
     let fiveData = state.nowFiveMoney[id]
     let volumeMoney = state.nowVolumeMoney[id]
@@ -251,9 +247,7 @@ export default {
     }
 
     if (typeof fiveData != 'undefined') {
-      this.commit('setFiveItemChange', fiveData)
-    } else {
-      state.items0 = []
+      this.commit('setFiveItemChange', {fiveData, itemId: id})
     }
 
     if (typeof volumeMoney != 'undefined') {
@@ -464,7 +458,7 @@ export default {
     if (typeof fiveData != "undefined") {
       if (fiveData[5][2] != targetNewPrice && itemId == state.clickItemId) {
         //改五檔限價
-        this.commit('setFiveItemChange', fiveData)
+        this.commit('setFiveItemChange', {fiveData, id: itemId})
       }
     }
 
@@ -514,9 +508,8 @@ export default {
 
     state.uncovered = result
   },
-  setFiveItemChange(state, fiveData) {
-    /*let _this = this
-    let itemId = state.clickItemId
+  setFiveItemChange(state, {fiveData, itemId}) {
+    let _this = this
     let targetNewPrice = state.nowNewPrice[itemId]
 
     if (typeof fiveData != "undefined") {
@@ -530,8 +523,15 @@ export default {
       return
     }
 
+    state.fiveTotal = {
+      more: 0,
+      morePercent: 0,
+      nullNum: 0,
+    }
+
     if (fiveData.length > 0) {
       state.items0 = fiveData
+
       //計算total
       state.items0.forEach(function(val, key) {
         if (key != 5) {
@@ -547,7 +547,7 @@ export default {
 
       //多勢 %
       state.fiveTotal.morePercent = parseInt(100 / (state.fiveTotal.more + state.fiveTotal.nullNum) * state.fiveTotal.more)
-    }*/
+    }
   },
   setItemChange(state, history) {
     if (typeof history == 'undefined') {
@@ -658,12 +658,12 @@ export default {
 
     state.nowFiveMoney[itemId] = formatData
 
-    this.commit('setFiveItemChange', formatData)
+    this.commit('setFiveItemChange', {fiveData: formatData, itemId})
     //陣列第[3]：第一筆買價
     //陣列第[13]：第一筆賣價
     state.mainItem = state.mainItem.map(function (val) {
       let borderName = val.color == 'text__success' ? 'border border__success' : 'border border__danger'
-      
+
       if (itemId == val.product_id) {
         val.bp_price_change = val.bp_price == five[3] ? '' : borderName
         val.bp_price = five[3]
@@ -693,10 +693,6 @@ export default {
     state.chartData = []
   },
   setChartData(state, response) {
-    if (typeof state.chartData == 'undefined') {
-      Vue.set(state.chartData, response.type, [])
-    }
-
     state.chartData = []
 
     const code = response.data.Code

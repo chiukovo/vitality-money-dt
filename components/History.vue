@@ -58,19 +58,6 @@ export default {
     historyTabShow() {
       //window.setTimeout((() => this.computedHeight() ), 100)
     },
-    clickItemId(id) {
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': id,
-        'type': 'minone',
-        'num': 1
-      })
-
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': id,
-        'type': 'kline',
-        'num': 2
-      })
-    }
   },
   methods: {
     computedHeight() {

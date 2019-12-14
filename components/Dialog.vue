@@ -70,8 +70,6 @@ export default {
   },
   methods: {
     handleClose (done) {
-      //clear data
-      this.$store.commit('clearModalData')
       this.$emit('update:visible', false)
     }
   }

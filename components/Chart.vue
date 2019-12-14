@@ -2,7 +2,8 @@
 .history-content
   .history-content__header
     div
-      button {{ nowMainItem.product_name }}
+      select(v-model="chartChange")
+        option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
       span 昨收 {{ nowMainItem.yesterday_close_price }}
       span 開 {{ nowMainItem.open_price }}
       span 高 {{ nowMainItem.highest_price }}
@@ -10,13 +11,58 @@
       span 成交 {{ nowMainItem.newest_price }}
       span 漲跌 {{ nowMainItem.gain }}
   .history-content__body
-    highcharts(v-if="items.length > 0" :options="options")
-    div(v-loading="loading" v-else)
+    splitpanes(class="default-theme")
+      pane(size="70")
+        highcharts(v-if="items.length > 0" :options="options")
+        div(v-loading="loading" v-if="loading")
+      pane(size="30")
+        .itemDetail__TotalTable(class="h-100")
+          div
+            select(v-model="fiveChange")
+              option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
+          client-only
+            vxe-table(
+              :data="$store.state.items0"
+              max-width="100%"
+              size="mini"
+              align="center"
+              border
+              auto-resize)
+              vxe-table-column(title="比例")
+                template(slot-scope='scope')
+                  template(v-if="scope.row[0] == ''")
+                  template(v-else)
+                    .progress-bar.progress-bar__right
+                      .progress-bar__inner(:style="'width: ' + scope.row[0] + '%'")
+              vxe-table-column(title="委買" width="20%")
+                template(slot-scope="scope") {{ scope.row[1] }}
+              vxe-table-column(title="價格")
+                template(slot-scope="scope") {{ scope.row[2] }}
+              vxe-table-column(title="委賣" width="20%")
+                template(slot-scope="scope") {{ scope.row[3] }}
+              vxe-table-column(title="比例")
+                template(slot-scope="scope")
+                  template(v-if="scope.row[4] == ''")
+                  template(v-else)
+                    .progress-bar
+                      .progress-bar__inner(:style="'width: ' + scope.row[4] + '%'")
+        .itemDetail__Total
+          .row
+            .col {{ $store.state.fiveTotal.more }}
+            .col 總計
+            .col {{ $store.state.fiveTotal.nullNum }}
+          .row
+            .col.text__danger 多勢
+            .col
+              .progress-bar.progress-bar__total
+                .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
+            .col.text__success 空勢
 </template>
 
 <script>
 
 import { mapState } from 'vuex'
+import { Splitpanes, Pane } from 'splitpanes'
 import Vue from 'vue'
 import HighchartsVue from "highcharts-vue"
 import darkUnica from "highcharts/themes/dark-unica"
@@ -43,13 +89,16 @@ export default {
   data() {
     return {
       items: [],
+      fiveData: [],
       options: {},
       loading: true,
+      fiveChange: 0,
+      chartChange: 0,
     }
   },
   methods: {
     activeLastPointToolip (chart) {
-      const points = chart.series[0].points;
+      const points = chart.series[0].points
       chart.tooltip.refresh(points[points.length -1]);
     },
   },
@@ -58,14 +107,35 @@ export default {
     'clickItemId',
     'nowMainItem',
   ]),
+  components: {
+    Splitpanes,
+    Pane,
+  },
   watch: {
+    chartChange(id) {
+      this.items = []
+      this.loading = true
+
+      this.$store.dispatch('CALL_QUERY_TECH', {
+        'id': id,
+        'type': 'chart',
+        'num': 1
+      })
+    },
+    fiveChange(id) {
+      //取消
+      this.$socket.send('f:' + this.$store.state.clickItemId)
+      //add
+      this.$socket.send('h:' + id)
+    },
     clickItemId(id) {
       this.loading = true
       this.items = []
+      this.fiveChange = this.clickItemId
+      this.chartChange = this.clickItemId
     },
     chartData (res) {
       const _this = this
-      let name = this.$store.state.itemName
       this.items = JSON.parse(JSON.stringify(res))
 
       this.options = {
@@ -79,7 +149,7 @@ export default {
           }
         },
         title: {
-          text: name
+          text: ''
         },
         xAxis: {
           type: 'datetime',
@@ -130,7 +200,6 @@ export default {
     }
   },
   mounted () {
-
   },
 }
 </script>

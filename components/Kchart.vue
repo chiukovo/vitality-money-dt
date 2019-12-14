@@ -11,7 +11,7 @@
       span 漲跌 {{ nowMainItem.gain }}
   .history-content__body
     highcharts(v-if="ohlcv.length > 0" :constructor-type="'stockChart'" :options="stockOptions")
-    div(v-loading="loading" v-else)
+    div(v-loading="loading" v-if="loading")
 </template>
 
 <script>
@@ -59,6 +59,12 @@ export default {
     clickItemId(id) {
       this.loading = true
       this.ohlcv = []
+
+      this.$store.dispatch('CALL_QUERY_TECH', {
+        'id': id,
+        'type': 'kline',
+        'num': 2
+      })
     },
     kLineData(res) {
       let name = this.$store.state.itemName

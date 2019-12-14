@@ -2,9 +2,7 @@
 .history-content
   .history-content__header(id="uncoveredHeader")
     div(style="padding: 2px 0")
-      button.button(@click="openMultiOrder") 平倉
-      button.button(@click="multiOrderAllClick(true)") 全選
-      button.button(@click="multiOrderAllClick(false)") 全不選
+      button.button(@click="openMultiOrder") 全部平倉
   .history-content__body(:style="{height: $parent.height.uncovered}")
     client-only
       vxe-table(
@@ -26,8 +24,9 @@
             button.button(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平倉
         vxe-table-column(field='Serial' title='序號')
         vxe-table-column(field='Name' title='商品')
-        vxe-table-column(title='型別')
-          template(slot-scope='scope') {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
+        vxe-table-column(title='多空')
+          template(slot-scope='scope')
+            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
         vxe-table-column(field='FinalPrice' title='成交價')
         vxe-table-column(field='Quantity' title='口數')
         vxe-table-column(field='Fee' title='手續費')
@@ -46,7 +45,7 @@
             span(v-else :class="scope.row['thisSerialTotalMoney'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialTotalMoney'] }}
         vxe-table-column(title='點數')
           template(slot-scope='scope')
-            .change-icon
+            .change-icon(v-if="typeof scope.row['thisSerialPointDiff'] != 'undefined'")
               .icon-arrow(v-if="scope.row['thisSerialPointDiff'] != 0" :class="scope.row['thisSerialPointDiff'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
             span(v-if="scope.row['thisSerialPointDiff'] == 0" class="text__black") {{ scope.row['thisSerialPointDiff'] }}
             span(v-else :class="scope.row['thisSerialPointDiff'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialPointDiff'] }}
@@ -530,28 +529,8 @@ export default {
           break
       }
     },
-    buySelltableCellClassName({ row, column, columnIndex }) {
-      //判斷是否顯示
-      if (this.seeAllOrder == 0 && row.State != '未成交') {
-        return 'hide'
-      }
-
-      if (columnIndex >= 3 && columnIndex <= 12) {
-        if (row.BuyOrSell == 0) {
-          return 'text__danger'
-        } else {
-          return 'text__success'
-        }
-      }
-    },
     uncoveredTableCellClassName({ row, column, columnIndex }) {
-      if (columnIndex >= 1 && columnIndex <= 13) {
-        if (row.BuyOrSell == 0) {
-          return 'text__danger'
-        } else {
-          return 'text__success'
-        }
-      }
+
     }
   }
 }

@@ -13,12 +13,12 @@ export default {
       commit('setApiExample', response.data)
     })
 	},
-  async CALL_MEMBER_ORDER_LIST ({ commit, state }) {
+  CALL_MEMBER_ORDER_LIST ({ commit, state }) {
     const lang = state.localStorage.lang
     const userId = state.localStorage.userAuth.userId
     const token = state.localStorage.userAuth.token
 
-    await axios.post("/api/query_orderlist?lang=" + lang, qs.stringify({
+    axios.post("/api/query_orderlist?lang=" + lang, qs.stringify({
       UserID: userId,
       Token: token,
     }))
@@ -30,11 +30,11 @@ export default {
       }
     })
   },
-  async CALL_MEMBER_CUSTOM_ITEM ({ commit, state }, { defaultData, marketInfo }) {
+  CALL_MEMBER_CUSTOM_ITEM ({ commit, state }, { defaultData, marketInfo }) {
     const userId = state.localStorage.userAuth.userId
     const token = state.localStorage.userAuth.token
 
-    await axios.post("/api/query_member_setting", qs.stringify({
+    axios.post("/api/query_member_setting", qs.stringify({
       UserID: userId,
       Token: token,
     }))
@@ -68,13 +68,13 @@ export default {
       }
     })
   },
-  async CALL_SET_CLOSE_OVER_ALL ({ commit, state }, { overall }) {
+  CALL_SET_CLOSE_OVER_ALL ({ commit, state }, { overall }) {
     const lang = state.localStorage.lang
     const userId = state.localStorage.userAuth.userId
     const token = state.localStorage.userAuth.token
     const itemId = state.clickItemId
 
-    await axios.post("/api/set_close_cover_all?lang=" + lang, qs.stringify({
+    axios.post("/api/set_close_cover_all?lang=" + lang, qs.stringify({
       UserID: userId,
       Token: token,
       SetCloseCover: overall,
@@ -83,12 +83,12 @@ export default {
     .then(response => {
     })
   },
-  async CALL_MEMBER_INFO ({ commit, state }) {
+  CALL_MEMBER_INFO ({ commit, state }) {
     const lang = state.localStorage.lang
     const userId = state.localStorage.userAuth.userId
     const token = state.localStorage.userAuth.token
 
-    await axios.post("/api/query_member_and_commoditylist?lang=" + lang, qs.stringify({
+    axios.post("/api/query_member_and_commoditylist?lang=" + lang, qs.stringify({
       UserID: userId,
       Token: token,
     }))
@@ -102,8 +102,8 @@ export default {
       }
     })
   },
-	async CALL_QUERY_TECH ({ commit, state }, params) {
-		await axios.post("/api/query_tech?lang=" + state.localStorage.lang, qs.stringify({
+	CALL_QUERY_TECH ({ commit, state }, params) {
+		axios.post("/api/query_tech?lang=" + state.localStorage.lang, qs.stringify({
         userID: state.localStorage.userAuth.userId,
         Token: state.localStorage.userAuth.token,
       	Params: params.id + ',minone,' + params.num + ',' + params.type,
@@ -111,11 +111,13 @@ export default {
     .then(response => {
       if (params.type == 'kline') {
         commit('setkLineData', {
+          id: params.id,
           data: response.data,
           type: params.type
         })
-      } else if (params.type == 'minone') {
+      } else if (params.type == 'chart') {
         commit('setChartData', {
+          id: params.id,
           data: response.data,
           type: params.type
         })

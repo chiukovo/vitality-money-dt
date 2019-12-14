@@ -3,23 +3,17 @@
   .history-content__header(id="buySellHeader")
     .d-flex.justify-content-between.align-items-center(style="width: 100%; padding: 2px 0")
       .div
-        button.button(@click="openMultiDelete") 刪單
-        button.button(@click="multiDeleteAllClick(true)") 全選
-        button.button(@click="multiDeleteAllClick(false)") 全不選
-      .div(style="margin-left: 10px;")
+        button.button(@click="openMultiDelete") 全部刪單
+      .div
         label.radio.inline
           input.radio__input(type="radio" v-model='seeAllOrder' value='1')
-          span.radio__label 全部單據
+          span.radio__label 全部單
         label.radio.inline
           input.radio__input(type="radio" v-model='seeAllOrder' value='0')
-          span.radio__label 未成交單據
-        label.checkbox.inline(v-if="seeAllOrder == 0")
-          input.checkbox__input(v-model="showAllOrder" type="checkbox" value="1")
-          span.checkbox__label 顯示全部商品單據
-        label.checkbox.inline(v-else style="width: 121px")
-        label.checkbox.inline
-          input.checkbox__input(v-model="autoGoButtom" type="checkbox" value="1")
-          span.checkbox__label 自動置底
+          span.radio__label 未成交單
+        label.radio.inline
+          input.radio__input(type="radio" v-model='seeAllOrder' value='2')
+          span.radio__label 已成交單
   .history-content__body(:style="{height: $parent.height.buySell}")
     client-only
       vxe-table(
@@ -30,12 +24,11 @@
         size="mini"
         column-min-width="60"
         border
-        auto-resize
-        highlight-current-row)
+        auto-resize)
         vxe-table-column(width="30" align="center")
           template(slot-scope='scope')
             input(type="checkbox" v-model="multiDeleteSelect" :value="scope.row.Serial" :disabled="!scope.row.Operation[1]")
-        vxe-table-column(title='操作' width="120" align="center")
+        vxe-table-column(width="120" align="center")
           template(slot-scope='scope')
             button.button(v-if="scope.row.Operation[0]" @click="openEdit(scope.row)") 改
             //-改單
@@ -43,11 +36,15 @@
             button.button(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平倉
         vxe-table-column(field='Serial' title='序號')
         vxe-table-column(field='Name' title='商品')
+        vxe-table-column(title='倒')
         vxe-table-column(title='多空' width="40px" align="center")
-          template(slot-scope='scope') {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
+          template(slot-scope='scope')
+            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
         vxe-table-column(field='OrderPrice' title='委託價')
         vxe-table-column(field='Quantity' title='口數' width="40px" align="center")
         vxe-table-column(field='FinalPrice' title='成交價')
+        vxe-table-column(field='OrderTime' width='150' title='下單時間')
+        vxe-table-column(field='FinalTime' width='150' title='完成時間')
         vxe-table-column(field='Odtype' title='型別')
         vxe-table-column(title='損失點數' align="center")
           template(slot-scope='scope')
@@ -55,7 +52,6 @@
         vxe-table-column(title='獲利點數' align="center")
           template(slot-scope='scope')
             button.button.button_border__danger(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('winPointDialog', scope.row)") {{ parseInt(scope.row.WinPoint) }}
-        vxe-table-column(field='OrderTime' width='150' title='下單時間')
         vxe-table-column(field='FinalTime' width='150' title='完成時間')
         vxe-table-column(title='狀態' width='110' fixed="right")
           template(slot-scope='scope')
@@ -513,13 +509,8 @@ export default {
       if (this.seeAllOrder == 0 && row.State != '未成交') {
         return 'hide'
       }
-
-      if (columnIndex >= 3 && columnIndex <= 12) {
-        if (row.BuyOrSell == 0) {
-          return 'text__danger'
-        } else {
-          return 'text__success'
-        }
+      if (this.seeAllOrder == 2 && row.State == '未成交') {
+        return 'hide'
       }
     },
   }
