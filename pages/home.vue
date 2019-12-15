@@ -63,6 +63,9 @@ export default {
     StyleC,
   },
   mixins: [websocketService],
+  beforeMount() {
+    this.checkDevice()
+  },
   mounted() {
     let _this = this
     this.checkLogin()
