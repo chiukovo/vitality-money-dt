@@ -22,6 +22,7 @@
         ChangPassword(v-if="clickType == 'changePassword'")
         CustomItem(v-if="clickType == 'customItem'")
         ShowHideItem(v-if="clickType == 'showHideItem'")
+        News(v-if="clickType == 'news'")
 </template>
 <script>
 
@@ -35,6 +36,7 @@ import ActionLog from "~/components/ActionLog"
 import ChangPassword from "~/components/ChangPassword"
 import CustomItem from "~/components/CustomItem"
 import ShowHideItem from "~/components/ShowHideItem"
+import News from "~/components/News"
 
 export default {
   props: ['clickType', 'visible', 'title', 'size', 'onlyItem'],
@@ -55,6 +57,7 @@ export default {
     ChangPassword,
     CustomItem,
     ShowHideItem,
+    News,
   },
   watch: {
     visible(isOpen) {

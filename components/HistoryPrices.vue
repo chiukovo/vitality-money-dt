@@ -7,12 +7,12 @@
           el-form-item(label='商品: ' size='mini')
             el-select(placeholder='請選擇' style="width: 90px;" v-model="form.itemType")
               el-option(
-                v-for="(data, key) in commidy"
+                v-for="(data, key) in $store.state.commidyArray"
                 :key="key"
-                :label="data.name"
-                :value="data.id"
+                :label="data.Name"
+                :value="data.ID"
               )
-          //- el-form-item(label='開始日期:')
+          el-form-item(label='開始日期:')
             el-form-item
               el-date-picker(
                 v-model='form.start',
@@ -27,7 +27,7 @@
               style="width: 132px;"
               value-format="HH:mm:ss"
               format="HH:mm:ss")
-          button.button(@click="query") 查詢
+          button.button(@click="query") 送出
     .row
       .col
         el-divider(content-position='center') 時間: {{ form.start }} {{ form.startDt }} ~ {{ form.end }} 23:59:59
@@ -43,9 +43,9 @@
         auto-resize
         highlight-current-row
         highlight-hover-row)
-        vxe-table-column(field="time" title='市場時間' min-width='30%')
-        vxe-table-column(field="submit" title='口' width='14%')
-        vxe-table-column(field="price" title='價格' width='28%')
+        vxe-table-column(field="time" title='時間' min-width='30%')
+        vxe-table-column(field="price" title='成交價' width='28%')
+        vxe-table-column(field="submit" title='單量' width='14%')
     el-pagination(
       background
       layout="prev, pager, next"
@@ -77,24 +77,10 @@ export default {
     //end date
     this.form.start = this.formatDate(new Date())
     this.form.end = this.formatDate(new Date())
-    this.getItems()
   },
   methods: {
     currentChange(currentPage) {
       this.currentPage = currentPage;
-    },
-    getItems() {
-      //取得商品列表
-      let commidyArray = this.$store.state.commidyArray
-      commidyArray = JSON.parse(JSON.stringify(commidyArray))
-      let _this = this
-
-      commidyArray.forEach(function (val) {
-        _this.commidy.push({
-          name: val.Name,
-          id: val.ID,
-        })
-      })
     },
     async query() {
       let _this = this

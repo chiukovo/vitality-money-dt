@@ -1,6 +1,25 @@
 <template lang='pug'>
 .dialog
   .dialog__content
+    table
+      tr
+        td 會員帳號
+        td {{ userInfo.Account }}
+      tr
+        td 信用額度
+        td {{ userInfo.TouchPoint }}
+      tr
+        td 對匯額度
+        td {{ userInfo.ContrastPoint }}
+      tr
+        td 口數上限(筆/日)
+        td {{ userInfo.DaySubmitLimit }}
+      tr
+        td 留倉口數上限
+        td {{ userInfo.AllRemainingLimit }}
+      tr
+        td 結算時間
+        td {{ userInfo.EndTime }}
     client-only
       vxe-table(
         :data='items'
@@ -42,15 +61,17 @@ export default {
   computed: mapState([
     'commidyArray',
     'clickItemId',
+    'userInfo',
   ]),
   watch: {
-    commidyArray(sourceCommidyArray) {
-      this.getUserInfo(sourceCommidyArray)
-    },
     clickItemId() {
       const sourceCommidyArray = this.$store.state.commidyArray
       this.getUserInfo(sourceCommidyArray)
     }
+  },
+  mounted() {
+    const sourceCommidyArray = this.$store.state.commidyArray
+    this.getUserInfo(sourceCommidyArray)
   },
   methods: {
     getUserInfo(sourceCommidyArray) {

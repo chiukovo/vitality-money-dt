@@ -12,17 +12,11 @@
       li.nav-item
         a.nav-link.dropdown-toggle(href="#") 檢視
         .dropdown-menu
-          a.dropdown-item(href="#") 公告總攬
-          a.dropdown-item(href="#" @click="openModal('historyPrices', '會員資訊')") 歷史明細
-          a.dropdown-item(href="#" @click="openModal('userDetail', '歷史報價')") 會員資訊
-          a.dropdown-item(href="#") 帳號歷史
+          a.dropdown-item(href="#" @click="openModal('news', '公告總攬')") 公告總攬
+          a.dropdown-item(href="#" @click="openModal('historyPrices', '報價明細')") 報價明細
+          a.dropdown-item(href="#" @click="openModal('userDetail', '會員資訊')") 會員資訊
+          a.dropdown-item(href="#" @click="openModal('historyWinLoss', '帳戶歷史')") 帳戶歷史
           a.dropdown-item(href="#" @click="openModal('storedRecords', '儲值記錄')") 儲值記錄
-
-          a.dropdown-item(href="#" @click="openModal('userDetail', '個人資料')") 個人資料
-          a.dropdown-item(href="#" @click="openModal('historyWinLoss', '歷史損益')") 歷史損益
-          a.dropdown-item(href="#" @click="openModal('historyPrices', '歷史報價')") 歷史報價
-          a.dropdown-item(href="#" @click="openModal('storedRecords', '儲值記錄')") 儲值記錄
-          a.dropdown-item(href="#" @click="openModal('actionLog', '動作日誌')") 動作日誌
       li.nav-item
         a.nav-link.dropdown-toggle(href="#") 設定
         .dropdown-menu
