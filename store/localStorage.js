@@ -7,11 +7,12 @@ export const state = () => ({
   	clapping: false, //拍手動畫
   	sound: false, //音效
     operatingStyle: 'A',
+    mainStyle: 1,
   	operatingCustomGroup: [], //下單三項自訂選項
   },
   remember: {
   	me: false,
-  	account: '123',
-  	password: '123',
+  	account: '',
+  	password: '',
   }
 })

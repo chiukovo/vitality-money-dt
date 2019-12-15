@@ -15,6 +15,9 @@ export default {
   setOperatingStyle(state, type) {
     state.localStorage.customSetting.operatingStyle = type
   },
+  setMainStyle(state, type) {
+    state.localStorage.customSetting.mainStyle = type
+  },
   setCustomSetting(state, type) {
     state.localStorage.customSetting[type] = !state.localStorage.customSetting[type]
   },

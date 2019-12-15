@@ -32,11 +32,11 @@
           a.dropdown-item(href="#") 商品交易時間
     .navbar-nav.navbar-nav-right
       .mybutoule
-        button.active 1
-        button 2
-        button 3
-        button 4
-        button 5
+        button(@click="changeMainStyle(1)" :class="checkActive(1)") 1
+        button(@click="changeMainStyle(2)" :class="checkActive(2)") 2
+        button(@click="changeMainStyle(3)" :class="checkActive(3)") 3
+        button(@click="changeMainStyle(4)" :class="checkActive(4)") 4
+        button(@click="changeMainStyle(5)" :class="checkActive(5)") 5
 </template>
 
 <script>
@@ -76,7 +76,15 @@ export default {
     }
   },
   methods: {
-    openModal (type, title, size) {
+    checkActive(type) {
+      if (type == this.$store.state.localStorage.customSetting.mainStyle) {
+        return 'active'
+      }
+    },
+    changeMainStyle(type) {
+      this.$store.commit('setMainStyle', type)
+    },
+    openModal(type, title, size) {
       this.dialog.size = ''
       this.dialog.clickType = type
       this.dialog.title = title

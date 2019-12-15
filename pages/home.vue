@@ -9,17 +9,17 @@
           pane(size="41")
             Header
             MainItem
-          pane(:size="$store.state.localStorage.customSetting.operatingStyle == 'C' ? '44' : 59")
+          pane(:size="operatingStyleCheck('historySize')")
             History
-          pane(size="15" v-show="$store.state.localStorage.customSetting.operatingStyle == 'C'")
+          pane(size="15" v-show="operatingStyleCheck == 'C'")
             StyleC
       pane(size="18")
         splitpanes(horizontal)
           pane
             ItemDetail
-          pane(v-show="$store.state.localStorage.customSetting.operatingStyle != 'C'")
-            StyleA(v-show="$store.state.localStorage.customSetting.operatingStyle == 'A'")
-            StyleB(v-show="$store.state.localStorage.customSetting.operatingStyle == 'B'")
+          pane(v-show="operatingStyleCheck != 'C'")
+            StyleA(v-show="operatingStyleCheck == 'A'")
+            StyleB(v-show="operatingStyleCheck == 'B'")
   #footer
     Footer
     Sound
@@ -73,6 +73,20 @@ export default {
   data() {
     return {
       show: 0
+    }
+  },
+  methods: {
+    mainStyleCheck(type) {
+
+    },
+    operatingStyleCheck(type) {
+      const operatingStyle = this.$store.state.localStorage.customSetting.operatingStyle
+
+      if (type == 'historySize') {
+        return operatingStyle == 'C' ? '44' : '59'
+      }
+
+      return operatingStyle
     }
   }
 }
