@@ -129,7 +129,6 @@
 
 :root {
   --itemDetail-header-height: 30px;
-  --itemDetail-tabs-height: 30px;
 }
 .itemDetail {
   position: relative;
@@ -142,9 +141,6 @@
     height: var(--itemDetail-header-height);
     line-height: var(--itemDetail-header-height);
     padding: 0 8px;
-  }
-  .itemDetail-content {
-    height: calc(100% - var(--itemDetail-tabs-height));
   }
   .itemDetail-tabs {
     position: absolute;
@@ -211,7 +207,6 @@
 .operating {
   display: flex;
   height: 100%;
-  font-size: 16px;
   color: #000;
   background-color: #f9f9f9;
   border: 1px solid $border-color;

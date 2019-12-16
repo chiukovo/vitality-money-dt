@@ -33,7 +33,7 @@
     .operating-2
       el-form(ref='form' size='mini' label-width='70px')
         el-form-item(label='限價:')
-          button.nowPrice(type="button") 現價
+          button.nowPrice.button__warning(type="button") 現價
           el-input-number(v-model='nowPrice' :min="0" :disabled="buyType != 1")
         el-form-item(label='獲利點:')
           el-input-number(v-model='profit' :min="0")
@@ -78,7 +78,6 @@
           title='確認下單'
           v-dialogDrag)
           .header-custom(slot='title')
-            i.el-icon-info
             |  確認下單
           client-only
             vxe-table(

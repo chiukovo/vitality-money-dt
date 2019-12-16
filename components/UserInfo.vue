@@ -1,24 +1,25 @@
 <template lang='pug'>
 .userInfo
-  div
-    button(@click="changeStyle('up')") ^
-    button(@click="changeStyle('down')") v
-    .userInfo-header(v-show="style != 0") {{ userInfo.Account }}
-    div(v-show="style == 0")
-    div(v-show="style == 1")
-      span 可用餘額 {{ userInfo.Money }}
-    div(v-show="style == 2")
-      table
-        tbody
-          tr
-            td 今日損益
-            td {{ userInfo.TodayMoney }}
-          tr
-            td 可用餘額
-            td {{ userInfo.Money }}
-          tr
-            td 預設額度
-            td {{ userInfo.TouchPoint }}
+  .valuearrow
+    button.arrow__down(@click="changeStyle('down')")
+    button.arrow__up(@click="changeStyle('up')")
+  .userInfo__account(v-show="style != 0") {{ userInfo.Account }}
+  div(v-show="style == 0")
+  div(v-show="style == 1")
+    .userInfo-balance__title 可用餘額
+    .userInfo-balance__num {{ userInfo.Money }}
+  div(v-show="style == 2")
+    table.userInfo-balance-table
+      tbody
+        tr
+          th 今日損益
+          td {{ userInfo.TodayMoney }}
+        tr
+          th 可用餘額
+          td {{ userInfo.Money }}
+        tr
+          th 預設額度
+          td {{ userInfo.TouchPoint }}
 </template>
 <script>
 import { mapState } from 'vuex';

@@ -11,14 +11,10 @@
         el-input(type="password" v-model="form.newPassword")
       el-form-item(label="確認密碼")
         el-input(type="password" v-model="form.checkPassword")
-      el-form-item
-        button.button__light(type="button" @click="cancel") 取消
-        button.button(@click="submit") 確認
-    ul.rules-list
-      li 密碼規則:
-      li 1. 必須6位長度;
-      li 2. 需要數字和非數字組合;
-      li 3. 不能有４位或以上連續數字或字母(比如1111,aaaa,1234,abcd)
+    |*密碼是由3-20個英文字母(區分大小寫)或數字組成
+  //- .dialog__footer
+    //- button.button__light(type="button" @click="cancel") 取消
+    //- button.button(@click="submit") 確認
 </template>
 <script>
 

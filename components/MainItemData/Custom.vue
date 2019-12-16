@@ -9,7 +9,7 @@ div(class="h-100")
   )
   div(style="height: calc(100% - 64px)")
     client-only
-      vxe-table(
+      vxe-table.table__dark(
         ref="xTable"
         id="mainItemTable"
         :data='mainItem',
@@ -37,7 +37,7 @@ div(class="h-100")
                   li 小
               li.dropdown-item(href="#") 自訂風格
           template(slot-scope='scope')
-            div(class="txt-left" :class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)") {{ scope.row['product_name'] }}
+            div(class="text__left" :class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)") {{ scope.row['product_name'] }}
         vxe-table-column(title='倉位多' width="50px" align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             span(class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}

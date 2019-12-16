@@ -11,7 +11,7 @@
             span.checkbox__label 置底
       .itemDetail-content
         client-only
-          vxe-table(
+          vxe-table.table__dark(
             :data="$store.state.items2"
             :cell-class-name="tableCellClassName"
             max-width="100%"
@@ -58,11 +58,11 @@ export default {
       }
     },
     tableCellClassName({ row, column, columnIndex }) {
-      if(columnIndex >= 2) {
+      if(columnIndex == 1) {
         if(row.change == 'up') {
-          return 'text__up';
+          return 'text__danger';
         } else {
-          return 'text__down';
+          return 'text__success';
         }
       }
     },

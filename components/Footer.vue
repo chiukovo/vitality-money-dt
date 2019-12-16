@@ -4,7 +4,7 @@
 		#news
 			marquee.news__list(onmouseover='this.stop()' onmouseout='this.start()')
 				a.news__item(href='#' v-for="item in items") {{ item }}
-		#today
+		//- #today
 			.today__date
 				span {{ dateTime }}
 				button 1-伺服器

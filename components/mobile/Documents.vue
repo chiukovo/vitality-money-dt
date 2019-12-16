@@ -343,7 +343,6 @@
       title='確認平倉'
       v-dialogDrag)
       .header-custom(slot='title')
-        i.el-icon-info
         |  確認平倉
       client-only
         vxe-table.table(
@@ -369,7 +368,6 @@
       title='確認刪除'
       v-dialogDrag)
       .header-custom(slot='title')
-        i.el-icon-info
         |  確認刪除
       vxe-table.table(
         :data="multiDeleteData"

@@ -179,7 +179,6 @@
     title='確認刪除'
     v-dialogDrag)
     .header-custom(slot='title')
-      i.el-icon-info
       |  確認刪除
     vxe-table(
       :data="multiDeleteData"
