@@ -14,7 +14,7 @@
   .operatingA-2
     el-form(size='mini' label-width='50px')
       el-form-item(label='商品')
-        select(v-model="itemChange")
+        select(v-model="itemChange" @change="setClickItem")
           option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
   .operatingA-3
     el-form(size='mini' label-width='50px')
@@ -42,7 +42,7 @@
         button.button__warning(type="button") 現價
       el-form-item(label='口數:' style='margin: 2px 0;')
         el-input-number(v-model='submitNum' style="width: calc(100% - 52px)" :min="0")
-        button.button__warning(@click="checkOrderAll()") 全平
+        button.button__warning(type="button" @click="checkOrderAll()") 全平
   .button-operating
     button.button__danger.text__bold(@click="checkOrder(0)" v-if="buttonType == 0") 多單
     button.button__success.text__bold(@click="checkOrder(1)" v-if="buttonType == 1") 空單
@@ -136,6 +136,15 @@ export default {
     }
   },
   methods: {
+    setClickItem() {
+      let name = this.getProductNameById(this.itemChange)
+
+      this.$socket.send('f:' + this.$store.state.clickItemId)
+      this.$store.commit('setClickItemId', {
+        id: this.itemChange,
+        name: name
+      })
+    },
     setCustomSetting(type) {
       this.$store.commit('setCustomSetting', type)
     },

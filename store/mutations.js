@@ -12,6 +12,9 @@ export default {
       state.localStorage.remember.password = password
     }
   },
+  setUserInfoStyleHeight(state, data) {
+    state.userInfoStyleHeight = data
+  },
   setOperatingStyle(state, type) {
     state.localStorage.customSetting.operatingStyle = type
   },

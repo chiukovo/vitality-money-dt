@@ -55,7 +55,7 @@
     el-form(ref='form' size='small' label-width='50px')
       el-form-item(label='口數:' style='margin: 2px 0;')
         el-input-number(v-model='submitNum' :min="0" style="width: calc(100% - 52px)")
-        button.button__warning(@click="checkOrderAll()") 全平
+        button.button__warning(type="button" @click="checkOrderAll()") 全平
   .button-operating
     button.button__danger.text__bold(@click="checkOrder(0)") 多單
     button.button__success.text__bold(@click="checkOrder(1)") 空單

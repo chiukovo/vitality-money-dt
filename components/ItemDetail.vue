@@ -6,10 +6,7 @@
         .header__title 報價明細
           .badge.badge-warning {{ $store.state.itemName }}
           button.button(@click="openModal('historyPrices', '報價查詢')") 查詢
-          label.checkbox
-            input.checkbox__input(type="checkbox" checked)
-            span.checkbox__label 置底
-      .itemDetail-content
+      .itemDetail-content(:style="'height: calc(100% - ' + $store.state.userInfoStyleHeight + ')'")
         client-only
           vxe-table.table__dark(
             :data="$store.state.items2"
@@ -23,7 +20,7 @@
             vxe-table-column(field="flocalTime" title='時間')
             vxe-table-column(field="price" title='成交價')
             vxe-table-column(field="amount" title='單量')
-      UserInfo
+      UserInfo(ref="userInfo")
   Dialog(
     :click-type="dialog.clickType",
     :visible.sync="dialog.isOpen"
@@ -44,8 +41,10 @@ export default {
         clickType: '',
         isOpen: false,
         title: ''
-      }
+      },
     }
+  },
+  mounted() {
   },
   methods: {
     handleItemDetailTabs(e) {

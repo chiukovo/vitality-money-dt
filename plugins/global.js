@@ -155,6 +155,20 @@ Vue.mixin({
     },
     changeOperating(type) {
       this.$store.commit('setOperatingStyle', type)
+    },
+    getProductNameById(id) {
+      let target = this.$store.state.customItemSetting
+      let name = ''
+
+      if (target.length > 0) {
+        target.forEach(function(val) {
+          if (id == val.id) {
+            name = val.name
+          }
+        })
+      }
+
+      return name
     }
   }
 })
