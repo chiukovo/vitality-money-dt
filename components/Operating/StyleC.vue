@@ -1,31 +1,29 @@
 <template lang='pug'>
-#operating.operating
+#operatingC.operating
   .operating-header
     .header__title {{ $store.state.itemName }}
     .header__mode
       label.select
         select
           option 一般
+  .change-theme
+    button.button__white(@click="changeOperating('A')") A
+    button.button__white(@click="changeOperating('C')") C
   .operating-content
     .operating-1
       table
         tbody
           tr
             td
-              button(@click="changeOperating('A')") A
-            td
               label.radio
                 input.radio__input(type="radio" v-model='buyType' value='0')
                 span.radio__label 市價單
           tr
             td
-              button(@click="changeOperating('B')") B
-            td
               label.radio
                 input.radio__input(type="radio" v-model='buyType' value='2')
                 span.radio__label 收盤單
           tr
-            td
             td
               label.radio
                 input.radio__input(type="radio" v-model='buyType' value='1')
@@ -42,8 +40,8 @@
     .operating-3
       .numberbtn
         el-form(ref='form' size='mini' label-width='30px')
-          button.button(type="button" v-for="(customSubmitNum, key) in customSubmitNums" :key="key" @click="submitNum = customSubmitNum") {{ customSubmitNum }}
-          button.button.button__set(@click="dialogVisible = true" type="button") 設
+          button.button__white(type="button" v-for="(customSubmitNum, key) in customSubmitNums" :key="key" @click="submitNum = customSubmitNum") {{ customSubmitNum }}
+          button.button__white.button__set(@click="dialogVisible = true" type="button") 設
       .numberinput
         el-form(ref='form' size='mini' label-width='50px')
           el-form-item(label='口數:' style='margin: 2px 0;')

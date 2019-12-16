@@ -290,6 +290,16 @@ $use-fadeInDown: true;
   }
 }
 #operatingC {
+  .change-theme {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .button__white {
+      margin: 2px;
+    }
+  }
   .nowPrice {
     position: absolute;
     left: -58px;
