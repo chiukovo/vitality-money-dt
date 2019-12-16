@@ -5,13 +5,19 @@
   #main
     splitpanes(class="default-theme")
       pane(size="82")
-        splitpanes(horizontal)
+        splitpanes(horizontal v-show="operatingStyleCheck() != 'C'")
           pane(size="41")
             Header
             MainItem
           pane(:size="operatingStyleCheck('historySize')")
             History
-          pane(size="15" v-show="operatingStyleCheck() == 'C'")
+        splitpanes(horizontal v-show="operatingStyleCheck() == 'C'")
+          pane(size="41")
+            Header
+            MainItem
+          pane(:size="operatingStyleCheck('historySize')")
+            History
+          pane(size="15")
             StyleC
       pane(size="18")
         splitpanes(horizontal)
