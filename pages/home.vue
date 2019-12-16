@@ -11,15 +11,15 @@
             MainItem
           pane(:size="operatingStyleCheck('historySize')")
             History
-          pane(size="15" v-show="operatingStyleCheck == 'C'")
+          pane(size="15" v-show="operatingStyleCheck() == 'C'")
             StyleC
       pane(size="18")
         splitpanes(horizontal)
           pane
             ItemDetail
-          pane(v-show="operatingStyleCheck != 'C'")
-            StyleA(v-show="operatingStyleCheck == 'A'")
-            StyleB(v-show="operatingStyleCheck == 'B'")
+          pane(v-show="operatingStyleCheck() != 'C'")
+            StyleA(v-show="operatingStyleCheck() == 'A'")
+            StyleB(v-show="operatingStyleCheck() == 'B'")
   #footer
     Footer
     Sound
