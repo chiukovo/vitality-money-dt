@@ -3,29 +3,35 @@
   //- #header
     Header
   #main
-    splitpanes(class="default-theme")
+    splitpanes(class="default-theme" v-show="operatingStyleCheck() == 'A' || operatingStyleCheck() == 'B'")
       pane(size="82")
-        splitpanes(horizontal v-show="operatingStyleCheck() != 'C'")
-          pane(size="41")
+        splitpanes(horizontal)
+          pane
             Header
             MainItem
           pane(:size="operatingStyleCheck('historySize')")
             History
-        splitpanes(horizontal v-show="operatingStyleCheck() == 'C'")
-          pane(size="41")
+      pane(size="18")
+        splitpanes(horizontal)
+          pane(size="72")
+            ItemDetail
+          pane(size="28")
+            StyleA(v-show="operatingStyleCheck() == 'A'")
+            StyleB(v-show="operatingStyleCheck() == 'B'")
+    splitpanes(class="default-theme" v-show="operatingStyleCheck() == 'C'")
+      pane(size="82")
+        splitpanes(horizontal)
+          pane(size="43")
             Header
             MainItem
           pane(:size="operatingStyleCheck('historySize')")
             History
-          pane(size="15")
+          pane(size="12")
             StyleC
       pane(size="18")
         splitpanes(horizontal)
           pane
             ItemDetail
-          pane(v-show="operatingStyleCheck() != 'C'")
-            StyleA(v-show="operatingStyleCheck() == 'A'")
-            StyleB(v-show="operatingStyleCheck() == 'B'")
   #footer
     Footer
     Sound

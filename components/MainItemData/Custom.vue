@@ -28,7 +28,7 @@ div(class="h-100")
             ul.table-dropdown.dropdown-menu(id="customSettingContent" v-show="customSetting")
               li.dropdown-item(href="#", @click="openModal('showHideItem', '自訂商品')") 自訂商品
               li.dropdown-item(href="#") 自訂欄位
-              .dropdown-line
+              .dropdown-divider
               li.dropdown-item.dropdown-toggle(href="#") 字型大小
                 ul.dropdown-submenu
                   li 特大
@@ -76,16 +76,16 @@ div(class="h-100")
         vxe-table-column(title='時間' width="70px")
           template(slot-scope='scope')
             span(:class="scope.row['newest_time_change']") {{ scope.row['newest_time'] }}
-        vxe-table-column(title='交易')
+        vxe-table-column(title='交易' align="center")
           template(slot-scope='scope') {{ scope.row['state_name'] }}
         vxe-table-column(title='最後成交價' width="70px")
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
         vxe-table-column(title='最後交易日' width="70px")
           template(slot-scope='scope') {{ scope.row['end_date'] }}
-        vxe-table-column(title='說明')
+        vxe-table-column(title='說明' align="center")
           template(slot-scope='scope')
-            a(href="#" @click="openModal('userDetail', '商品資訊', '', true)") 說明
+            a.table-link(href="#" @click="openModal('userDetail', '商品資訊', '', true)") 說明
         vxe-table-column(title='商品類別')
           template(slot-scope='scope') CFD
 </template>

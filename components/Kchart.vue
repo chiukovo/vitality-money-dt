@@ -1,14 +1,20 @@
 <template lang='pug'>
 .history-content
   .history-content__header
-    div
-      button {{ nowMainItem.product_name }}
-      span 昨收 {{ nowMainItem.yesterday_close_price }}
-      span 開 {{ nowMainItem.open_price }}
-      span 高 {{ nowMainItem.highest_price }}
-      span 低 {{ nowMainItem.lowest_price }}
-      span 成交 {{ nowMainItem.newest_price }}
-      span 漲跌 {{ nowMainItem.gain }}
+    .linesp-wrap
+      .badge.badge-warning {{ nowMainItem.product_name }}
+      .linesp 昨收
+        span.number {{ nowMainItem.yesterday_close_price }}
+      .linesp 開
+        span.number {{ nowMainItem.open_price }}
+      .linesp 高
+        span.number {{ nowMainItem.highest_price }}
+      .linesp 低
+        span.number {{ nowMainItem.lowest_price }}
+      .linesp 成交
+        span.number {{ nowMainItem.newest_price }}
+      .linesp 漲跌
+        span.number {{ nowMainItem.gain }}
   .history-content__body
     highcharts(v-if="ohlcv.length > 0" :constructor-type="'stockChart'" :options="stockOptions")
     div(v-loading="loading" v-else)

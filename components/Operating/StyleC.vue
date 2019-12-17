@@ -44,9 +44,9 @@
           button.button__white.button__set(@click="dialogVisible = true" type="button") 設
       .numberinput
         el-form(ref='form' size='mini' label-width='50px')
-          el-form-item(label='口數:' style='margin: 2px 0;')
+          el-form-item(label='口數:' style='margin: 6px 0;')
             el-input-number(v-model='submitNum' :min="0")
-        .badge-warning 損失點/ 獲利點 為
+        .badge.badge-warning 損失點/ 獲利點 為
           span.badge-rr 點數
           |設定
       .editbtn

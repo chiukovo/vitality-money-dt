@@ -1,27 +1,34 @@
 <template lang='pug'>
 .history-content
   .history-content__header
-    div
-      select(v-model="chartChange")
-        option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
-      span 昨收 {{ nowMainItem.yesterday_close_price }}
-      span 開 {{ nowMainItem.open_price }}
-      span 高 {{ nowMainItem.highest_price }}
-      span 低 {{ nowMainItem.lowest_price }}
-      span 成交 {{ nowMainItem.newest_price }}
-      span 漲跌 {{ nowMainItem.gain }}
+    .linesp-wrap
+      .select.badge.badge-warning
+        select(v-model="chartChange")
+          option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
+      .linesp 昨收
+        span.number {{ nowMainItem.yesterday_close_price }}
+      .linesp 開
+        span.number {{ nowMainItem.open_price }}
+      .linesp 高
+        span.number {{ nowMainItem.highest_price }}
+      .linesp 低
+        span.number {{ nowMainItem.lowest_price }}
+      .linesp 成交
+        span.number {{ nowMainItem.newest_price }}
+      .linesp 漲跌
+        span.number {{ nowMainItem.gain }}
   .history-content__body
     splitpanes(class="default-theme")
       pane(size="70")
         highcharts(v-if="items.length > 0" :options="options")
         div(v-loading="loading" v-else)
       pane(size="30")
-        .itemDetail__TotalTable(class="h-100")
-          div
+        .itemDetail__TotalTable(class="h-100" style="border-top: 1px solid #3a3a3a; padding: 6px;")
+          .select.badge.badge-warning(style="margin-bottom: 6px;")
             select(v-model="fiveChange")
               option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
           client-only
-            vxe-table(
+            vxe-table.table__dark(
               :data="$store.state.items0"
               max-width="100%"
               size="mini"
