@@ -1,20 +1,20 @@
 <template lang='pug'>
 .history-content
   .history-content__header(id="commodityHeader")
-    .row
-      .col-auto 預設額度:
-        span.text__lg.text__bold {{ $store.state.userInfo.TouchPoint }}
-      .col-auto 今日損益:
-        //- colors class.text__danger | text__success
-        span(v-if="$store.state.userInfo.TodayMoney < 0").text__lg.text__bold.text__danger {{ $store.state.userInfo.TodayMoney }}
-        span(v-else).text__lg.text__bold.text__success {{ $store.state.userInfo.TodayMoney }}
-      .col-auto 留倉預扣:
-        span.text__lg.text__bold {{ $store.state.userInfo.WithholdingMoney }}
-      .col-auto 帳戶餘額:
-        span.text__lg.text__bold.text__info {{ $store.state.userInfo.Money }}
+    .linesp-wrap.statistics
+      button.button__white 儲值記錄查詢
+      .linesp 預設額度
+        span.number {{ $store.state.userInfo.TouchPoint }}
+      .linesp 今日損益
+        span.number.text__danger(v-if="$store.state.userInfo.TodayMoney < 0") {{ $store.state.userInfo.TodayMoney }}
+        span.number.text__success(v-else) {{ $store.state.userInfo.TodayMoney }}
+      .linesp 留倉預扣
+        span.number {{ $store.state.userInfo.WithholdingMoney }}
+      .linesp 帳戶餘額
+        span.number.text__info {{ $store.state.userInfo.Money }}
   .history-content__body(:style="{height: $parent.height.commodity}")
     client-only
-      vxe-table(
+      vxe-table.table__dark(
         :data='$store.state.commodity'
         :row-class-name="checkRowShow"
         max-width="100%"

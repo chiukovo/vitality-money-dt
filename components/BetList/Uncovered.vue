@@ -1,11 +1,10 @@
 <template lang='pug'>
 .history-content
   .history-content__header(id="uncoveredHeader")
-    div(style="padding: 2px 0")
-      button.button(@click="openMultiOrder") 全部平倉
+    button.button__white(@click="openMultiOrder") 全部平倉
   .history-content__body(:style="{height: $parent.height.uncovered}")
     client-only
-      vxe-table(
+      vxe-table.table__dark(
         :data='$store.state.uncovered'
         :cell-class-name='uncoveredTableCellClassName',
         ref="multipleTable"
@@ -46,7 +45,7 @@
             span(v-if="scope.row['thisSerialPointDiff'] == 0" class="text__black") {{ scope.row['thisSerialPointDiff'] }}
             span(v-else :class="scope.row['thisSerialPointDiff'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialPointDiff'] }}
         vxe-table-column(field='Day', title='天數')
-        vxe-table-column(field='State', title='狀態' width="150px" fixed="right")
+        vxe-table-column(field='State', title='狀態' width="150px")
   //-新倒限利點數
   el-dialog(
     :visible.sync='profitPointDialog'

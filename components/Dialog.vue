@@ -23,6 +23,8 @@
         CustomItem(v-if="clickType == 'customItem'")
         ShowHideItem(v-if="clickType == 'showHideItem'")
         News(v-if="clickType == 'news'")
+        NounDescription(v-if="clickType == 'nounDescription'")
+        TradingTime(v-if="clickType == 'tradingTime'")
 </template>
 <script>
 
@@ -37,6 +39,8 @@ import ChangPassword from "~/components/ChangPassword"
 import CustomItem from "~/components/CustomItem"
 import ShowHideItem from "~/components/ShowHideItem"
 import News from "~/components/News"
+import NounDescription from "~/components/Description/NounDescription"
+import TradingTime from "~/components/Description/TradingTime"
 
 export default {
   props: ['clickType', 'visible', 'title', 'size', 'onlyItem'],
@@ -58,6 +62,8 @@ export default {
     CustomItem,
     ShowHideItem,
     News,
+    NounDescription,
+    TradingTime
   },
   watch: {
     visible(isOpen) {

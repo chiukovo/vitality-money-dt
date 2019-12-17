@@ -1,17 +1,13 @@
 <template lang='pug'>
-.modals.News
-  .main
-    .area
-      ul.area-data-list(v-if="items.length > 0")
-        li(v-for="item in items")
-          .area-data__title.hasDate
-            .area-data__name 內容
-          .area-data__infor {{ item }}
-      ul.area-data-list(v-else)
-        li
-          .area-data__title.hasDate
-            .area-data__name 內容
-          .area-data__infor 暫無公告
+.news
+  ul.news-data-list(v-if="items.length > 0")
+    li(v-for="item in items")
+      .news-data__title 內容
+      .news-data__infor {{ item }}
+  ul.news-data-list(v-else)
+    li
+      .news-data__title 內容
+      .news-data__infor 暫無公告
 
 </template>
 

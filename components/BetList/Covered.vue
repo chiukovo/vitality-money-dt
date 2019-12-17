@@ -3,7 +3,7 @@
   .history-content__header(id="coveredHeader")
   .history-content__body(:style="{height: $parent.height.covered}")
     client-only
-      vxe-table(
+      vxe-table.table__dark(
         :data='$store.state.covered'
         max-width="100%"
         height="100%"

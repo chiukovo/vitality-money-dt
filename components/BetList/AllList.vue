@@ -1,10 +1,9 @@
 <template lang='pug'>
 .history-content
   .history-content__header(id="buySellHeader")
-    .d-flex.justify-content-between.align-items-center(style="width: 100%; padding: 2px 0")
-      .div
-        button.button(@click="openMultiDelete") 全部刪單
-      .div
+    .d-flex.align-items-center
+      button.button__white(@click="openMultiDelete") 全部刪單
+      div(style="margin-left: 10px;")
         label.radio.inline
           input.radio__input(type="radio" v-model='seeAllOrder' value='1')
           span.radio__label 全部單
@@ -16,7 +15,7 @@
           span.radio__label 已成交單
   .history-content__body(:style="{height: $parent.height.buySell}")
     client-only
-      vxe-table(
+      vxe-table.table__dark(
         :data='$store.state.buySell'
         :cell-class-name='buySelltableCellClassName',
         max-width="100%"
@@ -50,7 +49,7 @@
           template(slot-scope='scope')
             button.button.button_border__danger(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('winPointDialog', scope.row)") {{ parseInt(scope.row.WinPoint) }}
         vxe-table-column(field='FinalTime' width='150' title='完成時間')
-        vxe-table-column(title='狀態' width='110' fixed="right")
+        vxe-table-column(title='狀態' width='110')
           template(slot-scope='scope')
             span.blink(v-if="scope.row.State == '未成交'") {{ scope.row.State }}
             span(v-else) {{ scope.row.State }}

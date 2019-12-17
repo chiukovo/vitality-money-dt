@@ -28,8 +28,8 @@
         a.nav-link.dropdown-toggle(href="#") 說明
         .dropdown-menu
           a.dropdown-item(href="/rules" target="_blank") 規則說明
-          a.dropdown-item(href="#") 名詞說明
-          a.dropdown-item(href="#") 商品交易時間
+          a.dropdown-item(href="#" @click="openModal('nounDescription', '名詞說明')") 名詞說明
+          a.dropdown-item(href="#" @click="openModal('tradingTime', '商品交易時間')") 商品交易時間
     .navbar-nav.navbar-nav-right
       .mybutoule
         button(@click="changeMainStyle(1)" :class="checkActive(1)") 1

@@ -30,7 +30,7 @@
             select(v-model="fiveChange")
               option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
           client-only
-            vxe-table.table__dark(
+            vxe-table.table__dark.table__hi(
               :data="$store.state.items0"
               max-width="100%"
               size="mini"
@@ -55,17 +55,12 @@
                   template(v-else)
                     .progress-bar
                       .progress-bar__inner(:style="'width: ' + scope.row[4] + '%'")
-        .itemDetail__Total
-          .row
-            .col {{ $store.state.fiveTotal.more }}
-            .col 總計
-            .col {{ $store.state.fiveTotal.nullNum }}
-          .row
-            .col.text__danger 多勢
-            .col
+          .itemDetail__Total.d-flex.align-items-center
+            .text__danger.text__center(style="flex: 0 0 20%;") {{ $store.state.fiveTotal.more }}
+            div(style="flex: 1;")
               .progress-bar.progress-bar__total
                 .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
-            .col.text__success 空勢
+            .text__success.text__center(style="flex: 0 0 20%;")  {{ $store.state.fiveTotal.nullNum }}
 </template>
 
 <script>

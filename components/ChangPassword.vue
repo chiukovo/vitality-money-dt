@@ -1,4 +1,5 @@
 <template lang='pug'>
+.dialog-wrap
   .dialog__body
     el-form(
       size='mini'
@@ -11,10 +12,10 @@
         el-input(type="password" v-model="form.newPassword")
       el-form-item(label="確認密碼")
         el-input(type="password" v-model="form.checkPassword")
-    |*密碼是由3-20個英文字母(區分大小寫)或數字組成
-  //- .dialog__footer
-    //- button.button__light(type="button" @click="cancel") 取消
-    //- button.button(@click="submit") 確認
+    .badge.badge-warning *密碼是由3-20個英文字母(區分大小寫)或數字組成
+  .dialog__footer
+    button.button__light(type="button" @click="cancel") 取消
+    button.button(@click="submit") 確認
 </template>
 <script>
 

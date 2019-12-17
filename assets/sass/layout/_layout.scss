@@ -173,18 +173,18 @@
 
 
 
-:root {
-  --history-header: 30px;
-  --history-content__body: 30px;
-}
+// :root {
+  // --history-header: 30px;
+  // --history-content__body: 30px;
+// }
 .history {
   height: 100%;
-  .history-header {
-    height: var(--history-header);
-  }
-  .history-content {
-    height: calc(100% - var(--history-header));
-  }
+  // .history-header {
+  //   height: var(--history-header);
+  // }
+  // .history-content {
+  //   height: calc(100% - var(--history-header));
+  // }
   .history-content__header{
     display: flex;
     align-items: center;

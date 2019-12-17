@@ -1,25 +1,25 @@
 <template lang='pug'>
-.dialog
-  .dialog__content
-    table
+.userDetail
+    table.table-userDetail
       tr
-        td 會員帳號
+        td.table-userDetail__title 會員帳號
         td {{ userInfo.Account }}
       tr
-        td 信用額度
+        td.table-userDetail__title 信用額度
         td {{ userInfo.TouchPoint }}
       tr
-        td 對匯額度
+        td.table-userDetail__title 對匯額度
         td {{ userInfo.ContrastPoint }}
       tr
-        td 口數上限(筆/日)
+        td.table-userDetail__title 口數上限(筆/日)
         td {{ userInfo.DaySubmitLimit }}
       tr
-        td 留倉口數上限
+        td.table-userDetail__title 留倉口數上限
         td {{ userInfo.AllRemainingLimit }}
       tr
-        td 結算時間
+        td.table-userDetail__title 結算時間
         td {{ userInfo.EndTime }}
+    .table-title 商品資訊
     client-only
       vxe-table(
         :data='items'
@@ -47,6 +47,7 @@
         vxe-table-column(field="NotNewPercent" title='禁新')
         vxe-table-column(field="CoverPercent" title='強平')
         vxe-table-column(field="State" title='狀態')
+    .badge.badge-warning 時間以冬令 (每年十一月第一個星期天開始) 為主，歐美商品於夏令 (每年三月第二個星期天開始) 提前一小時開盤、收盤
 </template>
 
 <script>
