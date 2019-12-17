@@ -117,8 +117,14 @@ export default {
       this.selectItemId = id
       this.$store.dispatch('CALL_QUERY_TECH', {
         'id': id,
-        'type': 'minone',
+        'type': 'chart',
         'num': 1
+      })
+
+      this.$store.dispatch('CALL_QUERY_TECH', {
+        'id': id,
+        'type': 'kline',
+        'num': 2
       })
     },
     mainItem() {
@@ -163,17 +169,6 @@ export default {
         id: row.product_id,
         name: row.product_name
       })
-    },
-    clickChart({ row, column, columnIndex }) {
-      if (columnIndex == 0) {
-        this.$store.dispatch('CALL_QUERY_TECH', {
-          'id': row.product_id,
-          'type': 'minone',
-          'num': 1
-        })
-
-        this.analysisShow = true
-      }
     },
     tableCellClassName({ row, column, columnIndex }) {
       //判斷整行顏色

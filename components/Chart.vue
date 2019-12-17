@@ -8,16 +8,18 @@
       .linesp 昨收
         span.number {{ nowMainItem.yesterday_close_price }}
       .linesp 開
-        span.number {{ nowMainItem.open_price }}
+        span(:class="checkNumberColor(nowMainItem.open_price)") {{ nowMainItem.open_price }}
       .linesp 高
-        span.number {{ nowMainItem.highest_price }}
+        span(:class="checkNumberColor(nowMainItem.highest_price)") {{ nowMainItem.highest_price }}
       .linesp 低
-        span.number {{ nowMainItem.lowest_price }}
+        span(:class="checkNumberColor(nowMainItem.lowest_price)") {{ nowMainItem.lowest_price }}
       .linesp 成交
-        span.number {{ nowMainItem.newest_price }}
+        span(:class="checkNumberColor(nowMainItem.newest_price)") {{ nowMainItem.newest_price }}
       .linesp 漲跌
-        span.number {{ nowMainItem.gain }}
-  .history-content__body
+        .change-icon
+          .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+        span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
+  .history-content__body(class="h-100")
     splitpanes(class="default-theme")
       pane(size="70")
         highcharts(v-if="items.length > 0" :options="options")
@@ -108,42 +110,9 @@ export default {
       const points = chart.series[0].points
       chart.tooltip.refresh(points[points.length -1]);
     },
-  },
-  computed: mapState([
-    'chartData',
-    'clickItemId',
-    'nowMainItem',
-  ]),
-  components: {
-    Splitpanes,
-    Pane,
-  },
-  watch: {
-    chartChange(id) {
-      this.items = []
-      this.loading = true
-
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': id,
-        'type': 'chart',
-        'num': 1
-      })
-    },
-    fiveChange(id) {
-      //取消
-      this.$socket.send('f:' + this.$store.state.clickItemId)
-      //add
-      this.$socket.send('h:' + id)
-    },
-    clickItemId(id) {
-      this.loading = true
-      this.items = []
-      this.fiveChange = this.clickItemId
-      this.chartChange = this.clickItemId
-    },
-    chartData (res) {
+    setChartData() {
       const _this = this
-      this.items = JSON.parse(JSON.stringify(res))
+      this.items = JSON.parse(JSON.stringify(this.$store.state.chartData))
 
       this.options = {
         chart: {
@@ -206,7 +175,54 @@ export default {
       }
     }
   },
-  mounted () {
+  computed: mapState([
+    'chartData',
+    'clickItemId',
+    'nowMainItem',
+  ]),
+  components: {
+    Splitpanes,
+    Pane,
+  },
+  watch: {
+    chartChange(id) {
+      this.items = []
+      this.loading = true
+
+      this.$store.dispatch('CALL_QUERY_TECH', {
+        'id': id,
+        'type': 'chart',
+        'num': 1
+      })
+    },
+    fiveChange(id) {
+      //取消
+      this.$socket.send('f:' + this.$store.state.clickItemId)
+      //add
+      this.$socket.send('h:' + id)
+    },
+    clickItemId(id) {
+      this.loading = true
+      this.items = []
+      this.fiveChange = id
+      this.chartChange = id
+    },
+    chartData (res) {
+      const _this = this
+      
+      setTimeout(function(){
+        _this.setChartData()
+      }, 500)
+    }
+  },
+  mounted() {
+    const _this = this
+
+    this.fiveChange = this.$store.state.clickItemId
+    this.chartChange = this.$store.state.clickItemId
+    setTimeout(function(){
+      _this.setChartData()
+    }, 500)
   },
 }
 </script>

@@ -11,8 +11,8 @@
         .badge.badge-success.mybadge {{ $store.state.unCoverSellSum }}
       .tabs__item(@click='handleHistoryTabs(5)' :class="{'is-active' : historyTabShow == 5}") 已平倉
       .tabs__item(@click='handleHistoryTabs(6)' :class="{'is-active' : historyTabShow == 6}") 統計
-  Kchart(v-show='historyTabShow == 1')
-  Chart(v-show='historyTabShow == 2')
+  Kchart(v-if='historyTabShow == 1')
+  Chart(v-if='historyTabShow == 2')
   AllList(v-show='historyTabShow == 3')
   Uncovered(v-show='historyTabShow == 4')
   Covered(v-show='historyTabShow == 5')
@@ -47,7 +47,7 @@ export default {
     'clickItemId',
   ]),
   mounted() {
-    //this.computedHeight()
+    this.computedHeight()
   },
   components: {
     AllList,
@@ -59,7 +59,7 @@ export default {
   },
   watch: {
     historyTabShow() {
-      //window.setTimeout((() => this.computedHeight() ), 100)
+      window.setTimeout((() => this.computedHeight() ), 100)
     },
   },
   methods: {

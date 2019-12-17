@@ -25,9 +25,6 @@
         column-min-width="60"
         border
         auto-resize)
-        vxe-table-column(width="30" align="center")
-          template(slot-scope='scope')
-            input(type="checkbox" v-model="multiDeleteSelect" :value="scope.row.Serial" :disabled="!scope.row.Operation[1]")
         vxe-table-column(width="120" align="center")
           template(slot-scope='scope')
             button.button(v-if="scope.row.Operation[0]" @click="openEdit(scope.row)") 改
@@ -260,9 +257,8 @@ export default {
       let _this = this
       this.multiDeleteData = []
 
-      _this.multiDeleteSelect.forEach(function(serial) {
         _this.$store.state.buySell.forEach(function(row) {
-          if (row.Serial == serial) {
+          if (row.Operation[1]) {
             _this.multiDeleteData.push({
               name: row.Name,
               userName: _this.$store.state.userInfo.Account,
@@ -274,7 +270,6 @@ export default {
             })
           }
         })
-      })
 
       if (this.$store.state.localStorage.customSetting.noConfirmDelete) {
         this.doDelete()

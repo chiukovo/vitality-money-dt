@@ -6,15 +6,17 @@
       .linesp 昨收
         span.number {{ nowMainItem.yesterday_close_price }}
       .linesp 開
-        span.number {{ nowMainItem.open_price }}
+        span(:class="checkNumberColor(nowMainItem.open_price)") {{ nowMainItem.open_price }}
       .linesp 高
-        span.number {{ nowMainItem.highest_price }}
+        span(:class="checkNumberColor(nowMainItem.highest_price)") {{ nowMainItem.highest_price }}
       .linesp 低
-        span.number {{ nowMainItem.lowest_price }}
+        span(:class="checkNumberColor(nowMainItem.lowest_price)") {{ nowMainItem.lowest_price }}
       .linesp 成交
-        span.number {{ nowMainItem.newest_price }}
+        span(:class="checkNumberColor(nowMainItem.newest_price)") {{ nowMainItem.newest_price }}
       .linesp 漲跌
-        span.number {{ nowMainItem.gain }}
+        .change-icon
+          .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+        span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
   .history-content__body
     highcharts(v-if="ohlcv.length > 0" :constructor-type="'stockChart'" :options="stockOptions")
     div(v-loading="loading" v-else)
@@ -55,29 +57,19 @@ export default {
     }
   },
   methods: {
-  },
-  computed: mapState([
-    'kLineData',
-    'clickItemId',
-    'nowMainItem',
-  ]),
-  watch: {
-    clickItemId(id) {
-      this.loading = true
-      this.ohlcv = []
+    checkNumberColor(target) {
+      if (this.$store.state.nowMainItem.yesterday_close_price == target) {
+        return 'number'
+      }
 
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': id,
-        'type': 'kline',
-        'num': 2
-      })
+      return this.$store.state.nowMainItem.yesterday_close_price < target ? 'text__success' : 'text__danger'
     },
-    kLineData(res) {
+    setKlineData() {
       let name = this.$store.state.itemName
       let _this = this
       this.volume = []
 
-      this.ohlcv = JSON.parse(JSON.stringify(res))
+      this.ohlcv = JSON.parse(JSON.stringify(this.$store.state.kLineData))
       this.ohlcv.forEach(function(val) {
         _this.volume.push([
           val[0],
@@ -207,7 +199,30 @@ export default {
       }
     }
   },
+  computed: mapState([
+    'kLineData',
+    'clickItemId',
+    'nowMainItem',
+  ]),
+  watch: {
+    clickItemId(id) {
+      this.loading = true
+      this.ohlcv = []
+    },
+    kLineData() {
+      const _this = this
+      
+      setTimeout(function(){
+        _this.setKlineData()
+      }, 500)
+    }
+  },
   mounted () {
+    const _this = this
+
+    setTimeout(function(){
+      _this.setKlineData()
+    }, 500)
   },
 }
 </script>

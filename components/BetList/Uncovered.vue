@@ -14,11 +14,7 @@
         size="mini"
         column-min-width="60"
         border
-        auto-resize
-        highlight-current-row)
-        vxe-table-column(width="30" align="center")
-          template(slot-scope='scope')
-            input(type="checkbox" v-model="multiOrderSelect" :value="scope.row.Serial" :disabled="!scope.row.Operation[2]")
+        auto-resize)
         vxe-table-column(title='操作' align="center")
           template(slot-scope='scope')
             button.button(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平倉
@@ -325,20 +321,18 @@ export default {
       let _this = this
       this.multiOrderData = []
 
-      _this.multiOrderSelect.forEach(function(serial) {
-        _this.$store.state.uncovered.forEach(function(row) {
-          if (row.Serial == serial) {
-            _this.multiOrderData.push({
-              name: row.Name,
-              userName: _this.$store.state.userInfo.Account,
-              buy: row.BuyOrSell == 0 ? '多' : '空',
-              price: row.Odtype,
-              submit: row.Quantity,
-              itemId: row.ID,
-              serial: row.Serial,
-            })
-          }
-        })
+      _this.$store.state.uncovered.forEach(function(row) {
+        if (row.Operation[2]) {
+          _this.multiOrderData.push({
+            name: row.Name,
+            userName: _this.$store.state.userInfo.Account,
+            buy: row.BuyOrSell == 0 ? '多' : '空',
+            price: row.Odtype,
+            submit: row.Quantity,
+            itemId: row.ID,
+            serial: row.Serial,
+          })
+        }
       })
 
       this.multiOrderConfirm = true
