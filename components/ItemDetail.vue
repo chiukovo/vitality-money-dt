@@ -15,6 +15,7 @@
             height="100%"
             size="mini"
             align="center"
+            stripe
             border
             auto-resize)
             vxe-table-column(field="flocalTime" title='時間')
