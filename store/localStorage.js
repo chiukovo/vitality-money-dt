@@ -8,6 +8,7 @@ export const state = () => ({
   	sound: false, //音效
     operatingStyle: 'A',
     mainStyle: 1,
+    fontStyle: 1, //預設字型大小
   	operatingCustomGroup: [], //下單三項自訂選項
   },
   remember: {

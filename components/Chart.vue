@@ -101,6 +101,17 @@ export default {
     }
   },
   methods: {
+    waitForSetChartData(reload) {
+      const _this = this
+      if (reload) {
+        this.items = []
+        this.loading = true
+      }
+
+      setTimeout(function(){
+        _this.setChartData()
+      }, 300)
+    },
     activeLastPointToolip (chart) {
       const points = chart.series[0].points
       chart.tooltip.refresh(points[points.length -1]);
@@ -177,16 +188,20 @@ export default {
       }
     }
   },
-  computed: mapState([
-    'chartData',
-    'clickItemId',
-    'nowMainItem',
-  ]),
+  computed: mapState({
+    chartData: 'chartData',
+    clickItemId: 'clickItemId',
+    nowMainItem: 'nowMainItem',
+    mainStyle: state => state.localStorage.customSetting.mainStyle,
+  }),
   components: {
     Splitpanes,
     Pane,
   },
   watch: {
+    mainStyle() {
+      this.waitForSetChartData(true)
+    },
     chartChange(id) {
       this.items = []
       this.loading = true
@@ -210,21 +225,13 @@ export default {
       this.chartChange = id
     },
     chartData (res) {
-      const _this = this
-
-      setTimeout(function(){
-        _this.setChartData()
-      }, 500)
+      this.waitForSetChartData()
     }
   },
   mounted() {
-    const _this = this
-
     this.fiveChange = this.$store.state.clickItemId
     this.chartChange = this.$store.state.clickItemId
-    setTimeout(function(){
-      _this.setChartData()
-    }, 500)
+    this.waitForSetChartData()
   },
 }
 </script>

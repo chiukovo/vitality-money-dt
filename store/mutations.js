@@ -18,6 +18,9 @@ export default {
   setOperatingStyle(state, type) {
     state.localStorage.customSetting.operatingStyle = type
   },
+  setFontStyle(state, num) {
+    state.localStorage.customSetting.fontStyle = num
+  },
   setMainStyle(state, type) {
     state.localStorage.customSetting.mainStyle = type
   },
@@ -31,7 +34,7 @@ export default {
 
 
     if (data.length > 0) {
-      data.forEach(function(val){
+      data.forEach(function(val) {
         if (val.show && first) {
           //send 第一筆
           _this._vm.$socket.send('h:' + val['id'])

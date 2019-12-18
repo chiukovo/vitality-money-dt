@@ -118,7 +118,7 @@ export default {
       }
 
       if (type == 'C') {
-        return '12'
+        return '16'
       }
 
       if (type == 'left') {

@@ -8,7 +8,7 @@
           option 一般
   .change-theme
     button.button__white(@click="changeOperating('A')") A
-    button.button__white(@click="changeOperating('C')") C
+    button.button__white(@click="changeOperating('B')") B
   .operating-content
     .operating-1
       table

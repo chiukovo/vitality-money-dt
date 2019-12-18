@@ -57,6 +57,18 @@ export default {
     }
   },
   methods: {
+    waitForSetKlineData(reload) {
+      const _this = this
+
+      if (reload) {
+        this.ohlcv = []
+        this.loading = true
+      }
+
+      setTimeout(function(){
+        _this.setKlineData()
+      }, 300)
+    },
     checkNumberColor(target) {
       if (this.$store.state.nowMainItem.yesterday_close_price == target) {
         return 'number'
@@ -199,30 +211,26 @@ export default {
       }
     }
   },
-  computed: mapState([
-    'kLineData',
-    'clickItemId',
-    'nowMainItem',
-  ]),
+  computed: mapState({
+    kLineData: 'kLineData',
+    clickItemId: 'clickItemId',
+    nowMainItem: 'nowMainItem',
+    mainStyle: state => state.localStorage.customSetting.mainStyle,
+  }),
   watch: {
     clickItemId(id) {
       this.loading = true
       this.ohlcv = []
     },
     kLineData() {
-      const _this = this
-
-      setTimeout(function(){
-        _this.setKlineData()
-      }, 500)
-    }
+      this.waitForSetKlineData()
+    },
+    mainStyle() {
+      this.waitForSetKlineData(true)
+    },
   },
   mounted () {
-    const _this = this
-
-    setTimeout(function(){
-      _this.setKlineData()
-    }, 500)
+    this.waitForSetKlineData()
   },
 }
 </script>
