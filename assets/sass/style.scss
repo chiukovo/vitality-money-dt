@@ -154,7 +154,7 @@ $use-fadeInDown: true;
 .history {
   .history-content__header {
     line-height: 1.8;
-    padding: 4px;
+    padding: 0 4px;
     .linesp-wrap {
       display: flex;
       align-items: center;
@@ -170,6 +170,8 @@ $use-fadeInDown: true;
       margin-left: 10px;
       .number {
         color: #fff;
+      }
+      span {
         margin-left: 5px;
       }
     }
@@ -631,6 +633,9 @@ td {
 //-------------- table
 .table__dark.vxe-table {
   border-color: #3a3a3a;
+  table {
+    border-bottom: 1px solid #3a3a3a;
+  }
   &:before, &:after,
   .vxe-table--header-wrapper .vxe-table--repair {
     background-color: #3a3a3a;

@@ -14,9 +14,10 @@
       .linesp 成交
         span(:class="checkNumberColor(nowMainItem.newest_price)") {{ nowMainItem.newest_price }}
       .linesp 漲跌
-        .change-icon
-          .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-        span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
+        span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'")
+          .change-icon
+            .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+          |{{ nowMainItem.gain }}
   .history-content__body
     highcharts(v-if="ohlcv.length > 0" :constructor-type="'stockChart'" :options="stockOptions")
     div(v-loading="loading" v-else)
@@ -211,7 +212,7 @@ export default {
     },
     kLineData() {
       const _this = this
-      
+
       setTimeout(function(){
         _this.setKlineData()
       }, 500)

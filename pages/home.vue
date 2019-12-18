@@ -6,12 +6,11 @@
     splitpanes(class="default-theme")
       pane(size="78")
         splitpanes(horizontal)
-          pane(:size="style == 'C' ? '43' : '45'")
+          pane(:size="style == 'C' ? '44' : '45'")
             Header
             MainItem
-          pane(:size="style == 'C' ? '44' : '55'")
+          pane(:size="style == 'C' ? '56' : '55'")
             History
-          pane(size="12" v-show="style == 'C'")
             StyleC
       pane(size="32")
         splitpanes(horizontal)

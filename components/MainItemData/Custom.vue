@@ -18,6 +18,7 @@ div(class="h-100")
         height="100%"
         size="mini"
         column-min-width="60"
+        align="right"
         stripe
         border
         auto-resize)
@@ -28,7 +29,7 @@ div(class="h-100")
             ul.table-dropdown.dropdown-menu(id="customSettingContent" v-show="customSetting")
               li.dropdown-item(href="#", @click="openModal('showHideItem', '自訂商品')") 自訂商品
               li.dropdown-item(href="#") 自訂欄位
-              .dropdown-line
+              .dropdown-divider
               li.dropdown-item.dropdown-toggle(href="#") 字型大小
                 ul.dropdown-submenu
                   li 特大
@@ -37,11 +38,11 @@ div(class="h-100")
                   li 小
               li.dropdown-item(href="#") 自訂風格
           template(slot-scope='scope')
-            div(class="text__left" :class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)") {{ scope.row['product_name'] }}
-        vxe-table-column(title='倉位多' width="50px" align="center")
+            div(:class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)") {{ scope.row['product_name'] }}
+        vxe-table-column(title='倉位多' width="70px" align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             span(class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
-        vxe-table-column(title='倉位空' width="50px" align="center")
+        vxe-table-column(title='倉位空' width="70px" align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             span(class="bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
         vxe-table-column(title='買進價')
@@ -76,17 +77,17 @@ div(class="h-100")
         vxe-table-column(title='時間' width="70px")
           template(slot-scope='scope')
             span(:class="scope.row['newest_time_change']") {{ scope.row['newest_time'] }}
-        vxe-table-column(title='交易')
+        vxe-table-column(title='交易' align="center")
           template(slot-scope='scope') {{ scope.row['state_name'] }}
-        vxe-table-column(title='最後成交價' width="70px")
+        vxe-table-column(title='最後成交價' width="90px")
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
-        vxe-table-column(title='最後交易日' width="70px")
+        vxe-table-column(title='最後交易日' width="90px")
           template(slot-scope='scope') {{ scope.row['end_date'] }}
-        vxe-table-column(title='說明')
+        vxe-table-column(title='說明' align="center")
           template(slot-scope='scope')
             a(href="#" @click="openModal('userDetail', '商品資訊', '', true)") 說明
-        vxe-table-column(title='商品類別')
+        vxe-table-column(title='商品類別' align="center")
           template(slot-scope='scope') CFD
 </template>
 

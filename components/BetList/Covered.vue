@@ -9,13 +9,14 @@
         height="100%"
         size="mini"
         column-min-width="60"
+        stripe
         border
         auto-resize
         highlight-current-row)
-        vxe-table-column(field="Name" title='商品')
-        vxe-table-column(field="NewSerial" title='新倉序號')
-        vxe-table-column(field="CoverSerial" title='平倉序號')
-        vxe-table-column(title='新倉型別')
+        vxe-table-column(field="Name" title='商品' width="94")
+        vxe-table-column(field="NewSerial" title='新倉序號' width="74")
+        vxe-table-column(field="CoverSerial" title='平倉序號' width="74")
+        vxe-table-column(title='新倉型別' width="74")
           template(slot-scope='scope')
             span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['NewType'] }}
         vxe-table-column(title='口數')

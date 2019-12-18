@@ -22,6 +22,7 @@
         size="mini"
         column-min-width="60"
         align="center"
+        stripe
         border
         auto-resize
         highlight-current-row)
@@ -34,8 +35,8 @@
             span.text__success {{ scope.row.TotalSellSubmit}}
         vxe-table-column(title='未平倉')
           template(slot-scope='scope')
-            <span class="bg__danger" v-if="scope.row.RemainingBuyStock - scope.row.RemainingSellStock > 0">{{ scope.row.RemainingBuyStock - scope.row.RemainingSellStock }}</span>
-            <span class="bg__success" v-else>{{ scope.row.RemainingBuyStock - scope.row.RemainingSellStock }}</span>
+            span(class="text__center bg__danger" v-if="scope.row.RemainingBuyStock - scope.row.RemainingSellStock > 0") {{ scope.row.RemainingBuyStock - scope.row.RemainingSellStock }}
+            span(class="text__center bg__success" v-else) {{ scope.row.RemainingBuyStock - scope.row.RemainingSellStock }}
         vxe-table-column(field="TotalSubmit" title='總口數')
         vxe-table-column(field="TotalFee" title='手續費合計')
         vxe-table-column(title='損益')

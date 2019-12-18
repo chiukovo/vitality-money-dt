@@ -22,6 +22,7 @@
         height="100%"
         size="mini"
         column-min-width="60"
+        stripe
         border
         auto-resize)
         vxe-table-column(width="120" align="center")
@@ -31,7 +32,7 @@
             button.button(v-if="scope.row.Operation[1]" @click="deleteOrder(scope.row)") 刪
             button.button(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平倉
         vxe-table-column(field='Serial' title='序號')
-        vxe-table-column(field='Name' title='商品')
+        vxe-table-column(field='Name' title='商品' width="94")
         vxe-table-column(title='倒')
         vxe-table-column(title='多空' width="40px" align="center")
           template(slot-scope='scope')
@@ -42,10 +43,10 @@
         vxe-table-column(field='OrderTime' width='150' title='下單時間')
         vxe-table-column(field='FinalTime' width='150' title='完成時間')
         vxe-table-column(field='Odtype' title='型別')
-        vxe-table-column(title='損失點數' align="center")
+        vxe-table-column(title='損失點數' align="center" width="74")
           template(slot-scope='scope')
             button.button.button_border__success(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('lossPointDialog', scope.row)") {{ parseInt(scope.row.LossPoint) }}
-        vxe-table-column(title='獲利點數' align="center")
+        vxe-table-column(title='獲利點數' align="center" width="74")
           template(slot-scope='scope')
             button.button.button_border__danger(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('winPointDialog', scope.row)") {{ parseInt(scope.row.WinPoint) }}
         vxe-table-column(field='FinalTime' width='150' title='完成時間')
