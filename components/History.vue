@@ -9,7 +9,7 @@
         .badge.badge-danger.mybadge {{ $store.state.buySell.length }}
       .tabs__item(@click='handleHistoryTabs(4)' :class="{'is-active' : historyTabShow == 4}") 未平倉單
         .badge.badge-danger.mybadge {{ $store.state.unCoverBuySum }}
-        .badge.badge-success.mybadge {{ $store.state.unCoverSellSum }}
+        .badge.badge-success.mybadge {{ Math.abs($store.state.unCoverSellSum) }}
       .tabs__item(@click='handleHistoryTabs(5)' :class="{'is-active' : historyTabShow == 5}") 已平倉
       .tabs__item(@click='handleHistoryTabs(6)' :class="{'is-active' : historyTabShow == 6}") 統計
   Kchart(v-if='historyTabShow == 1')

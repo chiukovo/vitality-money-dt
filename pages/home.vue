@@ -1,22 +1,23 @@
 <template lang='pug'>
 .root
-  //- #header
-    Header
   #main
     splitpanes(class="default-theme")
-      pane(size="78")
+      pane(:size="getSize('left')")
         splitpanes(horizontal)
-          pane(:size="style == 'C' ? '44' : '45'")
+          pane(:size="getSize('mid')")
             Header
-            MainItem
-          pane(:size="style == 'C' ? '56' : '55'")
-            History
+            MainItem(v-if="pageStyle != 4")
+            History(v-if="pageStyle == 4")
+          pane(:size="getSize('history')")
+            MainItem(v-if="pageStyle == 4 || pageStyle == 5")
+            History(v-if="pageStyle != 4 && pageStyle != 5")
+          pane(:size="getSize('C')" v-show="style == 'C'")
             StyleC
-      pane(size="32")
+      pane(:size="getSize('right')")
         splitpanes(horizontal)
-          pane(:size="style == 'C' ? '100' : '70'")
+          pane(:size="getSize('itemDetail')")
             ItemDetail
-          pane(:size="style == 'C' ? '0' : '30'")
+          pane(:size="getSize('ab')")
             StyleA(v-show="style == 'A'")
             StyleB(v-show="style == 'B'")
   #footer
@@ -63,6 +64,7 @@ export default {
   },
   computed: mapState({
     operatingStyle: state => state.localStorage.customSetting.operatingStyle,
+    mainStyle: state => state.localStorage.customSetting.mainStyle,
   }),
   mixins: [websocketService],
   beforeMount() {
@@ -71,20 +73,73 @@ export default {
   mounted() {
     let _this = this
     this.style = this.$store.state.localStorage.customSetting.operatingStyle
+    this.pageStyle = this.$store.state.localStorage.customSetting.mainStyle
     this.checkLogin()
   },
   data() {
     return {
       show: 0,
-      style: ''
+      style: '',
+      pageStyle: ''
     }
   },
   watch: {
+    mainStyle(style) {
+      this.pageStyle = style
+    },
     operatingStyle(style) {
       this.style = style
-    }
+    },
   },
   methods: {
+    getSize(type) {
+      if (type == 'mid') {
+        if (this.pageStyle == 2 || this.pageStyle == 3 || this.pageStyle == 5) {
+          return '3.8'
+        }
+
+        return this.style == 'C' ? '44' : '45'
+      }
+
+      if (type == 'history') {
+        if (this.pageStyle == 2 || this.pageStyle == 3 || this.pageStyle == 5) {
+          return '96.2'
+        }
+
+        return this.style == 'C' ? '56' : '55'
+      }
+
+      if (type == 'itemDetail') {
+        return this.style == 'C' ? '100' : '70'
+      }
+
+      if (type == 'ab') {
+        return this.style == 'C' ? '0' : '30'
+      }
+
+      if (type == 'C') {
+        return '12'
+      }
+
+      if (type == 'left') {
+        if (this.pageStyle == 2 || this.pageStyle == 3 || this.pageStyle == 5) {
+          return '100'
+        }
+
+        return '78'
+      }
+
+      if (type == 'right') {
+        if (this.pageStyle == 2) {
+          return '0'
+        }
+
+        return '32'
+      }
+    },
+    checkMainStyle(type) {
+
+    }
   }
 }
 </script>

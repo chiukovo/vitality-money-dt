@@ -169,6 +169,9 @@ Vue.mixin({
       }
 
       return name
+    },
+    getMoneyColor(target) {
+      return target < 0 ? 'text__success' : 'text__danger'
     }
   }
 })

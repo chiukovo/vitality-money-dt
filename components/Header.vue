@@ -32,11 +32,11 @@
           a.dropdown-item(href="#" @click="openModal('tradingTime', '商品交易時間')") 商品交易時間
     .navbar-nav.navbar-nav-right
       .mybutoule
-        button(@click="changeMainStyle(1)" :class="checkActive(1)") 1
-        button(@click="changeMainStyle(2)" :class="checkActive(2)") 2
-        button(@click="changeMainStyle(3)" :class="checkActive(3)") 3
-        button(@click="changeMainStyle(4)" :class="checkActive(4)") 4
-        button(@click="changeMainStyle(5)" :class="checkActive(5)") 5
+        button(@click="changeMainStyle(1)" :class="mainStyle == '1' ? 'active' : ''") 1
+        button(@click="changeMainStyle(2)" :class="mainStyle == '2' ? 'active' : ''") 2
+        button(@click="changeMainStyle(3)" :class="mainStyle == '3' ? 'active' : ''") 3
+        button(@click="changeMainStyle(4)" :class="mainStyle == '4' ? 'active' : ''") 4
+        button(@click="changeMainStyle(5)" :class="mainStyle == '5' ? 'active' : ''") 5
 </template>
 
 <script>
@@ -61,9 +61,10 @@ export default {
   },
   mounted() {
   },
-  computed: mapState([
-    'clickItemId',
-  ]),
+  computed: mapState({
+    clickItemId: 'clickItemId',
+    mainStyle: state => state.localStorage.customSetting.mainStyle
+  }),
   watch: {
     clickItemId (nowItems) {
       let _this = this
@@ -76,11 +77,6 @@ export default {
     }
   },
   methods: {
-    checkActive(type) {
-      if (type == this.$store.state.localStorage.customSetting.mainStyle) {
-        return 'active'
-      }
-    },
     changeMainStyle(type) {
       this.$store.commit('setMainStyle', type)
     },

@@ -44,7 +44,7 @@ div(class="h-100")
             span(class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
         vxe-table-column(title='倉位空' width="70px" align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
-            span(class="bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
+            span(class="bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0") {{ Math.abs($store.state.uncoveredCountDetail[scope.row['product_id']]) }}
         vxe-table-column(title='買進價')
           template(slot-scope='scope')
             span(:class="scope.row['bp_price_change']") {{ scope.row['bp_price'] }}
