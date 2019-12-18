@@ -23,7 +23,7 @@
     label.radio.inline
       input.radio__input(type="radio" v-model='buyType' value='2')
       span.radio__label 收盤單
-    //- label.radio
+    label.radio.inline
       input.radio__input(type="radio" v-model='buyType' value='1')
       span.radio__label 限價單
   .operatingB-4

@@ -152,7 +152,6 @@ $use-fadeInDown: true;
 
 //-------------- history
 .history {
-  height: auto;
   .history-content__header {
     line-height: 1.8;
     padding: 0 4px;
@@ -176,6 +175,9 @@ $use-fadeInDown: true;
         margin-left: 5px;
       }
     }
+  }
+  .history-content__body {
+    height: 100%;
   }
 }
 .itemDetail__Total {
@@ -299,6 +301,7 @@ $use-fadeInDown: true;
   }
 }
 #operatingC {
+  height: 130px;
   .change-theme {
     width: 40px;
     display: flex;
