@@ -16,10 +16,9 @@
       .linesp 成交
         span(:class="checkNumberColor(nowMainItem.newest_price)") {{ nowMainItem.newest_price }}
       .linesp 漲跌
-        span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'")
-          .change-icon
-            .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-          | {{ nowMainItem.gain }}
+        .change-icon
+          .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+        span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
   .history-content__body(class="h-100")
     splitpanes(class="default-theme")
       pane(size="70")

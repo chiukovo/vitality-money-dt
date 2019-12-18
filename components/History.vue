@@ -1,4 +1,5 @@
 <template lang='pug'>
+//- 如果版面等於c height: calc(100% - 130px)
 .history
   .history-header
     .history-tabs.tabs-nav
