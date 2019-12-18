@@ -4,21 +4,22 @@
     Header
   #main
     splitpanes(class="default-theme")
-      pane(size="82")
+      pane(size="78")
         splitpanes(horizontal)
-          pane(:size="operatingStyleCheck() == 'C' ? '43' : ''")
+          pane(:size="style == 'C' ? '43' : '45'")
             Header
             MainItem
-          pane(:size="operatingStyleCheck('historySize')")
+          pane(:size="style == 'C' ? '44' : '55'")
             History
-          pane(size="12" v-show="operatingStyleCheck() == 'C'")
-      pane(size="18")
+          pane(size="12" v-show="style == 'C'")
+            StyleC
+      pane(size="32")
         splitpanes(horizontal)
-          pane(:size="operatingStyleCheck() == 'C' ? '' : '70'")
+          pane(:size="style == 'C' ? '100' : '70'")
             ItemDetail
-          pane(size="30")
-            StyleA(v-show="operatingStyleCheck() == 'A'")
-            StyleB(v-show="operatingStyleCheck() == 'B'")
+          pane(:size="style == 'C' ? '0' : '30'")
+            StyleA(v-show="style == 'A'")
+            StyleB(v-show="style == 'B'")
   #footer
     Footer
     Sound
@@ -61,32 +62,30 @@ export default {
     StyleB,
     StyleC,
   },
+  computed: mapState({
+    operatingStyle: state => state.localStorage.customSetting.operatingStyle,
+  }),
   mixins: [websocketService],
   beforeMount() {
     this.checkDevice()
   },
   mounted() {
     let _this = this
+    this.style = this.$store.state.localStorage.customSetting.operatingStyle
     this.checkLogin()
   },
   data() {
     return {
-      show: 0
+      show: 0,
+      style: ''
+    }
+  },
+  watch: {
+    operatingStyle(style) {
+      this.style = style
     }
   },
   methods: {
-    mainStyleCheck(type) {
-
-    },
-    operatingStyleCheck(type) {
-      const operatingStyle = this.$store.state.localStorage.customSetting.operatingStyle
-
-      if (type == 'historySize') {
-        return operatingStyle == 'C' ? '44' : ''
-      }
-
-      return operatingStyle
-    }
   }
 }
 </script>

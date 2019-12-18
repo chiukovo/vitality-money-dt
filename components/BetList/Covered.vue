@@ -15,9 +15,15 @@
         vxe-table-column(field="Name" title='商品')
         vxe-table-column(field="NewSerial" title='新倉序號')
         vxe-table-column(field="CoverSerial" title='平倉序號')
-        vxe-table-column(field="NewType" title='新倉型別')
-        vxe-table-column(field="SerialCoveredNum" title='口數')
+        vxe-table-column(title='新倉型別')
+          template(slot-scope='scope')
+            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['NewType'] }}
+        vxe-table-column(title='口數')
+          template(slot-scope='scope')
+            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['SerialCoveredNum'] }}
         vxe-table-column(title='多空')
+          template(slot-scope='scope')
+            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
           template(slot-scope='scope') {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
         vxe-table-column(field="NewPrice" title='成交價')
         vxe-table-column(field="CoverPrice" title='平倉價')
@@ -27,12 +33,12 @@
           template(slot-scope='scope')
             .change-icon
               .icon-arrow(:class="scope.row['Point'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-            span(:class="scope.row['Point'] > 0 ? 'text__danger' : 'text__success'") {{ scope.row['Point'] }}
+            span(:class="scope.row['Point'] < 0 ? 'text__success' : 'text__danger'") {{ scope.row['Point'] }}
         vxe-table-column(field="CoverType" title='種類')
         vxe-table-column(field="Fee" title='手續費')
         vxe-table-column(title='損益')
           template(slot-scope='scope')
-            span(:class="scope.row['Money'] > 0 ? 'text__success' : 'text__danger'") {{ scope.row['Money'] }}
+            span(:class="scope.row['Money'] < 0 ? 'text__success' : 'text__danger'") {{ scope.row['Money'] | currency }}
 </template>
 
 <script>

@@ -164,7 +164,7 @@ export default {
     this.commit('setHistoryData', data)
   },
   setHistoryData(state, data) {
-    state.allCommodity = state.commidyArray
+    state.allCommodity = data.CommodityArray
     let _this = this
     state.multiDelete = []
     state.commodity = []

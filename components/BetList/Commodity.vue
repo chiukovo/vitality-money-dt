@@ -4,14 +4,14 @@
     .linesp-wrap.statistics
       button.button__white 儲值記錄查詢
       .linesp 預設額度
-        span.number {{ $store.state.userInfo.TouchPoint }}
+        span.number {{ $store.state.userInfo.TouchPoint | currency }}
       .linesp 今日損益
-        span.number.text__danger(v-if="$store.state.userInfo.TodayMoney < 0") {{ $store.state.userInfo.TodayMoney }}
-        span.number.text__success(v-else) {{ $store.state.userInfo.TodayMoney }}
+        span.text__success(v-if="$store.state.userInfo.TodayMoney < 0") {{ $store.state.userInfo.TodayMoney | currency }}
+        span.text__danger(v-else) {{ $store.state.userInfo.TodayMoney | currency }}
       .linesp 留倉預扣
-        span.number {{ $store.state.userInfo.WithholdingMoney }}
+        span.number {{ $store.state.userInfo.WithholdingMoney | currency }}
       .linesp 帳戶餘額
-        span.number.text__info {{ $store.state.userInfo.Money }}
+        span.number.text__info {{ $store.state.userInfo.Money | currency }}
   .history-content__body(:style="{height: $parent.height.commodity}")
     client-only
       vxe-table.table__dark(
@@ -40,11 +40,11 @@
         vxe-table-column(field="TotalFee" title='手續費合計')
         vxe-table-column(title='損益')
           template(slot-scope='scope')
-            span.text__success(v-if="scope.row.TotalPoint >= 0") {{ scope.row.TotalPoint}}
+            span.text__success(v-if="scope.row.TotalPoint < 0") {{ scope.row.TotalPoint}}
             span.text__danger(v-else) {{ scope.row.TotalPoint}}
         vxe-table-column(title='留倉預扣')
           template(slot-scope='scope')
-            span.text__success(v-if="scope.row.RemainingWithholding >= 0") {{ scope.row.RemainingWithholding}}
+            span.text__success(v-if="scope.row.RemainingWithholding < 0") {{ scope.row.RemainingWithholding}}
             span.text__danger(v-else) {{ scope.row.RemainingWithholding}}
 </template>
 

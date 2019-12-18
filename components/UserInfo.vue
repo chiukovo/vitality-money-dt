@@ -7,19 +7,19 @@
   div(v-if="style == 0")
   div(v-if="style == 1")
     .userInfo-balance__title 可用餘額
-    .userInfo-balance__num {{ userInfo.Money }}
+    .userInfo-balance__num {{ userInfo.Money | currency }}
   div(v-if="style == 2")
     table.userInfo-balance-table
       tbody
         tr
           th 今日損益
-          td {{ userInfo.TodayMoney }}
+          td {{ userInfo.TodayMoney | currency }}
         tr
           th 可用餘額
-          td {{ userInfo.Money }}
+          td {{ userInfo.Money | currency }}
         tr
           th 預設額度
-          td {{ userInfo.TouchPoint }}
+          td {{ userInfo.TouchPoint | currency }}
 </template>
 <script>
 import { mapState } from 'vuex';

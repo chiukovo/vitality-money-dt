@@ -105,6 +105,13 @@ export default {
       const points = chart.series[0].points
       chart.tooltip.refresh(points[points.length -1]);
     },
+    checkNumberColor(target) {
+      if (this.$store.state.nowMainItem.yesterday_close_price == target) {
+        return 'number'
+      }
+
+      return this.$store.state.nowMainItem.yesterday_close_price < target ? 'text__success' : 'text__danger'
+    },
     setChartData() {
       const _this = this
       this.items = JSON.parse(JSON.stringify(this.$store.state.chartData))
