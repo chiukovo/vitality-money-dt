@@ -23,7 +23,7 @@
         CustomItem(v-if="clickType == 'customItem'")
         ShowHideItem(v-if="clickType == 'showHideItem'")
         News(v-if="clickType == 'news'")
-        Rules(v-if="clickType == 'Rules'")
+        Rules(v-if="clickType == 'rules'")
         NounDescription(v-if="clickType == 'nounDescription'")
         TradingTime(v-if="clickType == 'tradingTime'")
 </template>
