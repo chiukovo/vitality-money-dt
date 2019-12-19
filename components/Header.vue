@@ -41,7 +41,7 @@
               //- li(@click="setFontStyle(3)" :class="fontStyle == '3' ? 'is-active' : ''") 特大
               //- li(@click="setFontStyle(2)" :class="fontStyle == '2' ? 'is-active' : ''") 大
               //- li(@click="setFontStyle(1)" :class="fontStyle == '1' ? 'is-active' : ''") 中
-              //- li(@click="setFontStyle(1)" :class="fontStyle == '0' ? 'is-active' : ''") 小
+              //- li(@click="setFontStyle(0)" :class="fontStyle == '0' ? 'is-active' : ''") 小
           li.dropdown-item.dropdown-toggle 損益設定
             ul.dropdown-submenu
               li.is-active 點數輸入
@@ -60,8 +60,7 @@
       li.nav-item
         a.nav-link.dropdown-toggle 說明
         ul.dropdown-menu
-          //- a.dropdown-item(href="/rules" target="_blank") 規則說明
-          //- li.dropdown-item(@click="openModal('nounDescription', '名詞說明')") 規則說明
+          li.dropdown-item(@click="openModal('rules', '規則說明')") 規則說明
           li.dropdown-item(@click="openModal('nounDescription', '名詞說明')") 名詞說明
           li.dropdown-item(@click="openModal('tradingTime', '商品交易時間')") 商品交易時間
     .navbar-nav.navbar-nav-right

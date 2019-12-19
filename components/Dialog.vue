@@ -23,6 +23,7 @@
         CustomItem(v-if="clickType == 'customItem'")
         ShowHideItem(v-if="clickType == 'showHideItem'")
         News(v-if="clickType == 'news'")
+        Rules(v-if="clickType == 'Rules'")
         NounDescription(v-if="clickType == 'nounDescription'")
         TradingTime(v-if="clickType == 'tradingTime'")
 </template>
@@ -39,6 +40,7 @@ import ChangPassword from "~/components/ChangPassword"
 import CustomItem from "~/components/CustomItem"
 import ShowHideItem from "~/components/ShowHideItem"
 import News from "~/components/News"
+import Rules from "~/components/Description/Rules"
 import NounDescription from "~/components/Description/NounDescription"
 import TradingTime from "~/components/Description/TradingTime"
 
@@ -62,6 +64,7 @@ export default {
     CustomItem,
     ShowHideItem,
     News,
+    Rules,
     NounDescription,
     TradingTime
   },

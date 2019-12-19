@@ -178,6 +178,7 @@ $use-fadeInDown: true;
     }
   }
   .history-content__body {
+    position: relative;
     height: 100%;
   }
 }
@@ -702,49 +703,54 @@ td {
     background-color: #1d1d1d;
   }
 }
-.fontStyle-3,
-.fontStyle-3 .vxe-table .vxe-body--column {
+.fontStyle-3.vxe-table.size--mini {
   font-size: 25px;
+  .vxe-header--column .vxe-cell {
+    height: auto;
+  }
 }
-.fontStyle-2,
-.fontStyle-2 .vxe-table .vxe-body--column {
+.fontStyle-2.vxe-table.size--mini {
   font-size: 20px;
+  .vxe-header--column .vxe-cell {
+    height: auto;
+  }
 }
-.fontStyle-1,
-.fontStyle-1 .vxe-table .vxe-body--column {
+.fontStyle-1.vxe-table.size--mini {
   font-size: 15px;
 }
-.fontStyle-0,
-.fontStyle-0 .vxe-table .vxe-body--column {
+.fontStyle-0.vxe-table.size--mini {
   font-size: 10px;
 }
 
 
 .table-toggle {
   position: absolute;
-  top: 6px;
+  top: 0;
   right: 0;
-  display: inline-block;
-  width: 28px;
-  height: 16px;
-  background: url('~static/images/theme_dt/setw.png') no-repeat;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   a {
+    position: relative;
     display: block;
-    height: 100%;
-  }
-  &:after {
-    position: absolute;
-    top: 5px;
-    right: 0;
-    content: "";
-    display: inline-block;
-    margin-left: .255em;
-    vertical-align: .255em;
-    border-top: .3em solid;
-    border-right: .3em solid transparent;
-    border-bottom: 0;
-    border-left: .3em solid transparent;
+    width: 30px;
+    height: 16px;
+    background: url('~static/images/theme_dt/setw.png') no-repeat;
+    &:after {
+      position: absolute;
+      top: 5px;
+      right: 0;
+      content: "";
+      display: inline-block;
+      margin-left: .255em;
+      vertical-align: .255em;
+      border-top: .2em solid;
+      border-right: .2em solid transparent;
+      border-bottom: 0;
+      border-left: .2em solid transparent;
+    }
   }
 }
 .dropdown-divider {
@@ -760,6 +766,13 @@ td {
 
 
 //-------------- element
+.el-loading-parent--relative {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 .el-dialog__wrapper {
   .el-table {
     min-height: 360px;

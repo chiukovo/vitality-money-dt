@@ -1,6 +1,6 @@
 <template lang='pug'>
   .description
-    p(style="font-size:12px") 時間以冬令
+    p(style="font-size: 12px; margin: 0;") 時間以冬令
       span.text__danger  (每年十一月第一個星期天開始)
       |  為主，歐美商品於夏令
       span.text__danger  (每年三月第二個星期天開始)
