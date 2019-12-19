@@ -13,7 +13,7 @@
       tbody
         tr
           th 今日損益
-          td 
+          td
             span(:class="getMoneyColor(userInfo.TodayMoney)") {{ userInfo.TodayMoney | currency }}
         tr
           th 可用餘額
