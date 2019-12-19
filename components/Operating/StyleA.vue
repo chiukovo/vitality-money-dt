@@ -1,75 +1,76 @@
 <template lang='pug'>
-#operatingA.operating(class="h-100")
-  .operatingA-1
-    .checkbox-group
-      label.checkbox.inline
-        input.checkbox__input(type="checkbox")
-        span.checkbox__label 鎖定商品
-      label.checkbox.inline
-        input.checkbox__input(v-model="customGroup" type="checkbox" value="noConfirm")
-        span.checkbox__label 下單不確認
-    .change-theme
-      button.button__white(@click="changeOperating('B')") B
-      button.button__white(@click="changeOperating('C')") C
-  .operatingA-2
-    el-form(size='mini' label-width='50px')
-      el-form-item(label='商品')
-        select(v-model="itemChange" @change="setClickItem")
-          option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
-  .operatingA-3
-    el-form(size='mini' label-width='50px')
-      el-form-item(label='買賣')
-        label.checkbox.inline(style="color: #dc3545; font-size: 16px;")
-          input.radio__input(type="radio" v-model='buttonType' value='0')
-          span.checkbox__label 多單
-        label.checkbox.inline(style="color: #28a745; font-size: 16px;")
-          input.radio__input(type="radio" v-model='buttonType' value='1')
-          span.checkbox__label 空單
-  .operatingA-4
-    label.radio.inline
-      input.radio__input(type="radio" v-model='buyType' value='0')
-      span.radio__label 市價單
-    label.radio.inline
-      input.radio__input(type="radio" v-model='buyType' value='2')
-      span.radio__label 收盤單
-    label.radio.inline
-      input.radio__input(type="radio" v-model='buyType' value='1')
-      span.radio__label 限價單
-  .operatingA-5
-    el-form(ref='form' size='small' label-width='50px')
-      el-form-item(label='限價:')
-        el-input-number(v-model='nowPrice' style="width: calc(100% - 52px)" :min="0" :disabled="buyType != 1")
-        button.button__warning(type="button") 現價
-      el-form-item(label='口數:' style='margin: 2px 0;')
-        el-input-number(v-model='submitNum' style="width: calc(100% - 52px)" :min="0")
-        button.button__warning(type="button" @click="checkOrderAll()") 全平
-  .button-operating
-    button.button__danger.text__bold(@click="checkOrder(0)" v-if="buttonType == 0") 多單
-    button.button__success.text__bold(@click="checkOrder(1)" v-if="buttonType == 1") 空單
-  el-dialog(
-    :visible.sync='orderConfirm'
-    :modal='false'
-    width="400px"
-    title='確認下單'
-    v-dialogDrag)
-    .header-custom(slot='title')
-      |  確認下單
-    client-only
-      vxe-table(
-        :data="confirmData"
-        max-width="100%"
-        height="200px"
-        size="mini"
-        border
-        auto-resize)
-        vxe-table-column(field="name" title='目標商品')
-        vxe-table-column(field="userName" title='用戶名稱')
-        vxe-table-column(field="buy" title='買賣')
-        vxe-table-column(field="price" title='價格')
-        vxe-table-column(field="submit" title='口數')
-      .dialog__footer
-          button.button__light(@click="cancel") 取消
-          button.button(@click="doOrder") 確認
+.operating-wrap
+  #operatingA.operating(class="h-100")
+    .operatingA-1
+      .checkbox-group
+        label.checkbox.inline
+          input.checkbox__input(type="checkbox")
+          span.checkbox__label 鎖定商品
+        label.checkbox.inline
+          input.checkbox__input(v-model="customGroup" type="checkbox" value="noConfirm")
+          span.checkbox__label 下單不確認
+      .change-theme
+        button.button__white(@click="changeOperating('B')") B
+        button.button__white(@click="changeOperating('C')") C
+    .operatingA-2
+      el-form(size='mini' label-width='50px')
+        el-form-item(label='商品')
+          select(v-model="itemChange" @change="setClickItem")
+            option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
+    .operatingA-3
+      el-form(size='mini' label-width='50px')
+        el-form-item(label='買賣')
+          label.checkbox.inline(style="color: #dc3545; font-size: 16px;")
+            input.radio__input(type="radio" v-model='buttonType' value='0')
+            span.checkbox__label 多單
+          label.checkbox.inline(style="color: #28a745; font-size: 16px;")
+            input.radio__input(type="radio" v-model='buttonType' value='1')
+            span.checkbox__label 空單
+    .operatingA-4
+      label.radio.inline
+        input.radio__input(type="radio" v-model='buyType' value='0')
+        span.radio__label 市價單
+      label.radio.inline
+        input.radio__input(type="radio" v-model='buyType' value='2')
+        span.radio__label 收盤單
+      label.radio.inline
+        input.radio__input(type="radio" v-model='buyType' value='1')
+        span.radio__label 限價單
+    .operatingA-5
+      el-form(ref='form' size='small' label-width='50px')
+        el-form-item(label='限價:')
+          el-input-number(v-model='nowPrice' style="width: calc(100% - 52px)" :min="0" :disabled="buyType != 1")
+          button.button__warning(type="button") 現價
+        el-form-item(label='口數:' style='margin: 2px 0;')
+          el-input-number(v-model='submitNum' style="width: calc(100% - 52px)" :min="0")
+          button.button__warning(type="button" @click="checkOrderAll()") 全平
+    .button-operating
+      button.button__danger.text__bold(@click="checkOrder(0)" v-if="buttonType == 0") 多單
+      button.button__success.text__bold(@click="checkOrder(1)" v-if="buttonType == 1") 空單
+    el-dialog(
+      :visible.sync='orderConfirm'
+      :modal='false'
+      width="400px"
+      title='確認下單'
+      v-dialogDrag)
+      .header-custom(slot='title')
+        |  確認下單
+      client-only
+        vxe-table(
+          :data="confirmData"
+          max-width="100%"
+          height="200px"
+          size="mini"
+          border
+          auto-resize)
+          vxe-table-column(field="name" title='目標商品')
+          vxe-table-column(field="userName" title='用戶名稱')
+          vxe-table-column(field="buy" title='買賣')
+          vxe-table-column(field="price" title='價格')
+          vxe-table-column(field="submit" title='口數')
+        .dialog__footer
+            button.button__light(@click="cancel") 取消
+            button.button(@click="doOrder") 確認
 </template>
 
 <script>

@@ -14,9 +14,10 @@
       .linesp 成交
         span(:class="checkNumberColor(nowMainItem.newest_price)") {{ nowMainItem.newest_price }}
       .linesp 漲跌
-        .change-icon
-          .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-        span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
+        span
+          .change-icon
+            .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+          div(style="display: inline" :class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
   .history-content__body
     highcharts(v-if="ohlcv.length > 0" :constructor-type="'stockChart'" :options="stockOptions")
     div(v-loading="loading" v-else)
@@ -96,6 +97,11 @@ export default {
               //load over
               this.loading = false
             }
+          },
+          backgroundColor: 'rgba(0,0,0,0)',
+          style: {
+            fontFamily: "'Maven Pro', sans-serif",
+            color: '#ccc'
           }
         },
         rangeSelector: {
@@ -186,10 +192,10 @@ export default {
         series: [{
           type: 'candlestick',
           name: name,
-          color: 'green',
-          lineColor: 'green',
-          upColor: 'red',
-          upLineColor: 'red',
+          color: '#28a745',
+          lineColor: '#28a745',
+          upColor: '#dc3545',
+          upLineColor: '#dc3545',
           tooltip: {
             pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> {series.name}</b><br/>' +
                 '開盤: {point.open}<br/>' +
@@ -234,3 +240,10 @@ export default {
   },
 }
 </script>
+
+<style>
+  .highcharts-color-0 {
+    fill: #5fa3cb;
+    stroke: #5fa3cb;
+  }
+</style>

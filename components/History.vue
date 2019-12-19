@@ -1,6 +1,7 @@
 <template lang='pug'>
 //- 如果版面等於c height: calc(100% - 130px)
-.history(:style="operatingStyle == 'C' ? 'height: calc(100% - 130px)' : ''")
+//- (:style="operatingStyle == 'C' ? 'height: calc(100% - 130px)' : ''")
+.history
   .history-header
     .history-tabs.tabs-nav
       .tabs__item(@click='handleHistoryTabs(1)' :class="{'is-active' : historyTabShow == 1}") K線圖

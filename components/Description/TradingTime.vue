@@ -1,5 +1,10 @@
 <template lang='pug'>
   .description
+    p(style="font-size:12px") 時間以冬令
+      span.text__danger  (每年十一月第一個星期天開始)
+      |  為主，歐美商品於夏令
+      span.text__danger  (每年三月第二個星期天開始)
+      |  提前一小時開盤、收盤
     client-only
       vxe-table(
         :data="tableData"
@@ -105,8 +110,38 @@ export default {
           exchange: ''
         },{
           product: '棉花',
-          startTime: '',
+          startTime: '10:00~次日03:20',
+          transactionTime: '10:00~次日03:20',
+          low: '10:00-23:30',
+          exchange: '紐約交易所(NYBOT)'
+        },{
+          product: '黃豆',
+          startTime: '09:00~次日03:20\n(21:45~22:30報價會暫停45分鐘)',
+          transactionTime: '09:00~次日03:20',
+          low: '09:00-22:30',
+          exchange: '芝加哥期貨交易所(CBOT)'
+        },{
+          product: '小麥',
+          startTime: '09:00~次日03:20\n(21:45~22:30報價會暫停45分鐘)',
+          transactionTime: '09:00~次日03:20	',
+          low: '09:00-22:30',
+          exchange: '芝加哥期貨交易所(CBOT)'
+        },{
+          product: '玉米',
+          startTime: '09:00~次日03:20\n(21:45~22:30報價會暫停45分鐘)',
+          transactionTime: '09:00~次日03:20	',
+          low: '09:00-22:30',
+          exchange: '芝加哥期貨交易所(CBOT)'
+        },{
+          product: 'BTCUSD',
+          startTime: '07:00~次日05:45',
           transactionTime: '',
+          low: '07:00~次日05:45',
+          exchange: ''
+        },{
+          product: 'ETHUSD',
+          startTime: '07:00~次日05:45',
+          transactionTime: '07:00~次日05:45',
           low: '',
           exchange: ''
         }]

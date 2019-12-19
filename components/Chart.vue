@@ -16,9 +16,10 @@
       .linesp 成交
         span(:class="checkNumberColor(nowMainItem.newest_price)") {{ nowMainItem.newest_price }}
       .linesp 漲跌
-        .change-icon
-          .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-        span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
+        span
+          .change-icon
+            .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+          div(style="display: inline" :class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
   .history-content__body(class="h-100")
     splitpanes(class="default-theme")
       pane(size="70")
@@ -143,7 +144,7 @@ export default {
         xAxis: {
           type: 'datetime',
           tickPixelInterval: 150,
-          lineColor:'#999',
+          lineColor:'#333',
           lineWidth:1,
           tickColor:'#666',
           tickLength:3,
@@ -160,12 +161,12 @@ export default {
           }
         },
         yAxis: [{
-          lineColor:'#999',
+          lineColor:'#333',
           lineWidth: 1,
           tickColor:'#000',
           tickWidth: 1,
           tickLength:3,
-          gridLineColor:'#ddd'
+          gridLineColor:'#333'
         }, {
             linkedTo: 0,
             opposite: true,
@@ -176,6 +177,11 @@ export default {
             }
         }],
         chart: {
+          backgroundColor: 'rgba(0,0,0,0)',
+          style: {
+            fontFamily: "'Maven Pro', sans-serif",
+            color: '#333'
+          },
           type: 'spline',
           marginRight: 10,
         },
@@ -184,6 +190,8 @@ export default {
           tooltip: {
           },
           data: this.items,
+          // color: '#ffc107'
+          color: '#fff'
         }]
       }
     }
@@ -235,3 +243,10 @@ export default {
   },
 }
 </script>
+
+
+<style>
+.highcharts-graph {
+  stroke-width: 1px
+}
+</style>

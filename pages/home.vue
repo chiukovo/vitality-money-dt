@@ -126,7 +126,7 @@ export default {
           return '100'
         }
 
-        return '78'
+        return '82'
       }
 
       if (type == 'right') {
@@ -134,7 +134,7 @@ export default {
           return '0'
         }
 
-        return '32'
+        return '18'
       }
     },
     checkMainStyle(type) {

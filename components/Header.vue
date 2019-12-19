@@ -8,28 +8,62 @@
       :size="dialog.size")
     ul.navbar-nav.navbar-nav-left
       li.nav-item
-        a.nav-link(href="#" @click="logout") 登出
+        a.nav-link(@click="logout") 登出
       li.nav-item
-        a.nav-link.dropdown-toggle(href="#") 檢視
-        .dropdown-menu
-          a.dropdown-item(href="#" @click="openModal('news', '公告總攬')") 公告總攬
-          a.dropdown-item(href="#" @click="openModal('historyPrices', '報價明細')") 報價明細
-          a.dropdown-item(href="#" @click="openModal('userDetail', '會員資訊')") 會員資訊
-          a.dropdown-item(href="#" @click="openModal('historyWinLoss', '帳戶歷史')") 帳戶歷史
-          a.dropdown-item(href="#" @click="openModal('storedRecords', '儲值記錄')") 儲值記錄
+        a.nav-link.dropdown-toggle 檢視
+        ul.dropdown-menu
+          li.dropdown-item(@click="openModal('news', '公告總攬')") 公告總攬
+          li.dropdown-item(@click="openModal('historyPrices', '報價明細')") 報價明細
+          li.dropdown-item(@click="openModal('userDetail', '會員資訊')") 會員資訊
+          li.dropdown-item(@click="openModal('historyWinLoss', '帳戶歷史')") 帳戶歷史
+          li.dropdown-item(@click="openModal('storedRecords', '儲值記錄')") 儲值記錄
       li.nav-item
-        a.nav-link.dropdown-toggle(href="#") 設定
-        .dropdown-menu
-          a.dropdown-item(href="#" @click="openModal('changePassword', '修改密碼', '360px')") 修改密碼
-          a.dropdown-item(href="#") 自訂商品
-          a.dropdown-item(href="#") 自訂欄位
-          a.dropdown-item(href="#") 開盤風控設定
+        a.nav-link.dropdown-toggle 設定
+        ul.dropdown-menu
+          li.dropdown-item(@click="openModal('changePassword', '修改密碼', '360px')") 修改密碼
+          li.dropdown-item 自訂商品
+          li.dropdown-item 自訂欄位
+          li.dropdown-item 開盤風控設定
+          .dropdown-divider
+          li.dropdown-item.dropdown-toggle 風格切換
+            ul.dropdown-submenu
+              li.is-active 深色
+              li 淺色
+          li.dropdown-item.dropdown-toggle 選擇版面
+            ul.dropdown-submenu
+              li.is-active 版面1
+              li 版面2
+              li 版面3
+              li 版面4
+              li 版面5
+          li.dropdown-item.dropdown-toggle(href="#") 字型大小
+            ul.dropdown-submenu
+              //- li(@click="setFontStyle(3)" :class="fontStyle == '3' ? 'is-active' : ''") 特大
+              //- li(@click="setFontStyle(2)" :class="fontStyle == '2' ? 'is-active' : ''") 大
+              //- li(@click="setFontStyle(1)" :class="fontStyle == '1' ? 'is-active' : ''") 中
+              //- li(@click="setFontStyle(1)" :class="fontStyle == '0' ? 'is-active' : ''") 小
+          li.dropdown-item.dropdown-toggle 損益設定
+            ul.dropdown-submenu
+              li.is-active 點數輸入
+              li 行情輸入
+          li.dropdown-item.dropdown-toggle 音效
+            ul.dropdown-submenu
+              li.is-active 開啟
+              li 關閉
+          li.dropdown-item.dropdown-toggle 貨幣
+            ul.dropdown-submenu
+              li USD
+              li EUR
+              li JPY
+              li HKD
+              li.is-active NTD
       li.nav-item
-        a.nav-link.dropdown-toggle(href="#") 說明
-        .dropdown-menu
-          a.dropdown-item(href="/rules" target="_blank") 規則說明
-          a.dropdown-item(href="#" @click="openModal('nounDescription', '名詞說明')") 名詞說明
-          a.dropdown-item(href="#" @click="openModal('tradingTime', '商品交易時間')") 商品交易時間
+        a.nav-link.dropdown-toggle 說明
+        ul.dropdown-menu
+          //- a.dropdown-item(href="/rules" target="_blank") 規則說明
+          //- li.dropdown-item(@click="openModal('nounDescription', '名詞說明')") 規則說明
+          li.dropdown-item(@click="openModal('nounDescription', '名詞說明')") 名詞說明
+          li.dropdown-item(@click="openModal('tradingTime', '商品交易時間')") 商品交易時間
     .navbar-nav.navbar-nav-right
       .mybutoule
         button(@click="changeMainStyle(1)" :class="mainStyle == '1' ? 'active' : ''") 1

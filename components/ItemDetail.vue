@@ -8,14 +8,13 @@
           button.button(@click="openModal('historyPrices', '報價查詢')") 查詢
       .itemDetail-content(:style="'height: calc(100% - ' + $store.state.userInfoStyleHeight + ')'")
         client-only
-          vxe-table.table__dark(
+          vxe-table.table__dark.table__stripe(
             :data="$store.state.items2"
             :cell-class-name="tableCellClassName"
             max-width="100%"
             height="100%"
             size="mini"
             align="center"
-            stripe
             border
             auto-resize)
             vxe-table-column(field="flocalTime" title='時間')
