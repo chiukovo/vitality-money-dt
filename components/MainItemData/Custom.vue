@@ -11,9 +11,9 @@ div(class="h-100")
     client-only
       vxe-table.table__dark(
         ref="xTable"
+        :class="'fontStyle-' + fontStyle"
         id="mainItemTable"
         :data='mainItem',
-        :header-cell-class-name='headerCellClassName',
         :cell-class-name='tableCellClassName',
         max-width="100%"
         height="100%"
@@ -168,18 +168,15 @@ export default {
     tableCellClassName({ row, column, columnIndex }) {
       //判斷整行顏色
       if(columnIndex >= 3 && columnIndex != 8 && columnIndex != 9 && columnIndex != 10 && columnIndex != 11 && columnIndex != 14 && columnIndex != 15 && columnIndex != 17 && columnIndex != 19) {
-        return row.color + ' fontStyle-' + this.fontStyle
+        return row.color
       }
 
       //判斷狀態
       if(columnIndex == 15) {
         if (row.state != 2) {
-          return 'text__secondary' + ' fontStyle-' + this.fontStyle
+          return 'text__secondary'
         }
       }
-    },
-    headerCellClassName({ row, column, columnIndex }) {
-      return 'fontStyle-' + this.fontStyle
     },
   }
 }
