@@ -27,6 +27,9 @@ export default {
   setCustomSetting(state, type) {
     state.localStorage.customSetting[type] = !state.localStorage.customSetting[type]
   },
+  setCustomItemFieldSetting(state, data) {
+    state.customItemFieldSetting = data
+  },
   setCustomItemSetting(state, data) {
     //default item 選擇第一筆
     let first = true

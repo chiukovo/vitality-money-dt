@@ -21,35 +21,26 @@
         a.nav-link.dropdown-toggle 設定
         ul.dropdown-menu
           li.dropdown-item(@click="openModal('changePassword', '修改密碼', '360px')") 修改密碼
-          li.dropdown-item 自訂商品
-          li.dropdown-item 自訂欄位
-          li.dropdown-item 開盤風控設定
+          li.dropdown-item(@click="openModal('showHideItem', '自訂商品')") 自訂商品
+          li.dropdown-item(@click="openModal('showHideItemField', '自訂欄位')") 自訂欄位
+          li.dropdown-item(@click="openModal('userDetail', '會員資訊')") 開盤風控設定
           .dropdown-divider
-          li.dropdown-item.dropdown-toggle 風格切換
-            ul.dropdown-submenu
-              li.is-active 深色
-              li 淺色
           li.dropdown-item.dropdown-toggle 選擇版面
             ul.dropdown-submenu
-              li.is-active 版面1
-              li 版面2
-              li 版面3
-              li 版面4
-              li 版面5
+              li(@click="changeMainStyle(1)" :class="mainStyle == '1' ? 'is-active' : ''") 版面1
+              li(@click="changeMainStyle(2)" :class="mainStyle == '2' ? 'is-active' : ''") 版面2
+              li(@click="changeMainStyle(3)" :class="mainStyle == '3' ? 'is-active' : ''") 版面3
+              li(@click="changeMainStyle(4)" :class="mainStyle == '4' ? 'is-active' : ''") 版面4
+              li(@click="changeMainStyle(5)" :class="mainStyle == '5' ? 'is-active' : ''") 版面5
           li.dropdown-item.dropdown-toggle(href="#") 字型大小
-            ul.dropdown-submenu
-              //- li(@click="setFontStyle(3)" :class="fontStyle == '3' ? 'is-active' : ''") 特大
-              //- li(@click="setFontStyle(2)" :class="fontStyle == '2' ? 'is-active' : ''") 大
-              //- li(@click="setFontStyle(1)" :class="fontStyle == '1' ? 'is-active' : ''") 中
-              //- li(@click="setFontStyle(0)" :class="fontStyle == '0' ? 'is-active' : ''") 小
+            MainFontSize
           li.dropdown-item.dropdown-toggle 損益設定
             ul.dropdown-submenu
-              li.is-active 點數輸入
-              li 行情輸入
+              li.is-active 行情輸入
           li.dropdown-item.dropdown-toggle 音效
             ul.dropdown-submenu
-              li.is-active 開啟
-              li 關閉
+              li(:class="$store.state.localStorage.customSetting.sound ? 'is-active': ''" @click="setCustomSetting('sound')") 開啟
+              li(:class="$store.state.localStorage.customSetting.sound ? '': 'is-active'" @click="setCustomSetting('sound')") 關閉
           li.dropdown-item.dropdown-toggle 貨幣
             ul.dropdown-submenu
               li USD
@@ -75,6 +66,7 @@
 <script>
 
 import Dialog from "~/components/Dialog"
+import MainFontSize from "~/components/UserSetting/MainFontSize"
 import { mapState } from 'vuex'
 
 export default {
@@ -91,12 +83,13 @@ export default {
   },
   components: {
     Dialog,
+    MainFontSize,
   },
   mounted() {
   },
   computed: mapState({
     clickItemId: 'clickItemId',
-    mainStyle: state => state.localStorage.customSetting.mainStyle
+    mainStyle: state => state.localStorage.customSetting.mainStyle,
   }),
   watch: {
     clickItemId (nowItems) {

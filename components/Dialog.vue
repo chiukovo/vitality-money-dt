@@ -22,6 +22,7 @@
         ChangPassword(v-if="clickType == 'changePassword'")
         CustomItem(v-if="clickType == 'customItem'")
         ShowHideItem(v-if="clickType == 'showHideItem'")
+        ShowHideItemField(v-if="clickType == 'showHideItemField'")
         News(v-if="clickType == 'news'")
         Rules(v-if="clickType == 'rules'")
         NounDescription(v-if="clickType == 'nounDescription'")
@@ -38,7 +39,8 @@ import StoredRecords from "~/components/StoredRecords"
 import ActionLog from "~/components/ActionLog"
 import ChangPassword from "~/components/ChangPassword"
 import CustomItem from "~/components/CustomItem"
-import ShowHideItem from "~/components/ShowHideItem"
+import ShowHideItem from "~/components/UserSetting/ShowHideItem"
+import ShowHideItemField from "~/components/UserSetting/ShowHideItemField"
 import News from "~/components/News"
 import Rules from "~/components/Description/Rules"
 import NounDescription from "~/components/Description/NounDescription"
@@ -63,6 +65,7 @@ export default {
     ChangPassword,
     CustomItem,
     ShowHideItem,
+    ShowHideItemField,
     News,
     Rules,
     NounDescription,

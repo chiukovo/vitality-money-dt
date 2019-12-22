@@ -33,6 +33,30 @@ Vue.mixin({
       let audio = document.getElementById('successSound')
       audio.play()
     },
+    getDefaultMainField() {
+      return [
+        {id: 'product_name', name: '商品', show: true},
+        {id: 'buy', name: '倉位多', show: true},
+        {id: 'sell', name: '倉位空', show: true},
+        {id: 'bp_price', name: '買進價', show: true},
+        {id: 'sp_price', name: '賣出價', show: true},
+        {id: 'newest_price', name: '成交價', show: true},
+        {id: 'gain', name: '漲跌', show: true},
+        {id: 'gain_percent', name: '漲幅%', show: true},
+        {id: 'newest_qty', name: '單量', show: true},
+        {id: 'total_qty', name: '總量', show: true},
+        {id: 'yesterday_close_price', name: '昨收價', show: true},
+        {id: 'open_price', name: '開盤價', show: true},
+        {id: 'highest_price', name: '最高價', show: true},
+        {id: 'lowest_price', name: '最低價', show: true},
+        {id: 'newest_time', name: '時間', show: true},
+        {id: 'state_name', name: '交易', show: true},
+        {id: 'newest_price', name: '最後成交價', show: true},
+        {id: 'end_date', name: '最後交易日', show: true},
+        {id: 'doc', name: '說明', show: true},
+        {id: 'itemType', name: '商品類別', show: true},
+      ]
+    },
     marketInfo () {
       return {
         "TW": "台灣期貨交易所",

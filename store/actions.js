@@ -30,9 +30,10 @@ export default {
       }
     })
   },
-  CALL_MEMBER_CUSTOM_ITEM ({ commit, state }, { defaultData, marketInfo }) {
+  CALL_MEMBER_CUSTOM_ITEM ({ commit, state }, { defaultData, defaultFieldData, marketInfo }) {
     const userId = state.localStorage.userAuth.userId
     const token = state.localStorage.userAuth.token
+    const _this = this
 
     axios.post(process.env.NUXT_ENV_API_URL + "/query_member_setting", qs.stringify({
       UserID: userId,
@@ -43,7 +44,7 @@ export default {
 
       if (result.Code == 1) {
         //有值
-        if (result.UserSettingData != '{}') {
+        if (result.UserSettingData != '{}' && result.UserSettingData != '') {
           const customItemSetting = JSON.parse(result.UserSettingData)
           commit('setCustomItemSetting', customItemSetting)
 
@@ -64,6 +65,15 @@ export default {
           })
 
           commit('setCustomItemSetting', newDefaultData)
+        }
+
+        //UserFieldData
+        if (result.UserFieldData != '') {
+          const customItemFieldSetting = JSON.parse(result.UserFieldData)
+          commit('setCustomItemFieldSetting', customItemFieldSetting)
+        } else {
+          //取得全部預設欄位
+          commit('setCustomItemFieldSetting', defaultFieldData)
         }
       }
     })

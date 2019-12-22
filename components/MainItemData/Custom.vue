@@ -23,78 +23,74 @@ div(class="h-100")
         stripe
         border
         auto-resize)
-        vxe-table-column(width="100px" fixed="left" align="left" show-header-overflow)
+        vxe-table-column(:width="computedStyleWidth(100)" fixed="left" align="left" show-header-overflow)
           template(v-slot:header="{column}") 商品
             .table-toggle
               a(@click.stop="customSetting = !customSetting")
             ul.table-dropdown.dropdown-menu(id="customSettingContent" v-show="customSetting")
               li.dropdown-item(href="#", @click="openModal('showHideItem', '自訂商品')") 自訂商品
-              li.dropdown-item(href="#") 自訂欄位
+              li.dropdown-item(href="#", @click="openModal('showHideItemField', '自訂欄位')") 自訂欄位
               .dropdown-divider
               li.dropdown-item.dropdown-toggle(href="#") 字型大小
-                ul.dropdown-submenu
-                  li(@click="setFontStyle(3)" :class="fontStyle == '3' ? 'is-active' : ''") 特大
-                  li(@click="setFontStyle(2)" :class="fontStyle == '2' ? 'is-active' : ''") 大
-                  li(@click="setFontStyle(1)" :class="fontStyle == '1' ? 'is-active' : ''") 中
-                  li(@click="setFontStyle(0)" :class="fontStyle == '0' ? 'is-active' : ''") 小
-              li.dropdown-item(href="#") 自訂風格
+                MainFontSize
           template(slot-scope='scope')
             div(:class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)") {{ scope.row['product_name'] }}
-        vxe-table-column(title='倉位多' width="70px" align="center")
+        vxe-table-column(:width="computedStyleWidth(10)" title='倉位多' align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             span(class="text__center bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
-        vxe-table-column(title='倉位空' width="70px" align="center")
+        vxe-table-column(:width="computedStyleWidth(10)" title='倉位空' align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             span(class="text__center bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0") {{ Math.abs($store.state.uncoveredCountDetail[scope.row['product_id']]) }}
-        vxe-table-column(title='買進價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='買進價')
           template(slot-scope='scope')
             span(:class="scope.row['bp_price_change']") {{ scope.row['bp_price'] }}
-        vxe-table-column(title='賣出價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='賣出價')
           template(slot-scope='scope')
             span(:class="scope.row['sp_price_change']") {{ scope.row['sp_price'] }}
-        vxe-table-column(title='成交價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='成交價')
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
         vxe-table-column(title='漲跌')
           template(slot-scope='scope')
             span(:class="scope.row['gain_change']") {{ scope.row['gain'] }}
-        vxe-table-column(title='漲幅%')
+        vxe-table-column(:width="computedStyleWidth(10)" title='漲幅%')
           template(slot-scope='scope')
             span(:class="scope.row['gain_percent_change']") {{ scope.row['gain_percent'] }}%
         vxe-table-column(title='單量')
           template(slot-scope='scope')
             span(:class="scope.row['newest_qty_change']") {{ scope.row['newest_qty'] }}
-        vxe-table-column(title='總量')
+        vxe-table-column(:width="computedStyleWidth(50)" title='總量')
           template(slot-scope='scope')
             span(:class="scope.row['total_qty_change']") {{ scope.row['total_qty'] }}
-        vxe-table-column(title='昨收價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='昨收價')
           template(slot-scope='scope') {{ scope.row['yesterday_close_price'] }}
-        vxe-table-column(title='開盤價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='開盤價')
           template(slot-scope='scope') {{ scope.row['open_price']}}
-        vxe-table-column(title='最高價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='最高價')
           template(slot-scope='scope') {{ scope.row['highest_price']}}
-        vxe-table-column(title='最低價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='最低價')
           template(slot-scope='scope') {{ scope.row['lowest_price']}}
-        vxe-table-column(title='時間' width="70px")
+        vxe-table-column(:width="computedStyleWidth(50)" title='時間')
           template(slot-scope='scope')
             span(:class="scope.row['newest_time_change']") {{ scope.row['newest_time'] }}
-        vxe-table-column(title='交易' align="center")
+        vxe-table-column(:width="computedStyleWidth(10)" title='交易' align="center")
           template(slot-scope='scope') {{ scope.row['state_name'] }}
-        vxe-table-column(title='最後成交價' width="90px")
+        vxe-table-column(:width="computedStyleWidth(70)" title='最後成交價')
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
-        vxe-table-column(title='最後交易日' width="90px")
+        vxe-table-column(:width="computedStyleWidth(70)" title='最後交易日')
           template(slot-scope='scope') {{ scope.row['end_date'] }}
         vxe-table-column(title='說明' align="center")
           template(slot-scope='scope')
             a(href="#" @click="openModal('userDetail', '商品資訊', '', true)") 說明
-        vxe-table-column(title='商品類別' align="center")
+        vxe-table-column(:width="computedStyleWidth(30)" title='商品類別' align="center")
           template(slot-scope='scope') CFD
 </template>
 
 <script>
 
 import Dialog from "~/components/Dialog"
+import MainFontSize from "~/components/UserSetting/MainFontSize"
 import { mapState } from 'vuex'
 
 export default {
@@ -118,6 +114,7 @@ export default {
   }),
   components: {
     Dialog,
+    MainFontSize,
   },
   mounted() {
     const _this = this
@@ -138,16 +135,36 @@ export default {
         'type': 'kline',
         'num': 2
       })
+    },
+    fontStyle() {
+      this.$refs.xTable.refreshColumn()
     }
   },
   methods: {
-    setFontStyle(num) {
-      this.$store.commit('setFontStyle', num)
+    computedStyleWidth(sourceWidth) {
+      let needAdd = 0
+      let result = 0
+      sourceWidth = typeof sourceWidth == 'undefined' ? 50 : sourceWidth
+
+      switch (this.fontStyle) {
+        case 0:
+        case 1:
+          result = sourceWidth + 50
+          break
+        case 2:
+          result = sourceWidth + 70
+          break
+        case 3:
+          result = sourceWidth + 80
+          break
+      }
+
+      return result + 'px'
     },
     closeSetting() {
       this.customSetting = false
     },
-    openModal (type, title, size, onlyItem) {
+    openModal(type, title, size, onlyItem) {
       this.dialog.size = ''
       this.dialog.clickType = type
       this.dialog.title = title

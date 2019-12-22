@@ -22,6 +22,7 @@ export default () => ({
   commidyArray: [],
   headerItem: [],
   customItemSetting: [],
+  customItemFieldSetting: [],
   uncoveredCountDetail: [],
   loading: true,
   isMobile: 0, //0桌面 1手機

@@ -222,6 +222,7 @@ export default {
     clickItemId: 'clickItemId',
     nowMainItem: 'nowMainItem',
     mainStyle: state => state.localStorage.customSetting.mainStyle,
+    userAuth: state => state.localStorage.userAuth,
   }),
   watch: {
     clickItemId(id) {
@@ -236,6 +237,11 @@ export default {
     },
   },
   mounted () {
+    //-如果沒登入就不用loading
+    if (typeof this.userAuth.token == 'undefined' || typeof this.userAuth.userId == 'undefined') {
+      this.loading = false
+    }
+
     this.waitForSetKlineData()
   },
 }

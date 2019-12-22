@@ -66,6 +66,7 @@ export default {
                 //取得自定義商品開關
                 _this.$store.dispatch('CALL_MEMBER_CUSTOM_ITEM', {
                   defaultData: result['data'],
+                  defaultFieldData: _this.getDefaultMainField(),
                   marketInfo: _this.marketInfo()
                 })
               }
