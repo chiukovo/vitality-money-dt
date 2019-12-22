@@ -1,27 +1,5 @@
 <template lang='pug'>
 .index
-	.login-wrap(v-if="loginShow == true")
-			.login-box
-				.login__header DT888
-				.login__form
-					el-form(label-width='0')
-						el-form-item(label='線路')
-							el-select(placeholder='伺服器' v-model='server' style='width: 100%;')
-								el-option(label='1-伺服器' value='server1')
-						el-form-item(label='帳號')
-							el-input(v-model='account' placeholder='帳號')
-						el-form-item(label='密碼')
-							el-input(v-model='password' type='password' placeholder='密碼')
-						el-form-item
-							el-checkbox(v-model="rememberMe") 記住我
-						el-form-item
-							el-button(type='primary' native-type="submit" @click.native.prevent="doLogin") 登入
-						.login-txt
-							.left 舊版
-							.right 版本7.07
-				.login__footer
-					a(href="#") 軟體使用條款
-
 	.main
 		.mainbox
 			.left
@@ -31,7 +9,7 @@
 						.title DT888.CO
 						.small DayTrader
 				ul.menu
-					li.menu01(@click="loginShow = !loginShow") HTML5 網頁登入
+					li.menu01(@click="goLogin()") HTML5 網頁登入
 					li.menu02 程式版下載
 					li.menu03 手機版
 					li.menu04 遠端下載
@@ -49,7 +27,6 @@
 					.img-group
 						.img.img01
 						.img.img02
-	.loading(v-loading='loading' v-if="loading")
 </template>
 
 <script>
@@ -66,66 +43,19 @@ export default {
 	    }
 	  }
 	},
-	data () {
+	data() {
 	  return {
-			loading: true,
-			loginShow: false,
-			account: '',
-			password: '',
-			rememberMe: '',
-			server: 'server1',
 	  }
 	},
 	beforeMount() {
 		this.checkDevice()
 	},
 	mounted() {
-		this.loading = false
 
-		//remember data
-		const remember = this.$store.state.localStorage.remember
-		this.rememberMe = remember.me
-
-		if (this.rememberMe) {
-			this.account = remember.account
-			this.password = remember.password
-		}
 	},
 	methods: {
-		async doLogin() {
-			let _this = this
-
-			if (this.account == '' || this.password == '') {
-				this.$alert('帳號或密碼不得為空', '注意!')
-				return
-			}
-
-			this.loading = true
-
-			await axios.post(process.env.NUXT_ENV_API_URL + "/validation", qs.stringify({
-			  LoginAccount: this.account,
-			  LoginPassword: this.password,
-			  LoginMobile: 0,
-			}))
-			.then(response => {
-				const result = response.data
-
-			  if (result['Code'] <= 0) {
-			  	this.$alert(result['ErrorMsg'], '注意!')
-			  	_this.loading = false
-			  	return
-			  }
-
-			  //記住我
-			  _this.$store.commit('setRemember', {
-			  	me: _this.rememberMe,
-			  	account: _this.account,
-			  	password: _this.password,
-			  })
-
-			  //set user info
-			  _this.$store.commit('setuserAuth', result)
-			})
+		goLogin() {
+			location.href = "/login"
 		}
 	},
 }

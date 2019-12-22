@@ -118,6 +118,10 @@ export default {
     state.mainItem = resultToOrder
   },
   setuserAuth(state, data) {
+    if (data.UserId == '' || data.Token == '') {
+        state.localStorage.userAuth = []
+    }
+
     //set localStorage
     state.localStorage.userAuth = {
       userId: data.UserId,
