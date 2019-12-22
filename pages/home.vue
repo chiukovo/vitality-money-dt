@@ -95,7 +95,7 @@ export default {
     getSize(type) {
       if (type == 'mid') {
         if (this.pageStyle == 2 || this.pageStyle == 3 || this.pageStyle == 5) {
-          return '3.8'
+          return '5.8'
         }
 
         return this.style == 'C' ? '44' : '45'
@@ -103,18 +103,18 @@ export default {
 
       if (type == 'history') {
         if (this.pageStyle == 2 || this.pageStyle == 3 || this.pageStyle == 5) {
-          return '96.2'
+          return '94.2'
         }
 
         return this.style == 'C' ? '56' : '55'
       }
 
       if (type == 'itemDetail') {
-        return this.style == 'C' ? '100' : '70'
+        return this.style == 'C' ? '100' : '65'
       }
 
       if (type == 'ab') {
-        return this.style == 'C' ? '0' : '30'
+        return this.style == 'C' ? '0' : '35'
       }
 
       if (type == 'C') {

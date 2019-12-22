@@ -648,9 +648,15 @@ td {
   table {
     border-bottom: 1px solid #3a3a3a;
   }
+  .vxe-table--border-line {
+    &:before, &:after {
+      border-color: #3a3a3a;
+    }
+  }
   &:before, &:after,
   .vxe-table--header-wrapper .vxe-table--repair {
     background-color: #3a3a3a;
+    border-color: #3a3a3a;
   }
   .vxe-header--column {
     color: #ccc;
