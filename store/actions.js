@@ -68,7 +68,7 @@ export default {
         }
 
         //UserFieldData
-        if (result.UserFieldData != '') {
+        if (result.UserFieldData != '{}' && result.UserFieldData != '') {
           const customItemFieldSetting = JSON.parse(result.UserFieldData)
           commit('setCustomItemFieldSetting', customItemFieldSetting)
         } else {
