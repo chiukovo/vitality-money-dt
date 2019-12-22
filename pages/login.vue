@@ -85,7 +85,6 @@ export default {
     StyleB,
     StyleC,
   },
-  mixins: [websocketService],
   beforeMount() {
     this.checkDevice()
   },
@@ -112,8 +111,6 @@ export default {
     }
   },
   methods: {
-    mainStyleCheck(type) {
-    },
     async doLogin() {
       let _this = this
 
