@@ -45,7 +45,10 @@
 </template>
 
 <script>
+
 import { mapState } from 'vuex'
+import axios from 'axios'
+import qs from 'qs'
 import { Splitpanes, Pane } from 'splitpanes'
 import websocketService from '~/plugins/service/websocketService.js'
 import Header from '~/components/Header'
@@ -59,6 +62,7 @@ import StyleA from '~/components/Operating/StyleA'
 import StyleB from '~/components/Operating/StyleB'
 import StyleC from '~/components/Operating/StyleC'
 import '@/assets/sass/style.scss'
+
 export default {
   head() {
     return {
@@ -100,6 +104,7 @@ export default {
   data() {
     return {
       show: 0,
+      loading: false,
       account: '',
       password: '',
       rememberMe: '',
