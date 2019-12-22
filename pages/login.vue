@@ -1,27 +1,26 @@
 <template lang='pug'>
 .login
-  .index
-    .login-wrap
-        .login-box
-          .login__header DT888
-          .login__form
-            el-form(label-width='0')
-              el-form-item(label='線路')
-                el-select(placeholder='伺服器' v-model='server' style='width: 100%;')
-                  el-option(label='1-伺服器' value='server1')
-              el-form-item(label='帳號')
-                el-input(v-model='account' placeholder='帳號')
-              el-form-item(label='密碼')
-                el-input(v-model='password' type='password' placeholder='密碼')
-              el-form-item
-                el-checkbox(v-model="rememberMe") 記住我
-              el-form-item
-                el-button(type='primary' native-type="submit" @click.native.prevent="doLogin") 登入
-              .login-txt
-                .left 舊版
-                .right 版本7.07
-          .login__footer
-            a(href="#") 軟體使用條款
+  .login-wrap
+    .login-box
+      .login__header DT888
+      .login__form
+        el-form(label-width='0')
+          el-form-item(label='線路')
+            el-select(placeholder='伺服器' v-model='server' style='width: 100%;')
+              el-option(label='1-伺服器' value='server1')
+          el-form-item(label='帳號')
+            el-input(v-model='account' placeholder='帳號')
+          el-form-item(label='密碼')
+            el-input(v-model='password' type='password' placeholder='密碼')
+          el-form-item
+            el-checkbox(v-model="rememberMe") 記住我
+          el-form-item
+            el-button(type='primary' native-type="submit" @click.native.prevent="doLogin") 登入
+          .login-txt
+            .left 舊版
+            .right 版本7.07
+      .login__footer
+        a(href="#") 軟體使用條款
   .root
     #main
       splitpanes(class="default-theme")
