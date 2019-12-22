@@ -18,7 +18,7 @@
           .change-icon
             .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
           div(style="display: inline" :class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
-  .history-content__body
+  .history-content__body(style="height: calc(100% - 28px)")
     highcharts(v-if="ohlcv.length > 0" :constructor-type="'stockChart'" :options="stockOptions")
     div(v-loading="loading" v-else)
 </template>
@@ -55,8 +55,10 @@ export default {
       volume: [],
       stockOptions: {},
       loading: true,
+      updateOption: {}
     }
   },
+  props: ['reSize'],
   methods: {
     waitForSetKlineData(reload) {
       const _this = this
@@ -77,6 +79,8 @@ export default {
 
       return this.$store.state.nowMainItem.yesterday_close_price < target ? 'text__success' : 'text__danger'
     },
+    onlyResize() {
+    },
     setKlineData() {
       let name = this.$store.state.itemName
       let _this = this
@@ -92,6 +96,7 @@ export default {
 
       this.stockOptions = {
         chart: {
+          reflow: true,
           events: {
             load: function () {
               //load over
@@ -101,7 +106,7 @@ export default {
           backgroundColor: 'rgba(0,0,0,0)',
           style: {
             fontFamily: "'Maven Pro', sans-serif",
-            color: '#ccc'
+            color: '#ccc',
           }
         },
         rangeSelector: {
@@ -225,6 +230,9 @@ export default {
     userAuth: state => state.localStorage.userAuth,
   }),
   watch: {
+    reSize() {
+      this.onlyResize()
+    },
     clickItemId(id) {
       this.loading = true
       this.ohlcv = []

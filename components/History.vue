@@ -1,7 +1,7 @@
 <template lang='pug'>
 //- 如果版面等於c height: calc(100% - 130px)
 //- (:style="operatingStyle == 'C' ? 'height: calc(100% - 130px)' : ''")
-.history
+#history.history
   .history-header
     .history-tabs.tabs-nav
       .tabs__item(@click='handleHistoryTabs(1)' :class="{'is-active' : historyTabShow == 1}") K線圖
@@ -13,7 +13,7 @@
         .badge.badge-success.mybadge {{ Math.abs($store.state.unCoverSellSum) }}
       .tabs__item(@click='handleHistoryTabs(5)' :class="{'is-active' : historyTabShow == 5}") 已平倉
       .tabs__item(@click='handleHistoryTabs(6)' :class="{'is-active' : historyTabShow == 6}") 統計
-  Kchart(v-if='historyTabShow == 1')
+  Kchart(v-if='historyTabShow == 1' :reSize="reSize")
   Chart(v-if='historyTabShow == 2')
   AllList(v-show='historyTabShow == 3')
   Uncovered(v-show='historyTabShow == 4')
@@ -45,6 +45,7 @@ export default {
       },
     }
   },
+  props: ['reSize'],
   computed: mapState({
     operatingStyle: state => state.localStorage.customSetting.operatingStyle,
     clickItemId: 'clickItemId'

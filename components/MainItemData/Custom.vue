@@ -33,57 +33,57 @@ div(class="h-100")
               .dropdown-divider
               li.dropdown-item.dropdown-toggle(href="#") 字型大小
                 MainFontSize
-          template(slot-scope='scope')
+          template(slot-scope='scope' v-if="checkHide('商品')")
             div(:class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)") {{ scope.row['product_name'] }}
-        vxe-table-column(:width="computedStyleWidth(10)" title='倉位多' align="center")
+        vxe-table-column(:width="computedStyleWidth(10)" title='倉位多' align="center" v-if="checkHide('倉位多')")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             span(class="text__center bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}
-        vxe-table-column(:width="computedStyleWidth(10)" title='倉位空' align="center")
+        vxe-table-column(:width="computedStyleWidth(10)" title='倉位空' align="center" v-if="checkHide('倉位空')")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             span(class="text__center bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0") {{ Math.abs($store.state.uncoveredCountDetail[scope.row['product_id']]) }}
-        vxe-table-column(:width="computedStyleWidth(10)" title='買進價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='買進價' v-if="checkHide('買進價')")
           template(slot-scope='scope')
             span(:class="scope.row['bp_price_change']") {{ scope.row['bp_price'] }}
-        vxe-table-column(:width="computedStyleWidth(10)" title='賣出價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='賣出價' v-if="checkHide('賣出價')")
           template(slot-scope='scope')
             span(:class="scope.row['sp_price_change']") {{ scope.row['sp_price'] }}
-        vxe-table-column(:width="computedStyleWidth(10)" title='成交價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='成交價' v-if="checkHide('成交價')")
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
-        vxe-table-column(title='漲跌')
+        vxe-table-column(title='漲跌' v-if="checkHide('漲跌')")
           template(slot-scope='scope')
             span(:class="scope.row['gain_change']") {{ scope.row['gain'] }}
-        vxe-table-column(:width="computedStyleWidth(10)" title='漲幅%')
+        vxe-table-column(:width="computedStyleWidth(10)" title='漲幅%' v-if="checkHide('漲幅%')")
           template(slot-scope='scope')
             span(:class="scope.row['gain_percent_change']") {{ scope.row['gain_percent'] }}%
-        vxe-table-column(title='單量')
+        vxe-table-column(title='單量' v-if="checkHide('單量')")
           template(slot-scope='scope')
             span(:class="scope.row['newest_qty_change']") {{ scope.row['newest_qty'] }}
-        vxe-table-column(:width="computedStyleWidth(50)" title='總量')
+        vxe-table-column(:width="computedStyleWidth(50)" title='總量' v-if="checkHide('總量')")
           template(slot-scope='scope')
             span(:class="scope.row['total_qty_change']") {{ scope.row['total_qty'] }}
-        vxe-table-column(:width="computedStyleWidth(10)" title='昨收價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='昨收價' v-if="checkHide('昨收價')")
           template(slot-scope='scope') {{ scope.row['yesterday_close_price'] }}
-        vxe-table-column(:width="computedStyleWidth(10)" title='開盤價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='開盤價' v-if="checkHide('開盤價')")
           template(slot-scope='scope') {{ scope.row['open_price']}}
-        vxe-table-column(:width="computedStyleWidth(10)" title='最高價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='最高價' v-if="checkHide('最高價')")
           template(slot-scope='scope') {{ scope.row['highest_price']}}
-        vxe-table-column(:width="computedStyleWidth(10)" title='最低價')
+        vxe-table-column(:width="computedStyleWidth(10)" title='最低價' v-if="checkHide('最低價')")
           template(slot-scope='scope') {{ scope.row['lowest_price']}}
-        vxe-table-column(:width="computedStyleWidth(50)" title='時間')
+        vxe-table-column(:width="computedStyleWidth(50)" title='時間' v-if="checkHide('時間')")
           template(slot-scope='scope')
             span(:class="scope.row['newest_time_change']") {{ scope.row['newest_time'] }}
-        vxe-table-column(:width="computedStyleWidth(10)" title='交易' align="center")
+        vxe-table-column(:width="computedStyleWidth(10)" title='交易' align="center" v-if="checkHide('交易')")
           template(slot-scope='scope') {{ scope.row['state_name'] }}
-        vxe-table-column(:width="computedStyleWidth(70)" title='最後成交價')
+        vxe-table-column(:width="computedStyleWidth(70)" title='最後成交價' v-if="checkHide('最後成交價')")
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
-        vxe-table-column(:width="computedStyleWidth(70)" title='最後交易日')
+        vxe-table-column(:width="computedStyleWidth(70)" title='最後交易日' v-if="checkHide('最後交易日')")
           template(slot-scope='scope') {{ scope.row['end_date'] }}
-        vxe-table-column(title='說明' align="center")
+        vxe-table-column(title='說明' align="center" v-if="checkHide('說明')")
           template(slot-scope='scope')
             a(href="#" @click="openModal('userDetail', '商品資訊', '', true)") 說明
-        vxe-table-column(:width="computedStyleWidth(30)" title='商品類別' align="center")
+        vxe-table-column(:width="computedStyleWidth(30)" title='商品類別' align="center" v-if="checkHide('商品類別')")
           template(slot-scope='scope') CFD
 </template>
 
@@ -110,7 +110,7 @@ export default {
   computed: mapState({
     mainItem: 'mainItem',
     clickItemId: 'clickItemId',
-    fontStyle: state => state.localStorage.customSetting.fontStyle
+    fontStyle: state => state.localStorage.customSetting.fontStyle,
   }),
   components: {
     Dialog,
@@ -181,6 +181,21 @@ export default {
         id: row.product_id,
         name: row.product_name
       })
+    },
+    checkHide(name) {
+      //判斷欄位是否顯示
+      const customItemFieldSetting = this.$store.state.customItemFieldSetting
+      let needShow = true
+
+      if (customItemFieldSetting.length > 0) {
+        customItemFieldSetting.forEach(function(check) {
+          if (name == check.name) {
+            needShow = check.show
+          }
+        })
+      }
+
+      return needShow
     },
     tableCellClassName({ row, column, columnIndex }) {
       //判斷整行顏色

@@ -3,18 +3,18 @@
   #main
     splitpanes(class="default-theme")
       pane(:size="getSize('left')")
-        splitpanes(horizontal)
+        splitpanes(horizontal @resize="onResize($event)")
           pane(:size="getSize('mid')")
             Header
             MainItem(v-if="pageStyle != 4")
             History(v-if="pageStyle == 4")
           pane(:size="getSize('history')")
             MainItem(v-if="pageStyle == 4 || pageStyle == 5")
-            History(v-if="pageStyle != 4 && pageStyle != 5")
+            History(v-if="pageStyle != 4 && pageStyle != 5" :reSize="reSize")
           pane(:size="getSize('C')" v-show="style == 'C'")
             StyleC
       pane(:size="getSize('right')")
-        splitpanes(horizontal)
+        splitpanes(horizontal @resize="onResize($event)")
           pane(:size="getSize('itemDetail')")
             ItemDetail
           pane(:size="getSize('ab')")
@@ -80,7 +80,8 @@ export default {
     return {
       show: 0,
       style: '',
-      pageStyle: ''
+      pageStyle: '',
+      reSize: ''
     }
   },
   watch: {
@@ -92,6 +93,9 @@ export default {
     },
   },
   methods: {
+    onResize(event) {
+      this.reSize = event[1].size
+    },
     getSize(type) {
       if (type == 'mid') {
         if (this.pageStyle == 2 || this.pageStyle == 3 || this.pageStyle == 5) {
@@ -118,6 +122,10 @@ export default {
       }
 
       if (type == 'C') {
+        if (this.style != 'C') {
+          return 0
+        }
+
         return '16'
       }
 
