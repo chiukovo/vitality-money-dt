@@ -727,6 +727,25 @@ td {
   font-size: 10px;
 }
 
+.customItems {
+  width: 400px;
+  margin: auto;
+  select {
+    width: 160px;
+    height: 250px;
+  }
+  .button-group {
+    text-align: center;
+    padding: 10px;
+    button + button {
+      margin-left: 0;
+      margin-top: 4px;
+    }
+  }
+}
+
+
+
 
 .table-toggle {
   position: absolute;

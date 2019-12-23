@@ -1,25 +1,26 @@
 <template lang='pug'>
 .dialog
-  .dialog__header
-  .dialog__content
+  .dialog__content(style="padding: 10px;")
     //-可選商品
-    table
+    table.customItems
       tbody
         tr
-          td
+          td(width="160px")
             div 可選商品
             select(id="canSelect" multiple v-model="canSelectIds")
               option(v-for="(item, key) in canSelectItems" :value="item.id") {{ item.name }}
           td
-            button(@click="add") 增加
-            button(@click="remove") 移除
-          td
+            .button-group
+              button(@click="add") 增加»
+              button(@click="remove") «移除
+          td(width="160px")
             div 已選商品
             select(id="selected" multiple v-model="selectedIds")
               option(v-for="(item, key) in selectedItems" :value="item.id") {{ item.name }}
           td
-            button(@click="doOrder('up')") ^
-            button(@click="doOrder('down')") v
+            .button-group
+              button(@click="doOrder('up')") ^
+              button(@click="doOrder('down')") v
   .dialog__footer
     button.button_light(@click="cancel") 取消
     button.button(type='primary' @click="submit") 確認
