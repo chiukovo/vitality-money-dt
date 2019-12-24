@@ -4,13 +4,14 @@
     UserInfoHeader
   .header
     .header__left
-      button.button.header-button(@click="costomShow = true") 自選商品
-      .modals.mainItem(v-if="costomShow")
-        .header
-          .header__left
-            el-link(icon='el-icon-arrow-left' :underline='false' @click="costomShow = false") 返回
-          .header__title 編輯自選
-        CustomItem
+      button.button.header-button.logout(@click="logout") 登出
+      //- button.button.header-button(@click="costomShow = true") 自選商品
+      //- .modals.mainItem(v-if="costomShow")
+      //-   .header
+      //-     .header__left
+      //-       el-link(icon='el-icon-arrow-left' :underline='false' @click="costomShow = false") 返回
+      //-     .header__title 編輯自選
+      //-   CustomItem
     .header__title 商品報價
     .header__right
       button.button.header-button(@click="userInfoHeaderShow = !userInfoHeaderShow")

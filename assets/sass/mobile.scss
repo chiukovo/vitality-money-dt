@@ -475,14 +475,25 @@ $material-icons-font-path: '~material-icons/iconfont/';
 
 //-------------- login
 .login {
-    //background: url('~static/images/theme_traditional/login_bg_mobile.jpg');
+    .login__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 10px;
+    }
     .logo {
-        width: 40%;
-        //background: url('~static/images/theme_traditional/logo.png') center/contain no-repeat;
-        padding-top: 8rem;
-        margin: 2rem auto;
+        margin-top: 10px;
+        margin-bottom: -5px;
+        font-size: 36px;
+        text-shadow: 1px 1px 5px #000;
+    }
+    .version {
+        font-size: 10px;
+        color: #ccc;
     }
 	.login-wrap {
+        background: url('~static/images/theme_dt/login_bg_mobile.jpg') #252525 no-repeat;
+        background-size: 100% 100%;
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -491,17 +502,16 @@ $material-icons-font-path: '~material-icons/iconfont/';
 		height: 100%;
 		justify-content: center;
 		align-items: center;
-		padding-bottom: 10rem;
 	}
 	.login-box {
 		width: 100%;
-		max-width: 300px;
+		max-width: 280px;
 	}
 
 	.el-form {
 		.el-form-item {
 			width: 100%;
-			margin-bottom: 16px;
+			margin-bottom: 8px;
 		}
 		.el-form-item__label {
 			display: none;
@@ -511,17 +521,27 @@ $material-icons-font-path: '~material-icons/iconfont/';
 				margin-left: 0 !important;
 		}
 		.el-input__inner {
-			color: #fff;
-			background-color: $gray-800;
-			border-color: $gray-700;
+			background-color: #2a2a2a;
+            border-color: #1d1d1d;
+            color: #fff;
+            text-shadow: 0 1px 0 #111;
+            border-radius: 0;
 		}
 		.el-button {
 			width: 100%;
-			padding: 12px;
+            padding: 12px;
+            background-color: #2ad;
+            border-color: #1f1f1f;
+            color: #fff;
+            text-shadow: 0 1px 0 #111;
+            border-radius: 0;
 		}
 		.el-checkbox {
 			margin-left: 4px;
-		}
+        }
+        .el-checkbox__label {
+            color: #fff;
+        }
 	}
 }
 
@@ -614,10 +634,18 @@ button {
 }
 .header-button {
 	position: relative;
-	height: 76%;
-	background: $gray-700;
+    height: 76%;
+    color: $gray-100;
+    background: $gray-700;
+    font-size: 13px;
 	border-color: transparent;
-	border-radius: 5px;
+    border-radius: 5px;
+    &.logout {
+        background-image: url('~static/images/theme_dt/logout_mobile.png');
+        background-position: 3px 50%;
+        background-repeat: no-repeat;
+        padding-left: 26px;
+    }
 }
 
 .el-loading-mask {
