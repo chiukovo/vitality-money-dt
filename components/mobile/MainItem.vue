@@ -33,7 +33,6 @@
       vxe-table.table(
       :data='mainItem',
       :cell-class-name='tableCellClassName'
-      @cell-click="clickChart"
       @current-change="clickItem"
       max-width="100%"
       height="100%"
@@ -184,6 +183,15 @@ export default {
         }
       }
     },
+    logout() {
+      //unset cookie
+      let token = this.$cookies.remove('token')
+
+      //unset user info
+      this.$store.commit('setuserAuth', [])
+
+      location.href = "/mobile"
+    }
   }
 }
 </script>
