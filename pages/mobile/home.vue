@@ -1,43 +1,43 @@
 <template lang='pug'>
 .root
 	//- 商品報價
-	MainItem(v-if='tabShow == 1')
+	MainItem(v-show='tabShow == 1')
 	//- 商品下單
-	Operating(v-if='tabShow == 2')
+	Operating(v-if='tabShow == 3')
 	//- 單據列表
-	Documents(v-if='tabShow == 3')
+	//- Documents(v-if='tabShow == 3')
 	//- 報表查詢
-	Report(v-if='tabShow == 4')
+	//- Report(v-if='tabShow == 4')
 	//- 系統功能
-	System(v-if='tabShow == 5')
+	//- System(v-if='tabShow == 5')
 	#tabs-nav
 		.tabs-nav-wrap
 			.tabs-list
 				.tab-list__item(
 					@click='handleTab(1)'
 					:class="{'current': tabShow == 1}")
-					i.item__icon.el-icon-s-home
-					.item__name 主頁
+					i.item__icon.el-icon-s-grid
+					.item__name 市場
 				.tab-list__item(
 					@click='handleTab(2)'
 					:class="{'current': tabShow == 2}")
-					i.item__icon.el-icon-s-claim
-					.item__name 下單
+					i.item__icon.el-icon-s-marketing
+					.item__name 技術
 				.tab-list__item(
 					@click='handleTab(3)'
 					:class="{'current': tabShow == 3}")
-					i.item__icon.el-icon-s-order
-					.item__name 單據
+					i.item__icon.el-icon-download
+					.item__name 下單
 				.tab-list__item(
 					@click='handleTab(4)'
 					:class="{'current': tabShow == 4}")
-					i.item__icon.el-icon-s-marketing
-					.item__name 報表
+					i.item__icon.el-icon-s-order
+					.item__name 交易
 				.tab-list__item(
 					@click='handleTab(5)'
 					:class="{'current': tabShow == 5}")
-					i.item__icon.el-icon-s-tools
-					.item__name 系統
+					i.item__icon.el-icon-user-solid
+					.item__name 帳戶
 </template>
 <script>
 

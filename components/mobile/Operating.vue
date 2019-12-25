@@ -1,11 +1,5 @@
 <template lang='pug'>
-.page
-  .header
-    .header__title 商品下單
-    .header__right
-      .select.header-select
-        select(v-model='selectItemId')
-          option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
+.modals.page
   .main(style="overflow: auto;")
     .area
       .area__header
@@ -35,7 +29,7 @@
             td: .cell.text__center
               template(v-if="typeof $store.state.uncoveredCountDetail[nowMainItem.product_id] != 'undefined'")
                 <span class="bg__danger" v-if="$store.state.uncoveredCountDetail[nowMainItem.product_id] > 0">{{ $store.state.uncoveredCountDetail[nowMainItem.product_id] }}</span>
-                <span class="bg__success" v-else>{{ $store.state.uncoveredCountDetail[nowMainItem.product_id] }}</span>
+                <span class="bg__success" v-else>{{ Math.abs($store.state.uncoveredCountDetail[nowMainItem.product_id]) }}</span>
             td: .cell.text__center.text__success {{ nowMainItem.newest_price }}
             td: .cell.text__center.text__success
               template
@@ -45,17 +39,34 @@
             td: .cell.text__center {{ nowMainItem.state_name }}
           tr
             td.limit.limit__1(colspan='5'): .cell.text__center 口數：
-              el-input-number(v-model='submitNum' :min="0")
+              .number-input
+                input(type="text" v-model="submitNum" :min="0")
+                .number-button-group
+                  button.button__increase(@click="submitNum++")
+                  button.button__decrease(@click="submitNum--")
           tr(v-if="buyType == 1")
             td.limit.limit__2(colspan='5'): .cell.text__center 限價：
-              el-input-number(v-model='nowPrice' :min="0")
+              .number-input
+                input(type="text" v-model='nowPrice' :min="0")
+                .number-button-group
+                  button.button__increase(@click="nowPrice++")
+                  button.button__decrease(@click="nowPrice--")
               button.button(@click="getNowPrice") 現
           tr
             td.limit.limit__3(colspan='5'): .cell.text__center 停利：
-              el-input-number(v-model='profit' :min="0")
+              .number-input
+                input(type="text" v-model='profit' :min="0")
+                .number-button-group
+                  button.button__increase(@click="profit++")
+                  button.button__decrease(@click="profit--")
           tr
             td.limit.limit__4(colspan='5'): .cell.text__center 停損：
-              el-input-number(v-model='damage' :min="0")
+              .number-input
+                input(type="text" v-model='damage' :min="0")
+                .number-button-group
+                  button.button__increase(@click="damage++")
+                  button.button__decrease(@click="damage--")
+              //- el-input-number(v-model='damage' :min="0")
     .area
       .area__header
         .area__title(style='color: yellow') 目前下單商品: {{ $store.state.itemName }}

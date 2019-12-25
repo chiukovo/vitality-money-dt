@@ -5,21 +5,22 @@
   .header
     .header__left
       button.button.header-button.logout(@click="logout") 登出
-      //- button.button.header-button(@click="costomShow = true") 自選商品
-      //- .modals.mainItem(v-if="costomShow")
-      //-   .header
-      //-     .header__left
-      //-       el-link(icon='el-icon-arrow-left' :underline='false' @click="costomShow = false") 返回
-      //-     .header__title 編輯自選
-      //-   CustomItem
-    .header__title 商品報價
+    .header__title {{userInfo.Account}}
     .header__right
-      button.button.header-button(@click="userInfoHeaderShow = !userInfoHeaderShow")
-        i.el-icon-user-solid
+      button.button.header-button.header-dropmenu(@click="userInfoHeaderShow = !userInfoHeaderShow")
+        span $
+        .text__danger {{userInfo.Money}}
+        i.material-icons expand_more
   .main.mainItem
     Dialog(
       :click-type="dialog.clickType",
       :visible.sync="dialog.isOpen")
+    .mainItem-tabs.tabs-nav
+      .tabs__item(@click="tabs = 1" :class="{'is-active' : tabs == 1}") 自訂
+      .tabs__item(@click="tabs = 2" :class="{'is-active' : tabs == 2}") 指數
+      .tabs__item(@click="tabs = 3" :class="{'is-active' : tabs == 3}") 指數期貨
+      .tabs__item(@click="tabs = 4" :class="{'is-active' : tabs == 4}") 商品期貨
+      .tabs__item(@click="tabs = 5" :class="{'is-active' : tabs == 5}") 加密貨幣
     .modals.mainItem(v-if="analysisShow")
       .header
         .header__left
@@ -37,17 +38,16 @@
       max-width="100%"
       height="100%"
       column-min-width="90"
-      size="mini"
       border
       auto-resize
       highlight-current-row)
         vxe-table-column(title='商品' width='86' fixed="left")
           template(slot-scope='scope') {{ scope.row['product_name'] }}
-        vxe-table-column(title='倉位' width='60' fixed="left" align="center")
+        vxe-table-column(title='倉位' width='60' align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             <span class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0">{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
             <span class="bg__success" v-else>{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
-        vxe-table-column(title='成交')
+        vxe-table-column(title='成交' fixed="left" align="right")
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
         vxe-table-column(title='買進')
@@ -91,6 +91,7 @@ import { mapState } from 'vuex'
 export default {
 	data () {
 	  return {
+      tabs: 1,
       selectItemId: '',
       userInfoHeaderShow: false,
       costomShow: false,
@@ -109,7 +110,8 @@ export default {
   },
   computed: mapState([
     'mainItem',
-    'clickItemId'
+    'clickItemId',
+    'userInfo'
   ]),
   watch: {
     clickItemId(id) {
@@ -179,7 +181,7 @@ export default {
       //判斷狀態
       if(columnIndex == 13) {
         if (row.state != 2) {
-          return 'text-secondary'
+          return 'text__secondary'
         }
       }
     },

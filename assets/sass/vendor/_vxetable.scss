@@ -12,11 +12,13 @@ $vxe-disabled-color: #B1B1B1;
 
 /*input/radio/checkbox color*/
 $vxe-input-border-color: #dcdfe6;
-$vxe-input-disabled-color: #f3f3f3;
+$vxe-input-disabled-color: #dcdfe6;
+$vxe-input-disabled-background-color: #f3f3f3;
 $vxe-input-placeholder-color: #C0C4CC;
 
 /*popup*/
-$vxe-table-popup-border-color: #ebeef5;
+$vxe-table-popup-border-color: #DADCE0;
+
 
 /*table color*/
 $vxe-table-header-background-color: $table-header-bg-color;
@@ -24,21 +26,29 @@ $vxe-table-border-color: $table-border-color;
 $vxe-table-resizable-color: #D9DDDF;
 $vxe-table-background-color: $table-bg-color;
 
+
 /*table row*/
 $vxe-table-row-height-default: $table-row-height-default;
 $vxe-table-row-height-medium: $table-row-height-medium;
 $vxe-table-row-height-small: $table-row-height-small;
 $vxe-table-row-height-mini: $table-row-height-mini;
 $vxe-table-row-line-height: $table-row-line-height;
-$vxe-table-row-striped-background-color: #fafafa;
 $vxe-table-row-hover-background-color: $table-row-hover-bg-color;
-$vxe-table-row-current-background-color: $table-row-current-bg-color;
+$vxe-table-row-striped-background-color: #fafafa;
+$vxe-table-row-hover-striped-background-color: #f5f7fa;
+$vxe-table-row-radio-background-color: #fff3e0;
+$vxe-table-row-hover-radio-background-color: #ffebbc;
+$vxe-table-row-cheched-background-color: #fff3e0;
+$vxe-table-row-hover-cheched-background-color: #ffebbc;
+$vxe-table-row-current-background-color: $table-row-current-bg-color;;
+$vxe-table-row-hover-current-background-color: #d7effb;
 
 /*table column*/
 $vxe-table-column-hover-background-color: #d7effb;
 $vxe-table-column-current-background-color: $table-row-current-bg-color;
 $vxe-table-column-icon-border-color: #c0c4cc;
 $vxe-table-column-icon-border-hover-color: #515A6E;
+
 
 /*table cell*/
 $vxe-table-cell-dirty-width: 5px;
@@ -50,6 +60,9 @@ $vxe-table-column-checked-border-color: #D4D4D4;
 $vxe-table-column-header-checked-background-color: #DCDCDC;
 $vxe-table-column-checked-background-color: #e6f7ff;
 
+/*table tree*/
+$vxe-table-tree-node-line-color:#B6B4B6;
+
 /*loading*/
 $vxe-loading-background-color: rgba(0, 0, 0, 0.2);
 
@@ -60,16 +73,7 @@ $vxe-table-validate-error-color: #f56c6c;
 $vxe-tooltip-dark-background-color: #303133;
 $vxe-tooltip-light-background-color: #fff;
 
-/*table tree*/
-$vxe-table-tree-node-line-color:#B6B4B6;
 
-$vxe-table-row-radio-background-color: #fff3e0;
-$vxe-table-row-cheched-background-color: #fff3e0;
-$vxe-table-row-hover-striped-background-color: #f5f7fa;
-$vxe-table-row-hover-radio-background-color: #ffebbc;
-$vxe-table-row-hover-cheched-background-color: #ffebbc;
-$vxe-table-row-current-background-color: #e6f7ff;
-$vxe-table-row-hover-current-background-color: #d7effb;
 
 // @import '~vxe-table/styles/icon.scss';
 @import '~vxe-table/styles/table.scss';
