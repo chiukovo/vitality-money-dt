@@ -1,15 +1,146 @@
 <template lang='pug'>
 .root
-	//- 商品報價
-	MainItem(v-show='tabShow == 1')
-	//- 商品下單
-	Operating(v-if='tabShow == 3')
-	//- 單據列表
-	//- Documents(v-if='tabShow == 3')
-	//- 報表查詢
-	//- Report(v-if='tabShow == 4')
-	//- 系統功能
-	//- System(v-if='tabShow == 5')
+	.page
+		MainHeader
+		//- 商品報價
+		MainItem(v-if='tabShow == 1')
+		//- 商品下單
+		Operating(v-if='tabShow == 3')
+		//- 交易
+		template(v-if='tabShow == 4')
+			.page
+				.main
+					.transaction-tabs.tabs-nav
+						.tabs__item(@click="tranTabs = 1" :class="{'is-active' : tranTabs == 1}") 全部
+							span 0
+						.tabs__item(@click="tranTabs = 2" :class="{'is-active' : tranTabs == 2}") 未平
+							span 1
+						.tabs__item(@click="tranTabs = 3" :class="{'is-active' : tranTabs == 3}") 已平
+						.tabs__item(@click="tranTabs = 4" :class="{'is-active' : tranTabs == 4}") 統計
+					.area(v-show='tranTabs == 1' style="height: calc(100% - 40px);overflow-y: auto;")
+						ul.area-tran-list
+							li.hs-edit
+								ul.tran-item
+									li
+										.tran-item__name 台指期
+										.tran-item__yellow 125672
+									li
+										.text__danger.text__lg 多
+									li
+										.tran-item__hey.text__lg 1
+									li
+										div
+											span.text__secondary 獲利
+											span.tran-item__ha -
+										div
+											span.text__secondary 損失
+											span.tran-item__ha -
+									li
+										div
+											span.text__secondary 12097
+											span.text__secondary 13:47:00
+										div
+											span 12097
+											span 13:47:00
+									li
+										.tran-item__yo 轉新單
+										div 已成交
+							li
+								ul.tran-item
+									li
+										.tran-item__name 台指期
+										.tran-item__yellow 125672
+									li
+										.text__danger.text__lg 多
+									li
+										.tran-item__hey.text__lg 1
+									li
+										div
+											span.text__secondary 獲利
+											span.tran-item__ha -
+										div
+											span.text__secondary 損失
+											span.tran-item__ha -
+									li
+										div
+											span.text__secondary 12097
+											span.text__secondary 13:47:00
+										div
+											span 12097
+											span 13:47:00
+									li
+										.tran-item__yo 轉新單
+										div 已成交
+					.area(v-show='tranTabs == 2' style="height: calc(100% - 40px);overflow-y: auto;")
+						.area-fixed
+							button.button 全部平倉
+						ul.area-tran-list
+							li.hs-edit
+								ul.tran-item
+									li
+										.tran-item__name 台指期
+										.tran-item__yellow 125672
+											span 1天
+									li
+										.text__danger.text__lg 多
+									li
+										.tran-item__hey 1
+										.tran-item__fee 0
+									li
+										div
+											span.text__secondary 獲利
+											span.tran-item__ha -
+										div
+											span.text__secondary 損失
+											span.tran-item__ha -
+									li 12097
+									li
+										div 12097
+										div $0
+					.area(v-show='tranTabs == 3' style="height: calc(100% - 40px);overflow-y: auto;")
+						ul.area-tran-list
+							li
+								ul.tran-item
+									li
+										.tran-item__name 台指期
+									li
+										.text__danger.text__lg 多
+									li
+										.tran-item__hey 1
+										.tran-item__fee 600
+									li
+										div
+											span.text__secondary 成交
+											span.tran-item__ha
+												span.tran-item__yellow 12094
+												span 28216
+										div
+											span.text__secondary 平倉
+											span.tran-item__ha
+												span.tran-item__yellow 12686
+												span 28231
+									li
+										.text__danger $2,400
+					.area(v-show='tranTabs == 4' style="height: calc(100% - 40px);overflow-y: auto;")
+						ul.area-tran-list
+							li
+								ul.tran-item
+									li
+										.tran-item__name.text__lg 台指期
+									li
+										.tran-item__put.bg__danger 0
+										.tran-item__put.bg__success 0
+									li
+										.tran-item__hey.text__lg 2
+									li
+										div
+											span.text__secondary 手續費
+											span 600
+									li
+										.text__danger.text__lg $2,400
+
+		//- 報表查詢
+		Account(v-if='tabShow == 5')
 	#tabs-nav
 		.tabs-nav-wrap
 			.tabs-list
@@ -42,11 +173,15 @@
 <script>
 
 import websocketService from '~/plugins/service/websocketService.js'
+
+import MainHeader from "~/components/mobile/MainHeader"
 import MainItem from "~/components/mobile/MainItem"
 import Operating from "~/components/mobile/Operating"
 import Documents from "~/components/mobile/Documents"
 import Report from "~/components/mobile/Report"
 import System from "~/components/mobile/System"
+import Account from "~/components/mobile/Account"
+
 import '@/assets/sass/mobile.scss'
 
 export default {
@@ -62,16 +197,19 @@ export default {
 	},
 	mixins: [websocketService],
 	components: {
+    MainHeader,
 		MainItem,
 		Operating,
 		Documents,
 		Report,
-		System
+		System,
+		Account
 	},
 	data() {
 		return {
 			loading: true,
-			tabShow: 1,
+			tabShow: 3,
+			tranTabs: 1,
 			allHeight: {
 				mainItem: 0,
 			}

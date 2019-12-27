@@ -2,20 +2,16 @@
 .modals.News
   .header
     .header__left
-      el-link(@click='$parent.systemShow = 0' icon='el-icon-arrow-left' :underline='false') 返回
-    .header__title 系統公告
+      .page__title 公告
+    .header__title
+    .header__right
+      button.button.header-button.back(@click='$parent.systemShow = 0') 返回
   .main
     .area
       ul.area-data-list(v-if="items.length > 0")
         li(v-for="item in items")
-          .area-data__title.hasDate
-            .area-data__name 系統公告
           .area-data__infor {{ item }}
-      ul.area-data-list(v-else)
-        li
-          .area-data__title.hasDate
-            .area-data__name 系統公告
-          .area-data__infor 暫無公告
+      .area-no-info(v-else) 暫無公告
 
 </template>
 

@@ -1,21 +1,8 @@
 <template lang='pug'>
-.modals.page
+.page
   .main(style="overflow: auto;")
     .area
-      .area__header
-        button.button(v-model='radioA' label='0') 一般下單
-      .area__content.d-flex.justify-content-around
-        label.radio.inline
-          input.radio__input(type="radio" v-model='buyType' value='0')
-          span.radio__label 市價單
-        label.radio.inline
-          input.radio__input(type="radio" v-model='buyType' value='2')
-          span.radio__label 收盤單
-        label.radio.inline
-          input.radio__input(type="radio" v-model='buyType' value='1')
-          span.radio__label 限價單
-    .area
-      table.table
+      table.table.table__mini
         thead
           tr
             th: .cell.text__center 商品
@@ -37,75 +24,75 @@
                   .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
                 span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
             td: .cell.text__center {{ nowMainItem.state_name }}
-          tr
-            td.limit.limit__1(colspan='5'): .cell.text__center 口數：
-              .number-input
-                input(type="text" v-model="submitNum" :min="0")
-                .number-button-group
-                  button.button__increase(@click="submitNum++")
-                  button.button__decrease(@click="submitNum--")
-          tr(v-if="buyType == 1")
-            td.limit.limit__2(colspan='5'): .cell.text__center 限價：
-              .number-input
-                input(type="text" v-model='nowPrice' :min="0")
-                .number-button-group
-                  button.button__increase(@click="nowPrice++")
+    .area(style="height: 300px;") k line?
+    .area
+      .area-order.area-order-theme2
+        table
+          tbody
+            tr
+              td(colspan="2")
+                label.title 商品
+                .order__select
+                  select
+                    option 黃豆
+              td
+                label.radio
+                  input.radio__input(type="radio" v-model='buyType' value='0')
+                  span.radio__label 市價
+            tr
+              td(colspan="2")
+                label.title 限價
+                .number-input
                   button.button__decrease(@click="nowPrice--")
-              button.button(@click="getNowPrice") 現
-          tr
-            td.limit.limit__3(colspan='5'): .cell.text__center 停利：
-              .number-input
-                input(type="text" v-model='profit' :min="0")
-                .number-button-group
-                  button.button__increase(@click="profit++")
-                  button.button__decrease(@click="profit--")
-          tr
-            td.limit.limit__4(colspan='5'): .cell.text__center 停損：
-              .number-input
-                input(type="text" v-model='damage' :min="0")
-                .number-button-group
-                  button.button__increase(@click="damage++")
-                  button.button__decrease(@click="damage--")
-              //- el-input-number(v-model='damage' :min="0")
-    .area
-      .area__header
-        .area__title(style='color: yellow') 目前下單商品: {{ $store.state.itemName }}
-        label.checkbox.inline(style="margin-left: 5px;")
-          input.checkbox__input(type="checkbox" v-model='customGroup' value='overall')
-          span.checkbox__label 全盤收平
-      .area__content.text__center
-        button.button__danger.button__lg(@click="checkOrder(0)") 下多單
-        button.button__success.button__lg(@click="checkOrder(1)") 下空單
-    .area
-      table.table.progress-table
-        thead
-          tr
-            th(colspan='2'): .cell.text__right 委買
-            th(colspan='2'): .cell.text__center 價格
-            th(colspan='2'): .cell.text__left 委賣
-        tbody
-          tr(v-for="(val, key) in $store.state.items0" v-if="key <= 4")
-            td(style='width:20%'): .cell
-              .progress-bar.progress-bar__right
-                .progress-bar__inner(:style="'width: ' + $store.state.items0[key + 6][0] + '%'")
-            td: .cell.text__center {{ $store.state.items0[key + 6][1] }}
-            td: .cell.text__center.text__danger {{ $store.state.items0[key + 6][2] }}
-            td: .cell.text__center.text__success {{ val[2] }}
-            td: .cell.text__center {{ val[3] }}
-            td(style='width:20%'): .cell
-              .progress-bar
-                .progress-bar__inner(:style="'width: ' + val[4] + '%'")
-      .itemDetail__Total.text__center
-        .row
-          .col {{ $store.state.fiveTotal.more }}
-          .col 總計
-          .col {{ $store.state.fiveTotal.nullNum }}
-        .row
-          .col.text__danger 多勢
-          .col
-            .progress-bar.progress-bar__total
-              .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
-          .col.text__success 空勢
+                  input(type="text" v-model='nowPrice' :min="0")
+                  button.button__increase(@click="nowPrice++")
+              td
+                label.radio
+                  input.radio__input(type="radio" v-model='buyType' value='2')
+                  span.radio__label 收盤單
+            tr
+              td
+                button.button__danger(@click="checkOrder(0)") 多單
+              td
+                label.title 口數
+                .number-input
+                  button.button__decrease(@click="submitNum--")
+                  input(type="text" v-model='submitNum' :min="0")
+                  button.button__increase(@click="submitNum++")
+              td
+                button.button__success(@click="checkOrder(1)") 空單
+      //- ul.area-order.area-order-theme1
+        li
+          label.title 商品
+          .order__select
+            select
+              option 黃豆
+        li
+          label.radio.inline
+            input.radio__input(type="radio" v-model='buyType' value='0')
+            span.radio__label 市價
+          label.radio.inline
+            input.radio__input(type="radio" v-model='buyType' value='2')
+            span.radio__label 收盤單
+          //- label.radio.inline
+            span.radio__label 限價單
+            input.radio__input(type="radio" v-model='buyType' value='1')
+        li
+          label.title 限價
+          .number-input
+            button.button__decrease(@click="nowPrice--")
+            input(type="text" v-model='nowPrice' :min="0")
+            button.button__increase(@click="nowPrice++")
+          //- button.button(@click="getNowPrice") 現
+        li
+          label.title 口數
+          .number-input
+            button.button__decrease(@click="submitNum--")
+            input(type="text" v-model='submitNum' :min="0")
+            button.button__increase(@click="submitNum++")
+        li.button-group
+          button.button__danger(@click="checkOrder(0)") 多單
+          button.button__success(@click="checkOrder(1)") 空單
 </template>
 
 <script>

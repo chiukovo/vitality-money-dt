@@ -1,16 +1,5 @@
 <template lang="pug">
 .page
-  .header-userInfo(:class="userInfoHeaderShow ? 'isOpen' : ''")
-    UserInfoHeader
-  .header
-    .header__left
-      button.button.header-button.logout(@click="logout") 登出
-    .header__title {{userInfo.Account}}
-    .header__right
-      button.button.header-button.header-dropmenu(@click="userInfoHeaderShow = !userInfoHeaderShow")
-        span $
-        .text__danger {{userInfo.Money}}
-        i.material-icons expand_more
   .main.mainItem
     Dialog(
       :click-type="dialog.clickType",

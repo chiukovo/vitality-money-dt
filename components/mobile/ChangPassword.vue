@@ -2,8 +2,10 @@
 .modals.changPassword
   .header
     .header__left
-      el-link(@click='$parent.systemShow = 0' icon='el-icon-arrow-left' :underline='false') 取消
-    .header__title 修改密碼
+      .page__title 修改密碼
+    .header__title
+    .header__right
+      button.button.header-button.back(@click='$parent.systemShow = 0') 返回
   .main
     .area
       .area__content
@@ -16,11 +18,11 @@
             el-input(type="password" v-model="form.checkPassword" placeholder='請再次新入舊密碼')
           el-form-item
             button.button__primary(type="button" @click="submit") 確定更改密碼
-    ul.rules-list
-      li 密碼規則:
-      li 1.必須6位長度;
-      li 2.需要數字和非數字組合;
-      li 3.不能有４位或以上連續數字或字母(比如1111,aaaa,1234,abcd)
+      ul.rules-list
+        li 密碼規則:
+        li 1.必須6位長度;
+        li 2.需要數字和非數字組合;
+        li 3.不能有４位或以上連續數字或字母(比如1111,aaaa,1234,abcd)
 </template>
 
 <script>
