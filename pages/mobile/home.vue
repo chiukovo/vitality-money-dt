@@ -4,11 +4,14 @@
 		MainHeader
 		//- 商品報價
 		MainItem(v-if='tabShow == 1')
+		//- 技術
+		Kchart(v-if='tabShow == 2')
 		//- 商品下單
 		Operating(v-if='tabShow == 3')
 		//- 交易
 		template(v-if='tabShow == 4')
-			.page
+			History
+			//- .page
 				.main
 					.transaction-tabs.tabs-nav
 						.tabs__item(@click="tranTabs = 1" :class="{'is-active' : tranTabs == 1}") 全部
@@ -176,8 +179,9 @@ import websocketService from '~/plugins/service/websocketService.js'
 
 import MainHeader from "~/components/mobile/MainHeader"
 import MainItem from "~/components/mobile/MainItem"
+import Kchart from "~/components/Kchart"
 import Operating from "~/components/mobile/Operating"
-import Documents from "~/components/mobile/Documents"
+import History from "~/components/mobile/History"
 import Report from "~/components/mobile/Report"
 import System from "~/components/mobile/System"
 import Account from "~/components/mobile/Account"
@@ -200,7 +204,8 @@ export default {
     MainHeader,
 		MainItem,
 		Operating,
-		Documents,
+		Kchart,
+		History,
 		Report,
 		System,
 		Account
@@ -208,7 +213,7 @@ export default {
 	data() {
 		return {
 			loading: true,
-			tabShow: 3,
+			tabShow: 1,
 			tranTabs: 1,
 			allHeight: {
 				mainItem: 0,

@@ -2,273 +2,43 @@
 .page
   .main
     .transaction-tabs.tabs-nav
-      .tabs__item(@click="handleDocument = 1" :class="{'is-active' : handleDocument == 1}") 全部
+      .tabs__item(@click="historyShow = 1" :class="{'is-active': historyShow == 1}") 全部
         span 0
-      .tabs__item(@click="handleDocument = 2" :class="{'is-active' : handleDocument == 2}") 未平
+      .tabs__item(@click="historyShow = 2" :class="{'is-active': historyShow == 2}") 未平
         span 1
-      .tabs__item(@click="handleDocument = 3" :class="{'is-active' : handleDocument == 3}") 已平
-      .tabs__item(@click="handleDocument = 4" :class="{'is-active' : handleDocument == 4}") 統計
-    .area(v-show='handleDocument == 1' style="height: calc(100% - 40px);overflow-y: auto;")
+      .tabs__item(@click="historyShow = 3" :class="{'is-active': historyShow == 3}") 已平
+      .tabs__item(@click="historyShow = 4" :class="{'is-active': historyShow == 4}") 統計
+    .area(v-if='historyShow == 1')
       ul.area-tran-list
-        li.hs-edit
+        li.hs-edit(v-for="item in $store.state.buySell")
           ul.tran-item
             li
-              .tran-item__name 台指期
-              .tran-item__yellow 125672
+              .tran-item__name {{ item.Name }}
+              .tran-item__yellow {{ item.OrderPrice }}
             li
-              .text__danger.text__lg 多
+              .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
-              .tran-item__hey.text__lg 1
+              .tran-item__hey.text__lg {{ item.Quantity }}
             li
               div
                 span.text__secondary 獲利
-                span.tran-item__ha -
+                span.tran-item__ha {{ parseInt(item.WinPoint) }}
               div
                 span.text__secondary 損失
-                span.tran-item__ha -
+                span.tran-item__ha {{ parseInt(item.LossPoint) }}
             li
               div
-                span.text__secondary 12097
-                span.text__secondary 13:47:00
+                span.text__secondary {{ item.State }}
+                span.text__secondary {{ item.OrderTime }}
               div
                 span 12097
-                span 13:47:00
+                span {{ item.FinalTime }}
             li
               .tran-item__yo 轉新單
               div 已成交
-        li
-          ul.tran-item
-            li
-              .tran-item__name 台指期
-              .tran-item__yellow 125672
-            li
-              .text__danger.text__lg 多
-            li
-              .tran-item__hey.text__lg 1
-            li
-              div
-                span.text__secondary 獲利
-                span.tran-item__ha -
-              div
-                span.text__secondary 損失
-                span.tran-item__ha -
-            li
-              div
-                span.text__secondary 12097
-                span.text__secondary 13:47:00
-              div
-                span 12097
-                span 13:47:00
-            li
-              .tran-item__yo 轉新單
-              div 已成交
-    .area(v-show='handleDocument == 2' style="height: calc(100% - 40px);overflow-y: auto;")
-      .area-fixed
-        button.button 全部平倉
-      ul.area-tran-list
-        li.hs-edit
-          ul.tran-item
-            li
-              .tran-item__name 台指期
-              .tran-item__yellow 125672
-                span 1天
-            li
-              .text__danger.text__lg 多
-            li
-              .tran-item__hey 1
-              .tran-item__fee 0
-            li
-              div
-                span.text__secondary 獲利
-                span.tran-item__ha -
-              div
-                span.text__secondary 損失
-                span.tran-item__ha -
-            li 12097
-            li
-              div 12097
-              div $0
-    .area(v-show='handleDocument == 3' style="height: calc(100% - 40px);overflow-y: auto;")
-      ul.area-tran-list
-        li
-          ul.tran-item
-            li
-              .tran-item__name 台指期
-            li
-              .text__danger.text__lg 多
-            li
-              .tran-item__hey 1
-              .tran-item__fee 600
-            li
-              div
-                span.text__secondary 成交
-                span.tran-item__ha
-                  span.tran-item__yellow 12094
-                  span 28216
-              div
-                span.text__secondary 平倉
-                span.tran-item__ha
-                  span.tran-item__yellow 12686
-                  span 28231
-            li
-              .text__danger $2,400
-    .area(v-show='handleDocument == 4' style="height: calc(100% - 40px);overflow-y: auto;")
-      ul.area-tran-list
-        li
-          ul.tran-item
-            li
-              .tran-item__name.text__lg 台指期
-            li
-              .tran-item__put.bg__danger 0
-              .tran-item__put.bg__success 0
-            li
-              .tran-item__hey.text__lg 2
-            li
-              div
-                span.text__secondary 手續費
-                span 600
-            li
-              .text__danger.text__lg $2,400
-  client-only
-    include mixins.pug
-  .header
-    .header__title 單據列表
-  .main
-    ul.nav-list
-      +nav-list-item('handleDocument', '1', '買賣單據')
-      +nav-list-item('handleDocument', '2', '未平倉單')
-      +nav-list-item('handleDocument', '3', '已平倉單')
-      +nav-list-item('handleDocument', '4', '商品統計')
-    template(v-if='documentShow == 2')
-      .modals.documents
-        .page
-          .header
-            .header__left
-              el-link(@click='handleDocument(0)' icon='el-icon-arrow-left' :underline='false') 返回
-            .header__title 未平倉單
-          .main
-            .area
-              .area__header
-                button.button(@click="multiOrderAllClick(true)") 全選
-                button.button(@click="multiOrderAllClick(false)") 全不選
-                button.button(@click="openMultiOrder") 平倉
-            .area(style="height: calc(100% - 40px); overflow-y: scroll;")
-              client-only
-                vxe-table(
-                  :data='$store.state.uncovered'
-                  :cell-class-name='uncoveredTableCellClassName',
-                  ref="multipleTable"
-                  max-width="100%"
-                  height="auto"
-                  column-min-width="90"
-                  size="mini"
-                  border
-                  auto-resize
-                  highlight-current-row)
-                  vxe-table-column(title='操作' align="center")
-                    template(slot-scope='scope')
-                      input(type="checkbox" v-model="multiOrderSelect" :value="scope.row.Serial" v-if="scope.row.Operation[2]")
-                      button.button(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平倉
-                  vxe-table-column(field='Serial', title='序號')
-                  vxe-table-column(field='Name', title='商品')
-                  vxe-table-column(title='型別')
-                    template(slot-scope='scope') {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
-                  vxe-table-column(field='FinalPrice', title='成交價')
-                  vxe-table-column(field='Quantity', title='口數')
-                  vxe-table-column(field='Fee', title='手續費')
-                  vxe-table-column(title='損失點數')
-                    template(slot-scope='scope')
-                      button.button__success(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('lossPointDialog', scope.row)") {{ scope.row.LossPoint }}
-                  vxe-table-column(title='獲利點數')
-                    template(slot-scope='scope')
-                      button.button__danger(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('winPointDialog', scope.row)") {{ scope.row.WinPoint }}
-                  vxe-table-column(title='倒限(利)')
-                    template(slot-scope='scope')
-                      button.button(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('profitPointDialog', scope.row)") {{ scope.row.InvertedPoint }}
-                  vxe-table-column(field='thisSerialTotalMoney', title='未平損益')
-                    template(slot-scope='scope')
-                      span(v-if="scope.row['thisSerialTotalMoney'] == 0" class="text__black") {{ scope.row['thisSerialTotalMoney'] }}
-                      span(v-else :class="scope.row['thisSerialTotalMoney'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialTotalMoney'] }}
-                  vxe-table-column(title='點數')
-                    template(slot-scope='scope')
-                      .table-icon
-                        .icon-arrow(v-if="scope.row['thisSerialPointDiff'] != 0" :class="scope.row['thisSerialPointDiff'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-                      span(v-if="scope.row['thisSerialPointDiff'] == 0" class="text__black") {{ scope.row['thisSerialPointDiff'] }}
-                      span(v-else :class="scope.row['thisSerialPointDiff'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialPointDiff'] }}
-                  vxe-table-column(field='Day', title='天數')
-                  vxe-table-column(field='State', title='狀態' width="150px")
-    template(v-if='documentShow == 3')
-      .modals.documents
-        .page
-          .header
-            .header__left
-              el-link(@click='handleDocument(0)' icon='el-icon-arrow-left' :underline='false') 返回
-            .header__title 已平倉單
-          .main
-            client-only
-              vxe-table.table(
-                :data='$store.state.covered'
-                :cell-class-name='coveredTableCellClassName'
-                max-width="100%"
-                height="100%"
-                column-min-width="90"
-                size="mini"
-                border
-                auto-resize
-                highlight-current-row)
-                vxe-table-column(field="Name" title='商品' fixed="left")
-                vxe-table-column(field="NewSerial" title='新倉序號')
-                vxe-table-column(field="CoverSerial" title='平倉序號')
-                vxe-table-column(field="NewType" title='新倉型別')
-                vxe-table-column(field="SerialCoveredNum" title='口數')
-                vxe-table-column(title='多空')
-                  template(slot-scope='scope') {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
-                vxe-table-column(field="NewPrice" title='成交價')
-                vxe-table-column(field="CoverPrice" title='平倉價')
-                vxe-table-column(field="NewDate" title='成交日期' width="150px")
-                vxe-table-column(field="CoverDate" title='平倉日期' width="150px")
-                vxe-table-column(field="WinPoint" title='點數')
-                vxe-table-column(field="CoverType" title='種類')
-                vxe-table-column(field="Fee" title='手續費')
-                vxe-table-column(field="WinMoney" title='損益')
-    template(v-if='documentShow == 4')
-      .modals.documents
-        .page
-          .header
-            .header__left
-              el-link(@click='handleDocument(0)' icon='el-icon-arrow-left' :underline='false') 返回
-            .header__title 商品統計
-          .main
-            client-only
-            vxe-table.table(
-              :data='$store.state.commodity'
-              :row-class-name="checkRowShow"
-              max-width="100%"
-              height="100%"
-              column-min-width="90"
-              size="mini"
-              border
-              auto-resize
-              highlight-current-row)
-              vxe-table-column(field="Name" title='商品名稱')
-              vxe-table-column(title='總多')
-                template(slot-scope='scope')
-                  span.text__danger {{ scope.row.TotalBuySubmit　}}
-              vxe-table-column(title='總空')
-                template(slot-scope='scope')
-                  span.text__success {{ scope.row.TotalSellSubmit}}
-              vxe-table-column(title='未平倉')
-                template(slot-scope='scope') {{ scope.row.RemainingBuyStock - scope.row.RemainingSellStock }}
-              vxe-table-column(field="TotalSubmit" title='總口數')
-              vxe-table-column(field="TotalFee" title='手續費合計')
-              vxe-table-column(title='損益')
-                template(slot-scope='scope')
-                  span.text__success(v-if="scope.row.TotalPoint >= 0") {{ scope.row.TotalPoint}}
-                  span.text__danger(v-else) {{ scope.row.TotalPoint}}
-              vxe-table-column(title='留倉預扣')
-                template(slot-scope='scope')
-                  span.text__success(v-if="scope.row.RemainingWithholding >= 0") {{ scope.row.RemainingWithholding}}
-                  span.text__danger(v-else) {{ scope.row.RemainingWithholding}}
+    .area(v-if='historyShow == 2')
+    .area(v-if='historyShow == 3')
+    .area(v-if='historyShow == 4')
     //-新倒限利點數
     el-dialog(
       :visible.sync='profitPointDialog'
@@ -468,7 +238,7 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      documentShow: 0,
+      historyShow: 1,
       checked: false,
       isMobile: '',
       userId: '',
@@ -527,9 +297,6 @@ export default {
     this.isMobile = this.$store.state.isMobile
   },
   methods: {
-    handleDocument(e) {
-			this.documentShow = e
-    },
     openMultiOrder() {
       let _this = this
       this.multiOrderData = []

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+console.log('v1.0.0')
+
 Vue.mixin({
   methods: {
     checkDevice() {
