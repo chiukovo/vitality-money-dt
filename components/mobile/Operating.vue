@@ -55,7 +55,7 @@
       //- 賣
       table
         tbody
-          tr(v-for="(val, key) in $store.state.items0" v-if="key <= 5")
+          tr(v-for="(val, key) in $store.state.items0" v-if="key < 5")
             td
               span(v-if="key == 2") 賣
             td: .text__center.text__success {{ val[2] }}

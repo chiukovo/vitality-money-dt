@@ -10,7 +10,7 @@
       .tabs__item(@click="historyShow = 4" :class="{'is-active': historyShow == 4}") 統計
     .area(v-if='historyShow == 1')
       ul.area-tran-list
-        li.hs-edit(v-for="item in $store.state.buySell")
+        li(:class="checkHasEdit(item)" v-for="item in $store.state.buySell" @click="openControl(item)")
           ul.tran-item
             li
               .tran-item__name {{ item.Name }}
@@ -229,6 +229,25 @@
       .dialog__footer
         el-button(@click="deleteConfirm = false") 取消
         el-button(type='primary' @click="doDelete") 確認
+    //-控制選項
+    el-dialog(
+      :visible.sync='showControl'
+      :modal='false'
+      width="96%"
+      title='改價減量'
+      v-dialogDrag)
+      .header-custom(slot='title')
+      template
+        button(@click="deleteOrder(controlData)") 刪單
+        button(@click="openEdit(controlData)") 改價減量
+        button(@click="openEdit(controlData)") 設定損益
+        ul
+          li 序號: {{ controlData.Serial }}
+          li 商品: {{ controlData.Name }}
+          li 委託價: {{ controlData.OrderPrice }}
+          li 多空:
+            span(:class="controlData.BuyOrSell == 0 ? 'text__danger' : 'text__success'") {{ controlData.BuyOrSell == 0 ? '多' : '空' }}
+          li 口數: {{ controlData.Quantity }}
 </template>
 
 <script>
@@ -279,6 +298,8 @@ export default {
       lossPointDialog: false,
       winPointDialog: false,
       profitPointDialog: false,
+      showControl: false,
+      controlData: {},
       valueDateInterval: [],
       allCommodity: [],
       openEditPointRow: [],
@@ -297,6 +318,19 @@ export default {
     this.isMobile = this.$store.state.isMobile
   },
   methods: {
+    openControl(item) {
+      if (item.Operation[0] || item.Operation[1]) {
+        //open
+        console.log(item)
+        this.showControl = true
+        this.controlData = item
+      }
+    },
+    checkHasEdit(item) {
+      if (item.Operation[0] || item.Operation[1]) {
+        return 'hs-edit'
+      }
+    },
     openMultiOrder() {
       let _this = this
       this.multiOrderData = []
