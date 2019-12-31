@@ -546,6 +546,7 @@ export default {
       more: 0,
       morePercent: 0,
       nullNum: 0,
+      nullNumPercent: 0,
     }
 
     if (fiveData.length > 0) {
@@ -566,6 +567,7 @@ export default {
 
       //多勢 %
       state.fiveTotal.morePercent = parseInt(100 / (state.fiveTotal.more + state.fiveTotal.nullNum) * state.fiveTotal.more)
+      state.fiveTotal.nullNumPercent = 100 - state.fiveTotal.morePercent
     }
   },
   setItemChange(state, history) {

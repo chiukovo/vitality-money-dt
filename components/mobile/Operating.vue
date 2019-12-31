@@ -82,13 +82,13 @@
             td {{ $store.state.fiveTotal.nullNum }}
             td(style='width:20%'): .cell
               .progress-bar
-                .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.nullNum + '%'")
+                .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.nullNumPercent + '%'")
           tr
             td 總買
             td {{ $store.state.fiveTotal.more }}
             td(style='width:20%'): .cell
               .progress-bar.progress-bar__right
-                .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.more + '%'")
+                .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
     .area
       //-Chart
     .area

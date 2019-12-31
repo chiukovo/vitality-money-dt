@@ -44,6 +44,7 @@ export default () => ({
     more: 0,
     morePercent: 0,
     nullNum: 0,
+    nullNumPercent: 0,
   },
   userInfoStyleHeight: '60px'
 })
