@@ -2,98 +2,84 @@
 .modals.documents
   .header
     .header__left
-      el-link(@click='$parent.systemShow = 0' icon='el-icon-arrow-left' :underline='false') 返回
+      .page__title 會員資訊
     .header__title
-      .select.header-select
-        select(v-model='selectItemId')
-          option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
     .header__right
-      button.button__primary 正常收單
-  .main
+      button.button.header-button.back(@click='$parent.systemShow = 0') 返回
+  .main(style="height: calc(100% - 40px);overflow-y: auto;")
     .area
-      .collapse(@click="open1 = !open1")
-        .collapse__header 最後交易日
-        ul.collapse__list(v-if="open1")
+      .collapse
+        ul.collapse__list
           li
-            span.label 禁止新單:
-            |{{ item.NotNewPercent}}%
+            span.label 預設額度:
+            span {{ userInfo.TouchPoint | currency }}
           li
-            span.label 強制平倉:
-            |{{ item.CoverPercent}}%
+            span.label 帳戶餘額:
+            span(:class="userInfo.Money < userInfo.TouchPoint ? 'text__danger' : 'text__success'") {{ userInfo.Money | currency }}
           li
-            span.label 下單時間:
-            span(v-html="item.TradeTime")
-      .collapse(@click="open2 = !open2")
-        .collapse__header 持倉與留倉參數
-        ul.collapse__list(v-if="open2")
+            span.label 今日損益:
+            span(:class="userInfo.TodayMoney < 0 ? 'text__success' : 'text__danger'")  {{ userInfo.TodayMoney | currency }}
           li
-            span.label 總口數上限(全商品):
-            |{{ userInfo.DaySubmitLimit }}
+            span.label 信用額度:
+            span  {{ userInfo.TouchPoint | currency }}
           li
-            span.label 總留倉口數(全商品):
-            |{{ userInfo.AllRemainingLimit }}
+            span.label 對匯額度:
+            span  {{ userInfo.ContrastPoint | currency }}
           li
-            span.label 總留倉天數(全商品):
-            |{{ userInfo.AllDayRemaingDayLimit }}
+            span.label 極贏額度:
+            span  {{ userInfo.SuperPoint | currency }}
           li
-            span.label 單商品滿倉上限(每手):
-            |{{ item.RemaingLimit }}
+            span.label 全商品持倉上限:
+            span  {{ userInfo.AllStoreLimit }}
           li
-            span.label 單商品口數上限(每手):
-            |{{ item.SubmitMax }}
+            span.label 全商品每筆上限:
+            span  {{ userInfo.DaySubmitLimit }}
           li
-            span.label 單商品留倉口數:
-            |{{ item.StoreLimit }}
-      .collapse(@click="open3 = !open3")
-        .collapse__header 交易相關參數
-        ul.collapse__list(v-if="open3")
+            span.label 全商品留倉上限:
+            span  {{ userInfo.AllRemainingLimit }}
           li
-            span.label 每點價格:
-            |{{ item.PointMoney }}
+            span.label 全商品留倉天數:
+            span  {{ userInfo.AllDayRemaingDayLimit }}
           li
-            span.label 手續費(進/出):
-            |{{ item.Fee }}
+            span.label 下單前是否確認:
+            span  {{ userInfo.SubmitConfirm ? '是' : '否' }}
           li
-            span.label 單商品留倉上限:
-            |{{ item.RemaingLimit }}
+            span.label 成交是否回報:
+            span  {{ userInfo.SuccessConfirm ? '是' : '否' }}
           li
-            span.label 開盤最大漲跌:
-            |{{ item.OpenMaxPoint }}
+            span.label 結算時間:
+            span  {{ userInfo.EndTime }}
           li
-            span.label 每口最大漲跌:
-            |{{ item.SubmitMaxPoint }}
-          li
-            span.label 停損利:
-            |{{ item.StopPoint }}
-//- .dialog
-  .dialog__content
-    client-only
-      vxe-table(
-        :data='items'
-        max-width="100%"
-        height="500px"
-        column-min-width="74"
-        size="mini"
-        align="center"
-        border
-        auto-resize
-        highlight-current-row
-        highlight-hover-row)
-        vxe-table-column(fixed="left" prop="Name" title='商品名稱')
-        vxe-table-column(field="PointMoney" title='每點價格')
-        vxe-table-column(field="Fee" title='手續費(進/出)')
-        vxe-table-column(field="SubmitMax" title='單商品每筆上限')
-        vxe-table-column(field="RemaingLimit" title='單商品留倉上限')
-        vxe-table-column(field="RemaingDayLimit" title='單商品留倉天數')
-        vxe-table-column(field="OpenMaxPoint" title='開盤最大漲跌')
-        vxe-table-column(field="SubmitMaxPoint" title='每口最大漲跌')
-        vxe-table-column(field="StopPoint" title='停損利')
-        vxe-table-column(title='可下單時間' width="200")
-          template(slot-scope="scope")
-            span(v-html="scope.row.TradeTime")
-        vxe-table-column(field="State" title='狀態')
-        vxe-table-column(field="NotNewPercent" title='禁新')
-        vxe-table-column(field="CoverPercent" title='強平')
+            span.label 報價模式:
+            span  {{ userInfo.PriceMode == 0 ? '整數報價' : '完整報價' }}
+      .collapse
+        .collapse__header 商品資訊
+        .dialog__content
+          ul
+            li(v-for="item in items" style="display: block;overflow: hidden;")
+              div(style="float: left") {{ item.Name }}
+              div(style="float: left")
+                ul
+                  li 每點價格: {{ item.PointMoney }}
+                  li 持倉上限: {{ item.StoreLimit }}
+                  li 開放0.1口: {{ item.DecimalSubmitEnable }}
+                  li 小於一口手續費: {{ item.DecimalSubmitFee }}
+                  li 60秒平倉手續費: {{ item.SixityFee }}
+                  li 手續費(進/出): {{ item.Fee }}
+                  li 單商品每筆上限: {{ item.SubmitMax }}
+                  li 單商品留倉上限: {{ item.RemaingLimit }}
+                  li 單商品留倉天數: {{ item.RemaingDayLimit }}
+              div(style="float: left")
+                ul
+                  li 開盤最大漲跌: {{ item.OpenMaxPoint }}
+                  li 每口最大漲跌: {{ item.SubmitMaxPoint }}
+                  li 停損利: {{ item.StopPoint }}
+                  li 禁新時間: {{ item.not_new_start_time1}} ~ {{ item.not_new_end_time1 }}
+                  li 可下單時間:
+                    span(v-html="item.TradeTime")
+                  li 狀態: {{ item.State }}
+                  li 禁新: {{ item.NotNewPercent }}
+                  li 強平: {{ item.CoverPercent }}
 </template>
 
 <script>
@@ -102,15 +88,12 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      item: {},
-      open1: true,
-      open2: true,
-      open3: true,
-      selectItemId: 'TXF'
+      items: [],
     }
   },
   mounted() {
-    this.getUserInfo()
+    const sourceCommidyArray = this.$store.state.commidyArray
+    this.getUserInfo(sourceCommidyArray)
   },
   computed: mapState([
     'commidyArray',
@@ -121,19 +104,10 @@ export default {
     commidyArray(sourceCommidyArray) {
       this.getUserInfo(sourceCommidyArray)
     },
-    selectItemId() {
-      this.getUserInfo()
-    },
   },
   methods: {
-    getUserInfo() {
-      const commidyArray = JSON.parse(JSON.stringify(this.$store.state.commidyArray))
-      const _this = this
-      commidyArray.forEach(function(val) {
-        if (val.ID == _this.selectItemId) {
-          _this.item = val
-        }
-      })
+    getUserInfo(sourceCommidyArray) {
+      this.items = JSON.parse(JSON.stringify(sourceCommidyArray))
     }
   }
 }

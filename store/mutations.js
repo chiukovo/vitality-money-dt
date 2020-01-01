@@ -12,8 +12,20 @@ export default {
       state.localStorage.remember.password = password
     }
   },
+  setHasMessage(state, data) {
+    state.hasMessage = data
+  },
+  setServiceMessages(state, data) {
+    state.serviceMessages = data
+  },
   setUserInfoStyleHeight(state, data) {
     state.userInfoStyleHeight = data
+  },
+  setDefaultQuantity(state, num) {
+    state.localStorage.customSetting.defaultQuantity = num
+  },
+  setOrderMode(state, type) {
+    state.localStorage.customSetting.orderMode = type
   },
   setOperatingStyle(state, type) {
     state.localStorage.customSetting.operatingStyle = type

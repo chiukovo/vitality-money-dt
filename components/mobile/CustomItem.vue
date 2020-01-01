@@ -1,15 +1,21 @@
 <template lang='pug'>
 .main
   .area
-    .area__header
-      button.button(@click="allChecked(true)") 全選
-      button.button(@click="allChecked(false)") 全不選
-      button.button(@click="submit") 保存
+    span 字型({{ fontSize }})
+    button(@click="updateFontSize('-')") -
+    button(@click="updateFontSize('+')") +
+  .area
+    //-不知道這啥功能
+    span 簡易
+    span 完整
   .area(style="height: calc(100% - 100px); overflow-y: scroll;")
     ul.area-select-list
         li(v-for="item in items"): label.checkbox
           input.checkbox__input(type="checkbox" v-model="multipleSelection" :value="item.id")
           span.checkbox__label {{ item.name }}
+    button.button(@click="submit('reset')") 還原
+    button.button(@click="submit") 確定
+    button.button(@click="cancel") 取消
 </template>
 <script>
 
@@ -22,6 +28,8 @@ export default {
     return {
       items: [],
       multipleSelection: [],
+      fontSize: '',
+      costomFontStyle: 1,
     }
   },
   mounted() {
@@ -36,8 +44,47 @@ export default {
         _this.multipleSelection.push(val.id)
       }
     })
+
+    this.costomFontStyle = this.fontStyle
+    this.getFontSize()
   },
+  computed: mapState({
+    fontStyle: state => state.localStorage.customSetting.fontStyle,
+  }),
   methods: {
+    getFontSize() {
+      let fontSize = 15
+
+      switch(this.costomFontStyle) {
+        case 0:
+          fontSize = 10
+          break
+        case 1:
+          fontSize = 15
+          break
+        case 2:
+          fontSize = 20
+          break
+        case 3:
+          fontSize = 25
+          break
+      }
+
+      this.fontSize = fontSize
+    },
+    updateFontSize(type) {
+      if (type == '-') {
+        if (this.costomFontStyle != 0) {
+          this.costomFontStyle--
+        }
+      } else {
+        if (this.costomFontStyle != 3) {
+          this.costomFontStyle++
+        }
+      }
+
+      this.getFontSize()
+    },
     allChecked(allChecked) {
       let _this = this
       _this.multipleSelection = []
@@ -48,10 +95,17 @@ export default {
         })
       }
     },
-    async submit() {
+    async submit(type) {
       let _this = this
       let result = []
       const mainItem = _this.$store.state.mainItem
+
+      //set 字形
+      if (type == 'reset') {
+        this.costomFontStyle = 1
+      }
+
+      _this.$store.commit('setFontStyle', this.costomFontStyle)
 
       _this.items.forEach(function(val) {
         let show = false
@@ -61,6 +115,10 @@ export default {
             show = true
           }
         })
+
+        if (type == 'reset') {
+          show = true
+        }
 
         val.show = show
         result.push(val)

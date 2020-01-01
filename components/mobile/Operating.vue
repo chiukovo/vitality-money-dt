@@ -186,6 +186,7 @@ export default {
       profit: 0,
       damage: 0,
       submitNum: 1,
+      orderMode: 1,
       checkList: ['下單不確認'],
       defaultAllSubmit: [1, 2, 3, 4, 5],
       customSubmitNums: []
@@ -241,6 +242,9 @@ export default {
   mounted() {
     const customSubmitNums = this.$cookies.get('customSubmitNums')
     const customGroup = this.$cookies.get('customGroup')
+    const orderMode = this.$store.state.localStorage.customSetting.orderMode
+    const defaultQuantity = this.$store.state.localStorage.customSetting.defaultQuantity
+
     let _this = this
 
     if (typeof customSubmitNums == 'undefined') {
@@ -256,6 +260,15 @@ export default {
     //目前選擇商品
     this.selectItemId = this.$store.state.clickItemId
     this.getNowPrice()
+
+    //預設口數
+    if (typeof orderMode != 'undefined') {
+      this.orderMode = orderMode
+    }
+
+    if (typeof defaultQuantity != 'undefined') {
+      this.submitNum = defaultQuantity
+    }
   },
   methods: {
     getNowOverall() {

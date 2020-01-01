@@ -9,6 +9,8 @@ export const state = () => ({
     operatingStyle: 'A',
     mainStyle: 1,
     fontStyle: 1, //預設字型大小
+    orderMode: 1, //手機板 下單模式
+    defaultQuantity: 1, //預設口數
   	operatingCustomGroup: [], //下單三項自訂選項
   },
   remember: {

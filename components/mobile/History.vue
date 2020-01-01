@@ -3,12 +3,12 @@
   .main
     .transaction-tabs.tabs-nav
       .tabs__item(@click="historyShow = 1" :class="{'is-active': historyShow == 1}") 全部
-        span 0
+        span {{ $store.state.buySell.length }}
       .tabs__item(@click="historyShow = 2" :class="{'is-active': historyShow == 2}") 未平
-        span 1
+        span {{ $store.state.unCoverBuySum }}
       .tabs__item(@click="historyShow = 3" :class="{'is-active': historyShow == 3}") 已平
       .tabs__item(@click="historyShow = 4" :class="{'is-active': historyShow == 4}") 統計
-    .area(v-if='historyShow == 1')
+    .area(v-if='historyShow == 1' style="height: calc(100% - 40px);overflow-y: auto;")
       ul.area-tran-list
         li(:class="checkHasEdit(item)" v-for="item in $store.state.buySell" @click="openControl(item)")
           ul.tran-item
@@ -36,9 +36,81 @@
             li
               .tran-item__yo 轉新單
               div 已成交
-    .area(v-if='historyShow == 2')
-    .area(v-if='historyShow == 3')
-    .area(v-if='historyShow == 4')
+    .area(v-if='historyShow == 2' style="height: calc(100% - 40px);overflow-y: auto;")
+      .area-fixed
+        button.button(@click="openMultiOrder") 全部平倉
+      ul.area-tran-list
+        li(:class="item.Operation[3] == 0 ? '' : 'hs-edit'" v-for="item in $store.state.uncovered")
+          ul.tran-item
+            li
+              .tran-item__name {{ item.Name }}
+              .tran-item__yellow {{ item.Serial }}
+                //-span 1天
+            li
+              .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}
+            li
+              .tran-item__hey {{ item.WinPoint }}
+              .tran-item__fee {{ item.LossPoint }}
+            li
+              div
+                span.text__secondary 獲利
+                span.tran-item__ha -
+              div
+                span.text__secondary 損失
+                span.tran-item__ha -
+            li {{ item.FinalPrice }}
+            li
+              div
+                .change-icon(v-if="typeof item.thisSerialPointDiff != 'undefined'")
+                  .icon-arrow(v-if="item.thisSerialPointDiff != 0" :class="item.thisSerialPointDiff > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+                span(v-if="item.thisSerialPointDiff == 0" class="text__black") {{ item.thisSerialPointDiff }}
+                span(v-else :class="item.thisSerialPointDiff > 0 ? 'text__up' : 'text__down'") {{ item.thisSerialPointDiff }}
+              div
+                span(v-if="item.thisSerialTotalMoney == 0" class="text__black") {{ item.thisSerialTotalMoney }}
+                span(v-else :class="item.thisSerialTotalMoney > 0 ? 'text__up' : 'text__down'") {{ item.thisSerialTotalMoney }}
+    .area(v-if='historyShow == 3' style="height: calc(100% - 40px);overflow-y: auto;")
+      ul.area-tran-list
+        li(v-for="item in $store.state.covered")
+          ul.tran-item
+            li
+              .tran-item__name {{ item.Name }}
+            li
+              .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}
+            li
+              .tran-item__hey {{ item.SerialCoveredNum }}
+              .tran-item__fee {{ item.Fee }}
+            li
+              div
+                span.text__secondary 成交
+                span.tran-item__ha
+                  span.tran-item__yellow {{ item.NewPrice }}
+                  span -
+              div
+                span.text__secondary 平倉
+                span.tran-item__ha
+                  span.tran-item__yellow {{ item.CoverPrice }}
+                  span -
+            li
+              span(:class="item.Money < 0 ? 'text__success' : 'text__danger'") {{ item.Money | currency }}
+    .area(v-if='historyShow == 4' style="height: calc(100% - 40px);overflow-y: auto;")
+      ul.area-tran-list
+        li(v-for="item in $store.state.commodity")
+          ul.tran-item
+            li
+              .tran-item__name.text__lg {{ item.Name }}
+            li
+              .tran-item__put.bg__danger {{ item.TotalBuySubmit　}}
+              .tran-item__put.bg__success {{ item.TotalSellSubmit}}
+            li
+              .tran-item__hey.text__lg {{ item.TotalSubmit}}
+            li
+              div
+                span.text__secondary 手續費
+                span {{ item.TotalFee }}
+            li
+              .text__danger.text__lg
+                span.text__success(v-if="item.TotalPoint < 0") {{ item.TotalPoint}}
+                span.text__danger(v-else) {{ item.TotalPoint}}
     //-新倒限利點數
     el-dialog(
       :visible.sync='profitPointDialog'

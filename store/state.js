@@ -6,6 +6,7 @@ export default () => ({
     reconnectError: false,
   },
   mainItem: [],
+  serviceMessages: [],
   nowMainItem: [],
   updateMainItem: [],
   nowFiveMoney: [],
@@ -46,5 +47,6 @@ export default () => ({
     nullNum: 0,
     nullNumPercent: 0,
   },
-  userInfoStyleHeight: '60px'
+  userInfoStyleHeight: '60px',
+  hasMessage: false
 })

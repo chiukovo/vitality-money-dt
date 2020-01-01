@@ -147,6 +147,13 @@ export default {
           _this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
 
           break
+        //客服
+        case "m":
+          _this.$store.dispatch('CALL_SERVICE_MESSAGE')
+
+          //閃爍
+          _this.$store.commit('setHasMessage', true)
+          break
         case "i": //成交
           //call order list
           _this.$store.dispatch('CALL_MEMBER_ORDER_LIST')

@@ -3,8 +3,10 @@
   .page
     .header
       .header__left
-        el-link(@click='$parent.handleQuote(0)' icon='el-icon-arrow-left' :underline='false') 返回
-      .header__title 儲值紀錄
+        .page__title 儲值紀錄
+      .header__title
+      .header__right
+        button.button.header-button.back(@click='$parent.systemShow = 0') 返回
     .main
       .area
         .area__header
