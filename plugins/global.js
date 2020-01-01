@@ -28,6 +28,21 @@ Vue.mixin({
     testGlobal() {
       return 'success'
     },
+    logout() {
+      //unset cookie
+      this.$cookies.remove('token')
+
+      const returnUrl = this.$store.state.localStorage.userAuth.returnURL
+
+      //unset user info
+      this.$store.commit('clearUserAuth')
+
+      if (returnUrl && returnUrl !== '') {
+        location.href = returnUrl
+      } else {
+        location.href = "/"
+      }
+    },
     startToken() {
       return 'a:test,test'
     },

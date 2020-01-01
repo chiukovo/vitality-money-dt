@@ -52,12 +52,6 @@ export default {
     'userInfo',
   ]),
   methods: {
-    logout() {
-      //unset cookie
-      let token = this.$cookies.remove('token')
-
-      location.href = "/"
-    }
   }
 }
 </script>
