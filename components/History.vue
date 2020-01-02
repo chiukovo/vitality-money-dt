@@ -13,8 +13,8 @@
         .badge.badge-success.mybadge {{ Math.abs($store.state.unCoverSellSum) }}
       .tabs__item(@click='handleHistoryTabs(5)' :class="{'is-active' : historyTabShow == 5}") 已平倉
       .tabs__item(@click='handleHistoryTabs(6)' :class="{'is-active' : historyTabShow == 6}") 統計
-  Kchart(v-if='historyTabShow == 1' :reSize="reSize")
-  Chart(v-if='historyTabShow == 2')
+  HistoryK(v-if='historyTabShow == 1' :reSize="reSize")
+  HistoryC(v-if='historyTabShow == 2')
   AllList(v-show='historyTabShow == 3')
   Uncovered(v-show='historyTabShow == 4')
   Covered(v-show='historyTabShow == 5')
@@ -30,8 +30,8 @@ import AllList from "~/components/BetList/AllList"
 import Uncovered from "~/components/BetList/Uncovered"
 import Covered from "~/components/BetList/Covered"
 import Commodity from "~/components/BetList/Commodity"
-import Kchart from "~/components/Kchart"
-import Chart from "~/components/Chart"
+import HistoryK from "~/components/HistoryK"
+import HistoryC from "~/components/HistoryC"
 
 export default {
   data() {
@@ -57,8 +57,8 @@ export default {
     AllList,
     Uncovered,
     Covered,
-    Kchart,
-    Chart,
+    HistoryK,
+    HistoryC,
     Commodity,
   },
   watch: {

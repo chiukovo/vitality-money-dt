@@ -51,47 +51,99 @@
             td: .cell.text__center {{ nowMainItem.new_point2 }}
             td: .cell.text__center {{ nowMainItem.cover_point1 }}
             td: .cell.text__center {{ nowMainItem.cover_point2 }}
-    .area
-      //- 五檔揭示
-      //- 賣
-      table
-        tbody
-          tr(v-for="(val, key) in $store.state.items0" v-if="key < 5")
-            td
-              span(v-if="key == 2") 賣
-            td: .text__center.text__success {{ val[2] }}
-            td: .text__center.text__success {{ val[3] }}
-            td(style='width:20%'): .cell
-              .progress-bar
-                .progress-bar__inner(:style="'width: ' + val[4] + '%'")
-      //- 買
-      table
-        tbody
-          tr(v-for="(val, key) in $store.state.items0" v-if="key >= 6")
-            td
-              span(v-if="key == 8") 買
-            td: .text__center.text__danger {{ val[2] }}
-            td: .text__center.text__danger {{ val[1] }}
-            td(style='width:20%'): .cell
-              .progress-bar.progress-bar__right
-                .progress-bar__inner(:style="'width: ' + val[0] + '%'")
-      //-total
-      table
-        tbody
-          tr
-            td 總賣
-            td {{ $store.state.fiveTotal.nullNum }}
-            td(style='width:20%'): .cell
-              .progress-bar
-                .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.nullNumPercent + '%'")
-          tr
-            td 總買
-            td {{ $store.state.fiveTotal.more }}
-            td(style='width:20%'): .cell
-              .progress-bar.progress-bar__right
+    .area(v-if="orderMode == 1")
+      button.leftButton(@click="showContentType--" v-if="showContentType != 1") <
+      div(v-show="showContentType == 1")
+        Chart
+      div(v-show="showContentType == 2")
+        //- 五檔揭示
+        table.table.progress-table
+          thead
+            tr
+              th(colspan='2'): .cell.text__right 委買
+              th(colspan='2'): .cell.text__center 價格
+              th(colspan='2'): .cell.text__left 委賣
+          tbody
+            tr(v-for="(val, key) in $store.state.items0" v-if="key <= 4")
+              td(style='width:20%'): .cell
+                .progress-bar.progress-bar__right
+                  .progress-bar__inner(:style="'width: ' + $store.state.items0[key + 6][0] + '%'")
+              td: .cell.text__center {{ $store.state.items0[key + 6][1] }}
+              td: .cell.text__center.text__danger {{ $store.state.items0[key + 6][2] }}
+              td: .cell.text__center.text__success {{ val[2] }}
+              td: .cell.text__center {{ val[3] }}
+              td(style='width:20%'): .cell
+                .progress-bar
+                  .progress-bar__inner(:style="'width: ' + val[4] + '%'")
+        .itemDetail__Total.text__center
+          .row
+            .col {{ $store.state.fiveTotal.more }}
+            .col 總計
+            .col {{ $store.state.fiveTotal.nullNum }}
+          .row
+            .col.text__danger 多勢
+            .col
+              .progress-bar.progress-bar__total
                 .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
-    .area
-      //-Chart
+            .col.text__success 空勢
+      div(v-show="showContentType == 3")
+        ul
+          li 昨收: {{ nowMainItem.yesterday_close_price }}
+          li 開盤:
+            span(:class="nowMainItem.color") {{ nowMainItem.open_price }}
+          li 最高:
+            span(:class="nowMainItem.color") {{ nowMainItem.highest_price }}
+          li 最低:
+            span(:class="nowMainItem.color") {{ nowMainItem.lowest_price }}
+        ul
+          li 最後成交價:
+            span(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
+          li 禁新: {{ nowMainItem.cover_point1 }} / {{ nowMainItem.cover_point2 }}
+          li 強平: {{ nowMainItem.new_point1 }} / {{ nowMainItem.new_point2 }}
+          li 最後交易日: {{ nowMainItem.end_date }}
+      button.rightButton(@click="showContentType++" v-if="showContentType != 3") >
+    .area(v-if="orderMode == 2")
+      .left(style="float: left;")
+        //- 五檔揭示
+        //- 賣
+        table
+          tbody
+            tr(v-for="(val, key) in $store.state.items0" v-if="key < 5")
+              td
+                span(v-if="key == 2") 賣
+              td: .text__center.text__success {{ val[2] }}
+              td: .text__center.text__success {{ val[3] }}
+              td(style='width:20%'): .cell
+                .progress-bar
+                  .progress-bar__inner(:style="'width: ' + val[4] + '%'")
+        //- 買
+        table
+          tbody
+            tr(v-for="(val, key) in $store.state.items0" v-if="key >= 6")
+              td
+                span(v-if="key == 8") 買
+              td: .text__center.text__danger {{ val[2] }}
+              td: .text__center.text__danger {{ val[1] }}
+              td(style='width:20%'): .cell
+                .progress-bar.progress-bar__right
+                  .progress-bar__inner(:style="'width: ' + val[0] + '%'")
+        //-total
+        table
+          tbody
+            tr
+              td 總賣
+              td {{ $store.state.fiveTotal.nullNum }}
+              td(style='width:20%'): .cell
+                .progress-bar
+                  .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.nullNumPercent + '%'")
+            tr
+              td 總買
+              td {{ $store.state.fiveTotal.more }}
+              td(style='width:20%'): .cell
+                .progress-bar.progress-bar__right
+                  .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
+      .right
+        Chart
     .area
       //- .area-order.area-order-theme2
         table
@@ -169,6 +221,7 @@
 
 <script>
 
+import Vue from 'vue'
 import { mapState } from 'vuex'
 import Chart from "~/components/Chart"
 
@@ -187,21 +240,23 @@ export default {
       profit: 0,
       damage: 0,
       submitNum: 1,
+      defaultQuantity: 1,
       orderMode: 1,
+      showContentType: 1,
       checkList: ['下單不確認'],
       defaultAllSubmit: [1, 2, 3, 4, 5],
-      customSubmitNums: []
+      customSubmitNums: [],
     };
   },
-  computed: mapState([
-    'clickItemId',
-    'nowMainItem',
-    'mainItem',
-    'commidyArray',
-  ]),
-    components: {
-      Chart,
-    },
+  computed: mapState({
+    clickItemId: 'clickItemId',
+    nowMainItem: 'nowMainItem',
+    mainItem: 'mainItem',
+    commidyArray: 'commidyArray',
+  }),
+  components: {
+    Chart,
+  },
   watch: {
     selectItemId(id) {
       let name = ''
@@ -262,11 +317,11 @@ export default {
     this.selectItemId = this.$store.state.clickItemId
     this.getNowPrice()
 
-    //預設口數
     if (typeof orderMode != 'undefined') {
       this.orderMode = orderMode
     }
 
+    //預設口數
     if (typeof defaultQuantity != 'undefined') {
       this.submitNum = defaultQuantity
     }
