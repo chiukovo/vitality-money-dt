@@ -1,11 +1,11 @@
 <template lang='pug'>
 .page
   .main(style="overflow: auto;")
-    .area
-      table.table.table__mini
+    .area(style="width: 100%; overflow-x: auto;")
+      table.table.table__mini(style="width: 440px")
         thead
           tr
-            th: .cell.text__center 商品
+            th(width="80"): .cell.text__center 商品
             th: .cell.text__center 成交
             th: .cell.text__center 漲跌
             th: .cell.text__center 漲幅%
@@ -25,7 +25,8 @@
             td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.total_qty }}
             td: .cell.text__center {{ nowMainItem.newest_time }}
             td: .cell.text__center {{ nowMainItem.state_name }}
-      table.table.table__mini(style="overflow: auto hidden; width: 100px;")
+    .area(style="width: 100%; overflow-x: auto;")
+      table.table.table__mini(style="width: 600px")
         thead
           tr
             th: .cell.text__center 昨收價
@@ -92,7 +93,7 @@
     .area
       //-Chart
     .area
-      .area-order.area-order-theme2
+      //- .area-order.area-order-theme2
         table
           tbody
             tr
@@ -132,12 +133,12 @@
                   button.button__increase(@click="submitNum++")
               td
                 button.button__success(@click="checkOrder(1)") 空單
-      //- ul.area-order.area-order-theme1
+      ul.area-order.area-order-theme1
         li
           label.title 商品
           .order__select
-            select
-              option 黃豆
+            select(v-model='selectItemId')
+              option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
         li
           label.radio.inline
             input.radio__input(type="radio" v-model='buyType' value='0')
@@ -145,9 +146,9 @@
           label.radio.inline
             input.radio__input(type="radio" v-model='buyType' value='2')
             span.radio__label 收盤單
-          //- label.radio.inline
-            span.radio__label 限價單
+          label.radio.inline
             input.radio__input(type="radio" v-model='buyType' value='1')
+            span.radio__label 限價單
         li
           label.title 限價
           .number-input

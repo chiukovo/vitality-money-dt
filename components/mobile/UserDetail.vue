@@ -55,31 +55,64 @@
       .collapse
         .collapse__header 商品資訊
         .dialog__content
-          ul
-            li(v-for="item in items" style="display: block;overflow: hidden;")
-              div(style="float: left") {{ item.Name }}
-              div(style="float: left")
+          ul.collapse__list_theme2
+            li(v-for="item in items")
+              div {{ item.Name }}
+              div
                 ul
-                  li 每點價格: {{ item.PointMoney }}
-                  li 持倉上限: {{ item.StoreLimit }}
-                  li 開放0.1口: {{ item.DecimalSubmitEnable }}
-                  li 小於一口手續費: {{ item.DecimalSubmitFee }}
-                  li 60秒平倉手續費: {{ item.SixityFee }}
-                  li 手續費(進/出): {{ item.Fee }}
-                  li 單商品每筆上限: {{ item.SubmitMax }}
-                  li 單商品留倉上限: {{ item.RemaingLimit }}
-                  li 單商品留倉天數: {{ item.RemaingDayLimit }}
-              div(style="float: left")
+                  li
+                    span.label 每點價格:
+                    |{{ item.PointMoney }}
+                  li
+                    span.label 持倉上限:
+                    |{{ item.StoreLimit }}
+                  li
+                    span.label 開放0.1口:
+                    |{{ item.DecimalSubmitEnable }}
+                  li
+                    span.label 小於一口手續費:
+                    |{{ item.DecimalSubmitFee }}
+                  li
+                    span.label 60秒平倉手續費:
+                    |{{ item.SixityFee }}
+                  li
+                    span.label 手續費(進/出):
+                    |{{ item.Fee }}
+                  li
+                    span.label 單商品每筆上限:
+                    |{{ item.SubmitMax }}
+                  li
+                    span.label 單商品留倉上限:
+                    |{{ item.RemaingLimit }}
+                  li
+                    span.label 單商品留倉天數:
+                    |{{ item.RemaingDayLimit }}
+              div
                 ul
-                  li 開盤最大漲跌: {{ item.OpenMaxPoint }}
-                  li 每口最大漲跌: {{ item.SubmitMaxPoint }}
-                  li 停損利: {{ item.StopPoint }}
-                  li 禁新時間: {{ item.not_new_start_time1}} ~ {{ item.not_new_end_time1 }}
-                  li 可下單時間:
+                  li
+                    span.label 開盤最大漲跌:
+                    |{{ item.OpenMaxPoint }}
+                  li
+                    span.label 每口最大漲跌:
+                    |{{ item.SubmitMaxPoint }}
+                  li
+                    span.label 停損利:
+                    |{{ item.StopPoint }}
+                  li
+                    span.label 禁新時間:
+                    |{{ item.not_new_start_time1}} ~ {{ item.not_new_end_time1 }}
+                  li
+                    span.label 可下單時間:
                     span(v-html="item.TradeTime")
-                  li 狀態: {{ item.State }}
-                  li 禁新: {{ item.NotNewPercent }}
-                  li 強平: {{ item.CoverPercent }}
+                  li
+                    span.label 狀態:
+                    |{{ item.State }}
+                  li
+                    span.label 禁新:
+                    |{{ item.NotNewPercent }}
+                  li
+                    span.label 強平:
+                    |{{ item.CoverPercent }}
 </template>
 
 <script>
