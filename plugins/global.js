@@ -213,6 +213,15 @@ Vue.mixin({
     },
     getMoneyColor(target) {
       return target < 0 ? 'text__success' : 'text__danger'
-    }
+    },
+    dateOnlyHis(date) {
+      const format = date.split(" ")
+
+      if (typeof format[1] != "undefined") {
+        return format[1]
+      } else {
+        return date
+      }
+    },
   }
 })

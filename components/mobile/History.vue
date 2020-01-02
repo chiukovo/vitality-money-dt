@@ -5,16 +5,16 @@
       .tabs__item(@click="historyShow = 1" :class="{'is-active': historyShow == 1}") 全部
         span {{ $store.state.buySell.length }}
       .tabs__item(@click="historyShow = 2" :class="{'is-active': historyShow == 2}") 未平
-        span {{ $store.state.unCoverBuySum }}
+        span {{ $store.state.uncovered.length }}
       .tabs__item(@click="historyShow = 3" :class="{'is-active': historyShow == 3}") 已平
       .tabs__item(@click="historyShow = 4" :class="{'is-active': historyShow == 4}") 統計
     .area(v-if='historyShow == 1' style="height: calc(100% - 40px);overflow-y: auto;")
       ul.area-tran-list
-        li(:class="checkHasEdit(item)" v-for="item in $store.state.buySell" @click="openControl(item)")
+        li(:class="checkHasEdit(item)" v-for="item in $store.state.buySell" @click="openControl(item, '改價減量')")
           ul.tran-item
             li
               .tran-item__name {{ item.Name }}
-              .tran-item__yellow {{ item.OrderPrice }}
+              .tran-item__yellow {{ item.Serial }}
             li
               .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
@@ -28,19 +28,19 @@
                 span.tran-item__ha {{ parseInt(item.LossPoint) }}
             li
               div
-                span.text__secondary {{ item.State }}
-                span.text__secondary {{ item.OrderTime }}
+                span.text__secondary {{ item.OrderPrice }}
+                span.text__secondary {{ dateOnlyHis(item.OrderTime) }}
               div
-                span 12097
-                span {{ item.FinalTime }}
+                span {{ item.FinalPrice }}
+                span {{ dateOnlyHis(item.FinalTime) }}
             li
-              .tran-item__yo 轉新單
-              div 已成交
+              .tran-item__yo {{ item.Odtype }}
+              div {{ item.State }}
     .area(v-if='historyShow == 2' style="height: calc(100% - 40px);overflow-y: auto;")
       .area-fixed
         button.button(@click="openMultiOrder") 全部平倉
       ul.area-tran-list
-        li(:class="item.Operation[3] == 0 ? '' : 'hs-edit'" v-for="item in $store.state.uncovered")
+        li(:class="item.Operation[3] == 0 ? '' : 'hs-edit'" v-for="item in $store.state.uncovered" @click="openControl(item, '平倉設定')")
           ul.tran-item
             li
               .tran-item__name {{ item.Name }}
@@ -54,20 +54,19 @@
             li
               div
                 span.text__secondary 獲利
-                span.tran-item__ha -
+                span.tran-item__ha
+                  div
+                    .change-icon(v-if="typeof item.thisSerialPointDiff != 'undefined'")
+                      .icon-arrow(v-if="item.thisSerialPointDiff != 0" :class="item.thisSerialPointDiff > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+                    span(v-if="item.thisSerialPointDiff == 0" class="text__black") {{ item.thisSerialPointDiff }}
+                    span(v-else :class="item.thisSerialPointDiff > 0 ? 'text__danger' : 'text__success'") {{ item.thisSerialPointDiff }}
               div
                 span.text__secondary 損失
-                span.tran-item__ha -
+                span.tran-item__ha
+                  div
+                    span(v-if="item.thisSerialTotalMoney == 0" class="text__black") {{ item.thisSerialTotalMoney }}
+                    span(v-else :class="item.thisSerialTotalMoney > 0 ? 'text__danger' : 'text__success'") {{ item.thisSerialTotalMoney }}
             li {{ item.FinalPrice }}
-            li
-              div
-                .change-icon(v-if="typeof item.thisSerialPointDiff != 'undefined'")
-                  .icon-arrow(v-if="item.thisSerialPointDiff != 0" :class="item.thisSerialPointDiff > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-                span(v-if="item.thisSerialPointDiff == 0" class="text__black") {{ item.thisSerialPointDiff }}
-                span(v-else :class="item.thisSerialPointDiff > 0 ? 'text__up' : 'text__down'") {{ item.thisSerialPointDiff }}
-              div
-                span(v-if="item.thisSerialTotalMoney == 0" class="text__black") {{ item.thisSerialTotalMoney }}
-                span(v-else :class="item.thisSerialTotalMoney > 0 ? 'text__up' : 'text__down'") {{ item.thisSerialTotalMoney }}
     .area(v-if='historyShow == 3' style="height: calc(100% - 40px);overflow-y: auto;")
       ul.area-tran-list
         li(v-for="item in $store.state.covered")
@@ -244,8 +243,8 @@
             el-form-item(title="口數")
               el-input-number(v-model="edit.submit" :min="1" :max="edit.submitMax")
             el-form-item
-              el-radio(v-model='edit.buyType' title='0') 市價單
-              el-radio(v-model='edit.buyType' title='1') 限價單
+              el-radio(v-model='edit.buyType' label='0') 市價單
+              el-radio(v-model='edit.buyType' label='1') 限價單
             el-form-item(title="限價" v-if="edit.buyType == '1'")
               el-input-number(v-model="edit.nowPrice")
         .dialog__footer
@@ -306,13 +305,19 @@
       :visible.sync='showControl'
       :modal='false'
       width="96%"
-      title='改價減量'
+      :title='showControlTitle'
       v-dialogDrag)
       .header-custom(slot='title')
       template
-        button(@click="deleteOrder(controlData)") 刪單
-        button(@click="openEdit(controlData)") 改價減量
-        button(@click="openEdit(controlData)") 設定損益
+        div(v-if="showControlTitle == '改價減量'")
+          button(@click="deleteOrder(controlData)") 刪單
+          button(@click="openEdit(controlData)") 改價減量
+          button(@click="openEdit(controlData)") 設定損益
+        div(v-else)
+          button(@click="doCovered(controlData, 1)") 市價平倉
+          button(@click="openEditPoint('winPointDialog', controlData)") 設定獲利
+          button(@click="openEditPoint('lossPointDialog', controlData)") 設定損失
+          button(@click="openEditPoint('profitPointDialog', controlData)") 設定倒限
         ul
           li 序號: {{ controlData.Serial }}
           li 商品: {{ controlData.Name }}
@@ -371,6 +376,7 @@ export default {
       winPointDialog: false,
       profitPointDialog: false,
       showControl: false,
+      showControlTitle: '',
       controlData: {},
       valueDateInterval: [],
       allCommodity: [],
@@ -390,11 +396,11 @@ export default {
     this.isMobile = this.$store.state.isMobile
   },
   methods: {
-    openControl(item) {
-      if (item.Operation[0] || item.Operation[1]) {
+    openControl(item, title) {
+      if (item.Operation[0] || item.Operation[1] || item.Operation[2] || item.Operation[3]) {
         //open
-        console.log(item)
         this.showControl = true
+        this.showControlTitle = title
         this.controlData = item
       }
     },
