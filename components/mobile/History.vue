@@ -314,7 +314,7 @@
           button(@click="openEdit(controlData)") 改價減量
           button(@click="openEdit(controlData)") 設定損益
         div(v-else)
-          button(@click="doCovered(controlData, 1)") 市價平倉
+          button(@click="coveredCheck(controlData, 1)") 市價平倉
           button(@click="openEditPoint('winPointDialog', controlData)") 設定獲利
           button(@click="openEditPoint('lossPointDialog', controlData)") 設定損失
           button(@click="openEditPoint('profitPointDialog', controlData)") 設定倒限
@@ -727,6 +727,16 @@ export default {
 
       this.multiOrderConfirm = false
     },
+    coveredCheck(row, count) {
+      this.$confirm('確認要平倉嗎?', '提示', {
+        confirmButtonText: '確定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.doCovered(row, count)
+      }).catch(() => {       
+      });
+    },
     doCovered(row, count) {
       const isMobile = this.isMobile
       const userId = this.userId
@@ -740,6 +750,8 @@ export default {
           _this.$socketOrder.send(sendText)
           break
       }
+
+      this.showControl = false
     },
     buySelltableCellClassName({ row, column, columnIndex }) {
       //red
