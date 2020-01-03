@@ -99,7 +99,7 @@ export default {
     getSize(type) {
       if (type == 'mid') {
         if (this.pageStyle == 2 || this.pageStyle == 3 || this.pageStyle == 5) {
-          return '5.8'
+          return '4.6'
         }
 
         return this.style == 'C' ? '44' : '45'
@@ -107,7 +107,7 @@ export default {
 
       if (type == 'history') {
         if (this.pageStyle == 2 || this.pageStyle == 3 || this.pageStyle == 5) {
-          return '94.2'
+          return '95.4'
         }
 
         return this.style == 'C' ? '56' : '55'

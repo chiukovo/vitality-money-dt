@@ -45,7 +45,7 @@
       .numberinput
         el-form(ref='form' size='mini' label-width='50px')
           el-form-item(label='口數:' style='margin: 6px 0;')
-            el-input-number(v-model='submitNum' :min="0")
+            el-input-number(v-model='submitNum' :min="0" :step="submitStep")
         .badge.badge-warning 損失點/ 獲利點 為
           span.badge-rr 點數
           |設定
@@ -124,6 +124,7 @@ export default {
       profit: 0,
       damage: 0,
       submitNum: 1,
+      submitStep: 1,
       checkList: ['下單不確認'],
       defaultAllSubmit: [1, 2, 3, 4, 5],
       customSubmitNums: []
@@ -152,6 +153,17 @@ export default {
           overall = 1
         }
       })
+    },
+    submitNum(newNum, oldNum) {
+      if (newNum == 0 && oldNum == 1) {
+        this.submitNum = 0.9
+        this.submitStep = 0.1
+      }
+
+      if (newNum == 1.1 && oldNum == 1) {
+        this.submitNum = 2
+        this.submitStep = 1
+      }
     }
   },
   mounted() {
@@ -218,6 +230,8 @@ export default {
     resetNum() {
       this.customSubmitNums = this.defaultAllSubmit
       this.$cookies.set('customSubmitNums', this.defaultAllSubmit)
+      this.submitNum = 1
+      this.submitStep = 1
     },
     checkOrderAll() {
       //看是否有勾選下單不確認

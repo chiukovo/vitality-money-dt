@@ -6,6 +6,7 @@ div(class="h-100")
     :title="dialog.title"
     :size="dialog.size"
     :onlyItem="dialog.onlyItem"
+    :itemId="dialog.itemId"
   )
   div(style="height: calc(100% - 64px);")
     client-only
@@ -82,7 +83,7 @@ div(class="h-100")
           template(slot-scope='scope') {{ scope.row['end_date'] }}
         vxe-table-column(title='說明' align="center" v-if="checkHide('說明')")
           template(slot-scope='scope')
-            a(href="#" @click="openModal('userDetail', '商品資訊', '', true)") 說明
+            a(href="#" @click="openModal('userDetail', '商品資訊', '', true, scope.row.product_id)") 說明
         vxe-table-column(:width="computedStyleWidth(30)" title='商品類別' align="center" v-if="checkHide('商品類別')")
           template(slot-scope='scope') CFD
 </template>
@@ -102,6 +103,7 @@ export default {
         title: '',
         size: '',
         onlyItem: '',
+        itemId: '',
       },
       customSetting: false,
       tabs: 1,
@@ -164,14 +166,15 @@ export default {
     closeSetting() {
       this.customSetting = false
     },
-    openModal(type, title, size, onlyItem) {
+    openModal(type, title, size, onlyItem, itemId) {
       this.dialog.size = ''
       this.dialog.clickType = type
       this.dialog.title = title
       this.dialog.isOpen = true
 
-      if (typeof onlyItem != 'undefined') {
+      if (typeof onlyItem != 'undefined' && typeof itemId != 'undefined') {
         this.dialog.onlyItem = true
+        this.dialog.itemId = itemId
       }
     },
     clickItem(row) {

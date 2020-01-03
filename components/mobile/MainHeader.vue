@@ -4,7 +4,7 @@
     UserInfoHeader
   .header
     .header__left
-      button.button.header-button.logout(@click="logout") 登出
+      button.button.header-button.logout(@click="logout(true)") 登出
     .header__title {{userInfo.Account}}
     .header__right
       button.button.header-button.header-dropmenu(@click="userInfoHeaderShow = !userInfoHeaderShow")

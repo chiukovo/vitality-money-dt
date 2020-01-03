@@ -8,7 +8,7 @@
       :size="dialog.size")
     ul.navbar-nav.navbar-nav-left
       li.nav-item
-        a.nav-link(@click.prevent="logout()") 登出
+        a.nav-link(@click.prevent="logout(true)") 登出
       li.nav-item
         a.nav-link.dropdown-toggle 檢視
         ul.dropdown-menu

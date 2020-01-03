@@ -15,7 +15,7 @@
         Kchart(v-if="clickType == 'kLine'")
         Chart(v-if="clickType == 'chart'")
         HistoryWinLoss(v-if="clickType == 'historyWinLoss'")
-        UserDetail(v-if="clickType == 'userDetail'" :onlyItem="onlyItem")
+        UserDetail(v-if="clickType == 'userDetail'" :onlyItem="onlyItem" :itemId="itemId")
         HistoryPrices(v-if="clickType == 'historyPrices'")
         StoredRecords(v-if="clickType == 'storedRecords'")
         ActionLog(v-if="clickType == 'actionLog'")
@@ -47,7 +47,7 @@ import NounDescription from "~/components/Description/NounDescription"
 import TradingTime from "~/components/Description/TradingTime"
 
 export default {
-  props: ['clickType', 'visible', 'title', 'size', 'onlyItem'],
+  props: ['clickType', 'visible', 'title', 'size', 'onlyItem', 'itemId'],
   data () {
     return {
       dialogFullScreen: false,

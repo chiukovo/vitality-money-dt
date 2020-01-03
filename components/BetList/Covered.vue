@@ -36,7 +36,7 @@
               .icon-arrow(:class="scope.row['Point'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
             span(:class="scope.row['Point'] < 0 ? 'text__success' : 'text__danger'") {{ scope.row['Point'] }}
         vxe-table-column(field="CoverType" title='種類')
-        vxe-table-column(field="Fee" title='手續費')
+        vxe-table-column(field="TotalFee" title='手續費')
         vxe-table-column(title='損益')
           template(slot-scope='scope')
             span(:class="scope.row['Money'] < 0 ? 'text__success' : 'text__danger'") {{ scope.row['Money'] | currency }}

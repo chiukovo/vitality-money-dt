@@ -108,8 +108,8 @@
                 span {{ item.TotalFee }}
             li
               .text__danger.text__lg
-                span.text__success(v-if="item.TotalPoint < 0") {{ item.TotalPoint}}
-                span.text__danger(v-else) {{ item.TotalPoint}}
+                span.text__success(v-if="item.TodayMoney < 0") {{ item.TodayMoney}}
+                span.text__danger(v-else) {{ item.TodayMoney}}
     //-新倒限利點數
     el-dialog(
       :visible.sync='profitPointDialog'

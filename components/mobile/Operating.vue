@@ -145,7 +145,7 @@
       .right
         Chart
     .area
-      //- .area-order.area-order-theme2
+      .area-order.area-order-theme2(v-if="orderMode == 2")
         table
           tbody
             tr
@@ -180,12 +180,12 @@
               td
                 label.title 口數
                 .number-input
-                  button.button__decrease(@click="submitNum--")
+                  button.button__decrease(@click="changeSubmitNum('-')")
                   input(type="text" v-model='submitNum' :min="0")
-                  button.button__increase(@click="submitNum++")
+                  button.button__increase(@click="changeSubmitNum('+')")
               td
                 button.button__success(@click="checkOrder(1)") 空單
-      ul.area-order.area-order-theme1
+      ul.area-order.area-order-theme1(v-if="orderMode == 1")
         li
           label.title 商品
           .order__select
@@ -211,9 +211,9 @@
         li
           label.title 口數
           .number-input
-            button.button__decrease(@click="submitNum--")
+            button.button__decrease(@click="changeSubmitNum('-')")
             input(type="text" v-model='submitNum' :min="0")
-            button.button__increase(@click="submitNum++")
+            button.button__increase(@click="changeSubmitNum('+')")
         li.button-group
           button.button__danger(@click="checkOrder(0)") 多單
           button.button__success(@click="checkOrder(1)") 空單
@@ -240,6 +240,7 @@ export default {
       profit: 0,
       damage: 0,
       submitNum: 1,
+      submitStep: 1,
       defaultQuantity: 1,
       orderMode: 1,
       showContentType: 1,
@@ -293,6 +294,21 @@ export default {
 
       this.$store.dispatch('CALL_SET_CLOSE_OVER_ALL', { overall })
       this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
+    },
+    submitNum(newNum, oldNum) {
+      if (newNum == 0 && oldNum == 1) {
+        this.submitNum = 0.9
+        this.submitStep = 0.1
+      }
+
+      if (newNum == 1.1 && oldNum == 1) {
+        this.submitNum = 2
+        this.submitStep = 1
+      }
+
+      if (newNum < 0) {
+        this.submitNum = 0
+      }
     }
   },
   mounted() {
@@ -327,6 +343,13 @@ export default {
     }
   },
   methods: {
+    changeSubmitNum(type) {
+      if (type == '+') {
+        this.submitNum = parseFloat((this.submitNum + this.submitStep).toFixed(10))
+      } else {
+        this.submitNum = parseFloat((this.submitNum - this.submitStep).toFixed(10))
+      }
+    },
     getNowOverall() {
       //使用者設定
       const commidyArray = this.$store.state.commidyArray
