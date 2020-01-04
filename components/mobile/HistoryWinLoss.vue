@@ -4,6 +4,7 @@
     .header
       .header__left
         .page__title 帳戶歷史
+          span ({{ form.start }} ~ {{ form.end }})
       .header__title
       .header__right
         button.button.header-button.back(@click='$parent.systemShow = 0') 返回
@@ -11,13 +12,14 @@
       .area
         .area__header
           .selectDayType-tabs.tabs-nav.tabs-nav-theme1
-            .tabs__item(@click="selectDayType('thisWeek')") 本週
-            .tabs__item(@click="selectDayType('beforeWeek')") 上週
-            .tabs__item(@click="selectDayType('thisMonth')") 本月
-            .tabs__item(@click="selectDayType('beforeMonth')") 上月
+            .tabs__item(@click="changeType('today')" :class="checkTypeClass('today')") 今日
+            .tabs__item(@click="changeType('thisWeek')" :class="checkTypeClass('thisWeek')") 本週
+            .tabs__item(@click="changeType('beforeWeek')" :class="checkTypeClass('beforeWeek')") 上週
+            .tabs__item(@click="changeType('thisMonth')" :class="checkTypeClass('thisMonth')") 本月
+            .tabs__item(@click="changeType('beforeMonth')" :class="checkTypeClass('beforeMonth')") 上月
       .area(style="height: calc(100% - 40px); overflow-y: scroll;")
         ul.area-list
-          li(@click="getDetailData(item)" v-for="item in items")
+          li(@click="getDetailData(item)" v-for="item in items" v-if="items.length > 0")
             span {{ item.Date }}
             span 額度:
             span(:class="item.TouchPoint > 0 ? 'text__danger' : 'text__success'") {{ item.TouchPoint | currency }}
@@ -29,6 +31,7 @@
             span 交收:
             span(:class="item.Uppay > 0 ? 'text__danger' : 'text__success'") {{ item.Uppay | currency }}
             i.el-icon-arrow-right
+          li(v-else) 無資料
         template(v-if='showDetail')
           .modals.HistoryWinLoss__detail
             .page
@@ -55,6 +58,7 @@ export default {
         start: '',
         end: '',
       },
+      type: 'today',
       items: [],
       detailDay: '',
       detail: [],
@@ -63,12 +67,19 @@ export default {
     }
   },
   mounted () {
-    this.selectDayType('thisWeek')
+    this.selectDayType('today')
   },
   components: {
     BetDetail,
   },
   methods: {
+    checkTypeClass(type) {
+      return this.type == type ? 'is-active' : ''
+    },
+    changeType(type) {
+      this.type = type
+      this.selectDayType(type)
+    },
     getDetailData(item) {
       this.showDetail = true
       this.detailDay = item.Date

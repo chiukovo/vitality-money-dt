@@ -21,15 +21,18 @@
       Analysis
     client-only
       vxe-table.table(
-      :data='mainItem',
-      :cell-class-name='tableCellClassName'
-      @current-change="clickItem"
-      max-width="100%"
-      height="100%"
-      column-min-width="90"
-      border
-      auto-resize
-      highlight-current-row)
+        ref="xTable"
+        :class="'fontStyle-' + fontStyle"
+        id="mainItemTable"
+        :data='mainItem',
+        :cell-class-name='tableCellClassName'
+        @current-change="clickItem"
+        max-width="100%"
+        height="100%"
+        column-min-width="90"
+        border
+        auto-resize
+        highlight-current-row)
         vxe-table-column(title='商品' width='86' fixed="left")
           template(slot-scope='scope') {{ scope.row['product_name'] }}
         vxe-table-column(title='倉位' width='60' align="center")
@@ -97,11 +100,11 @@ export default {
     Analysis,
     Dialog
   },
-  computed: mapState([
-    'mainItem',
-    'clickItemId',
-    'userInfo'
-  ]),
+  computed: mapState({
+    mainItem: 'mainItem',
+    clickItemId: 'clickItemId',
+    fontStyle: state => state.localStorage.customSetting.fontStyle,
+  }),
   watch: {
     clickItemId(id) {
       //目前選擇商品
@@ -117,6 +120,9 @@ export default {
         'type': 'kline',
         'num': 2
       })
+    },
+    fontStyle() {
+      this.$refs.xTable.refreshColumn()
     },
     mainItem() {
       const _this = this
