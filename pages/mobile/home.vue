@@ -9,8 +9,7 @@
 		//- 商品下單
 		Operating(v-if='tabShow == 3')
 		//- 交易
-		template(v-if='tabShow == 4')
-			History
+		History(v-if='tabShow == 4')
 		//-客服
 		Message(v-if='tabShow == 5')
 		//- 帳戶

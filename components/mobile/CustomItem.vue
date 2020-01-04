@@ -1,21 +1,27 @@
 <template lang='pug'>
 .main
-  .area
-    span 字型({{ fontSize }})
-    button(@click="updateFontSize('-')") -
-    button(@click="updateFontSize('+')") +
-  .area
+  .area(style="padding: 10px 0;")
+    span(style="margin-right: 10px") 字型({{ fontSize }})
+    button.button(@click="updateFontSize('-')") -
+    button.button(@click="updateFontSize('+')") +
+  .area(style="padding: 10px 0 20px;")
     //-不知道這啥功能
-    span 簡易
-    span 完整
+    .CustomItem-radio
+      label.radio.inline
+        input.radio__input(type="radio")
+        span.radio__label 簡易
+      label.radio.inline
+        input.radio__input(type="radio")
+        span.radio__label 完整
   .area(style="height: calc(100% - 100px); overflow-y: scroll;")
     ul.area-select-list
-        li(v-for="item in items"): label.checkbox
-          input.checkbox__input(type="checkbox" v-model="multipleSelection" :value="item.id")
-          span.checkbox__label {{ item.name }}
-    button.button(@click="submit('reset')") 還原
-    button.button(@click="submit") 確定
-    button.button(@click="cancel") 取消
+      li(v-for="item in items"): label.checkbox
+        input.checkbox__input(type="checkbox" v-model="multipleSelection" :value="item.id")
+        span.checkbox__label {{ item.name }}
+    .area-button-group
+      button.button(@click="submit('reset')") 還原
+      button.button(@click="submit") 確定
+      button.button(@click="cancel") 取消
 </template>
 <script>
 

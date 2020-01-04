@@ -10,13 +10,18 @@
     .area
       .collapse
         .dialog__content
-          ul
+          ul.collapse__list_theme2.collapse__list_theme3
             li(v-for="item in items")
               div {{ item.Name }}
-              div 開盤/交易時間:
+              div
+                div.label 開盤/交易時間:
                 span(v-html="item.TradeTime")
-              div 禁新時間: {{ item.not_new_start_time1 }}
-              div 禁新時間: {{ item.not_new_end_time1 }}
+              div
+                span.label 禁新時間:
+                |{{ item.not_new_start_time1 }}
+              div
+                span.label 禁新時間:
+                |{{ item.not_new_end_time1 }}
 </template>
 
 <script>

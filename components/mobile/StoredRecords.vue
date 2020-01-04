@@ -10,10 +10,11 @@
     .main
       .area
         .area__header
-          button.button(@click="selectDayType('thisWeek')") 本週
-          button.button(@click="selectDayType('beforeWeek')") 上週
-          button.button(@click="selectDayType('thisMonth')") 本月
-          button.button(@click="selectDayType('beforeMonth')") 上月
+          .tabs-nav.tabs-nav-theme1
+            .tabs__item(@click="selectDayType('thisWeek')") 本週
+            .tabs__item(@click="selectDayType('beforeWeek')") 上週
+            .tabs__item(@click="selectDayType('thisMonth')") 本月
+            .tabs__item(@click="selectDayType('beforeMonth')") 上月
       client-only
         vxe-table.table(
           :data='items'

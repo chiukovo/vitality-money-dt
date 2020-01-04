@@ -1,7 +1,7 @@
 <template lang='pug'>
 .page
   .main
-    .transaction-tabs.tabs-nav
+    .transaction-tabs.tabs-nav.tabs-nav-theme1
       .tabs__item(@click="historyShow = 1" :class="{'is-active': historyShow == 1}") 全部
         span {{ $store.state.buySell.length }}
       .tabs__item(@click="historyShow = 2" :class="{'is-active': historyShow == 2}") 未平
@@ -20,7 +20,7 @@
             li
               .tran-item__hey.text__lg {{ item.Quantity }}
             li
-              div
+              div(style="min-width:63px")
                 span.text__secondary 獲利
                 span.tran-item__ha {{ parseInt(item.WinPoint) }}
               div

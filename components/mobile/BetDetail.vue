@@ -1,7 +1,7 @@
 <template lang='pug'>
 .page
   .main
-    .transaction-tabs.tabs-nav
+    .transaction-tabs.tabs-nav.tabs-nav-theme1
       .tabs__item(@click="historyShow = 1" :class="{'is-active': historyShow == 1}") 全部
       .tabs__item(@click="historyShow = 2" :class="{'is-active': historyShow == 2}") 未平
       .tabs__item(@click="historyShow = 3" :class="{'is-active': historyShow == 3}") 已平
@@ -27,10 +27,10 @@
             li
               div
                 span.text__secondary {{ item.State }}
-                span.text__secondary {{ item.OrderTime }}
+                span.text__secondary {{ dateOnlyHis(item.OrderTime) }}
               div
                 span 12097
-                span {{ item.FinalTime }}
+                span {{ dateOnlyHis(item.FinalTime) }}
             li
               .tran-item__yo 轉新單
               div 已成交

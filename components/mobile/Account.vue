@@ -62,25 +62,37 @@
       .header-custom(slot='title') {{ dialogTitle }}
       CustomItem(v-if='systemShow == 7')
       div(v-if='systemShow == 8')
-        button(:class="orderMode == 1 ? 'is-active': ''" @click="setOrderMode(1)") 模式1
-        button(:class="orderMode == 2 ? 'is-active': ''" @click="setOrderMode(2)") 模式2
-        button(@click="dialogShow = false") 關閉
+        .area-button-group
+          button.button(style="padding: 30px 18px;" :class="orderMode == 1 ? 'is-active': ''" @click="setOrderMode(1)" :disabled="orderMode == 1") 模式1
+          button.button(style="padding: 30px 18px;" :class="orderMode == 2 ? 'is-active': ''" @click="setOrderMode(2)" :disabled="orderMode == 2") 模式2
+        .area-button-group
+          button.button(@click="dialogShow = false") 關閉
       div(v-if='systemShow == 9')
-        label USD
-        input(type="radio" v-model="moneyType" value="USD" disabled)
-        label EUR
-        input(type="radio" v-model="moneyType" value="EUR" disabled)
-        label JPY
-        input(type="radio" v-model="moneyType" value="JPY" disabled)
-        label HKD
-        input(type="radio" v-model="moneyType" value="HKD" disabled)
-        label NTD
-        input(type="radio" v-model="moneyType" value="NTD" disabled)
-        button(@click="dialogShow = false") 關閉
+        .area
+          ul.area-select-list
+            li: label.radio
+              input.radio__input(type="radio" v-model="moneyType" value="USD" disabled)
+              span.radio__label USD
+            li: label.radio
+              input.radio__input(type="radio" v-model="moneyType" value="EUR" disabled)
+              span.radio__label EUR
+            li: label.radio
+              input.radio__input(type="radio" v-model="moneyType" value="JPY" disabled)
+              span.radio__label JPY
+            li: label.radio
+              input.radio__input(type="radio" v-model="moneyType" value="HKD" disabled)
+              span.radio__label HKD
+            li: label.radio
+              input.radio__input(type="radio" v-model="moneyType" value="NTD" disabled)
+              span.radio__label NTD
+        .area-button-group
+          button.button(@click="dialogShow = false") 關閉
       div(v-if='systemShow == 10')
-        el-input-number(v-model="defaultQuantity" size="mini")
-        button(@click="setDefaultQuantity") 確定
-        button(@click="dialogShow = false") 取消
+        .area(style="padding: 10px 0 20px; text-align: center;")
+          el-input-number(v-model="defaultQuantity")
+        .area-button-group
+          button.button(@click="setDefaultQuantity") 確定
+          button.button(@click="dialogShow = false") 取消
 </template>
 
 <script>

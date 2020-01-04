@@ -5,13 +5,13 @@
       table.table.table__mini(style="width: 440px")
         thead
           tr
-            th(width="80"): .cell.text__center 商品
+            th(width="100"): .cell.text__center 商品
             th: .cell.text__center 成交
             th: .cell.text__center 漲跌
             th: .cell.text__center 漲幅%
             th: .cell.text__center 總量
             th: .cell.text__center 時間
-            th: .cell.text__center 交易
+            th(width="80"): .cell.text__center 交易
         tbody
           tr
             td: .cell.text__center {{ nowMainItem.product_name }}
@@ -51,11 +51,12 @@
             td: .cell.text__center {{ nowMainItem.new_point2 }}
             td: .cell.text__center {{ nowMainItem.cover_point1 }}
             td: .cell.text__center {{ nowMainItem.cover_point2 }}
-    .area(v-if="orderMode == 1")
-      button.leftButton(@click="showContentType--" v-if="showContentType != 1") <
-      div(v-show="showContentType == 1")
+    .area(style="height:400px;background-color: #000" v-if="orderMode == 1")
+      button.leftButton(@click="showContentType--" v-if="showContentType != 1")
+        i.material-icons chevron_left
+      .area-main.area-main-block1(v-show="showContentType == 1")
         Chart
-      div(v-show="showContentType == 2")
+      .area-main.area-main-block2(v-show="showContentType == 2")
         //- 五檔揭示
         table.table.progress-table
           thead
@@ -76,32 +77,46 @@
                 .progress-bar
                   .progress-bar__inner(:style="'width: ' + val[4] + '%'")
         .itemDetail__Total.text__center
-          .row
+          .d-flex
             .col {{ $store.state.fiveTotal.more }}
             .col 總計
             .col {{ $store.state.fiveTotal.nullNum }}
-          .row
+          .d-flex
             .col.text__danger 多勢
             .col
               .progress-bar.progress-bar__total
                 .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
             .col.text__success 空勢
-      div(v-show="showContentType == 3")
-        ul
-          li 昨收: {{ nowMainItem.yesterday_close_price }}
-          li 開盤:
-            span(:class="nowMainItem.color") {{ nowMainItem.open_price }}
-          li 最高:
-            span(:class="nowMainItem.color") {{ nowMainItem.highest_price }}
-          li 最低:
-            span(:class="nowMainItem.color") {{ nowMainItem.lowest_price }}
-        ul
-          li 最後成交價:
-            span(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
-          li 禁新: {{ nowMainItem.cover_point1 }} / {{ nowMainItem.cover_point2 }}
-          li 強平: {{ nowMainItem.new_point1 }} / {{ nowMainItem.new_point2 }}
-          li 最後交易日: {{ nowMainItem.end_date }}
-      button.rightButton(@click="showContentType++" v-if="showContentType != 3") >
+      .area-main.area-main-block3(v-show="showContentType == 3")
+        .d-flex.align-items-center
+          ul(style="width: 40%;")
+            li
+              span.label 昨收:
+              |{{ nowMainItem.yesterday_close_price }}
+            li
+              span.label 開盤:
+              span(:class="nowMainItem.color") {{ nowMainItem.open_price }}
+            li
+              span.label 最高:
+              span(:class="nowMainItem.color") {{ nowMainItem.highest_price }}
+            li
+              span.label 最低:
+              span(:class="nowMainItem.color") {{ nowMainItem.lowest_price }}
+          ul(style="width: 60%;")
+            li
+              span.label 最後成交價:
+              span(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
+            li
+              span.label 禁新:
+              |{{ nowMainItem.cover_point1 }} / {{ nowMainItem.cover_point2 }}
+            li
+              span.label 強平:
+              |{{ nowMainItem.new_point1 }} / {{ nowMainItem.new_point2 }}
+            li
+              span.label 最後交易日:
+              |{{ nowMainItem.end_date }}
+      button.rightButton(@click="showContentType++" v-if="showContentType != 3")
+        i.material-icons chevron_right
     .area(v-if="orderMode == 2")
       .left(style="float: left;")
         //- 五檔揭示

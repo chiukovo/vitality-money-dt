@@ -3,16 +3,18 @@
   .page
     .header
       .header__left
-        el-link(@click='$parent.systemShow = 0' icon='el-icon-arrow-left' :underline='false') 取消
-      .header__title 帳戶歷史
+        .page__title 帳戶歷史
+      .header__title
       .header__right
+        button.button.header-button.back(@click='$parent.systemShow = 0') 返回
     .main
       .area
         .area__header
-          button.button(@click="selectDayType('thisWeek')") 本週
-          button.button(@click="selectDayType('beforeWeek')") 上週
-          button.button(@click="selectDayType('thisMonth')") 本月
-          button.button(@click="selectDayType('beforeMonth')") 上月
+          .selectDayType-tabs.tabs-nav.tabs-nav-theme1
+            .tabs__item(@click="selectDayType('thisWeek')") 本週
+            .tabs__item(@click="selectDayType('beforeWeek')") 上週
+            .tabs__item(@click="selectDayType('thisMonth')") 本月
+            .tabs__item(@click="selectDayType('beforeMonth')") 上月
       .area(style="height: calc(100% - 40px); overflow-y: scroll;")
         ul.area-list
           li(@click="getDetailData(item)" v-for="item in items")
@@ -32,9 +34,10 @@
             .page
               .header
                 .header__left
-                  el-link(@click='showDetail = false' icon='el-icon-arrow-left' :underline='false') 返回
-                .header__title {{ detailDay }}下單明細
+                  .page__title {{ detailDay }}下單明細
+                .header__title
                 .header__right
+                  button.button.header-button.back(@click='showDetail = false') 返回
               .main
                 BetDetail(:day="detailDay")
 </template>
