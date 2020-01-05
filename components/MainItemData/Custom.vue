@@ -106,9 +106,9 @@ export default {
         itemId: '',
       },
       customSetting: false,
-      tabs: 1,
 	  }
 	},
+  props: ['tabs'],
   computed: mapState({
     mainItem: 'mainItem',
     clickItemId: 'clickItemId',
@@ -201,6 +201,26 @@ export default {
       return needShow
     },
     tableCellClassName({ row, column, columnIndex }) {
+      //判斷是否顯示
+      //指數
+      if (this.tabs == 2) {
+        if (row.type != 'index') {
+          return 'hide'
+        }
+      }
+      //指數期貨
+      if (this.tabs == 3) {
+        if (row.type != 'index_futures') {
+          return 'hide'
+        }
+      }
+      //商品期貨
+      if (this.tabs == 4) {
+        if (row.type != 'commodity_futures') {
+          return 'hide'
+        }
+      }
+
       //判斷整行顏色
       if(columnIndex >= 3 && columnIndex != 8 && columnIndex != 9 && columnIndex != 10 && columnIndex != 11 && columnIndex != 14 && columnIndex != 15 && columnIndex != 17 && columnIndex != 19) {
         return row.color

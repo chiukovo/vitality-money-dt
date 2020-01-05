@@ -219,6 +219,25 @@ export default {
       })
     },
     tableCellClassName({ row, column, columnIndex }) {
+      //判斷是否顯示
+      //指數
+      if (this.tabs == 2) {
+        if (row.type != 'index') {
+          return 'hide'
+        }
+      }
+      //指數期貨
+      if (this.tabs == 3) {
+        if (row.type != 'index_futures') {
+          return 'hide'
+        }
+      }
+      //商品期貨
+      if (this.tabs == 4) {
+        if (row.type != 'commodity_futures') {
+          return 'hide'
+        }
+      }
       //判斷整行顏色
       if(columnIndex >= 2 && columnIndex != 5 && columnIndex != 7 && columnIndex != 13) {
         return row.color

@@ -7,8 +7,7 @@
       #tab-item.tabs__item(@click="tabs = 2" :class="{'is-active' : tabs == 2}") 指數
       #tab-item.tabs__item(@click="tabs = 3" :class="{'is-active' : tabs == 3}") 指數期貨
       #tab-item.tabs__item(@click="tabs = 4" :class="{'is-active' : tabs == 4}") 商品期貨
-      #tab-item.tabs__item(@click="tabs = 5" :class="{'is-active' : tabs == 5}") 加密貨幣
-    Custom
+    Custom(:tabs="tabs")
 </template>
 
 <script>

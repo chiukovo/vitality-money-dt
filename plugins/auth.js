@@ -4,7 +4,7 @@ import qs from 'qs'
 
 Vue.mixin({
   methods: {
-  	checkLogin () {
+  	checkLogin() {
   		let _this = this
 
       setTimeout(function() {
@@ -17,16 +17,14 @@ Vue.mixin({
   			_this.LoginLoopCheck()
   		}, 5000)
   	},
-  	LoginLoopCheck () {
+  	LoginLoopCheck() {
 			const userAuth = this.$store.state.localStorage.userAuth
 
 			if (typeof userAuth.token == 'undefined' || typeof userAuth.userId == 'undefined') {
 				location.href = "/"
-			} else {
-				this.getUserInfo()
 			}
   	},
-		async getUserInfo () {
+		async getUserInfo() {
 			this.$store.dispatch('CALL_MEMBER_INFO')
 		},
   }
