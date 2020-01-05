@@ -147,6 +147,23 @@ $material-icons-font-path: '~material-icons/iconfont/';
 
 
 //-------------- main
+.table-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  a {
+    position: relative;
+    display: block;
+    width: 30px;
+    height: 16px;
+    background: url('~static/images/theme_dt/setw.png') no-repeat;
+  }
+}
 .area {
   position: relative;
   overflow: hidden;
@@ -756,7 +773,6 @@ $material-icons-font-path: '~material-icons/iconfont/';
 // element ui
 
 .el-dialog {
-  width: 76%;
   .el-input__inner {
     background: #fff;
     border-color: #dcdcdc;

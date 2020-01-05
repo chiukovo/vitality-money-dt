@@ -56,7 +56,7 @@
     el-dialog(
       :visible.sync='dialogShow'
       :modal='false'
-      width="600"
+      width="300px"
       title='dialogTitle'
       v-dialogDrag)
       .header-custom(slot='title') {{ dialogTitle }}
@@ -162,7 +162,11 @@ export default {
       this.systemShow = e
     },
     needPoint() {
-      this.$alert('請聯繫客服人員')
+      this.$alert('請聯繫客服人員', '注意', {
+        confirmButtonText: '確定',
+        callback: action => {
+        }
+      });
     }
   }
 }

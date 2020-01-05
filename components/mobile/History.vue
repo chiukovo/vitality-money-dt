@@ -304,20 +304,19 @@
     el-dialog(
       :visible.sync='showControl'
       :modal='false'
-      width="96%"
       :title='showControlTitle'
       v-dialogDrag)
-      .header-custom(slot='title')
+      .header-custom(slot='title') {{ showControlTitle }}
       template
         div(v-if="showControlTitle == '改價減量'")
-          button(@click="deleteOrder(controlData)") 刪單
-          button(@click="openEdit(controlData)") 改價減量
-          button(@click="openEdit(controlData)") 設定損益
+          div: button.button(@click="deleteOrder(controlData)") 刪單
+          div: button.button(@click="openEdit(controlData)") 改價減量
+          div: button.button(@click="openEdit(controlData)") 設定損益
         div(v-else)
-          button(@click="coveredCheck(controlData, 1)") 市價平倉
-          button(@click="openEditPoint('winPointDialog', controlData)") 設定獲利
-          button(@click="openEditPoint('lossPointDialog', controlData)") 設定損失
-          button(@click="openEditPoint('profitPointDialog', controlData)") 設定倒限
+          div: button.button(@click="coveredCheck(controlData, 1)") 市價平倉
+          div: button.button(@click="openEditPoint('winPointDialog', controlData)") 設定獲利
+          div: button.button(@click="openEditPoint('lossPointDialog', controlData)") 設定損失
+          div: button.button(@click="openEditPoint('profitPointDialog', controlData)") 設定倒限
         ul
           li 序號: {{ controlData.Serial }}
           li 商品: {{ controlData.Name }}

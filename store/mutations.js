@@ -153,7 +153,22 @@ export default {
     }
   },
   setUserInfo(state, data) {
-    state.commidyArray = data.CommidyArray
+    //排序跟mainItem 一樣即可
+    let formatCommidy = []
+
+    if (state.commidyArray.length == 0) {
+      state.commidyArray = data.CommidyArray
+    } else {
+      state.commidyArray.forEach(function(source) {
+        data.CommidyArray.forEach(function(commidy) {
+          if (source.ID == commidy.ID) {
+            formatCommidy.push(commidy)
+          }
+        })
+      })
+      state.commidyArray = formatCommidy
+    }
+
     state.userInfo = data.UserArray
   },
   setUserOrder(state, data) {

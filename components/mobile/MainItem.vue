@@ -1,5 +1,17 @@
 <template lang="pug">
 .page
+  el-dialog(
+    :visible.sync='settingShow'
+    :modal='false'
+    :width="customItemShow ? '300px' : ''"
+    :before-close='handleClose'
+    v-dialogDrag)
+    .header-custom(slot='title') 設定
+    CustomItem(v-if='customItemShow')
+    div(v-else)
+      div: button.button(@click="clickMainItem()") 市場總覽
+      div: button.button(@click="customItemShow = true") 自訂市場
+      div: button.button(@click="clickUserDetailList()") 會員明細
   .main.mainItem
     Dialog(
       :click-type="dialog.clickType",
@@ -19,7 +31,8 @@
             select(v-model='selectItemId')
               option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
       Analysis
-    client-only
+    //-市場總覽
+    client-only(v-if="settingType == 1")
       vxe-table.table(
         ref="xTable"
         :class="'fontStyle-' + fontStyle"
@@ -33,41 +46,47 @@
         border
         auto-resize
         highlight-current-row)
-        vxe-table-column(title='商品' width='86' fixed="left")
-          template(slot-scope='scope') {{ scope.row['product_name'] }}
-        vxe-table-column(title='倉位' width='60' align="center")
+        vxe-table-column(:width="computedStyleWidth(50)" fixed="left" align="left" show-header-overflow)
+          template(v-slot:header="{column}") 商品
+            .table-toggle
+              a(@click.stop="settingShow = true")
+          template(slot-scope='scope' ) {{ scope.row['product_name'] }}
+        vxe-table-column(:width="computedStyleWidth(10)" title='倉位' align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             <span class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0">{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
             <span class="bg__success" v-else>{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
-        vxe-table-column(title='成交' fixed="left" align="right")
+        vxe-table-column(:width="computedStyleWidth(35)" title='成交' fixed="left" align="right")
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
-        vxe-table-column(title='買進')
+        vxe-table-column(:width="computedStyleWidth(35)" title='買進')
           template(slot-scope='scope') {{ scope.row['bp_price'] }}
-        vxe-table-column(title='賣出')
+        vxe-table-column(:width="computedStyleWidth(35)" title='賣出')
           template(slot-scope='scope') {{ scope.row['sp_price'] }}
-        vxe-table-column(title='漲跌')
+        vxe-table-column(:width="computedStyleWidth(35)" title='漲跌')
           template(slot-scope='scope')
             .change-icon
               .icon-arrow(:class="scope.row['gain'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
             span(:class="scope.row['gain'] > 0 ? 'text__danger' : 'text__success'") {{ scope.row['gain'] }}
-        vxe-table-column(title='漲跌幅')
+        vxe-table-column(:width="computedStyleWidth(35)" title='漲跌幅')
           template(slot-scope='scope') {{ scope.row['gain_percent'] }}%
-        vxe-table-column(title='總量')
+        vxe-table-column(:width="computedStyleWidth(35)" title='總量')
           template(slot-scope='scope')
             span(:class="scope.row['total_qty_change']") {{ scope.row['total_qty'] }}
-        vxe-table-column(title='開盤')
+        vxe-table-column(:width="computedStyleWidth(35)" title='開盤')
           template(slot-scope='scope') {{ scope.row['open_price'] }}
-        vxe-table-column(title='最高')
+        vxe-table-column(:width="computedStyleWidth(35)" title='最高')
           template(slot-scope='scope') {{ scope.row['highest_price'] }}
-        vxe-table-column(title='最低')
+        vxe-table-column(:width="computedStyleWidth(35)" title='最低')
           template(slot-scope='scope') {{ scope.row['lowest_price'] }}
-        vxe-table-column(title='昨收盤')
+        vxe-table-column(:width="computedStyleWidth(35)" title='昨收盤')
           template(slot-scope='scope') {{ scope.row['yesterday_last_price']  }}
-        vxe-table-column(title='昨結算')
+        vxe-table-column(:width="computedStyleWidth(35)" title='昨結算')
           template(slot-scope='scope') {{ scope.row['yesterday_close_price']  }}
-        vxe-table-column(title='狀態')
+        vxe-table-column(:width="computedStyleWidth(35)" title='狀態')
           template(slot-scope='scope') {{ scope.row['state_name'] }}
+    //-會員明細
+    div(v-if="settingType == 3")
+      UserDetailList
   .swiper-scrollbar(slot="scrollbar")
 </template>
 
@@ -76,18 +95,22 @@
 import UserInfoHeader from "~/components/mobile/UserInfoHeader"
 import CustomItem from "~/components/mobile/CustomItem"
 import Analysis from "~/components/mobile/Analysis"
+import UserDetailList from "~/components/mobile/UserDetailList"
 import Dialog from "~/components/Dialog"
 
 import { mapState } from 'vuex'
 
 export default {
-	data () {
+	data() {
 	  return {
       tabs: 1,
       selectItemId: '',
       userInfoHeaderShow: false,
       costomShow: false,
       analysisShow: false,
+      settingShow: false,
+      customItemShow: false,
+      settingType: 1,
       dialog: {
         clickType: '',
         isOpen: false,
@@ -98,6 +121,7 @@ export default {
     UserInfoHeader,
     CustomItem,
     Analysis,
+    UserDetailList,
     Dialog
   },
   computed: mapState({
@@ -157,10 +181,37 @@ export default {
       })
     },
   },
-  mounted() {
-
-  },
   methods: {
+    clickMainItem() {
+      this.settingType = 1
+      this.customItemShow = false
+      this.settingShow = false
+    },
+    clickUserDetailList() {
+      this.settingType = 3
+      this.customItemShow = false
+      this.settingShow = false
+    },
+    computedStyleWidth(sourceWidth) {
+      let needAdd = 0
+      let result = 0
+      sourceWidth = typeof sourceWidth == 'undefined' ? 100 : sourceWidth
+
+      switch (this.fontStyle) {
+        case 0:
+        case 1:
+          result = sourceWidth + 50
+          break
+        case 2:
+          result = sourceWidth + 70
+          break
+        case 3:
+          result = sourceWidth + 80
+          break
+      }
+
+      return result + 'px'
+    },
     clickItem({ row }) {
       this.$store.commit('setClickItemId', {
         id: row.product_id,
@@ -179,6 +230,10 @@ export default {
           return 'text__secondary'
         }
       }
+    },
+    handleClose() {
+      this.customItemShow = false
+      this.settingShow = false
     },
   }
 }
