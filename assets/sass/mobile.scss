@@ -200,11 +200,11 @@ $material-icons-font-path: '~material-icons/iconfont/';
       border-top: 1px solid #1d1d1d;
       border-bottom: 1px solid #1d1d1d;
       + li {
-        margin-top: 2px;
+        margin-top: -1px;
       }
       &.hs-edit {
         position: relative;
-        background-color: #4c4c4c;
+        background-color: #333;
         &:after {
           content: '';
           position: absolute;
@@ -1252,4 +1252,24 @@ button {
 			border-radius: 0;
 		}
 	}
+}
+
+
+.fontStyle-3.vxe-table {
+  font-size: 22px;
+  .vxe-header--column .vxe-cell {
+    height: auto;
+  }
+}
+.fontStyle-2.vxe-table {
+  font-size: 20px;
+  .vxe-header--column .vxe-cell {
+    height: auto;
+  }
+}
+.fontStyle-1.vxe-table {
+  font-size: 18px;
+}
+.fontStyle-0.vxe-table {
+  font-size: 16px;
 }

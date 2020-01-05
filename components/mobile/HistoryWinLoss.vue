@@ -4,7 +4,7 @@
     .header
       .header__left
         .page__title 帳戶歷史
-          span ({{ form.start }} ~ {{ form.end }})
+          span(style="font-size: 10px; color: #fff;") ({{ form.start }} ~ {{ form.end }})
       .header__title
       .header__right
         button.button.header-button.back(@click='$parent.systemShow = 0') 返回
@@ -18,19 +18,24 @@
             .tabs__item(@click="changeType('thisMonth')" :class="checkTypeClass('thisMonth')") 本月
             .tabs__item(@click="changeType('beforeMonth')" :class="checkTypeClass('beforeMonth')") 上月
       .area(style="height: calc(100% - 40px); overflow-y: scroll;")
-        ul.area-list
-          li(@click="getDetailData(item)" v-for="item in items" v-if="items.length > 0")
-            span {{ item.Date }}
-            span 額度:
-            span(:class="item.TouchPoint > 0 ? 'text__danger' : 'text__success'") {{ item.TouchPoint | currency }}
-            span 損益:
-            span(:class="item.TodayMoney > 0 ? 'text__danger' : 'text__success'") {{ item.TodayMoney | currency }}
-            span 餘額:
-            span(:class="item.RemainingMoney > 0 ? 'text__danger' : 'text__success'") {{ item.RemainingMoney | currency }}
-            span 口數: {{ item.TotalSubmit }}
-            span 交收:
-            span(:class="item.Uppay > 0 ? 'text__danger' : 'text__success'") {{ item.Uppay | currency }}
-            i.el-icon-arrow-right
+        ul.area-tran-list
+          li.hs-edit(@click="getDetailData(item)" v-for="item in items" v-if="items.length > 0")
+            ul.tran-item
+              li.tran-item__yellow {{ item.Date }}
+              li
+                div
+                  span.label 額度:
+                  span(:class="item.TouchPoint > 0 ? 'text__danger' : 'text__success'") {{ item.TouchPoint | currency }}
+                div
+                  span.label 損益:
+                  span(:class="item.TodayMoney > 0 ? 'text__danger' : 'text__success'") {{ item.TodayMoney | currency }}
+                div
+                  span.label 餘額:
+                  span(:class="item.RemainingMoney > 0 ? 'text__danger' : 'text__success'") {{ item.RemainingMoney | currency }}
+              li
+                .label 口數: {{ item.TotalSubmit }}
+                .label 交收:
+                span(:class="item.Uppay > 0 ? 'text__danger' : 'text__success'") {{ item.Uppay | currency }}
           li(v-else) 無資料
         template(v-if='showDetail')
           .modals.HistoryWinLoss__detail

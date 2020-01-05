@@ -59,20 +59,20 @@ export default {
   }),
   methods: {
     getFontSize() {
-      let fontSize = 15
+      let fontSize = 16
 
       switch(this.costomFontStyle) {
         case 0:
-          fontSize = 10
+          fontSize = 16
           break
         case 1:
-          fontSize = 15
+          fontSize = 18
           break
         case 2:
           fontSize = 20
           break
         case 3:
-          fontSize = 25
+          fontSize = 22
           break
       }
 
