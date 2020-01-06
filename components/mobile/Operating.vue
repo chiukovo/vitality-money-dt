@@ -51,11 +51,11 @@
             td: .cell.text__center {{ nowMainItem.new_point2 }}
             td: .cell.text__center {{ nowMainItem.cover_point1 }}
             td: .cell.text__center {{ nowMainItem.cover_point2 }}
-    .area(style="height:400px;background-color: #000" v-if="orderMode == 1")
-      button.leftButton(@click="showContentType--" v-if="showContentType != 1")
+    .area(style="height:400px;background-color: #000" v-show="orderMode == 1")
+      button.leftButton(@click="showContentType--" v-show="showContentType != 1")
         i.material-icons chevron_left
       .area-main.area-main-block1(v-show="showContentType == 1")
-        Chart
+        Chart(theme="black")
       .area-main.area-main-block2(v-show="showContentType == 2")
         //- 五檔揭示
         table.table.progress-table
@@ -158,7 +158,7 @@
                 .progress-bar.progress-bar__right
                   .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
       .right
-        Chart
+        Chart(theme="black")
     .area
       .area-order.area-order-theme2(v-if="orderMode == 2")
         table

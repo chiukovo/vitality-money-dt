@@ -1,8 +1,23 @@
 import Vue from 'vue'
 
+let debounceChart = false
+let debounceChartData = []
+
+let debounceKChart = false
+let debounceKChartData = []
+
 export default {
   setApiExample(state, data) {
     state.apiExampleData = data
+  },
+  setOnRealtimeCallback(state, onRealtimeCallback) {
+    state.onRealtimeCallback = onRealtimeCallback
+  },
+  setSubResolution(state, subResolution) {
+    state.subResolution = subResolution
+  },
+  setTradingViewUserSaveData(state, tradingViewUserSaveData) {
+    state.localStorage.tradingViewUserSaveData = tradingViewUserSaveData
   },
   setRemember(state, { me, account, password }) {
     state.localStorage.remember.me = me
@@ -266,6 +281,17 @@ export default {
   setMobile(state, data) {
     state.isMobile = data
   },
+  setTradingViewChart(state, tdChart) {
+    state.tdChart = tdChart
+  },
+  setTradingViewSymbol(state, symbol) {
+    state.symbol = symbol
+  },
+  resizeChart(state) {
+    if (state.onChatResize) {
+      state.onChatResize();
+    }
+  },
   setClickItemId(state, {id, name}) {
     const _this = this
     _this._vm.$socket.send('h:' + id)
@@ -391,16 +417,21 @@ export default {
       _this.commit('doUpdateklLineData', nowItems)
     }
 
+    //if click 長條圖
+    if (chartData.length > 0 && itemId == clickItemId) {
+      _this.commit('doUpdateChartData', nowItems)
+    }
+
     state.mainItem = state.mainItem.map(function (val) {
       if (itemId == val.product_id) {
         //計算
-        let dindex = 0;
-        let gain = 0;
+        let dindex = 0
+        let gain = 0
         let prices = []
         let localTime = (nowItems[0] < 10000000) ? "0" + nowItems[0] / 100 : "" + nowItems[0] / 100
         let flocalTime = _this._vm.formatTime(localTime)
 
-        let nowDate = new Date();
+        let nowDate = new Date()
         let fullTime = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), nowItems[0] / 1000000, nowItems[0] / 10000 % 100, nowItems[0] / 100 % 100 ).getTime()
 
         borderName = val.color == 'text__success' ? 'border border__success' : 'border border__danger'
@@ -427,12 +458,7 @@ export default {
 
           prices.push([nowItems[2], nowItems[1]])
 
-          dindex += 4;
-        }
-
-        //if click 長條圖
-        if (chartData.length > 0 && itemId == clickItemId) {
-          _this.commit('doUpdateChartData', {prices, fullTime})
+          dindex += 4
         }
 
         //總量
@@ -540,7 +566,7 @@ export default {
           // 總共未平損益
           uncoverMoney += diff * parseInt(val.PointMoney) * parseInt(val.Quantity)
       } else {
-          val.thisSerialPointDiff = diff * -1;
+          val.thisSerialPointDiff = diff * -1
           uncoverMoney -= diff * parseInt(val.PointMoney) * parseInt(val.Quantity)
       }
 
@@ -627,30 +653,30 @@ export default {
     let formatData = []
 
     for (let i = 0; i < buyCount; i++) {
-      let buyNum = parseInt(five[i * 2 + 4]);
+      let buyNum = parseInt(five[i * 2 + 4])
       if(fiveMax < buyNum) {
-        fiveMax = buyNum;
+        fiveMax = buyNum
       }
-      buy += buyNum;
+      buy += buyNum
     }
 
     for (let i = 0; i < sellCount; i++) {
-      let sellNum = parseInt(five[i * 2 + 4 + buyCount * 2]);
+      let sellNum = parseInt(five[i * 2 + 4 + buyCount * 2])
       if(fiveMax < sellNum) {
-        fiveMax = sellNum;
+        fiveMax = sellNum
       }
-      sell += sellNum;
+      sell += sellNum
     }
 
-    let maxNum = five[1] * 2 + five[2] * 2 + 3 - 1;
-    let fiveData = [];
+    let maxNum = five[1] * 2 + five[2] * 2 + 3 - 1
+    let fiveData = []
 
     for (let i = 0; i < sellCount; i++) {
-      fiveData.push(['', five[maxNum - i * 2 - 1], five[maxNum - i * 2]]);
+      fiveData.push(['', five[maxNum - i * 2 - 1], five[maxNum - i * 2]])
     }
 
     for (let i = 0; i < buyCount; i++) {
-      fiveData.push([five[i * 2 + 4], five[i * 2 + 3], '']);
+      fiveData.push([five[i * 2 + 4], five[i * 2 + 3], ''])
     }
 
     //計算%
@@ -722,125 +748,262 @@ export default {
     })
   },
   doUpdateklLineData(state, data) {
+    const _this = this
     let kLineData = state.kLineData
-  },
-  doUpdateChartData(state, {prices, fullTime}) {
-    let chartData = state.chartData
+		let resolution = state.subResolution
 
-    prices.forEach(function(val) {
-      state.chartData.push([
-        fullTime,
-        val[1] //價格
-      ])
-    })
+		if (!resolution) {
+			return
+    }
+
+    if (debounceKChart) {
+      debounceKChartData = data
+      return
+    }
+
+    if (!data) {
+      data = debounceKChartData
+    }
+
+    debounceKChart = true
+    setTimeout(() => {
+      _this.commit('doUpdateklLineData')
+      debounceKChart = false
+    }, 500)
+
+    const now_date = new Date()
+    const nowTime = new Date(now_date.getFullYear(), now_date.getMonth(), now_date.getDate(), data[0] / 1000000, data[0] / 10000 % 100, data[0] / 100 % 100 ).getTime()
+    let the_now_data = {
+      time: nowTime,
+      high: data[1],
+      low: data[1],
+      last: data[1],
+      volume: data[2]
+    }
+
+    let dindex = 0
+    while(dindex < data.length) {
+      if(dindex > 0 && dindex + 3 < data.length) {
+        the_now_data.time += data[dindex]
+        the_now_data.last += data[dindex + 1]
+        the_now_data.volume += data[dindex + 2]	
+        if (the_now_data.high < the_now_data.last) {
+          the_now_data.high = the_now_data.last
+        }
+        if (the_now_data.low > the_now_data.last) {
+          the_now_data.low = the_now_data.last
+        }
+      }
+      dindex += 4
+    }
+
+		if (resolution.includes('D')) {
+			// 1 day in minutes === 1440
+			resolution = 1440
+		} else if (resolution.includes('W')) {
+			// 1 week in minutes === 10080
+			resolution = 10080
+		}
+		var coeff = resolution * 60000
+		var rounded = Math.floor((the_now_data.time + 60000) / coeff) * coeff
+		var lastBarSec = kLineData[kLineData.length - 1][0]
+
+		const lastK = kLineData[kLineData.length - 1]
+
+		if (!lastK) {
+			return
+		}
+
+		let lastBar = {
+			time: lastK[0],
+			open: lastK[1],
+			high: lastK[2],
+			low: lastK[3],
+			close: lastK[4],
+			volume: lastK[5]
+		}
+
+		if (rounded > lastBarSec) {
+			kLineData.push([
+				rounded,
+				the_now_data.last,
+				the_now_data.last,
+				the_now_data.last,
+				the_now_data.last,
+				0
+			])
+		  // create a new candle, use last close as open **PERSONAL CHOICE**
+			lastBar = {
+				time: rounded,
+				open: the_now_data.last,
+				high: the_now_data.last,
+				low: the_now_data.last,
+				close: the_now_data.last,
+				volume: 0
+			}
+		} else {
+			// update lastBar candle!
+			if (lastBar.low > the_now_data.low) {
+				lastBar.low = the_now_data.low
+				lastK[3] = the_now_data.low
+			} else if (lastBar.high < the_now_data.high) {
+				lastBar.high = the_now_data.high
+				lastK[2] = the_now_data.high
+			}
+
+			lastK[4] = the_now_data.last
+			lastBar.volume = the_now_data.volume
+			lastBar.close = the_now_data.last
+    }
+
+		state.onRealtimeCallback(lastBar)
+  },
+  doUpdateChartData(state, data) {
+    const _this = this
+    if (debounceChart) {
+      debounceChartData = data
+      return
+    }
+
+    if (!data) {
+      data = debounceChartData
+    }
+
+    debounceChart = true
+    setTimeout(() => {
+      _this.commit('doUpdateChartData')
+      debounceChart = false
+    }, 500)
+
+    let chartData = state.chartData
+    let chartVolumeData = state.chartVolumeData
+
+    const now_date = new Date()
+    const nowTime = new Date(now_date.getFullYear(), now_date.getMonth(), now_date.getDate(), data[0] / 1000000, data[0] / 10000 % 100, data[0] / 100 % 100 ).getTime()
+    let the_now_data = {
+      time: nowTime,
+      last: data[1],
+      volume: data[2]
+    }
+
+    let dindex = 0
+    while(dindex < data.length) {
+      if(dindex > 0 && dindex + 3 < data.length) {
+        the_now_data.time += data[dindex]
+        the_now_data.last += data[dindex + 1]
+        the_now_data.volume += data[dindex + 2]	
+      }
+      dindex += 4
+    }
+
+		var lastBarSec = chartData[chartData.length - 1][0]
+
+		const lastPriceData = chartData[chartData.length - 1]
+    const lastVolumeData = chartVolumeData[chartVolumeData.length - 1]
+		if (!lastPriceData || !lastVolumeData) {
+			return
+		}
+
+    let isNewPoint = false
+		if (the_now_data.time / 1000 % 60 < lastBarSec / 1000 % 60) {
+      isNewPoint = true
+		} else {
+      lastPriceData[0] = the_now_data.time
+      lastVolumeData[0] += the_now_data.time
+      lastPriceData[1] = the_now_data.last
+      lastVolumeData[1] += the_now_data.volume
+    }
+
+    if (state.onChatUpdate) {
+      state.onChatUpdate({
+        isNewPoint,
+        time: the_now_data.time,
+        price: the_now_data.last,
+        volume: lastVolumeData[1],
+      })
+    }
+  },
+  onChatResize(state, callback) {
+    state.onChatResize = callback
+  },
+  onChatUpdate(state, callback) {
+    state.onChatUpdate = callback
   },
   clearModalData(state) {
     state.kLineData = []
     state.chartData = []
   },
+  setChartId(state, id) {
+    state.chartId = id
+  },
   setChartData(state, response) {
     state.chartData = []
+    state.chartCrossData = []
+    state.chartVolumeData = []
+    this.commit('setChartId', response.id)
+
+    const reference = state.nowMainItem.yesterday_close_price
+    let open_date_time = new Date(state.nowMainItem.open_date_time).getTime()
+    let close_date_time = new Date(state.nowMainItem.close_date_time).getTime()
 
     const code = response.data.Code
     const data = response.data.Tech
-    const type = response.type
-
     if (code == 1) {
-      let items = data.split(",")
+      const items = data.split(",")
 
       if (items.length > 1) {
-        let dateTime = new Date(items[0]).getTime()
+        const dateTime = new Date(items[0]).getTime()
         let chartData = parseInt(items[1])
 
         state.chartData.push([
           dateTime,
-          chartData
+          reference
         ])
 
+        state.chartVolumeData.push([
+          dateTime,
+          0
+        ])
+
+        let last_time = 0
         for (let i = 3; i < items.length - 1; i += 3) {
-          let chartDateTime = dateTime + parseInt(items[i]) * 60000
+          const chartDateTime = dateTime + parseInt(items[i]) * 60000
           chartData += parseInt(items[i + 1])
 
           if (parseInt(items[i]) > 0) {
-            if (state.clickItemId == "TXF" || state.clickItemId == "EXF" || state.clickItemId == "FXF" || state.clickItemId == "TSLQ") {
-              let x = chartDateTime / 60000
-              let minutes = x % 60
-              x = parseInt(chartDateTime / 3600000);
-              let hours = x % 24 + 8
-              let confirmTime = parseInt(hours * 60 +  minutes);
-              if(confirmTime > 825) {
-                  continue
-              }
-            }
-
             state.chartData.push([
               chartDateTime,
               chartData
             ])
+            state.chartVolumeData.push([
+              chartDateTime,
+              parseInt(items[i + 2])
+            ])
+            last_time = chartDateTime
           }
+        }
+
+        if (state.chartData.length > 0) {
+
+          if(last_time > 0 && open_date_time > last_time) {
+            open_date_time = dateTime
+            close_date_time = last_time
+          }
+
+          state.chartCrossData = [
+            [open_date_time, reference],
+            [close_date_time, reference]
+          ]
+        } else {
+          state.chartCrossData = [
+            [0, 0]
+          ]
         }
       }
     }
   },
-  setkLineData(state, response) {
-    if (typeof state.kLineData == 'undefined') {
-      Vue.set(state.kLineData, response.type, [])
-    }
-
-    state.kLineData = []
-    state.chartType = response.type
-
-    const code = response.data.Code
-    const data = response.data.Tech
-    const type = response.type
-
-    if (code == 1) {
-      let items = data.split("&")
-
-      for(let num = 0; num < items.length; num++) {
-        let historyData = items[num].split(";");
-        let historyItem, dateTime
-
-        //日期，時間，開，高，低，收，量；日期，時間，開，高，低，收，量；．．．．
-        if (historyData.length > 1) {
-          for (let i in historyData) {
-            historyItem = historyData[i].split(",");
-
-            if (historyItem.length < 6 || parseInt(historyItem[2]) <= 0 || parseInt(historyItem[3]) <= 0 || parseInt(historyItem[4]) <= 0 || parseInt(historyItem[5]) <= 0) {
-              continue
-            }
-
-            dateTime = new Date(historyItem[0] + " " + historyItem[1]).getTime()
-
-            if (state.clickItemId == "TXF" || state.clickItemId == "EXF" || state.clickItemId == "FXF" || state.clickItemId == "TSLQ") {
-              let t = historyData[1].split(":");
-              if(parseInt(t[0]) * 60 + parseInt(t[1]) > 825) {
-                //continue;
-              }
-            }
-
-            if (isNaN(dateTime)) {
-              continue
-            }
-
-            if (state.kLineData.length > 0) {
-              if (dateTime <= state.kLineData[state.kLineData.length - 1][0]) {
-                continue;
-              }
-            }
-
-            state.kLineData.push([
-              dateTime,
-              parseInt(historyItem[2]),
-              parseInt(historyItem[3]),
-              parseInt(historyItem[4]),
-              parseInt(historyItem[5]),
-              parseInt(historyItem[6])
-            ])
-          }
-        }
-      }
-    }
+  setkLineData(state, data) {
+    state.kLineData = data
   },
   setHistoryPrice(state, {itemId, prices, gain, flocalTime}) {
     const data = {
@@ -944,6 +1107,6 @@ export default {
     console.info(state, count)
   },
   SOCKET_RECONNECT_ERROR(state) {
-    state.socket.reconnectError = true;
+    state.socket.reconnectError = true
   },
 }

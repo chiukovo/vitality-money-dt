@@ -21,9 +21,9 @@
             .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
           div(style="display: inline" :class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
   .history-content__body(class="h-100")
-    splitpanes(class="default-theme")
+    splitpanes(class="default-theme" @resized="resizeChart()")
       pane(size="70")
-        Chart
+        Chart(theme="black")
       pane(size="30")
         .itemDetail__TotalTable(class="h-100" style="border-top: 1px solid #3a3a3a; padding: 6px;")
           .select.badge.badge-warning(style="margin-bottom: 6px;")
@@ -82,6 +82,9 @@ export default {
     }
   },
   methods: {
+    resizeChart() {
+      this.$store.dispatch('RESIZE_CHART')
+    },
     checkNumberColor(target) {
       if (this.$store.state.nowMainItem.yesterday_close_price == target) {
         return 'number'
@@ -114,11 +117,6 @@ export default {
     chartChange(id) {
       this.items = []
       this.loading = true
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': id,
-        'type': 'chart',
-        'num': 1
-      })
     },
     clickItemId(id) {
       this.loading = true
@@ -130,6 +128,9 @@ export default {
   mounted() {
     this.chartChange = this.$store.state.clickItemId
     this.fiveChange = this.$store.state.clickItemId
+    setTimeout(() => {
+      this.$store.dispatch('RESIZE_CHART')
+    }, 500);
   },
 }
 </script>
@@ -138,5 +139,11 @@ export default {
 <style>
 .highcharts-graph {
   stroke-width: 1px
+}
+.w-70 {
+  width: 70%;
+}
+.w-30 {
+  width: 30%;
 }
 </style>

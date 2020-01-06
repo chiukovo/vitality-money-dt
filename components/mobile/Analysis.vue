@@ -1,7 +1,6 @@
 <template lang='pug'>
   .main
-    highcharts(v-if="items.length > 0" :options="options" style="height: 210px")
-    div(v-loading="loading" v-else style="height: 100%")
+    Chart(theme="black" style="height: calc(100% - 194px);")
     .area(style="height: calc(100% - 270px); overflow: scroll;")
       client-only
         div(v-swiper:myswiper='swiperOption')
@@ -125,25 +124,8 @@
 import { mapState } from 'vuex';
 import Vue from 'vue';
 import 'swiper/dist/css/swiper.css'
-import HighchartsVue from "highcharts-vue"
-import darkUnica from "highcharts/themes/dark-unica"
-import Highcharts from "highcharts"
-import stockInit from 'highcharts/modules/stock'
-import mapInit from 'highcharts/modules/map'
-
-if (typeof Highcharts === 'object') {
-  Highcharts.setOptions({
-    global: {
-      useUTC: false
-    }
-  })
-
-  darkUnica(Highcharts)
-  stockInit(Highcharts)
-  mapInit(Highcharts)
-}
-
-Vue.use(HighchartsVue)
+import Kchart from "~/components/Kchart"
+import Chart from "~/components/Chart"
 
 if (process.browser) {
   const VueAwesomeSwiper = require('vue-awesome-swiper/dist/ssr')
@@ -177,61 +159,15 @@ export default {
       }
     },
   },
+  components: {
+    Kchart,
+    Chart,
+  },
   computed: mapState([
     'chartData',
     'nowMainItem',
   ]),
   watch: {
-    chartData (res) {
-      const _this = this
-      let name = this.$store.state.itemName
-      this.items = JSON.parse(JSON.stringify(res))
-
-      this.options = {
-        chart: {
-          marginRight: 50,
-          events: {
-            load: function () {
-              //load over
-              this.loading = false
-            }
-          }
-        },
-        title: {
-          text: null
-        },
-        plotOptions: {
-          series: {
-            shadow: false,
-            borderWidth: 0,
-            dataLabels: {
-              align:'right',
-              x:25,
-              y:10,
-            }
-          }
-        },
-        xAxis: {
-          type: 'datetime',
-          tickPixelInterval: 150
-        },
-        yAxis: {
-          title: {
-            text: null
-          }
-        },
-        chart: {
-          type: 'spline',
-          marginRight: 10,
-        },
-        series: [{
-          name: name,
-          tooltip: {
-          },
-          data: this.items,
-        }]
-      }
-    }
   },
   mounted () {
   },

@@ -1,9 +1,9 @@
 <template lang='pug'>
 .root
   #main
-    splitpanes(class="default-theme")
+    splitpanes(class="default-theme" @resized="resizeChart()")
       pane(:size="getSize('left')")
-        splitpanes(horizontal @resize="onResize($event)")
+        splitpanes(horizontal @resize="onResize($event)" @resized="resizeChart()")
           pane(:size="getSize('mid')")
             Header
             MainItem(v-if="pageStyle != 4")
@@ -93,6 +93,9 @@ export default {
     },
   },
   methods: {
+    resizeChart() {
+      this.$store.dispatch('RESIZE_CHART')
+    },
     onResize(event) {
       this.reSize = event[1].size
     },
