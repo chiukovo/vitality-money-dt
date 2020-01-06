@@ -12,15 +12,6 @@
                 :label="data.Name"
                 :value="data.ID"
               )
-          //- el-form-item(label='開始日期:')
-            el-form-item
-              el-date-picker(
-                v-model='form.start',
-                type='date',
-                placeholder='開始日期',
-                value-format="yyyy-MM-dd"
-                style="width: 130px;",
-              )
           el-form-item(label='開始時間: ' size='mini')
             el-time-picker(
               v-model='form.startDt'
@@ -28,9 +19,7 @@
               value-format="HH:mm:ss"
               format="HH:mm:ss")
           button.button(type="button" @click="query") 查詢
-    //- .row
-      .col
-        el-divider(content-position='center') 時間: {{ form.start }} {{ form.startDt }} ~ {{ form.end }} 23:59:59
+          .badge.badge-warning(style="margin-left: 10px;position: relative;bottom: 6px;") *3 分鐘
   .dialog__content
     client-only
       vxe-table(
