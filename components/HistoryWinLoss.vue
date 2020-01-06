@@ -70,17 +70,17 @@
             align="center"
             border
             auto-resize)
-            vxe-table-column(field="Serial" title='序號')
-            vxe-table-column(field="Name" title='商品')
+            vxe-table-column(field="Serial" title='序號' width="80px")
+            vxe-table-column(field="Name" title='商品' width="80px")
             vxe-table-column(title='多空' width="40px" align="center")
               template(slot-scope='scope')
                 span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
-            vxe-table-column(field='OrderPrice' title='委託價')
+            vxe-table-column(field='OrderPrice' title='委託價' width="80px")
             vxe-table-column(field='Quantity' title='口數' width="40px" align="center")
-            vxe-table-column(field='FinalPrice' title='成交價')
+            vxe-table-column(field='FinalPrice' title='成交價' width="80px")
             vxe-table-column(field='OrderTime' width='150' title='下單時間')
             vxe-table-column(field='FinalTime' width='150' title='完成時間')
-            vxe-table-column(field='Odtype' title='型別')
+            vxe-table-column(field='Odtype' title='型別' width="80px")
             vxe-table-column(title='損失點數' align="center")
               template(slot-scope='scope') {{ parseInt(scope.row.LossPoint) }}
             vxe-table-column(title='獲利點數' align="center")
@@ -99,12 +99,12 @@
             align="center"
             border
             auto-resize)
-            vxe-table-column(field='Serial' title='序號')
-            vxe-table-column(field='Name' title='商品')
+            vxe-table-column(field='Serial' title='序號' width="80px")
+            vxe-table-column(field='Name' title='商品' width="80px")
             vxe-table-column(title='多空')
               template(slot-scope='scope')
                 span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
-            vxe-table-column(field='FinalPrice' title='成交價')
+            vxe-table-column(field='FinalPrice' title='成交價' width="80px")
             vxe-table-column(field='Quantity' title='口數')
             vxe-table-column(field='Fee' title='手續費')
             vxe-table-column(title='損失點數' align="center")
@@ -133,18 +133,18 @@
             align="center"
             border
             auto-resize)
-            vxe-table-column(field="NewSerial" title='序號')
-            vxe-table-column(field="Name" title='商品')
+            vxe-table-column(field="NewSerial" title='序號' width="80px")
+            vxe-table-column(field="Name" title='商品' width="80px")
             vxe-table-column(title='多空')
               template(slot-scope='scope')
                 span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
             vxe-table-column(field="NewDate" title='成交日期' width="150px")
-            vxe-table-column(field="NewPrice" title='成交價')
+            vxe-table-column(field="NewPrice" title='成交價' width="80px")
             vxe-table-column(field="SerialCoveredNum" title='口數')
             vxe-table-column(field="Fee" title='手續費')
             vxe-table-column(title='損失點')
             vxe-table-column(title='獲利點')
-            vxe-table-column(field="CoverSerial" title='平倉序號')
+            vxe-table-column(field="CoverSerial" title='平倉序號' width="150px")
             vxe-table-column(field="CoverDate" title='平倉時間' width="150px")
             vxe-table-column(field="CoverPrice" title='成交價')
             vxe-table-column(title='損益')
@@ -160,7 +160,7 @@
             align="center"
             border
             auto-resize)
-            vxe-table-column(field="Name" title='商品')
+            vxe-table-column(field="Name" title='商品' width="80px")
             vxe-table-column(title='未平多')
               template(slot-scope='scope')
                 span(class="text__danger") {{ scope.row.TotalBuySubmit }}

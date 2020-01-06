@@ -1,17 +1,24 @@
 <template lang='pug'>
 .history-content
+  Dialog(
+    :click-type="dialog.clickType",
+    :visible.sync="dialog.isOpen"
+    :title="dialog.title"
+    :size="dialog.size")
   .history-content__header(id="commodityHeader")
     .linesp-wrap.statistics
-      button.button__white 儲值記錄查詢
-      .linesp 預設額度
-        span.number {{ $store.state.userInfo.TouchPoint | currency }}
+      button.button__white(@click="openModal('storedRecords', '儲值記錄')") 儲值記錄查詢
+      .linesp 昨日權益數
+        span.number
       .linesp 今日損益
         span.text__success(v-if="$store.state.userInfo.TodayMoney < 0") {{ $store.state.userInfo.TodayMoney | currency }}
         span.text__danger(v-else) {{ $store.state.userInfo.TodayMoney | currency }}
-      .linesp 留倉預扣
-        span.number {{ $store.state.userInfo.WithholdingMoney | currency }}
-      .linesp 帳戶餘額
+      .linesp 可用餘額
         span.number.text__info {{ $store.state.userInfo.Money | currency }}
+      .linesp 留倉保證金
+        span.number
+      .linesp 總權益數
+        span.number
   .history-content__body(:style="{height: $parent.height.commodity}")
     client-only
       vxe-table.table__dark(
@@ -51,15 +58,36 @@
 
 <script>
 
+import Dialog from "~/components/Dialog"
+
 export default {
   data() {
     return {
+      dialog: {
+        clickType: '',
+        isOpen: false,
+        title: '',
+        size: '',
+      },
     }
+  },
+  components: {
+    Dialog,
   },
   methods: {
     checkRowShow({row, index}) {
       if (!row.show && !this.checked) {
         return 'hide'
+      }
+    },
+    openModal(type, title, size) {
+      this.dialog.size = ''
+      this.dialog.clickType = type
+      this.dialog.title = title
+      this.dialog.isOpen = true
+
+      if (typeof size != 'undefined') {
+        this.dialog.size = size
       }
     },
   }

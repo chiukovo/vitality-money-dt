@@ -77,7 +77,7 @@ export default {
         if (this.size != '' && typeof this.size != 'undefined') {
           this.diaiogSize = this.size
         } else {
-          this.diaiogSize = '50%'
+          this.diaiogSize = '70%'
         }
       }
     }
