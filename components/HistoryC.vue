@@ -23,7 +23,7 @@
   .history-content__body(class="h-100")
     splitpanes(class="default-theme" @resized="resizeChart()")
       pane(size="70")
-        Chart(theme="black")
+        Chart(theme="black" style="height:calc(100% - 30px)")
       pane(size="30")
         .itemDetail__TotalTable(class="h-100" style="border-top: 1px solid #3a3a3a; padding: 6px;")
           .select.badge.badge-warning(style="margin-bottom: 6px;")
@@ -130,7 +130,7 @@ export default {
     this.fiveChange = this.$store.state.clickItemId
     setTimeout(() => {
       this.$store.dispatch('RESIZE_CHART')
-    }, 500);
+    }, 300);
   },
 }
 </script>
