@@ -11,47 +11,23 @@
       .collapse
         ul.collapse__list
           li
-            span.label 預設額度:
-            span {{ userInfo.TouchPoint | currency }}
-          li
             span.label 帳戶餘額:
-            span(:class="userInfo.Money < userInfo.TouchPoint ? 'text__danger' : 'text__success'") {{ userInfo.Money | currency }}
+            span(:class="nowMoney < userInfo.TouchPoint ? 'text__danger' : 'text__success'") {{ nowMoney | currency }}
           li
             span.label 今日損益:
-            span(:class="userInfo.TodayMoney < 0 ? 'text__success' : 'text__danger'")  {{ userInfo.TodayMoney | currency }}
+            span(:class="getMoneyColor(todayLoseWin)") {{ todayLoseWin | currency }}
           li
-            span.label 信用額度:
-            span  {{ userInfo.TouchPoint | currency }}
+            span.label 可用餘額:
+            span(:class="getMoneyColor(canUseMoney)") {{ canUseMoney | currency }}
           li
-            span.label 對匯額度:
-            span  {{ userInfo.ContrastPoint | currency }}
+            span.label 強平額度:
+            span(:class="getMoneyColor(userInfo.CoverMoney)") {{ userInfo.CoverMoney | currency }}
           li
-            span.label 極贏額度:
-            span  {{ userInfo.SuperPoint | currency }}
+            span.label 留倉保證金:
+            span(:class="getMoneyColor(userInfo.WithholdingMoney)") {{ userInfo.WithholdingMoney | currency }}
           li
-            span.label 全商品持倉上限:
-            span  {{ userInfo.AllStoreLimit }}
-          li
-            span.label 全商品每筆上限:
-            span  {{ userInfo.DaySubmitLimit }}
-          li
-            span.label 全商品留倉上限:
-            span  {{ userInfo.AllRemainingLimit }}
-          li
-            span.label 全商品留倉天數:
-            span  {{ userInfo.AllDayRemaingDayLimit }}
-          li
-            span.label 下單前是否確認:
-            span  {{ userInfo.SubmitConfirm ? '是' : '否' }}
-          li
-            span.label 成交是否回報:
-            span  {{ userInfo.SuccessConfirm ? '是' : '否' }}
-          li
-            span.label 結算時間:
-            span  {{ userInfo.EndTime }}
-          li
-            span.label 報價模式:
-            span  {{ userInfo.PriceMode == 0 ? '整數報價' : '完整報價' }}
+            span.label 總權益數:
+            span(:class="getMoneyColor(totalInterestNum)") {{ totalInterestNum | currency }}
       .collapse
         .collapse__header 商品資訊
         .dialog__content
@@ -61,58 +37,43 @@
               div
                 ul
                   li
+                    span.label 開盤風控點數:
+                    |{{ item.OpenMaxPoint }}
+                  li
+                    span.label 手續費:
+                    |{{ item.Fee }}
+                  li
                     span.label 每點價格:
                     |{{ item.PointMoney }}
                   li
-                    span.label 持倉上限:
-                    |{{ item.StoreLimit }}
+                    span.label 最小跳動點:
+                    |{{ item.TradePoint }}
                   li
-                    span.label 開放0.1口:
-                    |{{ item.DecimalSubmitEnable }}
+                    span.label 最小損益點:
+                    |{{ item.StopPoint }}
                   li
-                    span.label 小於一口手續費:
-                    |{{ item.DecimalSubmitFee }}
-                  li
-                    span.label 60秒平倉手續費:
-                    |{{ item.SixityFee }}
-                  li
-                    span.label 手續費(進/出):
-                    |{{ item.Fee }}
-                  li
-                    span.label 單商品每筆上限:
-                    |{{ item.SubmitMax }}
-                  li
-                    span.label 單商品留倉上限:
-                    |{{ item.RemaingLimit }}
-                  li
-                    span.label 單商品留倉天數:
-                    |{{ item.RemaingDayLimit }}
+                    span.label 限價單平倉限制:
+                    |{{ item.LimitCoverPoint }}
               div
                 ul
                   li
-                    span.label 開盤最大漲跌:
-                    |{{ item.OpenMaxPoint }}
+                    span.label 最大口數:
+                    |{{ item.SubmitMax }}
                   li
-                    span.label 每口最大漲跌:
-                    |{{ item.SubmitMaxPoint }}
+                    span.label 留倉上限:
+                    |{{ item.RemaingLimit }}
                   li
-                    span.label 停損利:
-                    |{{ item.StopPoint }}
-                  li
-                    span.label 禁新時間:
-                    |{{ item.not_new_start_time1}} ~ {{ item.not_new_end_time1 }}
-                  li
-                    span.label 可下單時間:
-                    span(v-html="item.TradeTime")
-                  li
-                    span.label 狀態:
-                    |{{ item.State }}
+                    span.label 留倉天數:
+                    |{{ item.RemaingDayLimit }}
                   li
                     span.label 禁新:
                     |{{ item.NotNewPercent }}
                   li
                     span.label 強平:
                     |{{ item.CoverPercent }}
+                  li
+                    span.label 狀態:
+                    |{{ item.State }}
 </template>
 
 <script>
@@ -132,6 +93,10 @@ export default {
     'commidyArray',
     'mainItem',
     'userInfo',
+    'todayLoseWin',
+    'canUseMoney',
+    'totalInterestNum',
+    'nowMoney',
   ]),
   watch: {
     commidyArray(sourceCommidyArray) {

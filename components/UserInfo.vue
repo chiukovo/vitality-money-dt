@@ -3,58 +3,40 @@
   .valuearrow
     button.arrow__down(@click="changeStyle('down')")
     button.arrow__up(@click="changeStyle('up')")
-  .userInfo__account(v-show="style != 0") {{ userInfo.Account }}
+  .userInfo__account(v-show="style != 0")
+    span {{ userInfo.Account }}
+    .badge.badge-warning(:style="checkAcctColor(userInfo.State)" style="margin-left: 5px") {{ userInfo.State }}
   div(v-if="style == 0")
   div(v-if="style == 1")
     .userInfo-balance__title 帳戶餘額
-    .userInfo-balance__num {{ userInfo.Money | currency }}
+    .userInfo-balance__num {{ nowMoney | currency }}
   div(v-if="style == 2")
     table.userInfo-balance-table
       tbody
         tr
+          th 昨日權益數
+          td
+            span(:class="getMoneyColor(userInfo.YesterdayInterestNum)") {{ userInfo.YesterdayInterestNum | currency }}
+        tr
           th 今日損益
           td
-            span(:class="getMoneyColor(userInfo.TodayMoney)") {{ userInfo.TodayMoney | currency }}
+            span(:class="getMoneyColor(todayLoseWin)") {{ todayLoseWin | currency }}
         tr
           th 可用餘額
           td
-            span(:class="getMoneyColor(userInfo.Money)") {{ userInfo.Money | currency }}
+            span(:class="getMoneyColor(canUseMoney)") {{ canUseMoney | currency }}
         tr
-          th 信用額度
+          th 強平額度
           td
-            span(:class="getMoneyColor(userInfo.TouchPoint)") {{ userInfo.TouchPoint | currency }}
+            span(:class="getMoneyColor(userInfo.CoverMoney)") {{ userInfo.CoverMoney | currency }}
         tr
-          th 對匯額度
+          th 留倉保證金
           td
-            span(:class="getMoneyColor(userInfo.ContrastPoint)") {{ userInfo.ContrastPoint | currency }}
+            span(:class="getMoneyColor(userInfo.WithholdingMoney)") {{ userInfo.WithholdingMoney | currency }}
         tr
-          th 極贏額度
+          th 總權益數
           td
-            span(:class="getMoneyColor(userInfo.SuperPoint)") {{ userInfo.SuperPoint | currency }}
-        tr
-          th 全商品持倉上限
-          td {{ userInfo.AllStoreLimit }}
-        tr
-          th 全商品每筆上限
-          td {{ userInfo.DaySubmitLimit }}
-        tr
-          th 全商品留倉上限
-          td {{ userInfo.AllRemainingLimit }}
-        tr
-          th 全商品留倉天數
-          td {{ userInfo.AllDayRemaingDayLimit }}
-        tr
-          th 下單前是否確認
-          td {{ userInfo.SubmitConfirm ? '是' : '否' }}
-        tr
-          th 成交是否回報
-          td {{ userInfo.SuccessConfirm ? '是' : '否' }}
-        tr
-          th 結算時間
-          td {{ userInfo.EndTime }}
-        tr
-          th 報價模式
-          td {{ userInfo.PriceMode == 0 ? '整數報價' : '完整報價' }}
+            span(:class="getMoneyColor(totalInterestNum)") {{ totalInterestNum | currency }}
 </template>
 <script>
 import { mapState } from 'vuex';
@@ -67,8 +49,25 @@ export default {
   },
   computed: mapState([
     'userInfo',
+    'todayLoseWin',
+    'canUseMoney',
+    'totalInterestNum',
+    'nowMoney',
   ]),
   methods: {
+    checkAcctColor(state) {
+      if (state == '正常') {
+        return 'background: #28a745'
+      }
+
+      if (state == '凍結') {
+        return 'background: #0062cc'
+      }
+
+      if (state == '停用') {
+        return 'background: #dc3545'
+      }
+    },
     changeStyle(type) {
       if (type == 'up' && this.style != 2) {
         this.style++
@@ -85,7 +84,7 @@ export default {
       } else if (this.style == 1) {
         this.styleHeight = '60px'
       } else if (this.style == 2) {
-        this.styleHeight = '420px'
+        this.styleHeight = '230px'
       }
 
       return 'height: ' + this.styleHeight

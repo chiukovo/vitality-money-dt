@@ -31,7 +31,6 @@ import { Splitpanes, Pane } from 'splitpanes'
 import websocketService from '~/plugins/service/websocketService.js'
 import Header from '~/components/Header'
 import Footer from '~/components/Footer'
-import UserInfo from '~/components/UserInfo'
 import ItemDetail from '~/components/ItemDetail'
 import MainItem from '~/components/MainItem'
 import History from '~/components/History'
@@ -54,7 +53,6 @@ export default {
     Header,
     Footer,
     Sound,
-    UserInfo,
     ItemDetail,
     MainItem,
     History,

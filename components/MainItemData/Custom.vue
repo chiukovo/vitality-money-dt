@@ -35,8 +35,8 @@ div(class="h-100")
               li.dropdown-item.dropdown-toggle(href="#") 字型大小
                 MainFontSize
           template(slot-scope='scope' v-if="checkHide('商品')")
-            div(:class="clickItemId == scope.row['product_id'] ? 'bg__success' : ''"  @click="clickItem(scope.row)")
-              span(:class="scope.row.state_name == '未開盤' ? 'text__secondary' : ''") {{ scope.row['product_name'] }}
+            div(:class="clickItemId == scope.row['product_id'] ? 'bg__danger' : ''"  @click="clickItem(scope.row)")
+              span(:class="scope.row.state_name == '未開盤' ? 'text__secondary' : ''") {{ scope.row['product_name'] }}{{ scope.row['monthday'] }}
         vxe-table-column(:width="computedStyleWidth(10)" title='倉位多' align="center" v-if="checkHide('倉位多')")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             span(class="text__center bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0") {{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}

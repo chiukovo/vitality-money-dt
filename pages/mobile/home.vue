@@ -58,7 +58,6 @@ import Kchart from "~/components/Kchart"
 import Operating from "~/components/mobile/Operating"
 import History from "~/components/mobile/History"
 import Report from "~/components/mobile/Report"
-import System from "~/components/mobile/System"
 import Message from "~/components/mobile/Message"
 import Account from "~/components/mobile/Account"
 
@@ -86,7 +85,6 @@ export default {
 		Kchart,
 		History,
 		Report,
-		System,
 		Message,
 		Account
 	},
