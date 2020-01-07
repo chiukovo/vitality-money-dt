@@ -170,6 +170,7 @@ export default {
   setUserInfo(state, data) {
     //排序跟mainItem 一樣即可
     let formatCommidy = []
+    let userArray = data.UserArray
 
     if (state.commidyArray.length == 0) {
       state.commidyArray = data.CommidyArray
@@ -184,7 +185,33 @@ export default {
       state.commidyArray = formatCommidy
     }
 
-    state.userInfo = data.UserArray
+    state.userInfo = userArray
+
+    //計算userInfo
+    this.commit('computedUserInfo')
+  },
+  computedUserInfo(state) {
+    let userArray = state.userInfo
+    //總未平損益
+    state.totalUncoverLossWinMoney = Number(state.totalUncoverLossWinMoney)
+    //轉number 已防加減錯誤
+    userArray.Money = Number(userArray.Money)
+    userArray.TodayMoney = Number(userArray.TodayMoney)
+    userArray.TouchPoint = Number(userArray.TouchPoint)
+    userArray.WithholdingMoney = Number(userArray.WithholdingMoney)
+
+    //帳戶餘額 UserArray.Money + 未平損益
+    state.nowMoney = userArray.Money + state.totalUncoverLossWinMoney - userArray.TouchPoint
+    //昨日權益數 Money - TouchPoint  +  WithholdingMoney - TodayMoney
+    state.userInfo.YesterdayInterestNum = userArray.Money - userArray.TouchPoint + userArray.WithholdingMoney - userArray.TodayMoney
+    //今日損益 TodayMoney + 未平損益
+    state.todayLoseWin = userArray.TodayMoney + state.totalUncoverLossWinMoney
+    //可用餘額 Money - TouchPoint + 未平損益
+    state.canUseMoney = userArray.Money - userArray.TouchPoint + state.totalUncoverLossWinMoney
+    //強平額度 -1 * TouchPoint
+    state.userInfo.CoverMoney = -1 * userArray.TouchPoint
+    //總權益數 Money - TouchPoint + 未平損益 + WithholdingMoney
+    state.totalInterestNum = userArray.Money - userArray.TouchPoint + state.totalUncoverLossWinMoney + userArray.WithholdingMoney
   },
   setUserOrder(state, data) {
     state.userOrder = data
@@ -390,6 +417,7 @@ export default {
         total_qty_change: val.total_qty_change,
         yesterday_close_price: val.yesterday_close_price,
         yesterday_last_price: val.yesterday_last_price,
+        monthday: val.monthday,
         type: val.type,
       }
 
@@ -539,7 +567,8 @@ export default {
   },
   computedUncovered(state, data) {
     let nowNewPrice = state.nowNewPrice
-    let uncoverMoney = 0
+    //總共未平損益
+    state.totalUncoverLossWinMoney = 0
     let result = []
     let needAdd = true
 
@@ -559,15 +588,16 @@ export default {
 
       // 取得點數現價差
       let diff = parseInt(nowPrice) - parseInt(val.FinalPrice)
+
       // 如果是買單
       if (val.BuyOrSell == 0) {
-          // 此單未平點數
-          val.thisSerialPointDiff = diff
-          // 總共未平損益
-          uncoverMoney += diff * parseInt(val.PointMoney) * parseInt(val.Quantity)
+        // 此單未平點數
+        val.thisSerialPointDiff = diff
+        // 總共未平損益
+        state.totalUncoverLossWinMoney += diff * parseInt(val.PointMoney) * parseInt(val.Quantity)
       } else {
-          val.thisSerialPointDiff = diff * -1
-          uncoverMoney -= diff * parseInt(val.PointMoney) * parseInt(val.Quantity)
+        val.thisSerialPointDiff = diff * -1
+        state.totalUncoverLossWinMoney -= diff * parseInt(val.PointMoney) * parseInt(val.Quantity)
       }
 
       // 此單未平損益 (要算手續費)，要更新在未平單上
@@ -577,6 +607,9 @@ export default {
     })
 
     state.uncovered = result
+
+    //計算userInfo
+    this.commit('computedUserInfo')
   },
   setFiveItemChange(state, {fiveData, itemId}) {
     let _this = this

@@ -4,15 +4,13 @@
     .row
       .col-lg-auto
         el-form(ref='form' size='mini' :inline='true')
-          el-form-item(label='開始日期:')
+          el-form-item(label='日期:')
             el-form-item
               el-date-picker(type='date' placeholder='開始日期' v-model="form.start" style="width: 130px;")
-          el-form-item(label='結束日期:')
-            el-form-item
-              el-date-picker(type='date' placeholder='結束日期' v-model="form.end" style="width: 130px;")
-          button.button(@click="query") 送出
+          el-form-item
+            el-date-picker(type='date' placeholder='結束日期' v-model="form.end" style="width: 130px;")
+          button.button(type="button" @click="query") 送出
       .col-lg-auto
-        span.label 快速查詢:
         button.button(@click="selectDayType('today')") 今日
         button.button(@click="selectDayType('yesterday')") 昨日
         button.button(@click="selectDayType('thisWeek')") 本週
@@ -34,16 +32,21 @@
           template(slot-scope='scope')
             button(@click="clickDetail(scope.row)") 明細
         vxe-table-column(field="Date" title='日期')
+        vxe-table-column(title='昨日權益數')
         vxe-table-column(title='今日損益')
           template(slot-scope='scope')
-            span(:class="scope.row.TodayMoney < 0 ? 'text__success' : 'text__danger'") {{ scope.row.TodayMoney }}
+            span(:class="getMoneyColor(scope.row.TodayMoney)") {{ scope.row.TodayMoney | currency }}
         vxe-table-column(title='餘額')
           template(slot-scope='scope')
-            span(:class="scope.row.RemainingMoney < 0 ? 'text__success' : 'text__danger'") {{ scope.row.RemainingMoney }}
+            span(:class="getMoneyColor(scope.row.RemainingMoney)") {{ scope.row.RemainingMoney | currency }}
         vxe-table-column(field="TotalFee" title='手續費')
         vxe-table-column(field="TotalSubmit" title='投注口數')
-        vxe-table-column(field="Uppay" title='交收')
+        vxe-table-column(field="Uppay" title='轉出')
+          template(slot-scope='scope')
+            span(:class="getMoneyColor(scope.row.Uppay)") {{ scope.row.Uppay | currency }}
         vxe-table-column(field="SaveMoney" title='儲值')
+          template(slot-scope='scope')
+            span(:class="getMoneyColor(scope.row.SaveMoney)") {{ scope.row.SaveMoney | currency }}
   el-dialog(
     width="50%"
     height="500px"

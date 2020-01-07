@@ -5,11 +5,11 @@
   .header
     .header__left
       button.button.header-button.logout(@click="logout(true)") 登出
-    .header__title {{userInfo.Account}}
+    .header__title {{ userInfo.Account }}
     .header__right
       button.button.header-button.header-dropmenu(@click="userInfoHeaderShow = !userInfoHeaderShow")
         span $
-        .text__danger {{userInfo.Money}}
+        .text__danger {{ nowMoney | currency }}
 </template>
 
 <script>
@@ -27,7 +27,8 @@ export default {
     UserInfoHeader,
   },
   computed: mapState([
-    'userInfo'
+    'userInfo',
+    'nowMoney',
   ]),
   methods: {
   }

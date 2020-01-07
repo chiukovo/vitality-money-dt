@@ -97,7 +97,6 @@
 
 <script>
 
-import UserInfo from "~/components/mobile/UserInfo"
 import UserDetail from "~/components/mobile/UserDetail"
 import News from "~/components/mobile/News"
 import Setting from "~/components/mobile/Setting"
@@ -111,7 +110,6 @@ import { mapState } from 'vuex'
 
 export default {
   components: {
-		UserInfo,
     UserDetail,
     News,
     Setting,
