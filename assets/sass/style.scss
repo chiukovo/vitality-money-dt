@@ -41,6 +41,7 @@ $use-fadeInDown: true;
   }
   .dropdown-menu {
     background: #fff;
+    border: 1px solid rgba(0,0,0,.15);
     padding: .5rem 0;
     > a {
       min-width: 10rem;
@@ -83,6 +84,7 @@ $use-fadeInDown: true;
   list-style: none;
   min-width: 10rem;
   background: #fff;
+  border: 1px solid rgba(0,0,0,.15);
   padding: .5rem 0;
   li {
     position: relative;
@@ -509,23 +511,26 @@ $use-fadeInDown: true;
 }
 .bg__success {
   background: #28a745;
+  .text__secondary {
+    color: #fff !important;
+  }
 }
 .button__danger {
-  color: #fff;
-  border: solid 1px #980c10;
-  background: #d81b21;
-  background: linear-gradient(to bottom,#ed1c24 0,#aa1317 100%);
+  color: #fff !important;
+  border: solid 1px #980c10 !important;
+  background: #d81b21 !important;
+  background: linear-gradient(to bottom,#ed1c24 0,#aa1317 100%) !important;
   &:hover {
-    background: linear-gradient(to bottom,#c9151b 0,#a11115 100%);
+    background: linear-gradient(to bottom,#c9151b 0,#a11115 100%) !important;
   }
 }
 .button__success {
-  color: #fff;
-  border: solid 1px #538312;
-  background: #64991e;
-  background: linear-gradient(to bottom,#7db72f 0,#28a745 100%);
+  color: #fff !important;
+  border: solid 1px #538312 !important;
+  background: #64991e !important;
+  background: linear-gradient(to bottom,#7db72f 0,#28a745 100%) !important;
   &:hover {
-    background: linear-gradient(to bottom,#6b9d28 0,#436b0c 100%);
+    background: linear-gradient(to bottom,#6b9d28 0,#436b0c 100%) !important;
   }
 }
 .button__warning {
@@ -535,12 +540,12 @@ $use-fadeInDown: true;
   background: linear-gradient(to bottom,#faa51a 0,#f47a20 100%);
 }
 .button__light {
-  color: #e9e9e9;
-  border: solid 1px #555;
-  background: #6e6e6e;
-  background: linear-gradient(to bottom,#888 0,#575757 100%);
+  color: #e9e9e9 !important;
+  border: solid 1px #555 !important;
+  background: #6e6e6e !important;
+  background: linear-gradient(to bottom,#888 0,#575757 100%) !important;
   &:hover {
-    background: linear-gradient(to bottom,#757575 0,#4b4b4b 100%);
+    background: linear-gradient(to bottom,#757575 0,#4b4b4b 100%) !important;
   }
 }
 
@@ -643,6 +648,19 @@ td {
 
 //-------------- table
 .table__dark.vxe-table {
+  .text__success {
+    color: #27d627;
+  }
+  .text__danger {
+    color: #FF0000;
+  }
+  .vxe-body--row:nth-last-child(n+2) {
+    .vxe-body--column {
+      border-bottom: 0;
+    }
+  }
+}
+.default .table__dark.vxe-table {
   border-color: #3a3a3a;
   table {
     border-bottom: 1px solid #3a3a3a;
@@ -687,6 +705,7 @@ td {
     border-color: #3a3a3a;
   }
 }
+
 .vxe-header--column .vxe-cell {
   height: 26px;
 }
@@ -1089,3 +1108,96 @@ td {
 .mainItem ::-webkit-scrollbar-corner {
   background-color: #666;
 } /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
+
+
+
+.white {
+  .root {
+    color: #000;
+  }
+  .mainItem ::-webkit-scrollbar-track {
+    background-color: rgb(226, 226, 226);
+  }
+  .mainItem ::-webkit-scrollbar-corner {
+    background-color: rgb(226, 226, 226);
+  }
+  .default-theme.splitpanes--vertical > .splitpanes__splitter, .default-theme .splitpanes--vertical > .splitpanes__splitter {
+    width: 5px;
+  }
+  .default-theme.splitpanes--horizontal > .splitpanes__splitter, .default-theme .splitpanes--horizontal > .splitpanes__splitter {
+    height: 5px;
+  }
+  .splitpanes.default-theme {
+    .splitpanes__pane {
+      background-color: #f0f0f0;
+    }
+    .splitpanes__splitter {
+      width: 5px;
+      background-color: #c7c7c7;
+    }
+  }
+  .header {
+    border-bottom-color: #696969;
+    .navbar-nav .nav-item .nav-link {
+      color: #000;
+    }
+    .mybutoule button {
+      color: #fff;
+      border: solid 1px #0076a3;
+      background-image: linear-gradient(to bottom,#119ad2 0,#00559d 100%);
+    }
+  }
+  .tabs-nav {
+    &:after {
+      background-color: #cacaca;
+    }
+    .tabs__item {
+      color: #5b5b5b;
+      &.is-active {
+        color: #000;
+        background-color: #fff;
+        border-color: #7b7b7b #7b7b7b #fff;
+      }
+    }
+  }
+  .button {
+    color: #606060;
+    border: solid 1px #949494;
+    background: #fff;
+    background-image: linear-gradient(to bottom,#fff 0,#ededed 100%);
+  }
+  .history .history-content__header .linesp {
+    color: #333;
+    .number {
+      color: #000;
+    }
+  }
+  .itemDetail__Total {
+    background-color: #fff;
+    border-color: #dee2e6;
+    div + div {
+      border-left-color: #dee2e6;
+    }
+  }
+  .table-toggle {
+    a {
+      background: url('~static/images/theme_dt/setb.png') no-repeat;
+    }
+  }
+  .valuearrow {
+    .arrow__down {
+      background-image: url('~static/images/theme_dt/downarrow_w.png');
+    }
+    .arrow__up {
+      background-image: url('~static/images/theme_dt/uparrow_w.png');
+    }
+  }
+  .userInfo {
+    background-color: #fff;
+    border-top: 1px solid #696969;
+    border-bottom: 1px solid #696969;
+    .userInfo__account {
+      color: #000;
+    }
+  }
+}

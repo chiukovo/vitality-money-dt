@@ -84,7 +84,7 @@ div(class="h-100")
           template(slot-scope='scope') {{ scope.row['end_date'] }}
         vxe-table-column(title='說明' align="center" v-if="checkHide('說明')")
           template(slot-scope='scope')
-            a(href="#" @click="openModal('userDetail', '商品資訊', '', true, scope.row.product_id)") 說明
+            a.table-link(href="#" @click="openModal('userDetail', '商品資訊', '', true, scope.row.product_id)") 說明
         vxe-table-column(:width="computedStyleWidth(30)" title='商品類別' align="center" v-if="checkHide('商品類別')")
           template(slot-scope='scope') CFD
 </template>

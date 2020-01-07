@@ -49,7 +49,7 @@ export default {
       saved_data: JSON.parse(this_vue.$store.state.localStorage.tradingViewUserSaveData),
       // 主題顏色（dark，light）
       custom_css_url: 'mobi_trading.min.css',
-      theme: 'dark',
+      theme: 'light',
       auto_save_delay: 5000,
       overrides: {
         "symbolWatermarkProperties.transparency": 90,
