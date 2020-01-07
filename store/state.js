@@ -32,9 +32,6 @@ export default () => ({
   uncoveredCountDetail: [],
   loading: true,
   isMobile: 0, //0桌面 1手機
-  customStyle: {
-    htmlClass: process.env.NUXT_ENV_WEB ? process.env.NUXT_ENV_WEB : 'dt'
-  },
   buySell: [], //下單列表
   uncovered: [], //未平倉
   covered: [], //已平倉

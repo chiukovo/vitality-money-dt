@@ -11,6 +11,7 @@ export const state = () => ({
     mainStyle: 1,
     fontStyle: 1, //預設字型大小
     orderMode: 1, //手機板 下單模式
+    theme: 'default', //樣式
     defaultQuantity: 1, //預設口數
   	operatingCustomGroup: [], //下單三項自訂選項
   },

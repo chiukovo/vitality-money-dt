@@ -61,6 +61,8 @@
         button(@click="changeMainStyle(3)" :class="mainStyle == '3' ? 'active' : ''") 3
         button(@click="changeMainStyle(4)" :class="mainStyle == '4' ? 'active' : ''") 4
         button(@click="changeMainStyle(5)" :class="mainStyle == '5' ? 'active' : ''") 5
+        button(class="themeBtn" style="background: #d4d4d4;" @click="changeTheme('white')" :class="theme == 'white' ? 'active' : ''")
+        button(class="themeBtn" style="background: #333;" @click="changeTheme('default')" :class="theme == 'default' ? 'active' : ''")
 </template>
 
 <script>
@@ -85,11 +87,10 @@ export default {
     Dialog,
     MainFontSize,
   },
-  mounted() {
-  },
   computed: mapState({
     clickItemId: 'clickItemId',
     mainStyle: state => state.localStorage.customSetting.mainStyle,
+    theme: state => state.localStorage.customSetting.theme,
   }),
   watch: {
     clickItemId (nowItems) {
@@ -103,6 +104,9 @@ export default {
     }
   },
   methods: {
+    changeTheme(type) {
+      this.$store.commit('setTheme', type)
+    },
     changeMainStyle(type) {
       this.$store.commit('setMainStyle', type)
     },

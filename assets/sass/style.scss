@@ -70,8 +70,11 @@ $use-fadeInDown: true;
         background: linear-gradient(to bottom,#757575 0,#4b4b4b 100%);
       }
       &.active {
-        box-shadow: 0 0 0 0.2rem rgba(248,221,182,.54);
+        box-shadow: 0 0 0 0.2rem rgba(130,138,145,.5);
       }
+    }
+    .themeBtn {
+      padding: 9px
     }
   }
 }

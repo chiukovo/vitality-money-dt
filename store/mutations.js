@@ -36,6 +36,9 @@ export default {
   setUserInfoStyleHeight(state, data) {
     state.userInfoStyleHeight = data
   },
+  setTheme(state, type) {
+    state.localStorage.customSetting.theme = type
+  },
   setDefaultQuantity(state, num) {
     state.localStorage.customSetting.defaultQuantity = num
   },

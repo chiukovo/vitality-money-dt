@@ -1,5 +1,5 @@
 <template lang="pug">
-.highcharts(class="h-100")
+.highcharts(style="height: calc(100% - 30px);")
   h1(style="text-align: center" v-if="name != ''") {{ name }}
   highcharts(id="self-highcharts" v-if="selectChartId.length > 0" :options="options" class="h-100")
   div(v-loading="loading" v-else class="h-100")
@@ -84,32 +84,21 @@ export default {
       syncChart: null,
     }
   },
-  props: ['theme'],
   methods: {
     activeLastPointToolip (chart) {
       const points = chart.series[0].points
       chart.tooltip.refresh(points[points.length -1])
     },
   },
-  computed: mapState([
-    'chartId',
-  ]),
+  computed: mapState({
+    theme: state => state.localStorage.customSetting.theme,
+    chartId: 'chartId'
+  }),
   mounted () {
-    if (this.theme === 'black') {
-      Object.assign(this.optionCharts, {
-        strock_border_color: 'white',
-        table_border_color: '#000000',
-        order_color: '#f4e842',
-        five_color: '#eee',
-        chart_background_color: 'rgb(28, 28, 28)',
-        chart_font_color: '#E0E0E3',
-        chart_grid_color: '#555555',
-        chart_minor_grid_color: '#505053',
-        chart_title_color: '#FFFFFF',
-        kbun_green: '#00FF00',
-        chart_q_background: 'rgb(41, 90, 138)',
-        mouse_line: 'white',
-      });
+    if (this.theme == 'white') {
+      this.whiteTheme()
+    } else {
+      this.darkTheme()
     }
 
     //判斷是否另開視窗
@@ -135,9 +124,49 @@ export default {
   watch: {
     chartId(chartId) {
       this.startChart(chartId)
+    },
+    theme(type) {
+      if (type == 'white') {
+        this.whiteTheme()
+      } else {
+        this.darkTheme()
+      }
+
+      this.startChart(this.chartId)
     }
   },
   methods: {
+    darkTheme() {
+      Object.assign(this.optionCharts, {
+        strock_border_color: 'white',
+        table_border_color: '#000000',
+        order_color: '#f4e842',
+        five_color: '#eee',
+        chart_background_color: 'rgb(28, 28, 28)',
+        chart_font_color: '#E0E0E3',
+        chart_grid_color: '#555555',
+        chart_minor_grid_color: '#505053',
+        chart_title_color: '#FFFFFF',
+        kbun_green: '#00FF00',
+        chart_q_background: 'rgb(41, 90, 138)',
+        mouse_line: 'white',
+      });
+    },
+    whiteTheme() {
+      Object.assign(this.optionCharts, {
+        chart_background_color: 'rgb(255, 255, 255)',
+        chart_grid_color: 'rgb(215,235,240)',
+        strock_border_color: 'black',
+        table_border_color: '#EEE',
+        order_color: '#000',
+        five_color: '#000',
+        chart_font_color: '#4E4E50',
+        chart_minor_grid_color: 'rgb(200,215,230)',
+        chart_title_color: '#4E4E50',
+        kbun_green: '#53AB35',
+        chart_q_background: '#d1e9f3',
+      });
+    },
     startChart(chartId) {
       const _this = this
       this.selectChartId = chartId

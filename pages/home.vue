@@ -43,7 +43,7 @@ export default {
   head() {
     return {
       htmlAttrs: {
-        class: this.$store.state.customStyle.htmlClass
+        class: 'dt ' + this.themeStyle
       },
     }
   },
@@ -63,6 +63,7 @@ export default {
   computed: mapState({
     operatingStyle: state => state.localStorage.customSetting.operatingStyle,
     mainStyle: state => state.localStorage.customSetting.mainStyle,
+    theme: state => state.localStorage.customSetting.theme,
   }),
   mixins: [websocketService],
   beforeMount() {
@@ -72,6 +73,8 @@ export default {
     let _this = this
     this.style = this.$store.state.localStorage.customSetting.operatingStyle
     this.pageStyle = this.$store.state.localStorage.customSetting.mainStyle
+    this.themeStyle = this.$store.state.localStorage.customSetting.theme
+
     this.checkLogin()
   },
   data() {
@@ -79,10 +82,14 @@ export default {
       show: 0,
       style: '',
       pageStyle: '',
-      reSize: ''
+      reSize: '',
+      themeStyle: ''
     }
   },
   watch: {
+    theme(style) {
+      this.themeStyle = style
+    },
     mainStyle(style) {
       this.pageStyle = style
     },
