@@ -33,6 +33,8 @@
             button(@click="clickDetail(scope.row)") 明細
         vxe-table-column(field="Date" title='日期')
         vxe-table-column(title='昨日權益數')
+          template(slot-scope='scope')
+            span(:class="getMoneyColor(scope.row.YesterdayInterestNum)") {{ scope.row.YesterdayInterestNum | currency }}
         vxe-table-column(title='今日損益')
           template(slot-scope='scope')
             span(:class="getMoneyColor(scope.row.TodayMoney)") {{ scope.row.TodayMoney | currency }}
@@ -54,15 +56,17 @@
     :visible.sync="innerVisible"
     append-to-body)
       .title(style="background: #f7f7f7; padding: 10px;")
-        span 今日損益
-        span(:class="detail.todayMoney < 0 ? 'text__success' : 'text__danger'") {{ detail.todayMoney }}
-        span(style="padding-left: 10px") 餘額
-        span(:class="detail.remainingMoney < 0 ? 'text__success' : 'text__danger'") {{ detail.remainingMoney }}
+        span 昨日權益數
+        span(:class="getMoneyColor(detail.yesterdayInterestNum)") {{ detail.yesterdayInterestNum | currency }}
+        span(style="margin-left: 10px") 今日損益
+        span(:class="getMoneyColor(detail.todayMoney)") {{ detail.todayMoney | currency }}
+        span(style="margin-left: 10px") 餘額
+        span(:class="getMoneyColor(detail.remainingMoney)") {{ detail.remainingMoney | currency }}
       .tabs.tabs-nav
-        .tabs__item(@click="detail.type = 1") 全部單
-        .tabs__item(@click="detail.type = 2") 未平倉單
-        .tabs__item(@click="detail.type = 3") 已平倉單
-        .tabs__item(@click="detail.type = 4") 統計
+        .tabs__item(@click="detail.type = 1" :class="detail.type == 1 ? 'is-active' : ''") 全部單
+        .tabs__item(@click="detail.type = 2" :class="detail.type == 2 ? 'is-active' : ''") 未平倉單
+        .tabs__item(@click="detail.type = 3" :class="detail.type == 3 ? 'is-active' : ''") 已平倉單
+        .tabs__item(@click="detail.type = 4" :class="detail.type == 4 ? 'is-active' : ''") 統計
       .content(v-show="detail.type == 1")
         client-only
           vxe-table(
@@ -226,6 +230,7 @@ export default {
       const date = row.Date
       this.detail.todayMoney = row.TodayMoney
       this.detail.remainingMoney = row.RemainingMoney
+      this.detail.yesterdayInterestNum = row.YesterdayInterestNum
       this.detail.orderArray = []
       this.detail.uncoveredArray = []
       this.detail.coveredArray = []
@@ -254,6 +259,7 @@ export default {
     },
     async query() {
       let _this = this
+      const money = this.$store.state.userInfo.Money
 
       if (this.form.start != '' && this.form.end != '') {
         await axios.post(process.env.NUXT_ENV_API_URL + "/query_history_moneylist?lang=" + this.lang, qs.stringify({
@@ -268,6 +274,13 @@ export default {
 
           if (result.Code > 0) {
             _this.items = result.MoneyArray
+
+            //計算昨日權益數
+            _this.items = _this.items.map(function (val) {
+              val.YesterdayInterestNum = money - val.TouchPoint + val.Withholding - val.TodayMoney
+
+              return val
+            })
           }
         })
       }
