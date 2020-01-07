@@ -842,6 +842,16 @@ td {
 .el-dialog__body {
   padding: 0;
   border: 1px solid #dee2e6;
+  .tabs-nav {
+    padding: 4px 4px 0 4px;
+    .tabs__item {
+      color: #008cba !important;
+      &.is-active {
+        color: #555 !important;
+        border-color: #ddd #ddd #fff !important;
+      }
+    }
+  }
 }
 .dialog__header {
   padding: 1rem;

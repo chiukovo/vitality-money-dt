@@ -50,10 +50,10 @@
     :title="detail.title"
     :visible.sync="innerVisible"
     append-to-body)
-      .title
+      .title(style="background: #f7f7f7; padding: 10px;")
         span 今日損益
         span(:class="detail.todayMoney < 0 ? 'text__success' : 'text__danger'") {{ detail.todayMoney }}
-        span 餘額
+        span(style="padding-left: 10px") 餘額
         span(:class="detail.remainingMoney < 0 ? 'text__success' : 'text__danger'") {{ detail.remainingMoney }}
       .tabs.tabs-nav
         .tabs__item(@click="detail.type = 1") 全部單
