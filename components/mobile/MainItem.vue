@@ -8,10 +8,10 @@
     v-dialogDrag)
     .header-custom(slot='title') 設定
     CustomItem(v-if='customItemShow')
-    div(v-else)
-      div: button.button(@click="clickMainItem()") 市場總覽
-      div: button.button(@click="customItemShow = true") 自訂市場
-      div: button.button(@click="clickUserDetailList()") 會員明細
+    ul.el-dialog__list(v-else)
+      li.button(@click="clickMainItem()") 市場總覽
+      li.button(@click="customItemShow = true") 自訂市場
+      li.button(@click="clickUserDetailList()") 會員明細
   .main.mainItem
     Dialog(
       :click-type="dialog.clickType",

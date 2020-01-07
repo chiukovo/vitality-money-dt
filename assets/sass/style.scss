@@ -511,6 +511,8 @@ $use-fadeInDown: true;
 }
 .bg__success {
   background: #28a745;
+}
+.bg__success,.bg__danger {
   .text__secondary {
     color: #fff !important;
   }
