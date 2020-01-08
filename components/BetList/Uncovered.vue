@@ -32,10 +32,11 @@
         vxe-table-column(title='獲利點數' align="center" width="74")
           template(slot-scope='scope')
             button.button.button__danger(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('winPointDialog', scope.row)") {{ scope.row.WinPoint }}
-        vxe-table-column(title='倒限(利)' align="center")
+        vxe-table-column(title='倒限(利)' align="center" width="70px")
           template(slot-scope='scope')
             button.button(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('profitPointDialog', scope.row)") {{ scope.row.InvertedPoint }}
-        vxe-table-column(field='thisSerialTotalMoney', title='未平損益' width="74")
+        vxe-table-column(title='不留倉')
+        vxe-table-column(field='thisSerialTotalMoney', title='浮動損益' width="74")
           template(slot-scope='scope')
             span(v-if="scope.row['thisSerialTotalMoney'] == 0" class="text__black") {{ scope.row['thisSerialTotalMoney'] }}
             span(v-else :class="scope.row['thisSerialTotalMoney'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialTotalMoney'] }}
@@ -47,6 +48,9 @@
             span(v-else :class="scope.row['thisSerialPointDiff'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialPointDiff'] }}
         vxe-table-column(field='Day', title='天數')
         vxe-table-column(field='State', title='狀態' width="150px")
+        vxe-table-column(title='昨日損益' width="74")
+          template(slot-scope='scope')
+            span(:class="getMoneyColor(scope.row.OriginalMoney)" style="text-decoration:underline;" @click="openDetail(scope.row)") {{ scope.row.OriginalMoney | currency }}
   //-新倒限利點數
   el-dialog(
     :visible.sync='profitPointDialog'
@@ -223,11 +227,19 @@
       .dialog__footer
         button.button__light(@click="multiOrderConfirm = false") 取消
         button.button(type='primary' @click="doMultiCovered") 確認
+  el-dialog(
+    width="50%"
+    height="500px"
+    :title="detail.title"
+    :visible.sync="innerVisible"
+    append-to-body)
+    HistoryWinLossDetail(:detail="detail" v-if="innerVisible")
 </template>
 
 <script>
 
 import { mapState } from 'vuex'
+import HistoryWinLossDetail from "~/components/HistoryWinLossDetail"
 import axios from 'axios'
 import qs from 'qs'
 
@@ -246,6 +258,7 @@ export default {
       winPointDialog: false,
       profitPointDialog: false,
       orderReport: true,
+      innerVisible: false,
       valueDateInterval: [],
       allCommodity: [],
       edit: {
@@ -277,7 +290,16 @@ export default {
       multiOrderSelect: [],
       multiDeleteData: [],
       multiDeleteSelect: [],
+      detail: {
+        date: '',
+        title: '',
+        todayMoney: 0,
+        remainingMoney: 0,
+      },
     }
+  },
+  components: {
+    HistoryWinLossDetail,
   },
   mounted() {
     this.userId = this.$store.state.localStorage.userAuth.userId
@@ -285,9 +307,37 @@ export default {
     this.lang = this.$store.state.localStorage.lang
     this.isMobile = this.$store.state.isMobile
   },
-  watch: {
-  },
   methods: {
+    openDetail(row) {
+      const _this = this
+      this.detail.date = this.getYesterdayDay()
+
+      //call list
+      axios.post(process.env.NUXT_ENV_API_URL + "/query_history_moneylist?lang=" + this.lang, qs.stringify({
+        UserID: this.userId,
+        Token: this.token,
+        StartDate: this.detail.date,
+        EndDate: this.detail.date,
+        DaySelect: -1,
+      }))
+      .then(response => {
+        const result = response.data
+        this.detail.todayMoney = 0
+        this.detail.remainingMoney = 0
+        this.detail.yesterdayInterestNum = 0
+        this.detail.title = this.detail.date + '下單明細'
+
+        if (result.Code > 0) {
+          if (result.MoneyArray.length > 0) {
+            this.detail.todayMoney = result.MoneyArray[0].TodayMoney
+            this.detail.remainingMoney = result.MoneyArray[0].RemainingMoney
+            this.detail.yesterdayInterestNum = Number(result.MoneyArray[0].RemainingMoney) - Number(result.MoneyArray[0].TouchPoint) + Number(result.MoneyArray[0].Withholding) - Number(result.MoneyArray[0].TodayMoney)
+          }
+        }
+      })
+
+      _this.innerVisible = true
+    },
     multiOrderAllClick(allChecked) {
       let _this = this
 

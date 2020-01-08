@@ -30,6 +30,9 @@ export default () => ({
   customItemSetting: [],
   customItemFieldSetting: [],
   uncoveredCountDetail: [],
+  customStyle: {
+    htmlClass: 'dt'
+  },
   loading: true,
   isMobile: 0, //0桌面 1手機
   buySell: [], //下單列表

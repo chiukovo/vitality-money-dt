@@ -222,5 +222,24 @@ Vue.mixin({
         return date
       }
     },
+    getYesterdayDay() {
+      const date = new Date()
+      const h = date.getHours()
+      const m = date.getMinutes()
+      const s = date.getSeconds()
+
+      // > 13:50 就算今天
+      if (h >= 13 && m >= 50 && s >=0) {
+        date.setTime(date.getTime() - 3600 * 1000 * 24 * 1)
+        return this.formatDate(date)
+      } else {
+        let end = new Date()
+        end.setHours(23, 59, 59)
+        let date = new Date(end)
+        date.setTime(end.getTime() - 3600 * 1000 * 24 + 1000)
+
+        return this.formatDate(date)
+      }
+    },
   }
 })

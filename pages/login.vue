@@ -67,7 +67,7 @@ export default {
   head() {
     return {
       htmlAttrs: {
-        class: this.$store.state.customStyle.htmlClass
+        class: 'dt default'
       },
     }
   },
