@@ -147,19 +147,24 @@ export default {
 
     state.mainItem = resultToOrder
   },
-  setuserAuth(state, data) {
-    if (data.UserId == '' || data.Token == '') {
+  setuserAuth(state, {
+    UserId = '',
+    Token = '',
+    ReturnURL = '',
+  }) {
+    if (UserId == '' || Token == '') {
         state.localStorage.userAuth = []
     }
 
     //set localStorage
     state.localStorage.userAuth = {
-      userId: data.UserId,
-      token: data.Token,
+      userId: UserId,
+      token: Token,
+      returnURL: ReturnURL,
     }
 
     //set cookie
-    document.cookie = `token=${data.Token}`
+    document.cookie = `token=${Token}`
 
     if (state.isMobile) {
       location.href = "/mobile/home"
