@@ -154,7 +154,6 @@ export default {
   },
   methods: {
     async query() {
-      console.log('in')
       const _this = this
       _this.orderArray = []
       _this.uncoveredArray = []
@@ -184,8 +183,6 @@ export default {
           _this.commodityArray.forEach(function(val) {
             YesterdayRemainingMoney += Number(val.YesterdayRemainingMoney)
           })
-
-          console.log(YesterdayRemainingMoney)
         }
       })
     }

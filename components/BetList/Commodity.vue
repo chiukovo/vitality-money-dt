@@ -9,16 +9,13 @@
     .linesp-wrap.statistics
       button.button__white(@click="openModal('storedRecords', '儲值記錄')") 儲值記錄查詢
       .linesp 昨日權益數
-        span.number
+        span(:class="getMoneyColor(userInfo.YesterdayInterestNum)") {{ userInfo.YesterdayInterestNum | currency }}
       .linesp 今日損益
-        span.text__success(v-if="$store.state.userInfo.TodayMoney < 0") {{ $store.state.userInfo.TodayMoney | currency }}
-        span.text__danger(v-else) {{ $store.state.userInfo.TodayMoney | currency }}
+        span(:class="getMoneyColor(todayLoseWin)") {{ todayLoseWin | currency }}
       .linesp 可用餘額
-        span.number.text__info {{ $store.state.userInfo.Money | currency }}
-      .linesp 留倉保證金
-        span.number
+        span(:class="getMoneyColor(canUseMoney)") {{ canUseMoney | currency }}
       .linesp 總權益數
-        span.number
+        span(:class="getMoneyColor(totalInterestNum)") {{ totalInterestNum | currency }}
   .history-content__body(:style="{height: $parent.height.commodity}")
     client-only
       vxe-table.table__dark(
@@ -58,6 +55,7 @@
 
 <script>
 
+import { mapState } from 'vuex'
 import Dialog from "~/components/Dialog"
 
 export default {
@@ -74,6 +72,13 @@ export default {
   components: {
     Dialog,
   },
+  computed: mapState([
+    'userInfo',
+    'todayLoseWin',
+    'canUseMoney',
+    'totalInterestNum',
+    'nowMoney',
+  ]),
   methods: {
     checkRowShow({row, index}) {
       if (!row.show && !this.checked) {

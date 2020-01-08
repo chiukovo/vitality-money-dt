@@ -36,20 +36,24 @@
           template(slot-scope='scope')
             button.button(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('profitPointDialog', scope.row)") {{ scope.row.InvertedPoint }}
         vxe-table-column(title='不留倉')
+          template(slot-scope='scope')
+            label.checkbox
+              input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row)")
+              span.checkbox__label 不留倉
         vxe-table-column(field='thisSerialTotalMoney', title='浮動損益' width="74")
           template(slot-scope='scope')
             span(v-if="scope.row['thisSerialTotalMoney'] == 0" class="text__black") {{ scope.row['thisSerialTotalMoney'] }}
-            span(v-else :class="scope.row['thisSerialTotalMoney'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialTotalMoney'] }}
+            span(v-else :class="getMoneyColor(scope.row.thisSerialTotalMoney)") {{ scope.row['thisSerialTotalMoney'] }}
         vxe-table-column(title='點數')
           template(slot-scope='scope')
             .change-icon(v-if="typeof scope.row['thisSerialPointDiff'] != 'undefined'")
               .icon-arrow(v-if="scope.row['thisSerialPointDiff'] != 0" :class="scope.row['thisSerialPointDiff'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
             span(v-if="scope.row['thisSerialPointDiff'] == 0" class="text__black") {{ scope.row['thisSerialPointDiff'] }}
-            span(v-else :class="scope.row['thisSerialPointDiff'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialPointDiff'] }}
+            span(v-else :class="getMoneyColor(scope.row.thisSerialPointDiff)") {{ scope.row['thisSerialPointDiff'] }}
         vxe-table-column(field='Day', title='天數')
         vxe-table-column(field='State', title='狀態' width="150px")
         vxe-table-column(title='昨日損益' width="74")
-          template(slot-scope='scope')
+          template(slot-scope='scope' v-if="scope.row.OriginalMoney > 0")
             span(:class="getMoneyColor(scope.row.OriginalMoney)" style="text-decoration:underline;" @click="openDetail(scope.row)") {{ scope.row.OriginalMoney | currency }}
   //-新倒限利點數
   el-dialog(
@@ -308,6 +312,21 @@ export default {
     this.isMobile = this.$store.state.isMobile
   },
   methods: {
+    changeDayCover(row) {
+      const _this = this
+      const setDayCover = row.DayCover ? 0 : 1
+
+      axios.post(process.env.NUXT_ENV_API_URL + "/set_serial_daycover?lang=" + this.lang, qs.stringify({
+        UserID: this.userId,
+        Token: this.token,
+        DayCover: setDayCover,
+        DayCoverSerialId: row.Serial,
+      }))
+      .then(response => {
+        _this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
+        _this.$store.dispatch('CALL_MEMBER_INFO')
+      })
+    },
     openDetail(row) {
       const _this = this
       this.detail.date = this.getYesterdayDay()

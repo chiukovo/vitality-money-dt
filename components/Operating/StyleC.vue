@@ -104,12 +104,16 @@
         input.checkbox__input(type="checkbox" @click="setCustomSetting('orderReport')" :checked="$store.state.localStorage.customSetting.orderReport")
         span.checkbox__label 成交回報
       label.checkbox
-        input.checkbox__input(v-model="customGroup" type="checkbox" value="overall")
+        input.checkbox__input(v-model="customGroup" type="checkbox" value="overall" @click="clickOverAll()")
         span.checkbox__label 全平 + 取消委託
 </template>
 
 <script>
-import { mapState } from 'vuex';
+
+import { mapState } from 'vuex'
+import axios from 'axios'
+import qs from 'qs'
+
 export default {
   data () {
     return {
@@ -144,15 +148,6 @@ export default {
     },
     customGroup(data) {
       this.$cookies.set('customGroup', this.customGroup)
-
-      //修改收盤全平
-      let overall = 0
-
-      this.customGroup.forEach(function(val){
-        if (val == 'overall') {
-          overall = 1
-        }
-      })
     },
     submitNum(newNum, oldNum) {
       if (newNum == 0 && oldNum == 1) {
@@ -181,6 +176,36 @@ export default {
     }
   },
   methods: {
+    clickOverAll() {
+      //修改收盤全平
+      let overall = 1
+      const _this = this
+      let beforeCustomGroup = this.customGroup
+
+      this.customGroup.forEach(function(val){
+        if (val == 'overall') {
+          overall = 0
+        }
+      })
+
+      //設定收盤全平
+      const lang = this.$store.state.localStorage.lang
+      const userId = this.$store.state.localStorage.userAuth.userId
+      const token = this.$store.state.localStorage.userAuth.token
+
+      axios.post(process.env.NUXT_ENV_API_URL + "/set_close_cover_all?lang=" + lang, qs.stringify({
+        UserID: userId,
+        Token: token,
+        SetCloseCover: overall,
+        SetCloseCommodity: _this.clickItemId,
+      }))
+      .then(response => {
+        if (response.data.Code != 1) {
+          _this.$alert(response.data.ErrorMsg)
+          _this.customGroup = beforeCustomGroup
+        }
+      })
+    },
     setCustomSetting(type) {
       this.$store.commit('setCustomSetting', type)
     },
