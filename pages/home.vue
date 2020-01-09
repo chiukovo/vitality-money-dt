@@ -71,19 +71,28 @@ export default {
   },
   mounted() {
     let _this = this
-    this.style = this.$store.state.localStorage.customSetting.operatingStyle
-    this.pageStyle = this.$store.state.localStorage.customSetting.mainStyle
-    this.themeStyle = this.$store.state.localStorage.customSetting.theme
+
+    if (typeof this.operatingStyle != 'undefined') {
+      this.style = this.operatingStyle
+    }
+
+    if (typeof this.mainStyle != 'undefined') {
+      this.pageStyle = this.mainStyle
+    }
+
+    if (typeof this.theme != 'undefined') {
+      this.themeStyle = this.theme
+    }
 
     this.checkLogin()
   },
   data() {
     return {
       show: 0,
-      style: '',
-      pageStyle: '',
+      style: 'A',
+      pageStyle: 1,
       reSize: '',
-      themeStyle: ''
+      themeStyle: 'default'
     }
   },
   watch: {
