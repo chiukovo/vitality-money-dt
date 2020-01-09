@@ -3,7 +3,6 @@
 	.login-box
 		.login__header
 			.logo DT888
-			.version v2.53
 		.login__form
 			el-form
 				el-form-item
