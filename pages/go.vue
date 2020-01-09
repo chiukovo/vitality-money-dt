@@ -20,7 +20,6 @@ export default {
 		if (UserID && UserToken && ReturnURL) {
 			this.$store.commit("setMobile", 0)
 			//set user info
-			console.log(UserID);
 			this.$store.commit('setuserAuth', {
 				UserId: UserID,
 				Token: UserToken,

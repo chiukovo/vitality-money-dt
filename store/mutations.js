@@ -150,19 +150,24 @@ export default {
 
     state.mainItem = resultToOrder
   },
-  setuserAuth(state, data) {
-    if (data.UserId == '' || data.Token == '') {
+  setuserAuth(state, {
+    UserId = '',
+    Token = '',
+    ReturnURL = '',
+  }) {
+    if (UserId == '' || Token == '') {
         state.localStorage.userAuth = []
     }
 
     //set localStorage
     state.localStorage.userAuth = {
-      userId: data.UserId,
-      token: data.Token,
+      userId: UserId,
+      token: Token,
+      returnURL: ReturnURL,
     }
 
     //set cookie
-    document.cookie = `token=${data.Token}`
+    document.cookie = `token=${Token}`
 
     if (state.isMobile) {
       location.href = "/mobile/home"
@@ -222,17 +227,17 @@ export default {
     //計算未平倉數量
     data.UncoveredArray.forEach(function(val) {
       if (typeof uncoveredCountDetail[val.ID] == 'undefined') {
-        uncoveredCountDetail[val.ID] = 1
+        uncoveredCountDetail[val.ID] = val.Quantity
         if (val.BuyOrSell == 0) {
-          uncoveredCountDetail[val.ID] = 1
+          uncoveredCountDetail[val.ID] = val.Quantity
         } else {
-          uncoveredCountDetail[val.ID] = -1
+          uncoveredCountDetail[val.ID] = -1 * val.Quantity
         }
       } else {
         if (val.BuyOrSell == 0) {
-          uncoveredCountDetail[val.ID] += 1
+          uncoveredCountDetail[val.ID] += val.Quantity
         } else {
-          uncoveredCountDetail[val.ID] += -1
+          uncoveredCountDetail[val.ID] += -1 * val.Quantity
         }
       }
     })
@@ -1002,19 +1007,39 @@ export default {
         ])
 
         let last_time = 0
+        let pi = parseInt(items.length / 150) * 3;
+        if (pi < 3) {
+          pi = 3;
+        }
+        let localHigh = 0;
+        let localLow = 9999999;
         for (let i = 3; i < items.length - 1; i += 3) {
           const chartDateTime = dateTime + parseInt(items[i]) * 60000
           chartData += parseInt(items[i + 1])
 
           if (parseInt(items[i]) > 0) {
-            state.chartData.push([
-              chartDateTime,
-              chartData
-            ])
-            state.chartVolumeData.push([
-              chartDateTime,
-              parseInt(items[i + 2])
-            ])
+            if (i % pi == 0 || !state.isMobile) {
+              localHigh = chartData
+              localLow = chartData
+              state.chartData.push([
+                chartDateTime,
+                chartData
+              ])
+              state.chartVolumeData.push([
+                chartDateTime,
+                parseInt(items[i + 2])
+              ])
+            } else {
+              if (localHigh < chartData) {
+                localHigh = chartData
+                state.chartData[state.chartData.length - 1][1] = chartData
+              }
+              if (localLow > chartData) {
+                localLow = chartData
+                state.chartData[state.chartData.length - 1][1] = chartData
+              }
+              state.chartVolumeData[state.chartVolumeData.length - 1][1] += parseInt(items[i + 2])
+            }
             last_time = chartDateTime
           }
         }
