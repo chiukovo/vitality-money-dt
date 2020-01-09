@@ -95,7 +95,7 @@
                 button.button(@click="doOrder") 確認
     .operating-5
       label.checkbox
-        input.checkbox__input(type="checkbox")
+        input.checkbox__input(type="checkbox" :checked="noRemaining == 1" @click="setNoRemaining")
         span.checkbox__label 不留倉
       label.checkbox
         input.checkbox__input(v-model="customGroup" type="checkbox" value="noConfirm")
@@ -125,6 +125,7 @@ export default {
       confirmData: [],
       radioA: '0',
       buyType: '0',
+      noRemaining: 0,
       profit: 0,
       damage: 0,
       submitNum: 1,
@@ -137,6 +138,7 @@ export default {
   computed: mapState([
     'clickItemId',
     'commidyArray',
+    'userInfo',
   ]),
   watch: {
     commidyArray() {
@@ -176,6 +178,26 @@ export default {
     }
   },
   methods: {
+    setNoRemaining() {
+      //設定不留倉
+      const _this = this
+      const lang = this.$store.state.localStorage.lang
+      const userId = this.$store.state.localStorage.userAuth.userId
+      const token = this.$store.state.localStorage.userAuth.token
+      const setNoRemaining = this.noRemaining == 0 ? 1 : 0
+
+      axios.post(process.env.NUXT_ENV_API_URL + "/set_close_cover_all?lang=" + lang, qs.stringify({
+        UserID: userId,
+        Token: token,
+        SetNoRemaining: setNoRemaining,
+        SetCloseCommodity: _this.clickItemId,
+      }))
+      .then(response => {
+        if (response.data.Code != 1) {
+          _this.$alert(response.data.ErrorMsg)
+        }
+      })
+    },
     clickOverAll() {
       //修改收盤全平
       let overall = 1
@@ -211,6 +233,7 @@ export default {
     },
     getNowOverall() {
       //使用者設定
+      const _this = this
       const commidyArray = this.$store.state.commidyArray
       const clickItem = this.$store.state.clickItemId
       let newCustomGroup = []
@@ -219,6 +242,7 @@ export default {
       commidyArray.forEach(function(val) {
         if (val.ID == clickItem) {
           dayCover = val.DayCover
+          _this.noRemaining = val.NoRemaining
         }
       })
 

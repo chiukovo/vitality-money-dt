@@ -24,30 +24,40 @@
               li.tran-item__yellow {{ item.Date }}
               li
                 div
-                  span.label 額度:
-                  span(:class="item.TouchPoint > 0 ? 'text__danger' : 'text__success'") {{ item.TouchPoint | currency }}
+                  span.label 昨餘:
+                  span(:class="getMoneyColor(item.YesterdayInterestNum)") {{ item.YesterdayInterestNum | currency }}
                 div
-                  span.label 損益:
-                  span(:class="item.TodayMoney > 0 ? 'text__danger' : 'text__success'") {{ item.TodayMoney | currency }}
+                  span.label 今損:
+                  span(:class="getMoneyColor(item.TodayMoney)") {{ item.TodayMoney | currency }}
                 div
                   span.label 餘額:
-                  span(:class="item.RemainingMoney > 0 ? 'text__danger' : 'text__success'") {{ item.RemainingMoney | currency }}
+                  span(:class="getMoneyColor(item.RemainingMoney)") {{ item.RemainingMoney | currency }}
               li
-                .label 口數: {{ item.TotalSubmit }}
-                .label 交收:
-                span(:class="item.Uppay > 0 ? 'text__danger' : 'text__success'") {{ item.Uppay | currency }}
+                div
+                  span.label 手續費:
+                  span {{ item.TotalFee }}
+                div
+                  span.label 口數:
+                  span {{ item.TotalSubmit }}
+              li
+                div
+                  span.label 轉出:
+                  span(:class="getMoneyColor(item.Uppay)") {{ item.Uppay | currency }}
+                div
+                  span.label 儲值:
+                  span(:class="getMoneyColor(item.SaveMoney)") {{ item.SaveMoney | currency }}
           li(v-else) 無資料
         template(v-if='showDetail')
           .modals.HistoryWinLoss__detail
             .page
               .header
                 .header__left
-                  .page__title {{ detailDay }}下單明細
+                  .page__title {{ this.detail.title }}
                 .header__title
                 .header__right
                   button.button.header-button.back(@click='showDetail = false') 返回
               .main
-                BetDetail(:day="detailDay")
+                BetDetail(:day="detailDay" :detail="detail")
 </template>
 <script>
 
@@ -87,7 +97,11 @@ export default {
     },
     getDetailData(item) {
       this.showDetail = true
-      this.detailDay = item.Date
+      this.detail.date = item.Date
+      this.detail.todayMoney = item.TodayMoney
+      this.detail.remainingMoney = item.RemainingMoney
+      this.detail.yesterdayInterestNum = item.YesterdayInterestNum
+      this.detail.title = this.detail.date + '下單明細'
     },
     async query() {
       let _this = this
@@ -97,7 +111,7 @@ export default {
         const token = this.$store.state.localStorage.userAuth.token
         const lang = this.$store.state.localStorage.lang
 
-        await axios.post(process.env.NUXT_ENV_API_URL + "/query_moneylist?lang=" + lang, qs.stringify({
+        await axios.post(process.env.NUXT_ENV_API_URL + "/query_history_moneylist?lang=" + lang, qs.stringify({
           UserID: userId,
           Token: token,
           StartDate: this.form.start,
@@ -109,6 +123,12 @@ export default {
 
           if (response.data.Code == 1) {
             _this.items = response.data.MoneyArray
+            
+            //計算昨日權益數
+            _this.items = _this.items.map(function (val) {
+              val.YesterdayInterestNum = Number(val.RemainingMoney) - Number(val.TouchPoint) + Number(val.Withholding) - Number(val.TodayMoney)
+              return val
+            })
           }
         })
       }

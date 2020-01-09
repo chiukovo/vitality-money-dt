@@ -51,7 +51,7 @@
             td: .cell.text__center {{ nowMainItem.new_point2 }}
             td: .cell.text__center {{ nowMainItem.cover_point1 }}
             td: .cell.text__center {{ nowMainItem.cover_point2 }}
-    .area(style="height:400px;background-color: #000" v-show="orderMode == 1")
+    .area(style="height:300px;background-color: #000" v-show="orderMode == 1")
       button.leftButton(@click="showContentType--" v-show="showContentType != 1")
         i.material-icons chevron_left
       .area-main.area-main-block1(v-show="showContentType == 1")

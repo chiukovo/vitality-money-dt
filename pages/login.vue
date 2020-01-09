@@ -16,9 +16,6 @@
             el-checkbox(v-model="rememberMe") 記住我
           el-form-item
             el-button(type='primary' native-type="submit" @click.native.prevent="doLogin") 登入
-          .login-txt
-            .left 舊版
-            .right 版本7.07
       .login__footer
         a(href="#") 軟體使用條款
   .root

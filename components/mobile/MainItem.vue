@@ -54,7 +54,7 @@
         vxe-table-column(:width="computedStyleWidth(10)" title='倉位' align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             <span class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0">{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
-            <span class="bg__success" v-else>{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
+            <span class="bg__success" v-else>{{ Math.abs($store.state.uncoveredCountDetail[scope.row['product_id']]) }}</span>
         vxe-table-column(:width="computedStyleWidth(35)" title='成交' fixed="left" align="right")
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}

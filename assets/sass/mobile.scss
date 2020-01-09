@@ -106,7 +106,7 @@ $material-icons-font-path: '~material-icons/iconfont/';
   position: absolute;
   top: 42px;
   right: 0;
-  z-index: 9;
+  z-index: 99;
   transform: translateX(100%);
 
   &.isOpen {
@@ -472,8 +472,8 @@ $material-icons-font-path: '~material-icons/iconfont/';
 .area-main-block2 {
   font-size: 14px;
   width: calc(100% - 80px);
-  height: 400px;
   margin: 0 auto;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -483,7 +483,7 @@ $material-icons-font-path: '~material-icons/iconfont/';
   width: calc(100% - 80px);
   margin: 0  auto;
   .d-flex {
-    height: 400px;
+    height: 100%;
   }
   ul {
     + ul {

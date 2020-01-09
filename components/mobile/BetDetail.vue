@@ -1,12 +1,19 @@
 <template lang='pug'>
 .page
   .main
+    .title(style="padding: 10px;")
+      span 昨餘
+      span(:class="getMoneyColor(detail.yesterdayInterestNum)") {{ detail.yesterdayInterestNum | currency }}
+      span(style="margin-left: 10px") 今損
+      span(:class="getMoneyColor(detail.todayMoney)") {{ detail.todayMoney | currency }}
+      span(style="margin-left: 10px") 餘額
+      span(:class="getMoneyColor(detail.remainingMoney)") {{ detail.remainingMoney | currency }}
     .transaction-tabs.tabs-nav.tabs-nav-theme1
       .tabs__item(@click="historyShow = 1" :class="{'is-active': historyShow == 1}") 全部
       .tabs__item(@click="historyShow = 2" :class="{'is-active': historyShow == 2}") 未平
       .tabs__item(@click="historyShow = 3" :class="{'is-active': historyShow == 3}") 已平
       .tabs__item(@click="historyShow = 4" :class="{'is-active': historyShow == 4}") 統計
-    .area(v-if='historyShow == 1' style="height: calc(100% - 40px);overflow-y: auto;")
+    .area(v-if='historyShow == 1' style="height: calc(100% - 20px);overflow-y: auto;")
       ul.area-tran-list
         li(v-for="item in orderArray")
           ul.tran-item
@@ -125,7 +132,7 @@ export default {
       commodityArray: [],
     };
   },
-  props: ['day'],
+  props: ['detail'],
   mounted() {
     this.query()
   },
@@ -133,7 +140,7 @@ export default {
     async query() {
       let _this = this
 
-      if (this.day != '') {
+      if (this.detail.date != '') {
         const userId = this.$store.state.localStorage.userAuth.userId
         const token = this.$store.state.localStorage.userAuth.token
         const lang = this.$store.state.localStorage.lang
@@ -141,8 +148,8 @@ export default {
         await axios.post(process.env.NUXT_ENV_API_URL + "/query_moneylist_detail?lang=" + lang, qs.stringify({
           UserID: userId,
           Token: token,
-          StartDate: this.day,
-          EndDate: this.day,
+          StartDate: this.detail.date,
+          EndDate: this.detail.date,
           DaySelect: -1,
         }))
         .then(response => {

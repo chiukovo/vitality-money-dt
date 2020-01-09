@@ -313,22 +313,39 @@
           div: button.button(@click="openEdit(controlData)") 改價減量
           div: button.button(@click="openEdit(controlData)") 設定損益
         div(v-else)
-          div: button.button(@click="coveredCheck(controlData, 1)") 市價平倉
-          div: button.button(@click="openEditPoint('winPointDialog', controlData)") 設定獲利
-          div: button.button(@click="openEditPoint('lossPointDialog', controlData)") 設定損失
-          div: button.button(@click="openEditPoint('profitPointDialog', controlData)") 設定倒限
-        ul
-          li 序號: {{ controlData.Serial }}
-          li 商品: {{ controlData.Name }}
-          li 委託價: {{ controlData.OrderPrice }}
-          li 多空:
-            span(:class="controlData.BuyOrSell == 0 ? 'text__danger' : 'text__success'") {{ controlData.BuyOrSell == 0 ? '多' : '空' }}
-          li 口數: {{ controlData.Quantity }}
+          ul.el-dialog__list
+            li.button(@click="coveredCheck(controlData, 1)") 市價平倉
+            li.button(@click="openEditPoint('winPointDialog', controlData)") 設定獲利
+            li.button(@click="openEditPoint('lossPointDialog', controlData)") 設定損失
+            li.button(@click="openEditPoint('profitPointDialog', controlData)") 設定倒限
+            li.button(@click="changeDayCover(controlData)")
+              span(v-if="controlData.DayCover") 不留倉
+              span(v-else) 留倉
+          table
+            tbody
+              tr
+                td 序號
+                td {{ controlData.Serial }}
+              tr
+                td 商品
+                td {{ controlData.Name }}
+              tr
+                td 委託價
+                td {{ controlData.OrderPrice }}
+              tr
+                td 多空
+                td
+                  span(:class="controlData.BuyOrSell == 0 ? 'text__danger' : 'text__success'") {{ controlData.BuyOrSell == 0 ? '多' : '空' }}
+              tr
+                td 口數
+                td {{ controlData.Quantity }}
 </template>
 
 <script>
 
 import { mapState } from 'vuex'
+import axios from 'axios'
+import qs from 'qs'
 
 export default {
   data () {
@@ -395,6 +412,23 @@ export default {
     this.isMobile = this.$store.state.isMobile
   },
   methods: {
+    changeDayCover(row) {
+      const _this = this
+      const setDayCover = row.DayCover ? 0 : 1
+
+      axios.post(process.env.NUXT_ENV_API_URL + "/set_serial_daycover?lang=" + this.lang, qs.stringify({
+        UserID: this.userId,
+        Token: this.token,
+        DayCover: setDayCover,
+        DayCoverSerialId: row.Serial,
+      }))
+      .then(response => {
+        _this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
+        _this.$store.dispatch('CALL_MEMBER_INFO')
+      })
+
+      this.showControl = false
+    },
     openControl(item, title) {
       if (item.Operation[0] || item.Operation[1] || item.Operation[2] || item.Operation[3]) {
         //open
