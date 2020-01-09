@@ -28,10 +28,10 @@
         vxe-table-column(field='Fee' title='手續費')
         vxe-table-column(title='損失點數' align="center" width="74")
           template(slot-scope='scope')
-            button.button.button__success(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('lossPointDialog', scope.row)") {{ scope.row.LossPoint }}
+            button.button.button__success(:disabled="canSetWinLoss(scope.row.Operation)" @click="openEditPoint('lossPointDialog', scope.row)") {{ scope.row.LossPoint }}
         vxe-table-column(title='獲利點數' align="center" width="74")
           template(slot-scope='scope')
-            button.button.button__danger(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('winPointDialog', scope.row)") {{ scope.row.WinPoint }}
+            button.button.button__danger(:disabled="canSetWinLoss(scope.row.Operation)" @click="openEditPoint('winPointDialog', scope.row)") {{ scope.row.WinPoint }}
         vxe-table-column(title='倒限(利)' align="center" width="70px")
           template(slot-scope='scope')
             button.button(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('profitPointDialog', scope.row)") {{ scope.row.InvertedPoint }}
@@ -312,6 +312,9 @@ export default {
     this.isMobile = this.$store.state.isMobile
   },
   methods: {
+    canSetWinLoss(operation) {
+      return operation[0] == 0 && operation[1] == 0 && operation[2] == 0 && operation[4] == 0
+    },
     changeDayCover(row) {
       const _this = this
       const setDayCover = row.DayCover ? 0 : 1

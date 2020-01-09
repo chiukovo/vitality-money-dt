@@ -45,10 +45,10 @@
         vxe-table-column(field='Odtype' title='型別')
         vxe-table-column(title='損失點數' align="center" width="74")
           template(slot-scope='scope')
-            button.button.button__success(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('lossPointDialog', scope.row)") {{ parseInt(scope.row.LossPoint) }}
+            button.button.button__success(:disabled="canSetWinLoss(scope.row.Operation)" @click="openEditPoint('lossPointDialog', scope.row)") {{ parseInt(scope.row.LossPoint) }}
         vxe-table-column(title='獲利點數' align="center" width="74")
           template(slot-scope='scope')
-            button.button.button__danger(:disabled="scope.row.Operation[3] == 0 ? true : false" @click="openEditPoint('winPointDialog', scope.row)") {{ parseInt(scope.row.WinPoint) }}
+            button.button.button__danger(:disabled="canSetWinLoss(scope.row.Operation)" @click="openEditPoint('winPointDialog', scope.row)") {{ parseInt(scope.row.WinPoint) }}
         vxe-table-column(field='FinalTime' width='150' title='完成時間')
         vxe-table-column(title='狀態' width='110')
           template(slot-scope='scope')
@@ -253,6 +253,9 @@ export default {
     this.isMobile = this.$store.state.isMobile
   },
   methods: {
+    canSetWinLoss(operation) {
+      return operation[0] == 0 && operation[1] == 0 && operation[2] == 0 && operation[4] == 0
+    },
     openMultiDelete() {
       let _this = this
       this.multiDeleteData = []
