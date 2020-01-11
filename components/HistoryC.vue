@@ -136,9 +136,6 @@ export default {
 
 
 <style>
-.highcharts-graph {
-  stroke-width: 1px
-}
 .w-70 {
   width: 70%;
 }
