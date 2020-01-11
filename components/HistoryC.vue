@@ -20,10 +20,10 @@
           .change-icon
             .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
           div(style="display: inline" :class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
-  .history-content__body(class="h-100")
+  .history-content__body(style="height:calc(100% - 30px)")
     splitpanes(class="default-theme" @resized="resizeChart()")
       pane(size="70")
-        Chart(theme="black" style="height:calc(100% - 30px)")
+        Chart
       pane(size="30")
         .itemDetail__TotalTable(class="h-100" style="border-top: 1px solid #3a3a3a; padding: 6px;")
           .select.badge.badge-warning(style="margin-bottom: 6px;")
@@ -109,10 +109,8 @@ export default {
       this.waitForSetChartData(true)
     },
     fiveChange(id) {
-      //取消
-      this.$socket.send('f:' + this.$store.state.clickItemId)
-      //add
-      this.$socket.send('h:' + id)
+      this.$store.commit('sendMessage', 'f:' + this.$store.state.clickItemId)
+      this.$store.commit('sendMessage', 'h:' + id)
     },
     chartChange(id) {
       this.items = []
@@ -128,9 +126,10 @@ export default {
   mounted() {
     this.chartChange = this.$store.state.clickItemId
     this.fiveChange = this.$store.state.clickItemId
-    setTimeout(() => {
-      this.$store.dispatch('RESIZE_CHART')
-    }, 300);
+    // setTimeout(() => {
+    //   console.log(5)
+    //   this.$store.dispatch('RESIZE_CHART')
+    // }, 300);
   },
 }
 </script>

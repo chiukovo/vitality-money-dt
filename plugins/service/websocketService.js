@@ -33,7 +33,7 @@ export default {
 
       if (isConnected) {
         //商品列表
-        this.$socket.send(this.startToken())
+        this.$store.commit('sendMessage', this.startToken())
       }
     },
     sendResult () {
@@ -41,7 +41,7 @@ export default {
       let _this = this
 
       if (typeof source !== "string") {
-        console.log('websock fail')
+        console.log('websocket fail')
         return;
       }
 
@@ -72,7 +72,7 @@ export default {
               }
 
               //呼叫即時資料
-              _this.$socket.send(_this.paramX())
+              _this.$store.commit('sendMessage', _this.paramX())
               _this.getUserInfo()
               break
             case "d":

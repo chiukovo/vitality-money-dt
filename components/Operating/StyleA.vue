@@ -152,7 +152,7 @@ export default {
     setClickItem() {
       let name = this.getProductNameById(this.itemChange)
 
-      this.$socket.send('f:' + this.$store.state.clickItemId)
+      this.$store.commit('sendMessage', 'f:' + this.$store.state.clickItemId)
       this.$store.commit('setClickItemId', {
         id: this.itemChange,
         name: name

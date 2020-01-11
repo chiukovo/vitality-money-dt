@@ -177,7 +177,7 @@ export default {
     },
     clickItem(row) {
       //取消
-      this.$socket.send('f:' + this.$store.state.clickItemId)
+      this.$store.commit('sendMessage', 'f:' + this.$store.state.clickItemId)
       this.$store.commit('setClickItemId', {
         id: row.product_id,
         name: row.product_name

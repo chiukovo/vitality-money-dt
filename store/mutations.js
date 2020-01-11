@@ -7,6 +7,16 @@ let debounceKChart = false
 let debounceKChartData = []
 
 export default {
+  sendMessage (state, message) {
+    if (state.socket.isConnected) {
+      this._vm.$socket.send(message)
+    } else {
+      const _this = this;
+      setTimeout(() => {
+        _this.commit('sendMessage', message);
+      }, 500);
+    }
+  },
   setApiExample(state, data) {
     state.apiExampleData = data
   },
@@ -70,7 +80,7 @@ export default {
       data.forEach(function(val) {
         if (val.show && first) {
           //send 第一筆
-          _this._vm.$socket.send('h:' + val['id'])
+          _this.commit('sendMessage', 'h:' + val['id'])
           state.clickItemId = val['id']
           state.itemName = val['name']
 
@@ -329,7 +339,7 @@ export default {
   },
   setClickItemId(state, {id, name}) {
     const _this = this
-    _this._vm.$socket.send('h:' + id)
+    _this.commit('sendMessage', 'h:' + id)
     //change now mainItem
     state.mainItem.forEach(function(val) {
       if (val.product_id == id) {

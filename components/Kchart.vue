@@ -81,7 +81,7 @@ export default {
         // 指標模板
         charts_storage_api_version: '1.1',
         // 定製加載進度條
-        loading_screen: { backgroundColor: '#FFFFFF' },
+        loading_screen: { backgroundColor: this_vue.$store.state.localStorage.customSetting.theme == 'white' ? '#FFFFFF' : '#000000' },
       })
 
       tdChart.onChartReady(function() {

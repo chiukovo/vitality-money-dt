@@ -1,8 +1,8 @@
 <template lang="pug">
-.highcharts(style="height: calc(100% - 30px);")
+.highcharts(class="h-100")
   h1(style="text-align: center" v-if="name != ''") {{ name }}
   highcharts(id="self-highcharts" v-if="selectChartId.length > 0" :options="options" class="h-100")
-  div(v-loading="loading" v-else class="h-100")
+  div(v-loading="loading" v-show="!chartHide" class="h-100")
 </template>
 
 <script>
@@ -29,8 +29,10 @@ Vue.use(HighchartsVue)
 
 export default {
   name: 'app',
+  props: ['theme'],
   data() {
     return {
+      chartHide: false,
       selectChartId: '',
       options: {},
       name: '',
@@ -91,7 +93,6 @@ export default {
     },
   },
   computed: mapState({
-    theme: state => state.localStorage.customSetting.theme,
     chartId: 'chartId'
   }),
   mounted () {
@@ -118,22 +119,15 @@ export default {
 
       this.name = this.$route.query.name
     } else {
-      this.startChart(this.chartId)
+      setTimeout(() => {
+        this.startChart(this.chartId)
+      }, 0)
     }
   },
   watch: {
     chartId(chartId) {
-      this.startChart(chartId)
-    },
-    theme(type) {
-      if (type == 'white') {
-        this.whiteTheme()
-      } else {
-        this.darkTheme()
-      }
-
       this.startChart(this.chartId)
-    }
+    },
   },
   methods: {
     darkTheme() {
@@ -168,6 +162,9 @@ export default {
       });
     },
     startChart(chartId) {
+      if (this.selectChartId == chartId) {
+        return;
+      }
       const _this = this
       this.selectChartId = chartId
       if (this.$store.state.chartData.length == 0) {
@@ -580,10 +577,11 @@ export default {
       const onChatResize = () => {
         const chart = _this.syncChart
         if (chart) {
-          // chart.reflow()
-          chart.setSize(document.getElementById('self-highcharts').getBoundingClientRect().width,
-          document.getElementById('self-highcharts').getBoundingClientRect().height);
-          drawLines(chart)
+          setTimeout(() => {
+            _this.chartHide = true
+            chart.reflow()
+            drawLines(chart)
+          }, 0);
         }
       };
       _this.$store.commit('onChatResize', onChatResize)
@@ -670,5 +668,8 @@ export default {
 <style>
   .highcharts-crosshair {
     visibility: visible !important;
+  }
+  .highcharts-credits {
+    display: none !important;
   }
 </style>
