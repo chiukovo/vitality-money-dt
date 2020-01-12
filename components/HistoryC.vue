@@ -32,7 +32,7 @@
       pane(size="70")
         Chart(:crossEnable="crossEnable" :newestPriceLineEnable="newestPriceLineEnable")
       pane(size="30")
-        .itemDetail__TotalTable(class="h-100" style="border-top: 1px solid #3a3a3a; padding: 6px;")
+        .itemDetail__TotalTable(class="h-100" style="border-top: 1px solid #3a3a3a; padding: 6px; overflow-y: auto;")
           .select.badge.badge-warning(style="margin-bottom: 6px;")
             select(v-model="fiveChange")
               option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
