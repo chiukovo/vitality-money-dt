@@ -46,11 +46,11 @@
         border
         auto-resize
         highlight-current-row)
-        vxe-table-column(:width="computedStyleWidth(50)" fixed="left" align="left" show-header-overflow)
+        vxe-table-column(:width="computedStyleWidth(60)" fixed="left" align="left" show-header-overflow)
           template(v-slot:header="{column}") 商品
             .table-toggle
               a(@click.stop="settingShow = true")
-          template(slot-scope='scope' ) {{ scope.row['product_name'] }}
+          template(slot-scope='scope' ) {{ scope.row['product_name'] }}{{ scope.row['monthday'] }}
         vxe-table-column(:width="computedStyleWidth(10)" title='倉位' align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             <span class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0">{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
@@ -128,6 +128,7 @@ export default {
     mainItem: 'mainItem',
     clickItemId: 'clickItemId',
     fontStyle: state => state.localStorage.customSetting.fontStyle,
+    listColorStyle: state => state.localStorage.customSetting.listColorStyle,
   }),
   watch: {
     clickItemId(id) {
@@ -236,6 +237,16 @@ export default {
       }
       //判斷整行顏色
       if(columnIndex >= 2 && columnIndex != 5 && columnIndex != 7 && columnIndex != 13) {
+        if (this.listColorStyle == 2) {
+          //相反
+          if (row.color == 'text__danger') {
+            return 'text__success'
+          }
+          if (row.color == 'text__success') {
+            return 'text__danger'
+          }
+        }
+
         return row.color
       }
 

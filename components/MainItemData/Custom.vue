@@ -15,6 +15,8 @@ div(class="h-100")
       .dropdown-divider
       li.dropdown-item.dropdown-toggle(href="#") 字型大小
         MainFontSize
+      li.dropdown-item.dropdown-toggle(href="#") 切換漲跌顏色
+        SetListDataColor
     client-only
       vxe-table.table__dark(
         ref="xTable"
@@ -93,6 +95,7 @@ div(class="h-100")
 
 import Dialog from "~/components/Dialog"
 import MainFontSize from "~/components/UserSetting/MainFontSize"
+import SetListDataColor from "~/components/UserSetting/SetListDataColor"
 import { mapState } from 'vuex'
 
 export default {
@@ -114,10 +117,12 @@ export default {
     mainItem: 'mainItem',
     clickItemId: 'clickItemId',
     fontStyle: state => state.localStorage.customSetting.fontStyle,
+    listColorStyle: state => state.localStorage.customSetting.listColorStyle,
   }),
   components: {
     Dialog,
     MainFontSize,
+    SetListDataColor,
   },
   mounted() {
     const _this = this
@@ -221,6 +226,16 @@ export default {
 
       //判斷整行顏色
       if(columnIndex >= 3 && columnIndex != 8 && columnIndex != 9 && columnIndex != 10 && columnIndex != 11 && columnIndex != 14 && columnIndex != 15 && columnIndex != 17 && columnIndex != 19) {
+        if (this.listColorStyle == 2) {
+          //相反
+          if (row.color == 'text__danger') {
+            return 'text__success'
+          }
+          if (row.color == 'text__success') {
+            return 'text__danger'
+          }
+        }
+
         return row.color
       }
 

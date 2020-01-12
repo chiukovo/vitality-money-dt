@@ -20,14 +20,11 @@
           template(slot-scope='scope')
             span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['NewType'] }}
         vxe-table-column(field="CoverType" title='種類')
-        vxe-table-column(title='口數')
-          template(slot-scope='scope')
-            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['SerialCoveredNum'] }}
+        vxe-table-column(field="SerialCoveredNum" title='口數')
         vxe-table-column(field="TotalFee" title='手續費')
         vxe-table-column(title='多空')
           template(slot-scope='scope')
             span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
-          template(slot-scope='scope') {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
         vxe-table-column(field="NewPrice" title='成交價')
         vxe-table-column(field="CoverPrice" title='平倉價')
         vxe-table-column(title='點數')

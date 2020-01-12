@@ -34,6 +34,8 @@
               li(@click="changeMainStyle(5)" :class="mainStyle == '5' ? 'is-active' : ''") 版面5
           li.dropdown-item.dropdown-toggle(href="#") 字型大小
             MainFontSize
+          li.dropdown-item.dropdown-toggle(href="#") 切換漲跌顏色
+            SetListDataColor
           li.dropdown-item.dropdown-toggle 損益設定
             ul.dropdown-submenu
               li.is-active 行情輸入
@@ -69,6 +71,7 @@
 
 import Dialog from "~/components/Dialog"
 import MainFontSize from "~/components/UserSetting/MainFontSize"
+import SetListDataColor from "~/components/UserSetting/SetListDataColor"
 import { mapState } from 'vuex'
 
 export default {
@@ -86,6 +89,7 @@ export default {
   components: {
     Dialog,
     MainFontSize,
+    SetListDataColor,
   },
   computed: mapState({
     clickItemId: 'clickItemId',

@@ -46,6 +46,9 @@ export default {
   setUserInfoStyleHeight(state, data) {
     state.userInfoStyleHeight = data
   },
+  setListColorStyle(state, type) {
+    state.localStorage.customSetting.listColorStyle = type
+  },
   setTheme(state, type) {
     state.localStorage.customSetting.theme = type
   },
@@ -1164,6 +1167,9 @@ export default {
 
       return dt
     })
+
+    //時間由小到大
+    state.historyPrice[itemId] = state.historyPrice[itemId].reverse()
 
     this.commit('setItemChange', state.historyPrice[itemId])
   },

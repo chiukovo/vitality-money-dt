@@ -17,7 +17,7 @@
         splitpanes(horizontal @resize="onResize($event)")
           pane(:size="getSize('itemDetail')")
             ItemDetail
-          pane(:size="getSize('ab')")
+          pane(:size="getSize('ab')" max-size="50")
             StyleA(v-show="style == 'A'")
             StyleB(v-show="style == 'B'")
   #footer

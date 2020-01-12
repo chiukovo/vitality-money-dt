@@ -680,6 +680,7 @@ export default {
 
       const onChatResize = () => {
         const chart = _this.syncChart
+        console.log(chart)
         if (chart) {
           setTimeout(() => {
             _this.chartHide = true

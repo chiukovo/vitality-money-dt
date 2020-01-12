@@ -11,6 +11,7 @@ export const state = () => ({
     mainStyle: 1,
     fontStyle: 1, //預設字型大小
     orderMode: 2, //手機板 下單模式
+    listColorStyle: 1, //1: 漲紅跌綠 2: 漲綠跌紅
     theme: 'default', //樣式
     defaultQuantity: 1, //預設口數
   	operatingCustomGroup: [], //下單三項自訂選項

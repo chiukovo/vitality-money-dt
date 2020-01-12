@@ -5,14 +5,14 @@
     button.button(@click="updateFontSize('-')") -
     button.button(@click="updateFontSize('+')") +
   .area(style="padding: 10px 0 20px;")
-    //-不知道這啥功能
-    .CustomItem-radio
+    span(style="margin-right: 10px") 漲跌顏色
+    .CustomItem-radio(style="display: inline-block;")
       label.radio.inline
-        input.radio__input(type="radio")
-        span.radio__label 簡易
+        input.radio__input(type="radio" v-model="colorStyle" value="1")
+        span.radio__label 漲紅跌綠
       label.radio.inline
-        input.radio__input(type="radio")
-        span.radio__label 完整
+        input.radio__input(type="radio" v-model="colorStyle" value="2")
+        span.radio__label 漲綠跌紅
   .area(style="height: calc(100% - 100px); overflow-y: scroll;")
     ul.area-select-list
       li(v-for="item in items"): label.checkbox
@@ -36,6 +36,7 @@ export default {
       multipleSelection: [],
       fontSize: '',
       costomFontStyle: 1,
+      colorStyle: 1,
     }
   },
   mounted() {
@@ -53,9 +54,17 @@ export default {
 
     this.costomFontStyle = this.fontStyle
     this.getFontSize()
+
+    if (typeof this.listColorStyle == 'undefined') {
+      this.$store.commit('setListColorStyle', 1)
+      this.colorStyle = 1
+    } else {
+      this.colorStyle = this.listColorStyle
+    }
   },
   computed: mapState({
     fontStyle: state => state.localStorage.customSetting.fontStyle,
+    listColorStyle: state => state.localStorage.customSetting.listColorStyle,
   }),
   methods: {
     getFontSize() {
@@ -109,9 +118,11 @@ export default {
       //set 字形
       if (type == 'reset') {
         this.costomFontStyle = 1
+        this.colorStyle = 1
       }
 
       _this.$store.commit('setFontStyle', this.costomFontStyle)
+      _this.$store.commit('setListColorStyle', this.colorStyle)
 
       _this.items.forEach(function(val) {
         let show = false

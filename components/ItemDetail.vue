@@ -6,9 +6,13 @@
         .header__title 報價明細
           .badge.badge-warning {{ $store.state.itemName }}
           button.button(@click="openModal('historyPrices', '報價查詢')") 查詢
+          label(style="margin-left: 20px")
+            input(type="checkbox" v-model="autoScroll")
+            span 自動捲動
       .itemDetail-content(:style="'height: calc(100% - ' + $store.state.userInfoStyleHeight + ')'")
         client-only
           vxe-table.table__dark.table__stripe(
+            ref="xTable"
             :data="$store.state.items2"
             :cell-class-name="tableCellClassName"
             max-width="100%"
@@ -27,6 +31,8 @@
     :title="dialog.title")
 </template>
 <script>
+
+import { mapState } from 'vuex'
 import Dialog from "~/components/Dialog"
 import UserInfo from "~/components/UserInfo"
 
@@ -42,9 +48,19 @@ export default {
         isOpen: false,
         title: ''
       },
+      autoScroll: true
     }
   },
-  mounted() {
+  computed: mapState([
+    'items2',
+  ]),
+  watch: {
+    items2() {
+      if (this.autoScroll) {
+        //自動置底
+        this.$refs.xTable.scrollTo(0, 9999)
+      }
+    }
   },
   methods: {
     handleItemDetailTabs(e) {

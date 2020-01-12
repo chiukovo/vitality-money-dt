@@ -40,6 +40,7 @@
             label.checkbox
               input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row)")
               span.checkbox__label 不留倉
+        vxe-table-column(field='PointMoney' title='報價')
         vxe-table-column(field='thisSerialTotalMoney', title='浮動損益' width="74")
           template(slot-scope='scope')
             span(v-if="scope.row['thisSerialTotalMoney'] == 0" class="text__black") {{ scope.row['thisSerialTotalMoney'] }}

@@ -84,16 +84,21 @@
         .dialog__footer
             button.button__light(@click="cancel") 取消
             button.button(@click="doOrder") 確認
+  OverAllConfirm(v-if="overAllConfirm" @closeOverAllConfirm="overAllConfirm = false")
 </template>
 
 <script>
-import { mapState } from 'vuex';
+
+import { mapState } from 'vuex'
+import OverAllConfirm from "~/components/Operating/OverAllConfirm"
+
 export default {
   data () {
     return {
       sendText: '',
       nowPrice: 0,
       itemChange: 0,
+      overAllConfirm: false,
       dialogVisible: false,
       orderConfirm: false,
       customGroup: [],
@@ -113,6 +118,9 @@ export default {
     'clickItemId',
     'commidyArray',
   ]),
+  components: {
+    OverAllConfirm,
+  },
   watch: {
     commidyArray() {
       this.getNowOverall()
@@ -214,36 +222,7 @@ export default {
       this.submitStep = 1
     },
     checkOrderAll() {
-      //看是否有勾選下單不確認
-      let noConfirm = false
-      const clickItem = this.$store.state.clickItemId
-      const isMobile = this.$store.state.isMobile
-      const userId = this.$store.state.localStorage.userAuth.userId
-      const token = this.$store.state.localStorage.userAuth.token
-
-      let sendText = 't:' + userId + ',0,' + token + ',' + isMobile + ',' + clickItem
-
-      this.customGroup.forEach(function(val){
-        if (val == 'noConfirm') {
-          noConfirm = true
-        }
-      })
-
-      if (noConfirm) {
-        //全平
-        this.$socketOrder.send(sendText)
-      } else {
-        //確認
-        this.$confirm('確認要全平 (' + this.$store.state.itemName + ') ?', '注意! ', {
-          confirmButtonText: '確定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$socketOrder.send(sendText)
-        }).catch(() => {
-
-        })
-      }
+      this.overAllConfirm = true
     },
     checkOrder(type) {
       const clickItem = this.$store.state.clickItemId
@@ -272,20 +251,7 @@ export default {
         submit: this.submitNum,
       }]
 
-      //看是否有勾選下單不確認
-      let noConfirm = false
-
-      this.customGroup.forEach(function(val){
-        if (val == 'noConfirm') {
-          noConfirm = true
-        }
-      })
-
-      if (noConfirm) {
-        this.doOrder()
-      } else {
-        this.orderConfirm = true
-      }
+      this.doOrder()
     },
     cancel() {
       this.orderConfirm = false
