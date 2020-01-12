@@ -1,7 +1,7 @@
 <template lang="pug">
 div(class="h-100")
-  div(id="self-highcharts" class="h-100")
-  div(v-loading="loading" v-show="!chartHide" class="h-100")
+  div(id="self-highcharts" class="h-100" :class="{ crossSet: crossEnable }")
+  div(v-loading="loading" v-show="!chartHide || chartId == ''" class="h-100")
 </template>
 
 <script>
@@ -20,9 +20,20 @@ if (typeof Highcharts === 'object') {
 
 export default {
   name: 'app',
-  props: ['theme'],
+  props: {
+    theme: String,
+    crossEnable: {
+      type: Boolean,
+      default: true,
+    },
+    newestPriceLineEnable: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
+      lazyChanged: false,
       chartHide: false,
       selectChartId: '',
       options: {},
@@ -69,17 +80,19 @@ export default {
       syncChart: null,
     }
   },
-  methods: {
-    activeLastPointToolip (chart) {
-      const points = chart.series[0].points
-      chart.tooltip.refresh(points[points.length -1])
-    },
-  },
   computed: mapState({
     chartId: 'chartId',
     nowMainItem: 'nowMainItem',
   }),
+  created () {
+    // window.addEventListener("resize", this.windowChange);
+  },
   mounted () {
+    const _this = this;
+    window.onresize = () => {
+      _this.drawLines(_this.syncChart);
+    }
+  
     if (this.theme == 'white') {
       this.whiteTheme()
     } else {
@@ -112,8 +125,197 @@ export default {
     chartId(chartId) {
       this.startChart(this.chartId)
     },
+    newestPriceLineEnable(value) {
+      const _this = this;
+      if (value) {
+        ['crosshairX', 'labelY', 'circleX'].forEach(val => {
+          if (_this.chartLines[val]) {
+            _this.chartLines[val].show();
+          }
+        });
+      } else {
+        ['crosshairX', 'labelY', 'circleX'].forEach(val => {
+          if (_this.chartLines[val]) {
+            _this.chartLines[val].hide();
+          }
+        });
+      }
+    },
+    crossEnable(value) {
+      const _this = this;
+      if (value) {
+        ['mouseLabelY', 'mouseLabelX',
+        'mouseCrosshairX'].forEach(val => {
+          if (_this.chartLines[val]) {
+            _this.chartLines[val].show();
+          }
+        });
+      } else {
+        ['mouseLabelY', 'mouseLabelX',
+        'mouseCrosshairX'].forEach(val => {
+          if (_this.chartLines[val]) {
+            _this.chartLines[val].hide();
+          }
+        });
+      }
+    },
   },
   methods: {
+    drawLines(chart) {
+      const _this = this;
+      function clearLine(line) {
+        if (_this.chartLines[line]) {
+          _this.chartLines[line].destroy()
+          _this.chartLines[line] = null
+        }
+      }
+      
+      //initialize the X and Y component of the crosshairs (you can adjust the color and size of the crosshair lines here)
+      ['crosshairX', 'labelY', 'circleX',
+      'mouseLabelY', 'mouseLabelX',
+      'mouseCrosshairX'].forEach(val => clearLine(val));
+      
+      _this.chartLines.crosshairX = chart.renderer.path(['M', chart.plotLeft, chart.plotTop , 'L', chart.plotLeft + chart.plotWidth , chart.plotTop ]).attr({
+        stroke: 'rgb(91, 206, 250)',
+        'stroke-width': 1,
+        zIndex: 0
+      }).add()
+      .hide().toFront()
+
+      _this.chartLines.labelY = chart.renderer.label('<div class="label-fonts" style="text-align:center;width:' + chart.plotLeft - 3 + 'px;height:16px;line-height:16px;background:rgb(91, 206, 250);></div>', -50, -50, 'callout', 520, 64, true)
+      .css({
+        color: '#000',
+        fontSize: _this.optionCharts.label_font_size
+      }).add()
+      .hide().toFront()
+
+      _this.chartLines.circleX = chart.renderer.circle(3, 3, 4).attr({
+        fill: '#F00',
+        stroke: 'white',
+        'stroke-width': 1
+      }).add().toFront().hide()
+
+    
+      _this.chartLines.mouseLabelY = chart.renderer.label('<div style="height:16px;line-height:16px;"></div>', -50, -50, 'callout', 520, 64, true)
+        .css({
+          color: '#000000',
+          fontSize: _this.optionCharts.label_font_size
+        })
+        .attr({
+          zIndex: 25
+        }).add()
+        .hide().toFront()
+
+      _this.chartLines.mouseLabelX = chart.renderer.label('<div style="height:' + _this.optionCharts.label_font_size + ';line-height:' + _this.optionCharts.label_font_size + ';"></div>', -50, -50, 'callout', 520, 64, true)
+        .css({
+          color: '#000000',
+          fontSize: _this.optionCharts.label_font_size
+        })
+        .attr({
+          zIndex: 25
+        }).add()
+        .hide().toFront()
+
+      // _this.chartLines.mouseLabelColumnY = chart.renderer.label('<div style="height:' + _this.optionCharts.label_font_size + ';line-height:' + _this.optionCharts.label_font_size + ';"></div>', -50, -50, 'callout', 520, 64, true)
+      //   .css({
+      //     color: '#000000',
+      //     fontSize: _this.optionCharts.label_font_size
+      //   })
+      //   .attr({
+      //     fill: 'rgb(211, 211, 211)',
+      //     zIndex: 25
+      //   }).add()
+      //   .show().toFront()
+
+      // _this.chartLines.mouseCrosshairColumnX = chart.renderer.path(['M', chart.plotLeft, chart.plotTop - 50, 'L', chart.plotLeft + chart.plotWidth - 5, chart.plotTop - 50]).attr({
+      //     stroke: _this.optionCharts.mouse_line,
+      //     'stroke-width': 1,
+      //     zIndex: 20
+      //   }).add()
+      //   .toFront()
+
+      _this.chartLines.mouseCrosshairX = chart.renderer.path(['M', chart.plotLeft , chart.plotTop - 50, 'L', chart.plotLeft + chart.plotWidth - 5 , chart.plotTop - 50]).attr({
+        stroke: _this.optionCharts.mouse_line,
+        'stroke-width': 1,
+        zIndex: 20
+      }).add()
+      .hide()
+      .toFront()
+      if (_this.crossEnable) {
+        ['mouseLabelY', 'mouseLabelX',
+        'mouseCrosshairX'].forEach(val => {
+          if (_this.chartLines[val]) {
+            _this.chartLines[val].show();
+          }
+        });
+      }
+
+      // _this.chartLines.gridLeft = chart.renderer.path(['M', chart.plotLeft + chart.plotWidth, chart.plotTop , 'L',chart.plotLeft + chart.plotWidth , chart.plotTop + chart.plotHeight]).attr({
+      //   stroke: _this.optionCharts.chart_grid_color,
+      //   'stroke-width': 1,
+      //   zIndex: 5
+      // }).add()
+
+      // _this.chartLines.gridRight = chart.renderer.path(['M', chart.plotLeft, chart.plotTop , 'L',chart.plotLeft , chart.plotTop + chart.plotHeight]).attr({
+      //   stroke: _this.optionCharts.chart_grid_color,
+      //   'stroke-width': 1,
+      //   zIndex: 5
+      // }).add()
+
+      const series = chart.series[1]
+      const points = series.points
+
+      setTimeout(() => {
+        if (_this.newestPriceLineEnable) {
+          _this.chartLines.crosshairX.show()
+          _this.chartLines.crosshairX.translate(0, points[points.length - 1].plotY)
+
+          _this.chartLines.circleX.show()
+          _this.chartLines.circleX.translate(points[points.length - 1].plotX + chart.plotLeft - 2, points[points.length - 1].plotY + chart.plotTop - 2)
+
+          _this.chartLines.labelY.show()
+          _this.chartLines.labelY.translate(_this.chartLines.label_x, points[points.length - 1].plotY + chart.plotTop - _this.chartLines.labelY.height / 2)
+        }
+      }, 500);
+      
+      const tra_chart_array = [
+        '<div class="label-fonts" style="background:rgb(91, 206, 250);text-align:center;',
+        ';width:',
+        chart.plotLeft - 3 + 'px',
+        ';height:',
+        _this.chartLines.lHeight,
+        ';line-height:',
+        _this.chartLines.lHeight,
+        ';">',
+        _this.$store.state.nowNewPrice[_this.chartId],
+        '</div>'
+      ]
+      _this.chartLines.labelY.attr({
+        text: tra_chart_array.join("")
+      })
+
+
+      let maxValue = _this.nowMainItem.yesterday_close_price + parseInt(_this.nowMainItem.yesterday_close_price * 0.001);
+      let minValue = _this.nowMainItem.yesterday_close_price - parseInt(_this.nowMainItem.yesterday_close_price * 0.001);
+      if (_this.nowMainItem.highest_price > maxValue) {
+        maxValue = _this.nowMainItem.highest_price + parseInt(_this.nowMainItem.highest_price * 0.001);
+        minValue = _this.nowMainItem.yesterday_close_price - (maxValue - _this.nowMainItem.yesterday_close_price);
+      }
+      if (_this.nowMainItem.lowest_price < minValue) {
+        minValue = _this.nowMainItem.lowest_price - parseInt(_this.nowMainItem.lowest_price * 0.001);
+        maxValue = _this.nowMainItem.yesterday_close_price + (_this.nowMainItem.yesterday_close_price - minValue);
+      }
+      chart.yAxis[0].setExtremes(minValue,maxValue);
+    },
+    windowChange() {
+      if (!this.lazyChanged) {
+        this.lazyChanged = true
+        setTimeout(() => {
+          this.$store.dispatch('RESIZE_CHART')
+          this.lazyChanged = false
+        }, 500);
+      }
+    },
     darkTheme() {
       Object.assign(this.optionCharts, {
         strock_border_color: 'white',
@@ -164,26 +366,28 @@ export default {
           ret = '',
           s
 
-        _this.chartLines.mouseLabelX.translate(this.point.plotX + _this.optionCharts.chart_label_x, chart.plotHeight + chart.plotTop + 3)
-        const time_array = [
-          '<div class="label-fonts" style="background:rgb(239, 125, 49);text-shadow: 0 0 0 !important;text-align:center;',
-          ';width:',
-          _this.chartLines.chart_formater_label_width,
-          ';height:',
-          _this.chartLines.lHeight,
-          ';line-height:',
-          _this.chartLines.lHeight,
-          ';">',
-          Highcharts.dateFormat('%H:%M', this.x) ,
-          '</div>'
-        ]
-        _this.chartLines.mouseLabelX.attr({
-            text: time_array.join("")
-        })
+        if (_this.crossEnable) {
+          _this.chartLines.mouseLabelX.translate(this.point.plotX + _this.optionCharts.chart_label_x, chart.plotHeight + chart.plotTop + 3)
+          const time_array = [
+            '<div class="label-fonts" style="background:rgb(239, 125, 49);text-shadow: 0 0 0 !important;text-align:center;',
+            ';width:',
+            _this.chartLines.chart_formater_label_width,
+            ';height:',
+            _this.chartLines.lHeight,
+            ';line-height:',
+            _this.chartLines.lHeight,
+            ';">',
+            Highcharts.dateFormat('%H:%M', this.x) ,
+            '</div>'
+          ]
+          _this.chartLines.mouseLabelX.attr({
+              text: time_array.join("")
+          })
+        }
 
         s = series[1]
         const thePoint = s.points.find(p => p.x >= x)
-        if (thePoint) {
+        if (thePoint && _this.crossEnable) {
           _this.chartLines.mouseLabelY.translate(_this.chartLines.label_x, thePoint.plotY + chart.plotTop - _this.chartLines.mouseLabelY.height / 2)
           const mouse_array = [
             '<div class="label-fonts" style="background:rgb(239, 125, 49);text-shadow: 0 0 0 !important;text-align:center;',
@@ -232,138 +436,6 @@ export default {
         return ''
       }
 
-      function clearLine(line) {
-        if (_this.chartLines[line]) {
-          _this.chartLines[line].destroy()
-          _this.chartLines[line] = null
-        }
-      }
-      function drawLines(chart) {
-        //initialize the X and Y component of the crosshairs (you can adjust the color and size of the crosshair lines here)
-        ['crosshairX', 'labelY', 'circleX',
-         'mouseLabelY', 'mouseLabelX',
-         'mouseCrosshairX'].forEach(val => clearLine(val));
-        _this.chartLines.crosshairX = chart.renderer.path(['M', chart.plotLeft, chart.plotTop , 'L', chart.plotLeft + chart.plotWidth , chart.plotTop ]).attr({
-          stroke: 'rgb(91, 206, 250)',
-          'stroke-width': 1,
-          zIndex: 0
-        }).add()
-        .hide().toFront()
-
-        _this.chartLines.labelY = chart.renderer.label('<div class="label-fonts" style="text-align:center;width:' + chart.plotLeft - 3 + 'px;height:16px;line-height:16px;background:rgb(91, 206, 250);></div>', -50, -50, 'callout', 520, 64, true)
-        .css({
-          color: '#000',
-          fontSize: _this.optionCharts.label_font_size
-        }).add()
-        .hide().toFront()
-
-        _this.chartLines.circleX = chart.renderer.circle(3, 3, 4).attr({
-          fill: '#F00',
-          stroke: 'white',
-          'stroke-width': 1
-        }).add().toFront().hide()
-
-        _this.chartLines.mouseLabelY = chart.renderer.label('<div style="height:16px;line-height:16px;"></div>', -50, -50, 'callout', 520, 64, true)
-          .css({
-            color: '#000000',
-            fontSize: _this.optionCharts.label_font_size
-          })
-          .attr({
-            zIndex: 25
-          }).add()
-          .show().toFront()
-
-        _this.chartLines.mouseLabelX = chart.renderer.label('<div style="height:' + _this.optionCharts.label_font_size + ';line-height:' + _this.optionCharts.label_font_size + ';"></div>', -50, -50, 'callout', 520, 64, true)
-          .css({
-            color: '#000000',
-            fontSize: _this.optionCharts.label_font_size
-          })
-          .attr({
-            zIndex: 25
-          }).add()
-          .show().toFront()
-
-        // _this.chartLines.mouseLabelColumnY = chart.renderer.label('<div style="height:' + _this.optionCharts.label_font_size + ';line-height:' + _this.optionCharts.label_font_size + ';"></div>', -50, -50, 'callout', 520, 64, true)
-        //   .css({
-        //     color: '#000000',
-        //     fontSize: _this.optionCharts.label_font_size
-        //   })
-        //   .attr({
-        //     fill: 'rgb(211, 211, 211)',
-        //     zIndex: 25
-        //   }).add()
-        //   .show().toFront()
-
-        // _this.chartLines.mouseCrosshairColumnX = chart.renderer.path(['M', chart.plotLeft, chart.plotTop - 50, 'L', chart.plotLeft + chart.plotWidth - 5, chart.plotTop - 50]).attr({
-        //     stroke: _this.optionCharts.mouse_line,
-        //     'stroke-width': 1,
-        //     zIndex: 20
-        //   }).add()
-        //   .toFront()
-
-        _this.chartLines.mouseCrosshairX = chart.renderer.path(['M', chart.plotLeft , chart.plotTop - 50, 'L', chart.plotLeft + chart.plotWidth - 5 , chart.plotTop - 50]).attr({
-          stroke: _this.optionCharts.mouse_line,
-          'stroke-width': 1,
-          zIndex: 20
-        }).add()
-        .toFront()
-
-        // _this.chartLines.gridLeft = chart.renderer.path(['M', chart.plotLeft + chart.plotWidth, chart.plotTop , 'L',chart.plotLeft + chart.plotWidth , chart.plotTop + chart.plotHeight]).attr({
-        //   stroke: _this.optionCharts.chart_grid_color,
-        //   'stroke-width': 1,
-        //   zIndex: 5
-        // }).add()
-
-        // _this.chartLines.gridRight = chart.renderer.path(['M', chart.plotLeft, chart.plotTop , 'L',chart.plotLeft , chart.plotTop + chart.plotHeight]).attr({
-        //   stroke: _this.optionCharts.chart_grid_color,
-        //   'stroke-width': 1,
-        //   zIndex: 5
-        // }).add()
-
-        const series = chart.series[1]
-        const points = series.points
-
-        setTimeout(() => {
-          _this.chartLines.crosshairX.show()
-          _this.chartLines.crosshairX.translate(0, points[points.length - 1].plotY)
-
-          _this.chartLines.circleX.show()
-          _this.chartLines.circleX.translate(points[points.length - 1].plotX + chart.plotLeft - 2, points[points.length - 1].plotY + chart.plotTop - 2)
-
-          _this.chartLines.labelY.show()
-          _this.chartLines.labelY.translate(_this.chartLines.label_x, points[points.length - 1].plotY + chart.plotTop - _this.chartLines.labelY.height / 2)
-        }, 500);
-        
-        const tra_chart_array = [
-          '<div class="label-fonts" style="background:rgb(91, 206, 250);text-align:center;',
-          ';width:',
-          chart.plotLeft - 3 + 'px',
-          ';height:',
-          _this.chartLines.lHeight,
-          ';line-height:',
-          _this.chartLines.lHeight,
-          ';">',
-          _this.$store.state.nowNewPrice[chartId],
-          '</div>'
-        ]
-        _this.chartLines.labelY.attr({
-          text: tra_chart_array.join("")
-        })
-
-
-        let maxValue = _this.nowMainItem.yesterday_close_price + parseInt(_this.nowMainItem.yesterday_close_price * 0.001);
-        let minValue = _this.nowMainItem.yesterday_close_price - parseInt(_this.nowMainItem.yesterday_close_price * 0.001);
-        if (_this.nowMainItem.highest_price > maxValue) {
-          maxValue = _this.nowMainItem.highest_price + parseInt(_this.nowMainItem.highest_price * 0.001);
-          minValue = _this.nowMainItem.yesterday_close_price - (maxValue - _this.nowMainItem.yesterday_close_price);
-        }
-        if (_this.nowMainItem.lowest_price < minValue) {
-          minValue = _this.nowMainItem.lowest_price - parseInt(_this.nowMainItem.lowest_price * 0.001);
-          maxValue = _this.nowMainItem.yesterday_close_price + (_this.nowMainItem.yesterday_close_price - minValue);
-        }
-        chart.yAxis[0].setExtremes(minValue,maxValue);
-      }
-
       Highcharts.chart('self-highcharts',
       {
         global: {
@@ -375,7 +447,7 @@ export default {
             fontFamily: "Signika, serif"
           },
           plotBackgroundColor: this.optionCharts.chart_plot_background_color,
-          marginLeft: 52, // Keep all charts left aligned
+          marginLeft: 54, // Keep all charts left aligned
           marginRight: 10,
           spacingTop: 15,
           plotBorderWidth: 2,
@@ -390,9 +462,7 @@ export default {
               //load over
               this.loading = false
               const chart = this
-              drawLines(chart)
-            },
-            redraw: function() {
+              _this.drawLines(chart)
             },
           }
         },
@@ -492,7 +562,7 @@ export default {
               crop: false
             },
             y: 19,
-            x: 42,
+            x: 44,
             align: 'right',
           },
           title: {
@@ -614,7 +684,7 @@ export default {
           setTimeout(() => {
             _this.chartHide = true
             chart.reflow()
-            drawLines(chart)
+            _this.drawLines(chart)
           }, 0);
         }
       };
@@ -672,27 +742,29 @@ export default {
         //將點移到最後一個點位
         var points = series.points
 
-        _this.chartLines.crosshairX.show()
-        _this.chartLines.crosshairX.translate(0, points[points.length - 1].plotY)
-        _this.chartLines.circleX.show()
-        _this.chartLines.circleX.translate(points[points.length - 1].plotX + chart.plotLeft - 2, points[points.length - 1].plotY + chart.plotTop - 2)
-        _this.chartLines.labelY.show()
-        _this.chartLines.labelY.translate(_this.chartLines.label_x, points[points.length - 1].plotY + chart.plotTop - _this.chartLines.labelY.height / 2)
-        const tra_chart_array = [
-          '<div class="label-fonts" style="text-align:center;',
-          ';width:',
-          chart.plotLeft - 3 + 'px',
-          ';height:',
-          _this.chartLines.lHeight,
-          ';line-height:',
-          _this.chartLines.lHeight,
-          ';">',
-          price,
-          '</div>'
-        ]
-        _this.chartLines.labelY.attr({
-          text: tra_chart_array.join("")
-        })
+        if (_this.newestPriceLineEnable) {
+          _this.chartLines.crosshairX.show()
+          _this.chartLines.crosshairX.translate(0, points[points.length - 1].plotY)
+          _this.chartLines.circleX.show()
+          _this.chartLines.circleX.translate(points[points.length - 1].plotX + chart.plotLeft - 2, points[points.length - 1].plotY + chart.plotTop - 2)
+          _this.chartLines.labelY.show()
+          _this.chartLines.labelY.translate(_this.chartLines.label_x, points[points.length - 1].plotY + chart.plotTop - _this.chartLines.labelY.height / 2)
+          const tra_chart_array = [
+            '<div class="label-fonts" style="text-align:center;',
+            ';width:',
+            chart.plotLeft - 3 + 'px',
+            ';height:',
+            _this.chartLines.lHeight,
+            ';line-height:',
+            _this.chartLines.lHeight,
+            ';">',
+            price,
+            '</div>'
+          ]
+          _this.chartLines.labelY.attr({
+            text: tra_chart_array.join("")
+          })
+        }
       }
       _this.$store.commit('onChatUpdate', onChatUpdate)
     }
@@ -702,6 +774,9 @@ export default {
 
 <style>
   .highcharts-crosshair {
+    visibility: hidden !important;
+  }
+  .crossSet .highcharts-crosshair {
     visibility: visible !important;
   }
   .highcharts-credits {
@@ -709,5 +784,6 @@ export default {
   }
   .label-fonts {
     font-family: Lato, Arial, "微軟正黑體", "Microsoft JhengHei", sans-serif;
+    width: 140px;
   }
 </style>

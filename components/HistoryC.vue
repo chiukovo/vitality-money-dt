@@ -20,10 +20,17 @@
           .change-icon
             .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
           div(style="display: inline" :class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
+      .linesp
+        label
+            input(type="checkbox" v-model="crossEnable")
+            span 成交價線
+        label
+            input(type="checkbox" v-model="newestPriceLineEnable")
+            span 十字線
   .history-content__body(style="height:calc(100% - 30px)")
     splitpanes(class="default-theme" @resized="resizeChart()")
       pane(size="70")
-        Chart
+        Chart(:crossEnable="crossEnable" :newestPriceLineEnable="newestPriceLineEnable")
       pane(size="30")
         .itemDetail__TotalTable(class="h-100" style="border-top: 1px solid #3a3a3a; padding: 6px;")
           .select.badge.badge-warning(style="margin-bottom: 6px;")
@@ -73,6 +80,8 @@ export default {
   name: 'app',
   data() {
     return {
+      crossEnable: true,
+      newestPriceLineEnable: true,
       items: [],
       fiveData: [],
       options: {},
@@ -106,7 +115,8 @@ export default {
   },
   watch: {
     mainStyle() {
-      this.waitForSetChartData(true)
+      // this.waitForSetChartData(true)
+      this.$store.dispatch('RESIZE_CHART')
     },
     fiveChange(id) {
       this.$store.commit('sendMessage', 'f:' + this.$store.state.clickItemId)
