@@ -1,7 +1,7 @@
 <template lang="pug">
 div(class="h-100")
   div(id="self-highcharts" class="h-100" :class="{ crossSet: crossEnable }")
-  div(v-loading="loading" v-show="!chartHide || chartId == ''" class="h-100")
+  div(v-loading="chartHide" v-show="!chartHide || chartId == ''" class="h-100")
 </template>
 
 <script>
