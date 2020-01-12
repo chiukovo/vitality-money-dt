@@ -9,6 +9,12 @@ div(class="h-100")
     :itemId="dialog.itemId"
   )
   div(style="height: calc(100% - 64px);")
+    ul.table-dropdown.dropdown-menu(id="customSettingContent" v-show="customSetting")
+      li.dropdown-item(href="#", @click="openModal('showHideItem', '自訂商品')") 自訂商品
+      li.dropdown-item(href="#", @click="openModal('showHideItemField', '自訂欄位')") 自訂欄位
+      .dropdown-divider
+      li.dropdown-item.dropdown-toggle(href="#") 字型大小
+        MainFontSize
     client-only
       vxe-table.table__dark(
         ref="xTable"
@@ -28,12 +34,6 @@ div(class="h-100")
           template(v-slot:header="{column}") 商品
             .table-toggle
               a(@click.stop="customSetting = !customSetting")
-            ul.table-dropdown.dropdown-menu(id="customSettingContent" v-show="customSetting")
-              li.dropdown-item(href="#", @click="openModal('showHideItem', '自訂商品')") 自訂商品
-              li.dropdown-item(href="#", @click="openModal('showHideItemField', '自訂欄位')") 自訂欄位
-              .dropdown-divider
-              li.dropdown-item.dropdown-toggle(href="#") 字型大小
-                MainFontSize
           template(slot-scope='scope' v-if="checkHide('商品')")
             div(:class="clickItemId == scope.row['product_id'] ? 'bg__danger' : ''"  @click="clickItem(scope.row)")
               span(:class="scope.row.state_name == '未開盤' ? 'text__secondary' : ''") {{ scope.row['product_name'] }}{{ scope.row['monthday'] }}
