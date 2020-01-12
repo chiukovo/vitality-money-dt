@@ -196,6 +196,8 @@ export default {
         if (response.data.Code != 1) {
           _this.$alert(response.data.ErrorMsg)
         }
+
+        this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
       })
     },
     clickOverAll() {
@@ -226,6 +228,8 @@ export default {
           _this.$alert(response.data.ErrorMsg)
           _this.customGroup = beforeCustomGroup
         }
+
+        this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
       })
     },
     setCustomSetting(type) {
