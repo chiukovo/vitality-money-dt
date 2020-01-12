@@ -1,7 +1,6 @@
 <template lang="pug">
-.highcharts(class="h-100")
-  h1(style="text-align: center" v-if="name != ''") {{ name }}
-  highcharts(id="self-highcharts" v-if="selectChartId.length > 0" :options="options" class="h-100")
+div(class="h-100")
+  div(id="self-highcharts" class="h-100")
   div(v-loading="loading" v-show="!chartHide" class="h-100")
 </template>
 
@@ -9,23 +8,7 @@
 
 import { mapState } from 'vuex'
 import Vue from 'vue'
-import HighchartsVue from "highcharts-vue"
 import Highcharts from "highcharts"
-import stockInit from 'highcharts/modules/stock'
-import mapInit from 'highcharts/modules/map'
-
-if (typeof Highcharts === 'object') {
-  Highcharts.setOptions({
-    global: {
-      useUTC: false
-    }
-  })
-
-  stockInit(Highcharts)
-  mapInit(Highcharts)
-}
-
-Vue.use(HighchartsVue)
 
 export default {
   name: 'app',
@@ -366,7 +349,9 @@ export default {
           text: tra_chart_array.join("")
         })
       }
-      this.options = {
+
+      Highcharts.chart('self-highcharts',
+      {
         global: {
           useUTC: false
         },
@@ -503,6 +488,9 @@ export default {
 
             lineWidth: 2,
             states: {
+              inactive: {
+                opacity: 1,
+              },
               hover: {
                 lineWidth: 2
               }
@@ -516,9 +504,9 @@ export default {
           },
 
           series: {
+            animation: false,
             stickyTracking: true,
             lineWidth: 1,
-            animation: false,
             borderWidth: 0,
             marker: {
               enabled: false,
@@ -526,6 +514,11 @@ export default {
               lineColor: 'rgb(32, 150, 216)',
               lineWidth: 2,
               radius: 4
+            },
+            states: {
+              inactive: {
+                opacity: 1,
+              },
             },
             dataLabels: {
               style: {
@@ -572,7 +565,7 @@ export default {
         }],
         colors: [_this.optionCharts.chart_q_background, "rgb(45, 170, 230)", "rgb(32, 150, 216)", "rgb(32, 96, 161)"],
         symbols: ['circle', 'circle', 'circle', 'circle', 'circle']
-      }
+      });
 
       const onChatResize = () => {
         const chart = _this.syncChart
