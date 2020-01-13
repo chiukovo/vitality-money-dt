@@ -85,7 +85,7 @@ export default {
     nowMainItem: 'nowMainItem',
   }),
   created () {
-    // window.addEventListener("resize", this.windowChange);
+    //window.addEventListener("resize", this.windowChange);
   },
   mounted () {
     const _this = this;
@@ -123,7 +123,9 @@ export default {
   },
   watch: {
     chartId(chartId) {
-      this.startChart(this.chartId)
+      if (chartId != '') {
+        this.startChart(this.chartId)
+      }
     },
     newestPriceLineEnable(value) {
       const _this = this;
