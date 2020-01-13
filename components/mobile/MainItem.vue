@@ -50,7 +50,17 @@
           template(v-slot:header="{column}") 商品
             .table-toggle
               a(@click.stop="settingShow = true")
-          template(slot-scope='scope' ) {{ scope.row['product_name'] }}{{ scope.row['monthday'] }}
+          template(slot-scope='scope' )
+            .first
+              .myname
+                .mycfdw {{ scope.row['product_name'] }}{{ scope.row['monthday'] }}
+                .mycfd
+              .mybox
+                .nopingb 1
+                .nopings 0
+              .mybar
+                .progress-bar.progress-bar__total
+                  .progress-bar__inner(style="'width: 10%'")
         vxe-table-column(:width="computedStyleWidth(10)" title='倉位' align="center")
           template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
             <span class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0">{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>

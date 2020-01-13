@@ -147,6 +147,48 @@ $material-icons-font-path: '~material-icons/iconfont/';
 
 
 //-------------- main
+.myname {
+  line-height: 1.2;
+}
+.mycfd, .mycfdw {
+  display: inline-block;
+}
+.mycfd {
+  background: url('~static/images/theme_dt/cfd.svg') no-repeat;
+  width: 21px;
+  height: 11px;
+  margin-top: 3px;
+}
+.mybox {
+  display: flex;
+  justify-content: space-around;
+}
+.nopingb, .nopings {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.nopingb {
+  background-color: #613c3c;
+}
+.nopings {
+  background-color: #3c6150;
+  margin-left: 1px;
+}
+.vxe-table .vxe-cell {
+  position: relative;
+}
+.mybar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 2px;
+  .progress-bar {
+    height: 2px;
+  }
+}
 .table-toggle {
   position: absolute;
   top: 0;
