@@ -46,7 +46,7 @@
         border
         auto-resize
         highlight-current-row)
-        vxe-table-column(:width="computedStyleWidth(60)" fixed="left" align="left" show-header-overflow)
+        vxe-table-column(:width="computedStyleWidth(80)" fixed="left" align="left" show-header-overflow)
           template(v-slot:header="{column}") 商品
             .table-toggle
               a(@click.stop="settingShow = true")
@@ -55,16 +55,12 @@
               .myname
                 .mycfdw {{ scope.row['product_name'] }}{{ scope.row['monthday'] }}
                 .mycfd
-              .mybox
-                .nopingb 1
-                .nopings 0
-              .mybar
+              .mybox(v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
+                .nopingb {{ $store.state.uncoveredCountDetail[scope.row['product_id']] > 0 ? $store.state.uncoveredCountDetail[scope.row['product_id']] : 0 }}
+                .nopings {{ $store.state.uncoveredCountDetail[scope.row['product_id']] < 0 ? Math.abs($store.state.uncoveredCountDetail[scope.row['product_id']]) : 0 }}
+              //-.mybar
                 .progress-bar.progress-bar__total
                   .progress-bar__inner(style="'width: 10%'")
-        vxe-table-column(:width="computedStyleWidth(10)" title='倉位' align="center")
-          template(slot-scope='scope' v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
-            <span class="bg__danger" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] > 0">{{ $store.state.uncoveredCountDetail[scope.row['product_id']] }}</span>
-            <span class="bg__success" v-else>{{ Math.abs($store.state.uncoveredCountDetail[scope.row['product_id']]) }}</span>
         vxe-table-column(:width="computedStyleWidth(35)" title='成交' fixed="left" align="right")
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}

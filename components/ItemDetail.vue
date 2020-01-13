@@ -13,7 +13,7 @@
         client-only
           vxe-table.table__dark.table__stripe(
             ref="xTable"
-            :data="$store.state.items2"
+            :data="items2"
             :cell-class-name="tableCellClassName"
             max-width="100%"
             height="100%"
@@ -55,14 +55,20 @@ export default {
     'items2',
   ]),
   watch: {
-    items2() {
-      if (this.autoScroll) {
-        //自動置底
-        this.$refs.xTable.scrollTo(0, 9999)
-      }
+    clickItemId() {
+      this.setAutoScroll()
+    },
+    items2(items) {
+      this.setAutoScroll()
     }
   },
   methods: {
+    setAutoScroll() {
+      if (this.autoScroll) {
+        //自動置底
+        this.$refs.xTable.scrollTo(0, 99999)
+      }
+    },
     handleItemDetailTabs(e) {
       this.itemDetailTabShow = e
     },

@@ -19,7 +19,6 @@ export default {
   mounted() {
     if (typeof this.listColorStyle == 'undefined') {
       this.$store.commit('setListColorStyle', 1)
-      this.listColorStyle = 1
     }
   },
   methods: {
