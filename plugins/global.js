@@ -114,6 +114,9 @@ Vue.mixin({
     paramB() {
     	return 'h:TXF,TXFAF,EXF,FXF,TSLQ,HSI,HSIAF,E7,NK225,NK225AF,FDAX,YM,NQ,CL,GC,SI,CN,CNAF,CIF'
     },
+    cancelAllFive() {
+      return 'f:TXF,TXFAF,EXF,FXF,TSLQ,HSI,HSIAF,E7,NK225,NK225AF,FDAX,YM,NQ,CL,GC,SI,CN,CNAF,CIF'
+    },
     paramBcancelclickId(clickItemId) {
       return 'f:' + clickItemId
     },

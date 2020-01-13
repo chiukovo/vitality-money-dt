@@ -128,6 +128,8 @@ export default {
       } else {
         this.darkTheme()
       }
+
+      this.startChart(this.chartId, true)
     },
     chartId(chartId) {
       if (chartId != '') {
@@ -178,12 +180,12 @@ export default {
           _this.chartLines[line] = null
         }
       }
-      
+
       //initialize the X and Y component of the crosshairs (you can adjust the color and size of the crosshair lines here)
       ['crosshairX', 'labelY', 'circleX',
       'mouseLabelY', 'mouseLabelX',
       'mouseCrosshairX'].forEach(val => clearLine(val));
-      
+
       _this.chartLines.crosshairX = chart.renderer.path(['M', chart.plotLeft, chart.plotTop , 'L', chart.plotLeft + chart.plotWidth , chart.plotTop ]).attr({
         stroke: 'rgb(91, 206, 250)',
         'stroke-width': 1,
@@ -204,7 +206,6 @@ export default {
         'stroke-width': 1
       }).add().toFront().hide()
 
-    
       _this.chartLines.mouseLabelY = chart.renderer.label('<div style="height:16px;line-height:16px;"></div>', -50, -50, 'callout', 520, 64, true)
         .css({
           color: '#000000',
@@ -286,7 +287,7 @@ export default {
           _this.chartLines.labelY.translate(_this.chartLines.label_x, points[points.length - 1].plotY + chart.plotTop - _this.chartLines.labelY.height / 2)
         }
       }, 500);
-      
+
       const tra_chart_array = [
         '<div class="label-fonts" style="background:rgb(91, 206, 250);text-align:center;',
         ';width:',
@@ -358,11 +359,13 @@ export default {
         chart_q_background: '#d1e9f3',
       });
     },
-    startChart(chartId) {
-      if (this.selectChartId == chartId) {
+    startChart(chartId, changeTheme) {
+      if (this.selectChartId == chartId && !changeTheme) {
         return;
       }
+
       const _this = this
+
       this.selectChartId = chartId
       if (this.$store.state.chartData.length == 0) {
         return

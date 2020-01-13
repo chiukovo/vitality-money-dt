@@ -2,9 +2,7 @@
 .history-content
   .history-content__header
     .linesp-wrap
-      .select.badge.badge-warning
-        select(v-model="chartChange")
-          option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
+      .badge.badge-warning {{ nowMainItem.product_name }}
       .linesp 昨收
         span.number {{ nowMainItem.yesterday_close_price }}
       .linesp 開
@@ -87,7 +85,6 @@ export default {
       options: {},
       loading: true,
       fiveChange: 0,
-      chartChange: 0,
     }
   },
   methods: {
@@ -102,7 +99,7 @@ export default {
       return this.$store.state.nowMainItem.yesterday_close_price < target ? 'text__success' : 'text__danger'
     },
     changeFiveSelect() {
-      this.$store.commit('sendMessage', 'f:' + this.$store.state.clickItemId)
+      this.$store.commit('sendMessage', this.cancelAllFive())
       this.$store.commit('sendMessage', 'h:' + this.fiveChange)
     }
   },
@@ -121,30 +118,14 @@ export default {
     mainStyle() {
       this.$store.dispatch('RESIZE_CHART')
     },
-    chartChange(id) {
-      this.items = []
-      this.loading = true
-
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': id,
-        'type': 'chart',
-        'num': 1
-      })
-    },
     clickItemId(id) {
       this.loading = true
       this.items = []
       this.fiveChange = id
-      this.chartChange = id
     },
   },
   mounted() {
-    this.chartChange = this.$store.state.clickItemId
     this.fiveChange = this.$store.state.clickItemId
-    // setTimeout(() => {
-    //   console.log(5)
-    //   this.$store.dispatch('RESIZE_CHART')
-    // }, 300);
   },
 }
 </script>
