@@ -51,9 +51,11 @@ export default {
       autoScroll: true
     }
   },
-  computed: mapState([
-    'items2',
-  ]),
+  computed: mapState({
+    items2: 'items2',
+    clickItemId: 'clickItemId',
+    listColorStyle: state => state.localStorage.customSetting.listColorStyle,
+  }),
   watch: {
     clickItemId() {
       this.setAutoScroll()
@@ -81,8 +83,18 @@ export default {
     tableCellClassName({ row, column, columnIndex }) {
       if(columnIndex == 1) {
         if(row.change == 'up') {
+          //相反
+          if (this.listColorStyle == 2) {
+            return 'text__success';
+          }
+
           return 'text__danger';
         } else {
+          //相反
+          if (this.listColorStyle == 2) {
+            return 'text__danger';
+          }
+
           return 'text__success';
         }
       }

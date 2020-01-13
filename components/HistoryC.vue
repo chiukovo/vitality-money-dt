@@ -34,7 +34,7 @@
       pane(size="30")
         .itemDetail__TotalTable(class="h-100" style="border-top: 1px solid #3a3a3a; padding: 6px; overflow-y: auto;")
           .select.badge.badge-warning(style="margin-bottom: 6px;")
-            select(v-model="fiveChange")
+            select(v-model="fiveChange" @change="changeFiveSelect")
               option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
           client-only
             vxe-table.table__dark.table__hi(
@@ -101,6 +101,10 @@ export default {
 
       return this.$store.state.nowMainItem.yesterday_close_price < target ? 'text__success' : 'text__danger'
     },
+    changeFiveSelect() {
+      this.$store.commit('sendMessage', 'f:' + this.$store.state.clickItemId)
+      this.$store.commit('sendMessage', 'h:' + this.fiveChange)
+    }
   },
   computed: mapState({
     chartData: 'chartData',
@@ -116,10 +120,6 @@ export default {
   watch: {
     mainStyle() {
       this.$store.dispatch('RESIZE_CHART')
-    },
-    fiveChange(id) {
-      this.$store.commit('sendMessage', 'f:' + this.$store.state.clickItemId)
-      this.$store.commit('sendMessage', 'h:' + id)
     },
     chartChange(id) {
       this.items = []

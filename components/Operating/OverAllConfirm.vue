@@ -49,7 +49,7 @@ export default {
     _this.overAllList = []
 
     uncovered.forEach(function(val) {
-      if (val.Operation[2]) {
+      if (val.Operation[2] && val.ID == _this.$store.state.clickItemId) {
         _this.overAllList.push(val)
       }
     })

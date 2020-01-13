@@ -31,6 +31,11 @@
             //-改單
             button.button(v-if="scope.row.Operation[1]" @click="deleteOrder(scope.row)") 刪
             button.button(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平倉
+        vxe-table-column(title='不留倉')
+          template(slot-scope='scope')
+            label.checkbox
+              input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row)")
+              span.checkbox__label 不留倉
         vxe-table-column(field='Serial' title='序號' width="80")
         vxe-table-column(field='Name' title='商品' width="94")
         vxe-table-column(title='倒')
@@ -50,7 +55,7 @@
           template(slot-scope='scope')
             button.button.button__danger(:disabled="canSetWinLoss(scope.row.Operation)" @click="openEditPoint('winPointDialog', scope.row)") {{ parseInt(scope.row.WinPoint) }}
         vxe-table-column(field='FinalTime' width='150' title='完成時間')
-        vxe-table-column(title='狀態' width='110')
+        vxe-table-column(title='狀態' width='130')
           template(slot-scope='scope')
             span.blink(v-if="scope.row.State == '未成交'") {{ scope.row.State }}
             span(v-else) {{ scope.row.State }}
@@ -253,6 +258,21 @@ export default {
     this.isMobile = this.$store.state.isMobile
   },
   methods: {
+    changeDayCover(row) {
+      const _this = this
+      const setDayCover = row.DayCover ? 0 : 1
+
+      axios.post(process.env.NUXT_ENV_API_URL + "/set_serial_daycover?lang=" + this.lang, qs.stringify({
+        UserID: this.userId,
+        Token: this.token,
+        DayCover: setDayCover,
+        DayCoverSerialId: row.Serial,
+      }))
+      .then(response => {
+        _this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
+        _this.$store.dispatch('CALL_MEMBER_INFO')
+      })
+    },
     canSetWinLoss(operation) {
       return operation[0] == 0 && operation[1] == 0 && operation[2] == 0 && operation[4] == 0
     },

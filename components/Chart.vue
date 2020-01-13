@@ -21,7 +21,6 @@ if (typeof Highcharts === 'object') {
 export default {
   name: 'app',
   props: {
-    theme: String,
     crossEnable: {
       type: Boolean,
       default: true,
@@ -83,6 +82,7 @@ export default {
   computed: mapState({
     chartId: 'chartId',
     nowMainItem: 'nowMainItem',
+    theme: state => state.localStorage.customSetting.theme,
   }),
   created () {
     //window.addEventListener("resize", this.windowChange);
@@ -92,7 +92,7 @@ export default {
     window.onresize = () => {
       _this.drawLines(_this.syncChart);
     }
-  
+
     if (this.theme == 'white') {
       this.whiteTheme()
     } else {
@@ -122,6 +122,13 @@ export default {
     }
   },
   watch: {
+    theme() {
+      if (this.theme == 'white') {
+        this.whiteTheme()
+      } else {
+        this.darkTheme()
+      }
+    },
     chartId(chartId) {
       if (chartId != '') {
         this.startChart(this.chartId)

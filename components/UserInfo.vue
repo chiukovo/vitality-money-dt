@@ -86,7 +86,7 @@ export default {
       } else if (this.style == 1) {
         this.styleHeight = '60px'
       } else if (this.style == 2) {
-        this.styleHeight = '230px'
+        this.styleHeight = '210px'
       }
 
       return 'height: ' + this.styleHeight
