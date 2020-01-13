@@ -2,6 +2,8 @@ import axios from 'axios'
 import Vue from 'vue'
 import qs from 'qs'
 
+let queryChartId;
+
 const createData = function(data_array) {
 	//初始化 目前最新的資料
 	const k_data = []
@@ -212,9 +214,10 @@ export default {
     })
 	},
 	CALL_QUERY_TECH ({ commit, state }, params) {
-    if (params.id == '') {
+    if (params.id == '' || queryChartId == params.id ) {
       return
     }
+    queryChartId = params.id
 
     commit('setChartId', '')
 		axios.post(process.env.NUXT_ENV_API_URL + "/query_tech?lang=" + state.localStorage.lang, qs.stringify({

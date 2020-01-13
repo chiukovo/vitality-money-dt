@@ -698,12 +698,27 @@ export default {
         time,
         price,
         volume,
+        highest,
+        lowest,
       }) => {
         const chart = _this.syncChart
         if (typeof chart.series == 'undefined') {
           return
         }
-        chart.yAxis[0].setExtremes(100,300);
+
+        if (highest && lowest) {
+          let maxValue = _this.nowMainItem.yesterday_close_price + parseInt(_this.nowMainItem.yesterday_close_price * 0.001);
+          let minValue = _this.nowMainItem.yesterday_close_price - parseInt(_this.nowMainItem.yesterday_close_price * 0.001);
+          if (highest > maxValue) {
+            maxValue = highest+ parseInt(highest * 0.001);
+            minValue = _this.nowMainItem.yesterday_close_price - (maxValue - _this.nowMainItem.yesterday_close_price);
+          }
+          if (lowest < minValue) {
+            minValue = lowest - parseInt(lowest * 0.001);
+            maxValue = _this.nowMainItem.yesterday_close_price + (_this.nowMainItem.yesterday_close_price - minValue);
+          }
+          chart.yAxis[0].setExtremes(minValue, maxValue);
+        }
         const series = chart.series[1]
         const series2 = chart.series[0]
 
@@ -752,7 +767,7 @@ export default {
           _this.chartLines.labelY.show()
           _this.chartLines.labelY.translate(_this.chartLines.label_x, points[points.length - 1].plotY + chart.plotTop - _this.chartLines.labelY.height / 2)
           const tra_chart_array = [
-            '<div class="label-fonts" style="text-align:center;',
+            '<div class="label-fonts" style="background:rgb(91, 206, 250);text-align:center;',
             ';width:',
             chart.plotLeft - 3 + 'px',
             ';height:',

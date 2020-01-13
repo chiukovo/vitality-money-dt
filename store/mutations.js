@@ -977,11 +977,23 @@ export default {
     }
 
     if (state.onChatUpdate) {
+      let highest
+      let lowest
+      if (the_now_data.last > state.nowMainItem.highest_price) {
+        highest = the_now_data.last
+        lowest = state.nowMainItem.lowest_price
+      } else if (the_now_data.last < state.nowMainItem.lowest_price) {
+        highest = state.nowMainItem.highest_price
+        lowest = the_now_data.last
+      }
+
       state.onChatUpdate({
         isNewPoint,
         time: the_now_data.time,
         price: the_now_data.last,
         volume: lastVolumeData[1],
+        highest,
+        lowest,
       })
     }
   },
