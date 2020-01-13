@@ -22,11 +22,11 @@
           div(style="display: inline" :class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
       .linesp
         label
-            input(type="checkbox" v-model="crossEnable")
-            span 成交價線
+          input(type="checkbox" v-model="crossEnable")
+          span 成交價線
         label
-            input(type="checkbox" v-model="newestPriceLineEnable")
-            span 十字線
+          input(type="checkbox" v-model="newestPriceLineEnable")
+          span 十字線
   .history-content__body(style="height:calc(100% - 30px)")
     splitpanes(class="default-theme" @resized="resizeChart()")
       pane(size="70")
@@ -115,7 +115,6 @@ export default {
   },
   watch: {
     mainStyle() {
-      // this.waitForSetChartData(true)
       this.$store.dispatch('RESIZE_CHART')
     },
     fiveChange(id) {
@@ -125,6 +124,12 @@ export default {
     chartChange(id) {
       this.items = []
       this.loading = true
+
+      this.$store.dispatch('CALL_QUERY_TECH', {
+        'id': id,
+        'type': 'chart',
+        'num': 1
+      })
     },
     clickItemId(id) {
       this.loading = true

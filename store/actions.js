@@ -212,6 +212,10 @@ export default {
     })
 	},
 	CALL_QUERY_TECH ({ commit, state }, params) {
+    if (params.id == '') {
+      return
+    }
+
     commit('setChartId', '')
 		axios.post(process.env.NUXT_ENV_API_URL + "/query_tech?lang=" + state.localStorage.lang, qs.stringify({
         userID: state.localStorage.userAuth.userId,
