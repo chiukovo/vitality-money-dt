@@ -58,9 +58,9 @@
               .mybox(v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
                 .nopingb {{ $store.state.uncoveredCountDetail[scope.row['product_id']] > 0 ? $store.state.uncoveredCountDetail[scope.row['product_id']] : 0 }}
                 .nopings {{ $store.state.uncoveredCountDetail[scope.row['product_id']] < 0 ? Math.abs($store.state.uncoveredCountDetail[scope.row['product_id']]) : 0 }}
-              //-.mybar
+              //- .mybar
                 .progress-bar.progress-bar__total
-                  .progress-bar__inner(style="'width: 10%'")
+                  .progress-bar__inner(style="width: 10%")
         vxe-table-column(:width="computedStyleWidth(35)" title='成交' fixed="left" align="right")
           template(slot-scope='scope')
             span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
