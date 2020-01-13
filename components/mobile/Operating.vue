@@ -118,7 +118,7 @@
       button.rightButton(@click="showContentType++" v-if="showContentType != 3")
         i.material-icons chevron_right
     .area(v-if="orderMode == 2")
-      .left(style="float: left;")
+      .left(style="float: left;width: 100px;")
         //- 五檔揭示
         //- 賣
         div(v-if="$store.state.items0.length > 0")
@@ -284,6 +284,12 @@ export default {
         if (val.product_id == id) {
           name = val.product_name
         }
+      })
+
+      this.$store.dispatch('CALL_QUERY_TECH', {
+        'id': id,
+        'type': 'chart',
+        'num': 1
       })
 
       this.$store.commit('setClickItemId', {

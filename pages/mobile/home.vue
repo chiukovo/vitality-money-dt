@@ -5,7 +5,7 @@
 		//- 商品報價
 		MainItem(v-if='tabShow == 1')
 		//- 技術
-		Kchart(v-show='tabShow == 2')
+		Kchart(v-if='tabShow == 2')
 		//- 商品下單
 		Operating(v-if='tabShow == 3')
 		//- 交易
