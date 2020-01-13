@@ -18,7 +18,7 @@
         vxe-table-column(title='操作' align="center")
           template(slot-scope='scope')
             button.button(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平倉
-        vxe-table-column(field='Serial' title='序號')
+        vxe-table-column(field='Serial' title='序號' width="80")
         vxe-table-column(field='Name' title='商品' width="94")
         vxe-table-column(title='多空')
           template(slot-scope='scope')
