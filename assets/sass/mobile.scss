@@ -368,6 +368,8 @@ $material-icons-font-path: '~material-icons/iconfont/';
         width: 100%;
         color: #fff;
         padding: 8px 20px 10px 10px;
+        background: transparent;
+        border: transparent;
       }
       &:after {
         position: relative;
@@ -402,7 +404,7 @@ $material-icons-font-path: '~material-icons/iconfont/';
       background-color: #333;
       .radio__label {
         display: block;
-        padding: 10px 14px 10px 30px;;
+        padding: 8px 14px 8px 30px;;
         cursor: pointer;
         &:after {
           content: '';
@@ -430,12 +432,6 @@ $material-icons-font-path: '~material-icons/iconfont/';
       &.area-order-theme1 {
         padding: 1rem 2.6rem;
       }
-      &.area-order-theme2 {
-        .order__select {
-          display: inline-block;
-          width: 100%;
-        }
-      }
     }
     .button-group {
       button {
@@ -450,6 +446,23 @@ $material-icons-font-path: '~material-icons/iconfont/';
         background-color: #009B00;
         border-color: #009B00;
       }
+    }
+  }
+  .area-order-theme2 {
+    padding: 0 8px;
+    .title {
+      font-size: 12px;
+      color: #a2a2a2;
+      padding: 0 6px;
+    }
+    td {
+      padding: 2px;
+    }
+    .order__select {
+      width: 100%;
+    }
+    .number-input input {
+      width: 100%;
     }
   }
 

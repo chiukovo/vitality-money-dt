@@ -167,42 +167,45 @@
         table
           tbody
             tr
-              td(colspan="3")
-                label.title 商品
-                .order__select
-                  select(v-model='selectItemId')
-                    option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
-            tr
+              td(colspan="2")
+                .d-flex.align-items-center
+                  label.title 商品
+                  .order__select
+                    select(v-model='selectItemId')
+                      option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
               td
                 label.radio
                   input.radio__input(type="radio" v-model='buyType' value='0')
                   span.radio__label 市價
+            tr
+              td(colspan="2")
+                .d-flex.align-items-center
+                  label.title 限價
+                  .number-input
+                    button.button__decrease(@click="nowPrice--")
+                    input(type="text" v-model='nowPrice' :min="0")
+                    button.button__increase(@click="nowPrice++")
               td
                 label.radio
                   input.radio__input(type="radio" v-model='buyType' value='2')
                   span.radio__label 收盤單
+            tr
+              td(colspan="2")
+                .d-flex.align-items-center
+                  label.title 口數
+                  .number-input
+                    button.button__decrease(@click="changeSubmitNum('-')")
+                    input(type="text" v-model='submitNum' :min="0")
+                    button.button__increase(@click="changeSubmitNum('+')")
               td
                 label.radio
                   input.radio__input(type="radio" v-model='buyType' value='1')
                   span.radio__label 限價
             tr
               td(colspan="3")
-                label.title 限價
-                .number-input
-                  button.button__decrease(@click="nowPrice--")
-                  input(type="text" v-model='nowPrice' :min="0")
-                  button.button__increase(@click="nowPrice++")
-            tr
-              td
-                button.button__danger(@click="checkOrder(0)") 多單
-              td
-                label.title 口數
-                .number-input
-                  button.button__decrease(@click="changeSubmitNum('-')")
-                  input(type="text" v-model='submitNum' :min="0")
-                  button.button__increase(@click="changeSubmitNum('+')")
-              td
-                button.button__success(@click="checkOrder(1)") 空單
+                .d-flex.align-items-center.button-group
+                  button.button__danger(@click="checkOrder(0)") 多單
+                  button.button__success(@click="checkOrder(1)") 空單
       ul.area-order.area-order-theme1(v-if="orderMode == 1")
         li
           label.title 商品
