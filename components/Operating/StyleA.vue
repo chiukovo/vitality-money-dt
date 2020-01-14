@@ -248,7 +248,20 @@ export default {
         submit: this.submitNum,
       }]
 
-      this.doOrder()
+      //看是否有勾選下單不確認
+      let noConfirm = false
+
+      this.customGroup.forEach(function(val){
+        if (val == 'noConfirm') {
+          noConfirm = true
+        }
+      })
+
+      if (noConfirm) {
+        this.doOrder()
+      } else {
+        this.orderConfirm = true
+      }
     },
     cancel() {
       this.orderConfirm = false

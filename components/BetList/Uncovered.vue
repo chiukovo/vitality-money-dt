@@ -588,12 +588,19 @@ export default {
       let _this = this
       let sendText
 
-      switch (count) {
-        case 1:
-          sendText = 't:' + userId + ',' + row.Serial + ',' + token + ',' + isMobile + ',' + row.ID
-          _this.$socketOrder.send(sendText)
-          break
-      }
+      this.$confirm('確認平倉' + row.Name + ' 序號: ' + row.Serial + '?', '注意! ', {
+        confirmButtonText: '確定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        switch (count) {
+          case 1:
+            sendText = 't:' + userId + ',' + row.Serial + ',' + token + ',' + isMobile + ',' + row.ID
+            _this.$socketOrder.send(sendText)
+            break
+        }
+      }).catch(() => {
+      })
     },
     uncoveredTableCellClassName({ row, column, columnIndex }) {
 

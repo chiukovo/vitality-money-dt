@@ -244,5 +244,17 @@ Vue.mixin({
         return this.formatDate(date)
       }
     },
+    findMainItemById(id) {
+      const mainItem = this.$store.state.mainItem
+      let target = ''
+
+      mainItem.forEach(function(val) {
+        if (id == val.product_id) {
+          target = val
+        }
+      })
+
+      return target
+    }
   }
 })
