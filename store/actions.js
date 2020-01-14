@@ -182,7 +182,7 @@ export default {
     onHistoryCallback,
     max,
   }) {
-		await axios.post(process.env.NUXT_ENV_API_URL + "//query_tech?lang=" + state.localStorage.lang, qs.stringify({
+		await axios.post(process.env.NUXT_ENV_API_URL + "/query_tech?lang=" + state.localStorage.lang, qs.stringify({
         userID: state.localStorage.userAuth.userId,
         Token: state.localStorage.userAuth.token,
       	Params: params,
