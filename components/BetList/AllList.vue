@@ -137,50 +137,54 @@
   el-dialog(
     :visible.sync='editDialog'
     :modal='false'
-    width="600"
+    width="320px"
     title='改價減量'
     v-dialogDrag)
     .header-custom(slot='title') 改價減量
     template
       .dialog__body
-        .d-flex.justify-content-around
-          .form
-            .input
-              span.label 序號 {{ edit.serial }}
-            .input
-              span.label 商品 {{ edit.itemName }}
-            .input
-              span.label 多空
-                span(:class="edit.BuyOrSell == 0 ? 'text__danger bg__danger' : 'text__success bg__success'" class="text__white") {{ edit.BuyOrSell == 0 ? '多' : '空' }}
+        .d-flex.justify-content-around.mb-3
+          ul.flex-fill.fistrtitle
+            li
+              .label 序號
+              span {{ edit.serial }}
+            li
+              .label 商品
+              span {{ edit.itemName }}
+            li
+              .label 多空
+              span(:class="edit.BuyOrSell == 0 ? 'bg__danger' : 'bg__success'" class="text__white") {{ edit.BuyOrSell == 0 ? '多' : '空' }}
           //-這個是右邊那個大框框 有紅色or綠色的
-          div(v-if="findMainItemById(edit.itemId) != ''" :class="findMainItemById(edit.itemId).gain > 0 ? 'bg__danger' : 'bg__success'" class="text__white")
-            ul
-              //-成交價
-              li {{ findMainItemById(edit.itemId).newest_price }}
-              //-帳跌
-              li
-                span
-                  .change-icon
-                    .icon-arrow(:class="findMainItemById(edit.itemId).gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-                  div(style="display: inline") {{ findMainItemById(edit.itemId).gain }}
+          .PriceBox.flex-fill(v-if="findMainItemById(edit.itemId) != ''" :class="findMainItemById(edit.itemId).gain > 0 ? 'bg__danger' : 'bg__success'")
+            //-成交價
+            .title {{ findMainItemById(edit.itemId).newest_price }}
+            //-帳跌
+            div
+              span
+                .change-icon
+                  .icon-arrow(:class="findMainItemById(edit.itemId).gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+                div(style="display: inline") {{ findMainItemById(edit.itemId).gain }}
               //-帳跌%
-              li {{ findMainItemById(edit.itemId).gain_percent }}
-          el-form(size="mini")
-            el-form-item(lable="口數")
-              el-input-number(v-model="edit.submit" :min="1" :max="edit.submitMax")
-            el-form-item
-              label.radio.inline
-                input.radio__input(type="radio" v-model='edit.buyType' value='0')
-                span.radio__label 市價單
-              label.radio.inline
-                input.radio__input(type="radio" v-model='edit.buyType' value='1')
-                span.radio__label 限價單
-            el-form-item(label="限價" v-if="edit.buyType == '1'")
-              el-input-number(v-model="edit.nowPrice")
-            el-form-item(label="獲利點")
-              el-input-number(v-model="edit.winPoint")
-            el-form-item(label="損失點")
-              el-input-number(v-model="edit.lossPoint")
+              span.ml-2 {{ findMainItemById(edit.itemId).gain_percent }}
+        el-form(ref='form' size='mini' label-width='70px')
+          el-form-item(label="口數")
+            el-input-number(v-model="edit.submit" :min="1" :max="edit.submitMax")
+          el-form-item
+            label.radio.inline
+              input.radio__input(type="radio" v-model='edit.buyType' value='0')
+              span.radio__label 市價單
+            label.radio.inline
+              input.radio__input(type="radio" v-model='edit.buyType' value='1')
+              span.radio__label 限價單
+          el-form-item(label="限價" v-if="edit.buyType == '1'")
+            el-input-number(v-model="edit.nowPrice")
+          el-form-item(label="獲利點")
+            el-input-number(v-model="edit.winPoint")
+          el-form-item(label="損失點")
+            el-input-number(v-model="edit.lossPoint")
+        .badge.badge-warning 口數只能減少或不變， 損失點/ 獲利點 為
+          span.badge-rr 點數
+          | 設定
       .dialog__footer
         button.button__light(@click="editDialog = false") 取消
         button.button(type='primary' @click="doEdit") 送出
