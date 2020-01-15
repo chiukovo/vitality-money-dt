@@ -1222,6 +1222,12 @@ td {
       color: #000;
     }
   }
+  .table__stripe .vxe-body--row:nth-child(odd) {
+    background-color: #f3f3f3;
+  }
+  .table__hi .vxe-body--row .vxe-body--column {
+    border-bottom: 1px solid #dee2e6 !important;
+  }
 }
 
 .PriceBox {
