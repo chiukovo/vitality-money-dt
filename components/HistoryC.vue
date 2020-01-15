@@ -107,7 +107,7 @@ export default {
     chartData: 'chartData',
     clickItemId: 'clickItemId',
     nowMainItem: 'nowMainItem',
-    mainStyle: state => state.localStorage.customSetting.mainStyle,
+    mainStyle: state => state.localStorage.customSetting.mainStyle
   }),
   components: {
     Splitpanes,

@@ -32,6 +32,8 @@ import Covered from "~/components/BetList/Covered"
 import Commodity from "~/components/BetList/Commodity"
 import HistoryK from "~/components/HistoryK"
 import HistoryC from "~/components/HistoryC"
+//-改單用
+import "@/plugins/betListPoint.js"
 
 export default {
   data() {

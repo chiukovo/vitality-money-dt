@@ -92,7 +92,7 @@
               span.ml-2 {{ findMainItemById(edit.itemId).gain_percent }}
         el-form(ref='form' size='mini' label-width='70px')
           el-form-item(label="口數")
-            el-input-number(v-model="edit.submit" :max="edit.submitMax")
+            el-input-number(v-model="edit.submit" :max="edit.submitMax" :step="0.25")
           el-form-item
             label.radio.inline
               input.radio__input(type="radio" v-model='edit.buyType' value='0')
@@ -102,10 +102,16 @@
               span.radio__label 限價單
           el-form-item(label="限價" v-if="edit.buyType == '1'")
             el-input-number(v-model="edit.nowPrice")
+          p.text__center 新獲利點需大於:
+            span.text__bold.bg-colr-warring [ {{ win.limitPoint }} ]
           el-form-item(label="獲利點")
             el-input-number(v-model="edit.winPoint")
+          p.text__center 新損失點需大於:
+            span.text__bold.bg-colr-warring [ {{ loss.limitPoint }} ]
           el-form-item(label="損失點")
             el-input-number(v-model="edit.lossPoint")
+          p.text__center 新倒限點不得大於:
+            span.text__bold.bg-colr-warring [ {{ inverted.limitPoint }} ]
           el-form-item(label="倒限點")
             el-input-number(v-model="edit.invertedPoint")
         .badge.badge-warning 口數只能減少或不變， 損失點/ 獲利點 為
@@ -159,39 +165,7 @@ export default {
       userId: '',
       token: '',
       lang: '',
-      edit: {
-        itemId: '',
-        serial: '',
-        itemName: '',
-        submit: 0,
-        submitMax: 0,
-        buyType: '',
-        sourceBuyType: '',
-        buyOrSellName: '',
-        nowPrice: 0,
-        lossPoint: 0,
-        winPoint: 0,
-        invertedPoint: 0,
-      },
-      editPoint: {
-        name: '',
-        type: '',
-        itemId: '',
-        serial: '',
-        price: 0,
-        nowPrice: 0,
-        limitPoint: 0,
-        stopPoint: 0,
-        buyOrSellName: '',
-        needLimit: true,
-      },
-      editDialog: false,
       deleteConfirm: false,
-      lossPointDialog: false,
-      winPointDialog: false,
-      sourceEditData: [],
-      allCommodity: [],
-      openEditPointRow: [],
       selectToDelete: [],
       multiDeleteData: [],
       multiDeleteSelect: [],
@@ -260,146 +234,6 @@ export default {
         }
       })
     },
-    udpateEditPointData(type, row) {
-      //商品現價
-      const allNowPrices = this.$store.state.nowNewPrice
-      let nowPrice = allNowPrices[row.ID]
-      //買單or賣單
-      const buyOrSell = row.BuyOrSell
-      //成交價
-      let finalPrice = row.FinalPrice == '' ? row.OrderPrice : row.FinalPrice
-
-      //沒 OrderPrice && 沒 成交價 就不用判斷了
-      if (row.OrderPrice == '' && row.FinalPrice == '') {
-        finalPrice = 0
-        this.editPoint.needLimit = false
-      }
-
-      //目前獲利點數
-      let nowWin = 0
-      //目前損失點數
-      let nowLoss = 0
-      //會員最低停損點數
-      let memberStopPoint = 0
-
-      this.allCommodity.forEach(function(val) {
-        if (val.ID == row.ID) {
-          memberStopPoint = val.StopPoint
-        }
-      })
-
-      this.editPoint.name = row.Name
-      this.editPoint.type = type
-      this.editPoint.itemId = row.ID
-      this.editPoint.serial = row.Serial
-      this.editPoint.nowPrice = nowPrice
-      this.editPoint.stopPoint = memberStopPoint
-      this.editPoint.buyOrSellName = row.BuyOrSell == 0 ? '多' : '空'
-
-      //新損
-      if (type == 'lossPointDialog') {
-        //買單的話：成交點數 - 商品現在價格
-        if (buyOrSell == 0) {
-          nowLoss = finalPrice - nowPrice
-        } else {
-          //賣單的話：商品現在價格 - 成交點數
-          nowLoss = nowPrice - finalPrice
-        }
-        //獲利點數
-        this.editPoint.limitPoint = nowLoss
-      } else if (type == 'winPointDialog') {
-        //新獲利
-        //買單的話：商品現在價格 - 成交點數
-        if (buyOrSell == 0) {
-          nowWin = nowPrice - finalPrice
-        } else {
-          //賣單的話：成交點數 - 商品現在價格
-          nowWin = finalPrice - nowPrice
-        }
-        //獲利點數
-        this.editPoint.limitPoint = nowWin
-      } else if (type == 'profitPointDialog') {
-        //新倒利
-        //買單的話：商品現在價格 - 成交點數
-        if (buyOrSell == 0) {
-          nowWin = nowPrice - finalPrice
-        } else {
-          //賣單的話：成交點數 - 商品現在價格
-          nowWin = finalPrice - nowPrice
-        }
-        //獲利點數
-        this.editPoint.limitPoint = nowWin
-      }
-    },
-    doEditPoint() {
-      let sendText = ''
-
-      //判斷限制點數
-      if (this.editPoint.price != 0) {
-        if (this.editPoint.type == 'profitPointDialog') {
-          //倒利限
-          if (this.editPoint.price >= this.editPoint.limitPoint && this.editPoint.needLimit) {
-            this.$alert('不得大於: ' + this.editPoint.limitPoint + '點', '警告!')
-            return
-          }
-          //損+利
-        } else {
-          if (this.editPoint.price <= this.editPoint.limitPoint && this.editPoint.needLimit) {
-            this.$alert('必須大於: ' + this.editPoint.limitPoint + '點', '警告!')
-            return
-          }
-        }
-
-        //不得小於會員最低停損點數
-        if (this.editPoint.price < this.editPoint.stopPoint) {
-          this.$alert('必須大於會員最低停損點數: ' + this.editPoint.stopPoint + '點', '警告!')
-          return
-        }
-      }
-
-      sendText = 'e:' + this.userId + ',0,' + this.editPoint.itemId + ','
-
-      if (this.editPoint.type == 'lossPointDialog') {
-        sendText += '0,' + this.editPoint.price + ',0,3,'
-        this.lossPointDialog = false
-      } else if (this.editPoint.type == 'winPointDialog') {
-        sendText += this.editPoint.price + ',0,0,1,'
-        this.winPointDialog = false
-      } else if (this.editPoint.type == 'profitPointDialog') {
-        sendText += this.editPoint.price + ',0,0,5,'
-        this.profitPointDialog = false
-      }
-
-      sendText += this.editPoint.serial + ',' + this.token + ',' + this.isMobile
-      this.$socketOrder.send(sendText)
-    },
-    openEdit(row) {
-      this.editDialog = true
-      let buyType = '0'
-
-      if (row.Odtype == '限價單' || row.Inverted == '1') {
-        buyType = '1'
-      }
-
-      //source data
-      row.buyType = buyType
-      this.sourceEditData = Object.assign({}, row)
-
-      this.edit = {
-        itemId: row.ID,
-        serial: row.Serial,
-        itemName: row.Name,
-        submit: Number(row.Quantity),
-        submitMax: Number(row.Quantity),
-        buyType: buyType,
-        sourceBuyType: buyType,
-        buyOrSellName: row.BuyOrSell == 0 ? '多' : '空',
-        nowPrice: row.OrderPrice,
-        lossPoint: Number(row.LossPoint),
-        winPoint: Number(row.WinPoint),
-        invertedPoint: Number(row.InvertedPoint),
-      }
-    },
     deleteOrder(row) {
       this.multiDeleteData = [{
         name: this.$store.state.itemName,
@@ -429,43 +263,6 @@ export default {
 
       this.multiDeleteData = []
       this.deleteConfirm = false
-    },
-    doEdit() {
-      let sendText
-
-      //if 限價改市價 1 改 0
-      if (this.sourceEditData.buyType == '1' && this.edit.buyType == '0') {
-        sendText = 'e:' + this.userId + ',0,' + this.edit.itemId + ',0,0,0,6,' + this.edit.serial + ',' + this.token + ',' + this.isMobile
-        this.$socketOrder.send(sendText)
-      }
-
-      //if 改數量 or 價格
-      if (this.edit.submit != this.sourceEditData.Quantity || this.edit.nowPrice != this.sourceEditData.OrderPrice) {
-        sendText = 'e:' + this.userId + ',' + this.edit.submit + ',' + this.edit.itemId + ',0,0,' + this.edit.nowPrice + ',2,' + this.edit.serial + ',' + this.token + ',' + this.isMobile
-        this.$socketOrder.send(sendText)
-      }
-
-      //檢查點數部分哪些有改
-      //獲利點
-      if (this.edit.winPoint != this.sourceEditData.winPoint) {
-        this.editPoint.price = this.edit.winPoint
-        this.udpateEditPointData('winPointDialog', this.sourceEditData)
-        this.doEditPoint()
-      }
-      //損失點
-      if (this.edit.lossPoint != this.sourceEditData.LossPoint) {
-        this.editPoint.price = this.edit.lossPoint
-        this.udpateEditPointData('lossPointDialog', this.sourceEditData)
-        this.doEditPoint()
-      }
-      //倒限點
-      if (this.edit.invertedPoint != this.sourceEditData.InvertedPoint) {
-        this.editPoint.price = this.edit.invertedPoint
-        this.udpateEditPointData('profitPointDialog', this.sourceEditData)
-        this.doEditPoint()
-      }
-
-      this.editDialog = false
     },
     doCovered(row, count) {
       const isMobile = this.isMobile

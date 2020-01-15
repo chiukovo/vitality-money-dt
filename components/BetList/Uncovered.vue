@@ -96,7 +96,7 @@
             span.text__bold.bg-colr-warring [ {{ loss.limitPoint }} ]
           el-form-item(label="損失點")
             el-input-number(v-model="edit.lossPoint")
-          p.text__center 新倒限點需大於:
+          p.text__center 新倒限點不得大於:
             span.text__bold.bg-colr-warring [ {{ inverted.limitPoint }} ]
           el-form-item(label="倒限點")
             el-input-number(v-model="edit.invertedPoint")
@@ -106,117 +106,6 @@
       .dialog__footer
         button.button__light(@click="editDialog = false") 取消
         button.button(type='primary' @click="doEdit") 送出
-  //-新倒限利點數
-  el-dialog(
-    :visible.sync='profitPointDialog'
-    :modal='false'
-    width="400px"
-    title='新倒限利點數'
-    v-dialogDrag)
-    .header-custom(slot='title') 新倒限利點數
-    template
-      .dialog__body
-        p.text__center
-          span [{{ editPoint.name }}]
-          span 報價:
-            span.text__bold {{ editPoint.nowPrice }}
-          span 類型:
-            span.text__bold {{ editPoint.buyOrSellName }}
-          span 成交:
-            span.text__bold {{ editPoint.nowPrice - editPoint.limitPoint }}
-              span(v-if="editPoint.limitPoint >= 0" class="text__danger") (+{{editPoint.limitPoint}})
-              span(v-else class="text__success") ({{editPoint.limitPoint}})
-        p.text__center 新倒限利不得大於:
-          span.text__bold.bg-colr-warring [ {{ editPoint.limitPoint }} ]
-        p.text__center 新倒限利需大於會員最低停損點數:
-          span.text__bold.bg-colr-warring [ {{ editPoint.stopPoint }} ]
-        p.text__center 新倒限利
-        p.text__center
-          button.button(@click="editPoint.price -= 10") -10
-          button.button(@click="editPoint.price -= 5") -5
-          el-input-number.changeNumButton(v-model="editPoint.price" size="mini" style='margin: 0 4px; width: 100px')
-          button.button(@click="editPoint.price += 5") +5
-          button.button(@click="editPoint.price += 10") +10
-        p.text__center 計算結果:
-          span.text__bold.bg-colr-danger {{ editPoint.nowPrice - editPoint.limitPoint + editPoint.price }}
-      .dialog__footer
-        button.button__light(@click="editPoint.price = 0") 清除設定
-        button.button__light(@click="profitPointDialog = false") 取消
-        button.button(type='primary' @click="doEditPoint") 送出
-  //-新獲利點數
-  el-dialog(
-    :visible.sync='winPointDialog'
-    :modal='false'
-    width="400px"
-    title='新獲利點數'
-    v-dialogDrag)
-    .header-custom(slot='title') 新獲利點數
-    template
-      .dialog__body
-        p.text__center
-          span [{{ editPoint.name }}]
-          span 報價:
-            span.text__bold {{ editPoint.nowPrice }}
-          span 類型:
-            span.text__bold {{ editPoint.buyOrSellName }}
-          span 成交:
-            span.text__bold {{ editPoint.nowPrice - editPoint.limitPoint }}
-              span(v-if="editPoint.limitPoint >= 0" class="text__danger") (+{{editPoint.limitPoint}})
-              span(v-else class="text__success") ({{editPoint.limitPoint}})
-        p.text__center 新獲利點需大於:
-          span.text__bold.bg-colr-warring [ {{ editPoint.limitPoint }} ]
-        p.text__center 新獲利點需大於會員最低停損點數:
-          span.text__bold.bg-colr-warring [ {{ editPoint.stopPoint }} ]
-        p.text__center 新獲利點
-        p.text__center
-          button.button(@click="editPoint.price -= 10") -10
-          button.button(@click="editPoint.price -= 5") -5
-          el-input-number.changeNumButton(v-model="editPoint.price" size="mini" style='margin: 0 4px; width: 100px')
-          button.button(@click="editPoint.price += 5") +5
-          button.button(@click="editPoint.price += 10") +10
-        p.text__center 計算結果:
-          span.text__bold.bg-colr-danger {{ editPoint.nowPrice - editPoint.limitPoint + editPoint.price }}
-      .dialog__footer
-        button.button__light(@click="editPoint.price = 0") 清除設定
-        button.button__light(@click="winPointDialog = false") 取消
-        button.button(type='primary' @click="doEditPoint") 送出
-  //-新損失點數
-  el-dialog(
-    :visible.sync='lossPointDialog'
-    :modal='false'
-    width="450px"
-    title='新損失點數'
-    v-dialogDrag)
-    .header-custom(slot='title') 新損失點數
-    template
-      .dialog__body
-        p.text__center
-          span [{{ editPoint.name }}]
-          span 報價:
-            span.text__bold {{ editPoint.nowPrice }}
-          span 類型:
-            span.text__bold {{ editPoint.buyOrSellName }}
-          span 成交:
-            span.text__bold {{ editPoint.nowPrice - editPoint.limitPoint }}
-              span(v-if="editPoint.limitPoint >= 0" class="text__danger") (+{{editPoint.limitPoint}})
-              span(v-else class="text__success") ({{editPoint.limitPoint}})
-        p.text__center 新損失點需大於:
-          span.text__bold.bg-colr-warring [ {{ editPoint.limitPoint }} ]
-        p.text__center 新損失點需大於會員最低停損點數:
-          span.text__bold.bg-colr-warring [ {{ editPoint.stopPoint }} ]
-        p.text__center 新損點
-        p.text__center
-          button.button(@click="editPoint.price -= 10") -10
-          button.button(@click="editPoint.price -= 5") -5
-          el-input-number.changeNumButton(v-model="editPoint.price" size="mini" style='margin: 0 4px; width: 100px')
-          button.button(@click="editPoint.price += 5") +5
-          button.button(@click="editPoint.price += 10") +10
-        p.text__center 計算結果:
-          span.text__bold.bg-colr-danger {{ editPoint.nowPrice - editPoint.limitPoint + editPoint.price }}
-      .dialog__footer
-        button.button__light(@click="editPoint.price = 0") 清除設定
-        button.button__light(@click="lossPointDialog = false") 取消
-        button.button(type='primary' @click="doEditPoint") 送出
   //-多單平倉
   el-dialog(
     :visible.sync='multiOrderConfirm'
@@ -267,52 +156,10 @@ export default {
       userId: '',
       token: '',
       lang: '',
-      editDialog: false,
       deleteConfirm: false,
       multiOrderConfirm: false,
-      lossPointDialog: false,
-      winPointDialog: false,
-      profitPointDialog: false,
       orderReport: true,
       innerVisible: false,
-      valueDateInterval: [],
-      allCommodity: [],
-      edit: {
-        itemId: '',
-        serial: '',
-        itemName: '',
-        submit: 0,
-        submitMax: 0,
-        buyType: '',
-        sourceBuyType: '',
-        buyOrSellName: '',
-        nowPrice: 0,
-        lossPoint: 0,
-        winPoint: 0,
-        invertedPoint: 0,
-      },
-      editPoint: {
-        name: '',
-        type: '',
-        itemId: '',
-        serial: '',
-        price: 0,
-        nowPrice: 0,
-        limitPoint: 0,
-        stopPoint: 0,
-        buyOrSellName: '',
-        needLimit: true,
-      },
-      win: {
-        limitPoint: 0,
-      },
-      loss: {
-        limitPoint: 0,
-      },
-      inverted: {
-        limitPoint: 0,
-      },
-      openEditPointRow: [],
       selectToDelete: [],
       multiOrderData: [],
       multiOrderSelect: [],
@@ -336,37 +183,6 @@ export default {
     this.isMobile = this.$store.state.isMobile
   },
   methods: {
-    openEdit(row) {
-      this.editDialog = true
-      let buyType = '0'
-
-      if (row.Odtype == '限價單' || row.Inverted == '1') {
-        buyType = '1'
-      }
-
-      //source data
-      row.buyType = buyType
-      this.sourceEditData = Object.assign({}, row)
-
-      this.edit = {
-        itemId: row.ID,
-        serial: row.Serial,
-        itemName: row.Name,
-        submit: Number(row.Quantity),
-        submitMax: Number(row.Quantity),
-        buyType: buyType,
-        sourceBuyType: buyType,
-        buyOrSellName: row.BuyOrSell == 0 ? '多' : '空',
-        nowPrice: row.OrderPrice,
-        lossPoint: Number(row.LossPoint),
-        winPoint: Number(row.WinPoint),
-        invertedPoint: Number(row.InvertedPoint),
-      }
-
-      this.udpateEditPointData('lossPointDialog', row)
-      this.udpateEditPointData('winPointDialog', row)
-      this.udpateEditPointData('profitPointDialog', row)
-    },
     notSetWinLoss(operation) {
       return operation[0] == 0 && operation[1] == 0 && operation[2] == 0 && operation[4] == 0
     },
@@ -429,21 +245,6 @@ export default {
         }
       })
     },
-    openEditPoint(type, row) {
-      this.openEditPointRow = row
-      this.udpateEditPointData(type, row)
-      //新損
-      if (type == 'lossPointDialog') {
-        this.editPoint.price = row.LossPoint
-        this.lossPointDialog = true
-      } else if (type == 'winPointDialog') {
-        this.editPoint.price = row.WinPoint
-        this.winPointDialog = true
-      } else if (type == 'profitPointDialog') {
-        this.editPoint.price = row.InvertedPoint
-        this.profitPointDialog = true
-      }
-    },
     openMultiOrder() {
       let _this = this
       this.multiOrderData = []
@@ -463,156 +264,6 @@ export default {
       })
 
       this.multiOrderConfirm = true
-    },
-    udpateEditPointData(type, row) {
-      //商品現價
-      const allNowPrices = this.$store.state.nowNewPrice
-      let nowPrice = allNowPrices[row.ID]
-      //買單or賣單
-      const buyOrSell = row.BuyOrSell
-      //成交價
-      let finalPrice = row.FinalPrice == '' ? row.OrderPrice : row.FinalPrice
-
-      //沒 OrderPrice && 沒 成交價 就不用判斷了
-      if (row.OrderPrice == '' && row.FinalPrice == '') {
-        finalPrice = 0
-        this.editPoint.needLimit = false
-      }
-
-      //目前獲利點數
-      let nowWin = 0
-      //目前損失點數
-      let nowLoss = 0
-      //會員最低停損點數
-      let memberStopPoint = 0
-
-      this.allCommodity.forEach(function(val) {
-        if (val.ID == row.ID) {
-          memberStopPoint = val.StopPoint
-        }
-      })
-
-      this.editPoint.name = row.Name
-      this.editPoint.type = type
-      this.editPoint.itemId = row.ID
-      this.editPoint.serial = row.Serial
-      this.editPoint.nowPrice = nowPrice
-      this.editPoint.stopPoint = memberStopPoint
-      this.editPoint.buyOrSellName = row.BuyOrSell == 0 ? '多' : '空'
-
-      //新損
-      if (type == 'lossPointDialog') {
-        //買單的話：成交點數 - 商品現在價格
-        if (buyOrSell == 0) {
-          nowLoss = finalPrice - nowPrice
-        } else {
-          //賣單的話：商品現在價格 - 成交點數
-          nowLoss = nowPrice - finalPrice
-        }
-
-        this.loss.limitPoint = nowLoss
-      } else if (type == 'winPointDialog') {
-        //新獲利
-        //買單的話：商品現在價格 - 成交點數
-        if (buyOrSell == 0) {
-          nowWin = nowPrice - finalPrice
-        } else {
-          //賣單的話：成交點數 - 商品現在價格
-          nowWin = finalPrice - nowPrice
-        }
-
-        this.win.limitPoint = nowLoss
-      } else if (type == 'profitPointDialog') {
-        //新倒利
-        //買單的話：商品現在價格 - 成交點數
-        if (buyOrSell == 0) {
-          nowWin = nowPrice - finalPrice
-        } else {
-          //賣單的話：成交點數 - 商品現在價格
-          nowWin = finalPrice - nowPrice
-        }
-
-        this.inverted.limitPoint = nowWin
-      }
-    },
-    doEdit() {
-      let sendText
-
-      //if 限價改市價 1 改 0
-      if (this.sourceEditData.buyType == '1' && this.edit.buyType == '0') {
-        sendText = 'e:' + this.userId + ',0,' + this.edit.itemId + ',0,0,0,6,' + this.edit.serial + ',' + this.token + ',' + this.isMobile
-        this.$socketOrder.send(sendText)
-      }
-
-      //if 改數量 or 價格
-      if (this.edit.submit != this.sourceEditData.Quantity || this.edit.nowPrice != this.sourceEditData.OrderPrice) {
-        sendText = 'e:' + this.userId + ',' + this.edit.submit + ',' + this.edit.itemId + ',0,0,' + this.edit.nowPrice + ',2,' + this.edit.serial + ',' + this.token + ',' + this.isMobile
-        this.$socketOrder.send(sendText)
-      }
-
-      //檢查點數部分哪些有改
-      //獲利點
-      if (this.edit.winPoint != this.sourceEditData.winPoint) {
-        this.editPoint.price = this.edit.winPoint
-        this.udpateEditPointData('winPointDialog', this.sourceEditData)
-        this.doEditPoint()
-      }
-      //損失點
-      if (this.edit.lossPoint != this.sourceEditData.LossPoint) {
-        this.editPoint.price = this.edit.lossPoint
-        this.udpateEditPointData('lossPointDialog', this.sourceEditData)
-        this.doEditPoint()
-      }
-      //倒限點
-      if (this.edit.invertedPoint != this.sourceEditData.InvertedPoint) {
-        this.editPoint.price = this.edit.invertedPoint
-        this.udpateEditPointData('profitPointDialog', this.sourceEditData)
-        this.doEditPoint()
-      }
-
-      this.editDialog = false
-    },
-    doEditPoint() {
-      let sendText = ''
-
-      //判斷限制點數
-      if (this.editPoint.price != 0) {
-        if (this.editPoint.type == 'profitPointDialog') {
-          //倒利限
-          if (this.editPoint.price >= this.editPoint.limitPoint && this.editPoint.needLimit) {
-            this.$alert('不得大於: ' + this.editPoint.limitPoint + '點', '警告!')
-            return
-          }
-          //損+利
-        } else {
-          if (this.editPoint.price <= this.editPoint.limitPoint && this.editPoint.needLimit) {
-            this.$alert('必須大於: ' + this.editPoint.limitPoint + '點', '警告!')
-            return
-          }
-        }
-
-        //不得小於會員最低停損點數
-        if (this.editPoint.price < this.editPoint.stopPoint) {
-          this.$alert('必須大於會員最低停損點數: ' + this.editPoint.stopPoint + '點', '警告!')
-          return
-        }
-      }
-
-      sendText = 'e:' + this.userId + ',0,' + this.editPoint.itemId + ','
-
-      if (this.editPoint.type == 'lossPointDialog') {
-        sendText += '0,' + this.editPoint.price + ',0,3,'
-        this.lossPointDialog = false
-      } else if (this.editPoint.type == 'winPointDialog') {
-        sendText += this.editPoint.price + ',0,0,1,'
-        this.winPointDialog = false
-      } else if (this.editPoint.type == 'profitPointDialog') {
-        sendText += this.editPoint.price + ',0,0,5,'
-        this.profitPointDialog = false
-      }
-
-      sendText += this.editPoint.serial + ',' + this.token + ',' + this.isMobile
-      this.$socketOrder.send(sendText)
     },
     doMultiCovered() {
       if (this.multiOrderData.length > 0) {
@@ -659,7 +310,6 @@ export default {
       })
     },
     uncoveredTableCellClassName({ row, column, columnIndex }) {
-
     }
   }
 }
