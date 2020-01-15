@@ -43,11 +43,11 @@
         li(:class="item.Operation[3] == 0 ? '' : 'hs-edit'" v-for="item in $store.state.uncovered" @click="openControl(item, '平倉設定', true)")
           ul.tran-item
             li
-              .tran-item__name {{ item.Name }}
+              .tran-item__name(style="width: 60px;")  {{ item.Name }}
               .tran-item__yellow {{ item.Serial }}
                 //-span 1天
             li
-              .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}
+              .text__center.text__danger.text__lg(style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
               .tran-item__hey {{ item.WinPoint }}
               .tran-item__fee {{ item.LossPoint }}
@@ -96,7 +96,7 @@
         li(v-for="item in $store.state.commodity")
           ul.tran-item
             li
-              .tran-item__name.text__lg {{ item.Name }}
+              .tran-item__name.text__lg(style="width: 80px;") {{ item.Name }}
             li
               .tran-item__put.bg__danger {{ item.TotalBuySubmit　}}
               .tran-item__put.bg__success {{ item.TotalSellSubmit}}
