@@ -309,6 +309,16 @@ export default {
     this.lang = this.$store.state.localStorage.lang
     this.isMobile = this.$store.state.isMobile
   },
+  computed: mapState({
+    mainItem: 'mainItem',
+  }),
+  watch: {
+    mainItem() {
+      if (this.editDialog) {
+        this.computedPointLimit()
+      }
+    },
+  },
   methods: {
     changeDayCover(row) {
       const _this = this
