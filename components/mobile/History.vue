@@ -13,27 +13,27 @@
         li(:class="checkHasEdit(item)" v-for="item in $store.state.buySell" @click="openControl(item, '改價減量', false)")
           ul.tran-item
             li
-              .tran-item__name {{ item.Name }}
+              .tran-item__name(style="width: 60px;") {{ item.Name }}
               .tran-item__yellow {{ item.Serial }}
             li
-              .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}
+              .text__center.text__danger.text__lg(style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
               .tran-item__hey.text__lg {{ item.Quantity }}
             li
-              div(style="min-width:63px")
+              div(style="min-width:60px")
                 span.text__secondary 獲利
                 span.tran-item__ha {{ parseInt(item.WinPoint) }}
               div
                 span.text__secondary 損失
                 span.tran-item__ha {{ parseInt(item.LossPoint) }}
             li
-              div
+              div(style="width: 98px;")
                 span.text__secondary {{ item.OrderPrice }}
                 span.text__secondary {{ dateOnlyHis(item.OrderTime) }}
               div
                 span {{ item.FinalPrice }}
                 span {{ dateOnlyHis(item.FinalTime) }}
-            li
+            li(style="width: 80px;")
               .tran-item__yo {{ item.Odtype }}
               div {{ item.State }}
     .area(v-if='historyShow == 2' style="height: calc(100% - 40px);overflow-y: auto;")
@@ -114,7 +114,7 @@
     el-dialog(
       :visible.sync='editDialog'
       :modal='false'
-      width="320px"
+      width="260px"
       title='改價減量'
       v-dialogDrag)
       .header-custom(slot='title') 改價減量
@@ -143,7 +143,7 @@
                   div(style="display: inline") {{ findMainItemById(edit.itemId).gain }}
                 //-帳跌%
                 span.ml-2 {{ findMainItemById(edit.itemId).gain_percent }}
-          el-form(ref='form' size='mini' label-width='70px')
+          el-form(ref='form' label-width='55px')
             div(v-if="!isUncovered")
               el-form-item(label="口數")
                 el-input-number(v-model="edit.submit" :max="edit.submitMax" :step="0.25")
@@ -156,23 +156,20 @@
                   span.radio__label 限價單
               el-form-item(label="限價" v-if="edit.buyType == '1'")
                 el-input-number(v-model="edit.nowPrice")
-            p.text__center 新獲利點需大於:
-              span.text__bold.bg-colr-warring [ {{ win.limitPoint }} ]
+            p(style="color: #000;") 新獲利點需大於:
+              span.text__bold.text__danger [ {{ win.limitPoint }} ]
             el-form-item(label="獲利點")
               el-input-number(v-model="edit.winPoint")
-            p.text__center 新損失點需大於:
-              span.text__bold.bg-colr-warring [ {{ loss.limitPoint }} ]
+            p(style="color: #000;") 新損失點需大於:
+              span.text__bold.text__danger [ {{ loss.limitPoint }} ]
             el-form-item(label="損失點")
               el-input-number(v-model="edit.lossPoint")
-            p.text__center 新倒限點不得大於:
-              span.text__bold.bg-colr-warring [ {{ inverted.limitPoint }} ]
+            p(style="color: #000;") 新倒限點不得大於:
+              span.text__bold.text__danger [ {{ inverted.limitPoint }} ]
             el-form-item(label="倒限點")
               el-input-number(v-model="edit.invertedPoint")
-          .badge.badge-warning 口數只能減少或不變， 損失點/ 獲利點 為
-            span.badge-rr 點數
-            | 設定
         .dialog__footer
-          button.button__light(@click="editDialog = false") 取消
+          button.button(@click="editDialog = false") 取消
           button.button(type='primary' @click="doEdit") 送出
     //-多單平倉
     el-dialog(
@@ -246,23 +243,23 @@
             li.button(@click="changeDayCover(controlData)")
               span(v-if="controlData.DayCover") 不留倉
               span(v-else) 留倉
-        table
+        table.popupAllSingleSelectNo.my-2
           tbody
             tr
-              td 序號
+              td.title 序號
               td {{ controlData.Serial }}
             tr
-              td 商品
+              td.title 商品
               td {{ controlData.Name }}
             tr
-              td 委託價
+              td.title 委託價
               td {{ controlData.OrderPrice }}
             tr
-              td 多空
+              td.title 多空
               td
                 span(:class="controlData.BuyOrSell == 0 ? 'text__danger' : 'text__success'") {{ controlData.BuyOrSell == 0 ? '多' : '空' }}
             tr
-              td 口數
+              td.title 口數
               td {{ controlData.Quantity }}
 </template>
 
@@ -514,7 +511,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.doCovered(row, count)
-      }).catch(() => {       
+      }).catch(() => {
       });
     },
     doCovered(row, count) {
