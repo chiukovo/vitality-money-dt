@@ -16,7 +16,7 @@
               .tran-item__name(style="width: 60px;") {{ item.Name }}
               .tran-item__yellow {{ item.Serial }}
             li
-              .text__center.text__danger.text__lg(style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
+              .text__center.text__lg(:class="item.BuyOrSell == 0 ? 'text__danger' : 'text__success'" style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
               .tran-item__hey.text__lg {{ item.Quantity }}
             li
@@ -47,7 +47,7 @@
               .tran-item__yellow {{ item.Serial }}
                 //-span 1天
             li
-              .text__center.text__danger.text__lg(style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
+              .text__center.text__lg(:class="item.BuyOrSell == 0 ? 'text__danger' : 'text__success'" style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
               .tran-item__hey {{ item.WinPoint }}
               .tran-item__fee {{ item.LossPoint }}
@@ -74,7 +74,7 @@
             li
               .tran-item__name {{ item.Name }}
             li
-              .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}
+              .text__danger(:class="item.BuyOrSell == 0 ? 'text__danger' : 'text__success'") {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
               .tran-item__hey {{ item.SerialCoveredNum }}
               .tran-item__fee {{ item.Fee }}
