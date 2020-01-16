@@ -120,8 +120,8 @@ export default {
       if (val.product_id == itemId) {
         val.state_name = '未開盤'
         val.yesterday_last_price = data[1]
-        val.open_date_time. = data[2]
-        val.close_date_time. = data[3]
+        val.open_date_time = data[2]
+        val.close_date_time = data[3]
       }
 
       return val
