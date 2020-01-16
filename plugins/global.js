@@ -43,7 +43,13 @@ Vue.mixin({
       }
     },
     startToken() {
-      return 'a:test,test'
+      const userAuth = this.$store.state.localStorage.userAuth
+
+      if (typeof userAuth.token != 'undefined' && typeof userAuth.userId != 'undefined') {
+        return 'a:' + userAuth.userId + ',' + userAuth.token
+      }
+
+      return
     },
     playSuccessSound() {
       let audio = document.getElementById('successSound')

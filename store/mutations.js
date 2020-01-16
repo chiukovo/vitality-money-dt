@@ -631,7 +631,7 @@ export default {
       }
 
       // 此單未平損益 (要算手續費)，要更新在未平單上
-      val.thisSerialTotalMoney = val.thisSerialPointDiff * parseInt(val.PointMoney) * parseInt(val.Quantity) - parseInt(val.TotalFee)
+      val.thisSerialTotalMoney = val.thisSerialPointDiff * parseInt(val.PointMoney) * parseInt(val.Quantity)
 
       result.push(val)
     })

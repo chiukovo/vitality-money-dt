@@ -172,6 +172,8 @@ Vue.mixin({
       const allNowPrices = this.$store.state.nowNewPrice
       let nowPrice = allNowPrices[row.ID]
 
+      this.editPoint.nowPrice = nowPrice
+
       //買單or賣單
       const buyOrSell = row.BuyOrSell
       //成交價
