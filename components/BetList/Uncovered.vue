@@ -2,11 +2,17 @@
 .history-content
   .history-content__header(id="uncoveredHeader")
     button.button__white(@click="openMultiOrder") 全部平倉
+    span(style="padding: 0 10px") 損益設定
+    label.radio.inline
+      input.radio__input(type="radio" v-model='pointInputType' value='1')
+      span.radio__label 點數輸入
+    label.radio.inline
+      input.radio__input(type="radio" v-model='pointInputType' value='2')
+      span.radio__label 行情輸入
   .history-content__body(:style="{height: $parent.height.uncovered}")
     client-only
       vxe-table.table__dark(
         :data='$store.state.uncovered'
-        :cell-class-name='uncoveredTableCellClassName',
         ref="multipleTable"
         max-width="100%"
         height="100%"
@@ -18,7 +24,7 @@
         vxe-table-column(title='操作' align="center" width="120")
           template(slot-scope='scope')
             button.button__white(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平
-            button.button__white(v-if="!notSetWinLoss(scope.row.Operation)" @click="openEdit(scope.row)") 設損
+            button.button__white(v-if="!cantSetWinLoss(scope.row.Operation)" @click="openEdit(scope.row, '')") 設損
         vxe-table-column(field='Serial' title='序號' width="80")
         vxe-table-column(field='Name' title='商品' width="94")
         vxe-table-column(title='多空')
@@ -58,10 +64,11 @@
   el-dialog(
     :visible.sync='editDialog'
     :modal='false'
-    width="320px"
-    title='改價減量'
+    width="330px"
     v-dialogDrag)
-    .header-custom(slot='title') 改價減量
+    .header-custom(slot='title')
+      span 損益設定
+      span.badge.badge-warning ({{ pointInputType == 1 ? '點數' : '行情' }})
     template
       .dialog__body
         .d-flex.justify-content-around.mb-3
@@ -72,6 +79,9 @@
             li
               .label 商品
               span {{ edit.itemName }}
+            li
+              .label 成交
+              span {{ editPoint.finalPrice }}
             li
               .label 多空
               span(:class="edit.BuyOrSell == 0 ? 'bg__danger' : 'bg__success'" class="text__white") {{ edit.BuyOrSell == 0 ? '多' : '空' }}
@@ -87,20 +97,54 @@
                 div(style="display: inline") {{ findMainItemById(edit.itemId).gain }}
               //-帳跌%
               span.ml-2 {{ findMainItemById(edit.itemId).gain_percent }}
-        el-form(ref='form' size='mini' label-width='70px')
-          p.text__center 新獲利點需大於:
-            span.text__bold.bg-colr-warring [ {{ win.limitPoint }} ]
-          el-form-item(label="獲利點")
-            el-input-number(v-model="edit.winPoint")
-          p.text__center 新損失點需大於:
-            span.text__bold.bg-colr-warring [ {{ loss.limitPoint }} ]
-          el-form-item(label="損失點")
-            el-input-number(v-model="edit.lossPoint")
-          p.text__center 新倒限點不得大於:
-            span.text__bold.bg-colr-warring [ {{ inverted.limitPoint }} ]
-          el-form-item(label="倒限點")
-            el-input-number(v-model="edit.invertedPoint")
-        .badge.badge-warning 口數只能減少或不變， 損失點/ 獲利點 為
+        el-form(ref='form' size='mini' label-width='94px')
+          .edit-base(v-if="editType == 'edit'")
+            el-form-item(label="口數")
+              el-input-number(v-model="edit.submit" :max="edit.submitMax" :step="0.25")
+            el-form-item
+              label.radio.inline
+                input.radio__input(type="radio" v-model='edit.buyType' value='1')
+                span.radio__label 限價單
+              label.radio.inline
+                input.radio__input(type="radio" v-model='edit.buyType' value='0')
+                span.radio__label 市價單
+            el-form-item(label="限價" v-if="edit.buyType == '1'")
+              el-input-number(v-model="edit.nowPrice")
+          //-點數輸入
+          .point-input(v-show="pointInputType == 1")
+            .win-point.text__center
+              p.pl-15 新獲利點需大於:
+                span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPoint }} ]
+              el-form-item(label="獲利點")
+                el-input-number(v-model="edit.winPoint")
+            .loss-point.text__center
+              p.pl-15 新損失點需大於:
+                span.text__bold.bg-colr-warring [ {{ editPoint.limitLossPoint }} ]
+              el-form-item(label="損失點")
+                el-input-number(v-model="edit.lossPoint")
+            .inverted-point.text__center
+              p.pl-15 新倒限利不得大於:
+                span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPoint }} ]
+              el-form-item(label="倒限點")
+                el-input-number(v-model="edit.invertedPoint")
+          //-行情輸入
+          .money-input(v-show="pointInputType == 2")
+            .win-point.text__center
+              p.pl-15 新獲利點需大於:
+                span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPrice }} ]
+              el-form-item(label="獲利點")
+                el-input-number(v-model="changeWinPrice")
+            .loss-point.text__center
+              p.pl-15 新損失點需大於:
+                span.text__bold.bg-colr-warring [ {{ editPoint.limitLossPrice }} ]
+              el-form-item(label="損失點")
+                el-input-number(v-model="changeLossPrice")
+            .inverted-point.text__center
+              p.pl-15 新倒限利不得大於:
+                span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPrice }} ]
+              el-form-item(label="倒限點")
+                el-input-number(v-model="changeInvertedPrice")
+        .badge.badge-warning(v-show="editType == 'edit'") 口數只能減少或不變，損失點/獲利點/倒限點 為
           span.badge-rr 點數
           | 設定
       .dialog__footer
@@ -151,20 +195,14 @@ import qs from 'qs'
 export default {
   data() {
     return {
+      //點數1 行情2
+      pointInputType: 1,
       autoGoButtom: 1,
       isMobile: '',
       userId: '',
       token: '',
       lang: '',
-      deleteConfirm: false,
-      multiOrderConfirm: false,
-      orderReport: true,
       innerVisible: false,
-      selectToDelete: [],
-      multiOrderData: [],
-      multiOrderSelect: [],
-      multiDeleteData: [],
-      multiDeleteSelect: [],
       detail: {
         date: '',
         title: '',
@@ -191,25 +229,78 @@ export default {
         this.computedPointLimit()
       }
     },
+    changeWinPrice(newData, oldData) {
+      const limitPoint = this.editPoint.limitWinPoint
+      const limitPrice = this.editPoint.limitWinPrice
+
+      //0案增加
+      if (oldData == 0 && newData == 1) {
+        //強制加到大於數值
+        this.edit.winPoint = limitPoint
+        this.changeWinPrice = limitPrice
+      } else if (oldData == limitPrice && newData == limitPrice - 1) {
+        this.edit.winPoint = 0
+        this.changeWinPrice = 0
+      } else if (Math.abs(newData - oldData) == 1) {
+        this.edit.winPoint += newData - oldData
+      }
+    },
+    'edit.winPoint': {
+      handler(newData, oldData) {
+        const limit = this.editPoint.limitWinPoint
+
+        //0案增加
+        if (oldData == 0 && newData == 1) {
+          //強制加到大於數值
+          this.edit.winPoint = limit
+        }
+
+        if (oldData == limit && newData == limit - 1) {
+          this.edit.winPoint = 0
+        }
+      },
+      immediate: true,
+    },
+    changeLossPrice(newData, oldData) {
+      const limitPoint = this.editPoint.limitLossPoint
+      const limitPrice = this.editPoint.limitLossPrice
+
+      //0案增加
+      if (oldData == 0 && newData == 1) {
+        //強制加到大於數值
+        this.edit.lossPoint = limitPoint
+        this.changeLossPrice = limitPrice
+      } else if (oldData == limitPrice && newData == limitPrice - 1) {
+        this.edit.lossPoint = 0
+        this.changeLossPrice = 0
+      } else if (Math.abs(newData - oldData) == 1) {
+        this.edit.lossPoint += newData - oldData
+      }
+    },
+    'edit.lossPoint': {
+      handler(newData, oldData) {
+        const limit = this.editPoint.limitLossPoint
+
+        //0案增加
+        if (oldData == 0 && newData == 1) {
+          //強制加到大於數值
+          this.edit.lossPoint = limit
+        }
+
+        if (oldData == limit && newData == limit - 1) {
+          //強制加到大於數值
+          this.edit.lossPoint = 0
+        }
+      },
+      immediate: true,
+    },
+    changeInvertedPrice(newData, oldData) {
+      this.edit.invertedPoint += newData - oldData
+    },
   },
   methods: {
-    notSetWinLoss(operation) {
+    cantSetWinLoss(operation) {
       return operation[0] == 0 && operation[1] == 0 && operation[2] == 0 && operation[4] == 0
-    },
-    changeDayCover(row) {
-      const _this = this
-      const setDayCover = row.DayCover ? 0 : 1
-
-      axios.post(process.env.NUXT_ENV_API_URL + "/set_serial_daycover?lang=" + this.lang, qs.stringify({
-        UserID: this.userId,
-        Token: this.token,
-        DayCover: setDayCover,
-        DayCoverSerialId: row.Serial,
-      }))
-      .then(response => {
-        _this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
-        _this.$store.dispatch('CALL_MEMBER_INFO')
-      })
     },
     openDetail(row) {
       const _this = this
@@ -241,86 +332,6 @@ export default {
 
       _this.innerVisible = true
     },
-    multiOrderAllClick(allChecked) {
-      let _this = this
-
-      if (!allChecked) {
-        _this.multiOrderSelect = []
-        return
-      }
-
-      _this.multiOrderSelect = _this.$store.state.uncovered.map(function(val) {
-        if (val.Operation[2]) {
-          return val.Serial
-        }
-      })
-    },
-    openMultiOrder() {
-      let _this = this
-      this.multiOrderData = []
-
-      _this.$store.state.uncovered.forEach(function(row) {
-        if (row.Operation[2]) {
-          _this.multiOrderData.push({
-            name: row.Name,
-            userName: _this.$store.state.userInfo.Account,
-            buy: row.BuyOrSell == 0 ? '多' : '空',
-            price: row.Odtype,
-            submit: row.Quantity,
-            itemId: row.ID,
-            serial: row.Serial,
-          })
-        }
-      })
-
-      this.multiOrderConfirm = true
-    },
-    doMultiCovered() {
-      if (this.multiOrderData.length > 0) {
-        let itemIdStr = ''
-        let serialStr = ''
-        const count = this.multiOrderData.length
-        let sendText
-
-        this.multiOrderData.forEach(function(val, key) {
-          if (count == key + 1) {
-            itemIdStr += val.itemId
-            serialStr += val.serial
-          } else {
-            itemIdStr += val.itemId + ';'
-            serialStr += val.serial + ';'
-          }
-        })
-
-        sendText = 't:' + this.userId + ',' + serialStr + ',' + this.token + ',' + this.isMobile + ',' + itemIdStr
-        this.$socketOrder.send(sendText)
-      }
-
-      this.multiOrderConfirm = false
-    },
-    doCovered(row, count) {
-      const isMobile = this.isMobile
-      const userId = this.userId
-      const token = this.token
-      let _this = this
-      let sendText
-
-      this.$confirm('確認平倉' + row.Name + ' 序號: ' + row.Serial + '?', '注意! ', {
-        confirmButtonText: '確定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        switch (count) {
-          case 1:
-            sendText = 't:' + userId + ',' + row.Serial + ',' + token + ',' + isMobile + ',' + row.ID
-            _this.$socketOrder.send(sendText)
-            break
-        }
-      }).catch(() => {
-      })
-    },
-    uncoveredTableCellClassName({ row, column, columnIndex }) {
-    }
   }
 }
 </script>
