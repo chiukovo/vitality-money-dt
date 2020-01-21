@@ -29,6 +29,7 @@
         stripe
         border
         auto-resize
+        highlight-hover-row
         highlight-current-row)
         vxe-table-column(field="Name" title='商品名稱')
         vxe-table-column(title='總多')

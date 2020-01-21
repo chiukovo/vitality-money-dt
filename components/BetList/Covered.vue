@@ -12,6 +12,7 @@
         stripe
         border
         auto-resize
+        highlight-hover-row
         highlight-current-row)
         vxe-table-column(field="Name" title='商品' width="94")
         vxe-table-column(field="NewSerial" title='新倉序號' width="74")

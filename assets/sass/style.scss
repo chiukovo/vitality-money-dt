@@ -724,7 +724,7 @@ td {
   .vxe-table--fixed-left-wrapper:before, .vxe-table--fixed-right-wrapper:before {
     border-color: #3a3a3a;
   }
-  .row--hover {
+  .row--hover, .row--current{
     background-color: #502d2d !important;
   }
 }

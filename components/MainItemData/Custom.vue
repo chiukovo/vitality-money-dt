@@ -32,7 +32,7 @@ div(class="h-100")
         stripe
         border
         auto-resize
-        highlight-hover-row)
+        highlight-current-row)
         vxe-table-column(:width="computedStyleWidth(50)" fixed="left" align="left" show-header-overflow)
           template(v-slot:header="{column}") 商品
             .table-toggle

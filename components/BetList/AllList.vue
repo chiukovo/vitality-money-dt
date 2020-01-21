@@ -25,6 +25,7 @@
         stripe
         border
         auto-resize
+        highlight-hover-row
         highlight-current-row)
         vxe-table-column(width="120" align="center")
           template(slot-scope='scope')
