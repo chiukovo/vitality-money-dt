@@ -37,7 +37,7 @@
         ref="xTable"
         :class="'fontStyle-' + fontStyle"
         id="mainItemTable"
-        :data='mainItem',
+        :data='mainItem'
         :cell-class-name='tableCellClassName'
         @current-change="clickItem"
         max-width="100%"
@@ -53,7 +53,7 @@
           template(slot-scope='scope' )
             .first
               .myname
-                .mycfdw {{ scope.row['product_name'] }}{{ scope.row['monthday'] }}
+                .mycfdw(:class="scope.row.state_name == '未開盤' ? 'text__secondary' : ''") {{ scope.row['product_name'] }}{{ scope.row['monthday'] }}
                 .mycfd
               .mybox(v-if="typeof $store.state.uncoveredCountDetail[scope.row['product_id']] != 'undefined'")
                 .nopingb {{ $store.state.uncoveredCountDetail[scope.row['product_id']] > 0 ? $store.state.uncoveredCountDetail[scope.row['product_id']] : 0 }}
@@ -241,6 +241,16 @@ export default {
           return 'hide'
         }
       }
+      //加密貨幣
+      if (this.tabs == 5) {
+        return 'hide'
+      }
+      //判斷狀態
+      if(columnIndex == 12) {
+        if (row.state != 2) {
+          return 'text__secondary'
+        }
+      }
       //判斷整行顏色
       if(columnIndex >= 2 && columnIndex != 5 && columnIndex != 7 && columnIndex != 13) {
         if (this.listColorStyle == 2) {
@@ -254,13 +264,6 @@ export default {
         }
 
         return row.color
-      }
-
-      //判斷狀態
-      if(columnIndex == 13) {
-        if (row.state != 2) {
-          return 'text__secondary'
-        }
       }
     },
     handleClose() {

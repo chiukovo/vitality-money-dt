@@ -173,6 +173,24 @@ Vue.mixin({
         this.deleteConfirm = true
       }
     },
+    orderAll() {
+      let _this = this
+      this.multiOrderData = []
+
+      _this.$store.state.uncovered.forEach(function(row) {
+        _this.multiOrderData.push({
+          name: row.Name,
+          userName: _this.$store.state.userInfo.Account,
+          buy: row.BuyOrSell == 0 ? '多' : '空',
+          price: row.Odtype,
+          submit: row.Quantity,
+          itemId: row.ID,
+          serial: row.Serial,
+        })
+      })
+
+      this.multiOrderConfirm = true
+    },
     openMultiOrder() {
       let _this = this
       this.multiOrderData = []
