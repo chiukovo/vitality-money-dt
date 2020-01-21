@@ -33,9 +33,9 @@
               div
                 span {{ item.FinalPrice }}
                 span {{ dateOnlyHis(item.FinalTime) }}
-            li(style="width: 80px;")
+            li
               .tran-item__yo {{ item.Odtype }}
-              div {{ item.State }}
+              div(:style="smallWidth ? 'width: 30px' : ''") {{ item.State }}
     .area(v-if='historyShow == 2' style="height: calc(100% - 40px);overflow-y: auto;")
       .area-fixed
         button.button(@click="orderAll") 全部平倉
@@ -52,7 +52,7 @@
               .tran-item__hey {{ item.Quantity }}
               .tran-item__fee {{ item.PointMoney }}
             li
-              div(style="min-width:60px")
+              div(style="min-width: 60px")
                 span.text__secondary 獲利
                 span.tran-item__ha {{ parseInt(item.WinPoint) }}
               div
@@ -315,6 +315,7 @@ export default {
       checked: false,
       isUncovered: false,
       isMobile: '',
+      smallWidth: false,
       userId: '',
       token: '',
       lang: '',
@@ -333,6 +334,11 @@ export default {
     this.token = this.$store.state.localStorage.userAuth.token
     this.lang = this.$store.state.localStorage.lang
     this.isMobile = this.$store.state.isMobile
+
+    //判斷螢幕寬度
+    if (window.innerWidth < 330) {
+      this.smallWidth = true
+    }
   },
   computed: mapState({
     mainItem: 'mainItem',

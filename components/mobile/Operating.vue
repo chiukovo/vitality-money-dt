@@ -242,7 +242,7 @@
     el-dialog(
       :visible.sync='orderConfirm'
       :modal='false'
-      width="50%"
+      width="60%"
       title='確認下單'
       v-dialogDrag)
       .header-custom(slot='title')
@@ -546,6 +546,7 @@ export default {
     doOrder() {
       const _this = this
       setTimeout(function(){ _this.$socketOrder.send(_this.sendText) }, 500)
+      this.cancel()
     },
   }
 }
