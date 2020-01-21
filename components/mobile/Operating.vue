@@ -409,9 +409,8 @@ export default {
       const header = document.getElementById('header').offsetHeight
       const bottom = document.getElementById('area_bottom').offsetHeight
       const result = window.innerHeight - (bottom + header + tabs) - 25
-      this.midHeight = 'height: ' + result + 'px'
 
-      console.log(this.midHeight)
+      this.midHeight = 'height: ' + result + 'px'
     },
     changeSubmitNum(type) {
       if (type == '+') {
