@@ -77,26 +77,27 @@
           v-dialogDrag)
           .header-custom(slot='title')
             |  確認下單
-          client-only
-            vxe-table(
-              :data="confirmData"
-              max-width="100%"
-              height="200px"
-              size="mini"
-              border
-              auto-resize)
-              vxe-table-column(field="name" title='目標商品')
-              vxe-table-column(field="userName" title='用戶名稱')
-              vxe-table-column(title='買賣')
-                template(slot-scope='scope')
-                  span(:class="scope.row.buy == 0 ? 'bg__danger' : 'bg__success'" class="text__white" style="width: 20px") {{ scope.row.buy == 0 ? '多' : '空' }}
-              vxe-table-column(field="price" title='價格')
-              vxe-table-column(field="submit" title='口數')
-              vxe-table-column(field="profit" title='獲利點')
-              vxe-table-column(field="damage" title='損失點')
-            .dialog__footer
-                button.button__light(@click="cancel") 取消
-                button.button(@click="doOrder") 確認
+          .p-2
+            client-only
+              vxe-table(
+                :data="confirmData"
+                max-width="100%"
+                height="200px"
+                size="mini"
+                border
+                auto-resize)
+                vxe-table-column(field="name" title='目標商品')
+                vxe-table-column(field="userName" title='用戶名稱')
+                vxe-table-column(title='買賣' align="center")
+                  template(slot-scope='scope')
+                    span(:class="scope.row.buy == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ scope.row.buy == 0 ? '多' : '空' }}
+                vxe-table-column(field="price" title='價格')
+                vxe-table-column(field="submit" title='口數')
+                vxe-table-column(field="profit" title='獲利點')
+                vxe-table-column(field="damage" title='損失點')
+          .dialog__footer
+            button.button__light(@click="cancel") 取消
+            button.button(@click="doOrder") 確認
     .operating-5
       label.checkbox
         input.checkbox__input(type="checkbox" :checked="noRemaining == 1" @click="setNoRemaining")

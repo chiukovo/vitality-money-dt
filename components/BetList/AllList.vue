@@ -111,24 +111,24 @@
           //-點數輸入
           .point-input(v-show="pointInputType == 1")
             .win-point.text__center
-              p.pl-15 新獲利點需大於:
+              span.pl-4 新獲利點需大於:
                 span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPoint }} ]
-              el-form-item(label="獲利點")
+              el-form-item(label="獲利點" style="margin-bottom: 16px;")
                 el-input-number(v-model="edit.winPoint")
             .loss-point.text__center
-              p.pl-15 新損失點需大於:
+              span.pl-4 新損失點需大於:
                 span.text__bold.bg-colr-warring [ {{ editPoint.limitLossPoint }} ]
               el-form-item(label="損失點")
                 el-input-number(v-model="edit.lossPoint")
           //-行情輸入
           .money-input(v-show="pointInputType == 2")
             .win-point.text__center
-              p.pl-15 新獲利點需大於:
+              span.pl-4 新獲利點需大於:
                 span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPrice }} ]
               el-form-item(label="獲利點")
                 el-input-number(v-model="changeWinPrice")
             .loss-point.text__center
-              p.pl-15 新損失點需大於:
+              span.pl-4 新損失點需大於:
                 span.text__bold.bg-colr-warring [ {{ editPoint.limitLossPrice }} ]
               el-form-item(label="損失點")
                 el-input-number(v-model="changeLossPrice")
@@ -176,22 +176,23 @@
     v-dialogDrag)
     .header-custom(slot='title')
       |  確認平倉
-    client-only
-      vxe-table(
-        :data="multiOrderData"
-        height="100px"
-        size="mini"
-        column-min-width="60"
-        border)
-        vxe-table-column(field="serial" title='序號')
-        vxe-table-column(field="name" title='目標商品')
-        vxe-table-column(field="userName" title='用戶名稱')
-        vxe-table-column(field="buy" title='買賣')
-        vxe-table-column(field="price" title='價格')
-        vxe-table-column(field="submit" title='口數')
-      .dialog__footer
-        button.button__light(@click="multiOrderConfirm = false") 取消
-        button.button(type='primary' @click="doMultiCovered") 確認
+    .p-2
+      client-only
+        vxe-table(
+          :data="multiOrderData"
+          height="100px"
+          size="mini"
+          column-min-width="60"
+          border)
+          vxe-table-column(field="serial" title='序號')
+          vxe-table-column(field="name" title='目標商品')
+          vxe-table-column(field="userName" title='用戶名稱')
+          vxe-table-column(field="buy" title='買賣')
+          vxe-table-column(field="price" title='價格')
+          vxe-table-column(field="submit" title='口數')
+    .dialog__footer
+      button.button__light(@click="multiOrderConfirm = false") 取消
+      button.button(type='primary' @click="doMultiCovered") 確認
 </template>
 
 <script>

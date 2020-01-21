@@ -68,22 +68,23 @@
       v-dialogDrag)
       .header-custom(slot='title')
         |  確認下單
-      client-only
-        vxe-table(
-          :data="confirmData"
-          max-width="100%"
-          height="200px"
-          size="mini"
-          border
-          auto-resize)
-          vxe-table-column(field="name" title='目標商品')
-          vxe-table-column(field="userName" title='用戶名稱')
-          vxe-table-column(field="buy" title='買賣')
-          vxe-table-column(field="price" title='價格')
-          vxe-table-column(field="submit" title='口數')
-        .dialog__footer
-            button.button__light(@click="cancel") 取消
-            button.button(@click="doOrder") 確認
+      .p-2
+        client-only
+          vxe-table(
+            :data="confirmData"
+            max-width="100%"
+            height="200px"
+            size="mini"
+            border
+            auto-resize)
+            vxe-table-column(field="name" title='目標商品')
+            vxe-table-column(field="userName" title='用戶名稱')
+            vxe-table-column(field="buy" title='買賣')
+            vxe-table-column(field="price" title='價格')
+            vxe-table-column(field="submit" title='口數')
+      .dialog__footer
+        button.button__light(@click="cancel") 取消
+        button.button(@click="doOrder") 確認
   OverAllConfirm(v-if="overAllConfirm" @closeOverAllConfirm="overAllConfirm = false")
 </template>
 

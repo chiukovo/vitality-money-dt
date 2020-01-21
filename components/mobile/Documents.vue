@@ -419,21 +419,22 @@
       v-dialogDrag)
       .header-custom(slot='title')
         |  確認平倉
-      client-only
-        vxe-table.table(
-          :data="multiOrderData"
-          height="300px"
-          borde
-        )
-          vxe-table-column(field="serial" title='序號')
-          vxe-table-column(field="name" title='目標商品')
-          vxe-table-column(field="userName" title='用戶名稱')
-          vxe-table-column(field="buy" title='買賣')
-          vxe-table-column(field="price" title='價格')
-          vxe-table-column(field="submit" title='口數')
-        .dialog__footer
-          el-button(@click="multiOrderConfirm = false") 取消
-          el-button(type='primary' @click="doMultiCovered") 確認
+      .p-2
+        client-only
+          vxe-table.table(
+            :data="multiOrderData"
+            height="300px"
+            borde
+          )
+            vxe-table-column(field="serial" title='序號')
+            vxe-table-column(field="name" title='目標商品')
+            vxe-table-column(field="userName" title='用戶名稱')
+            vxe-table-column(field="buy" title='買賣')
+            vxe-table-column(field="price" title='價格')
+            vxe-table-column(field="submit" title='口數')
+      .dialog__footer
+        el-button(@click="multiOrderConfirm = false") 取消
+        el-button(type='primary' @click="doMultiCovered") 確認
     //-刪除
     el-dialog(
       :visible.sync='deleteConfirm'

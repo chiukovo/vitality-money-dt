@@ -9,11 +9,10 @@ el-dialog(
     |  {{ title }}
   client-only
     //-全平
-    div
-      .title 全部平倉
+    div.p-2
+      .title(style="color: #0477b6;") 全部平倉
       vxe-table(
         :data="overAllList"
-        height="100px"
         size="mini"
         column-min-width="60"
         border)
@@ -24,11 +23,10 @@ el-dialog(
           template(slot-scope='scope') {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
         vxe-table-column(field="Quantity" title='口數')
     //-刪單
-    div(v-if="dayCover == 1")
-      .title 刪單
+    div.p-2(v-if="dayCover == 1")
+      .title(style="color: #0477b6;") 刪單
       vxe-table(
         :data="deleteList"
-        height="100px"
         size="mini"
         column-min-width="60"
         border)

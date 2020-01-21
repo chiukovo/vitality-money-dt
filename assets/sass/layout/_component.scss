@@ -145,6 +145,13 @@ td {
   }
 }
 
+@each $color, $value in $theme-colors {
+  .bg_#{$color} {
+    background: $value;
+    padding: 4px;
+  }
+}
+
 
 // form
 .label {
@@ -177,6 +184,7 @@ td {
     cursor: pointer;
   }
 }
+
 
 // table arrow up / down
 .change-icon {
