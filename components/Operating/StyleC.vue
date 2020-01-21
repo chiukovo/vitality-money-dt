@@ -72,7 +72,7 @@
         el-dialog(
           :visible.sync='orderConfirm'
           :modal='false'
-          width="400px"
+          width="500px"
           title='確認下單'
           v-dialogDrag)
           .header-custom(slot='title')
@@ -87,9 +87,13 @@
               auto-resize)
               vxe-table-column(field="name" title='目標商品')
               vxe-table-column(field="userName" title='用戶名稱')
-              vxe-table-column(field="buy" title='買賣')
+              vxe-table-column(title='買賣')
+                template(slot-scope='scope')
+                  span(:class="scope.row.buy == 0 ? 'bg__danger' : 'bg__success'" class="text__white" style="width: 20px") {{ scope.row.buy == 0 ? '多' : '空' }}
               vxe-table-column(field="price" title='價格')
               vxe-table-column(field="submit" title='口數')
+              vxe-table-column(field="profit" title='獲利點')
+              vxe-table-column(field="damage" title='損失點')
             .dialog__footer
                 button.button__light(@click="cancel") 取消
                 button.button(@click="doOrder") 確認
@@ -112,6 +116,8 @@
 <script>
 
 import { mapState } from 'vuex'
+import axios from 'axios'
+import qs from 'qs'
 import OverAllConfirm from "~/components/Operating/OverAllConfirm"
 
 export default {
@@ -234,6 +240,7 @@ export default {
         }
 
         this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
+        this.$store.dispatch('CALL_MEMBER_INFO')
       })
     },
     setCustomSetting(type) {
@@ -318,6 +325,8 @@ export default {
         buy: type == 1 ? '空' : '多',
         price: buyTypeName,
         submit: this.submitNum,
+        profit: this.profit,
+        damage: this.damage,
       }]
 
       //看是否有勾選下單不確認

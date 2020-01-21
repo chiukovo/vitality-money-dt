@@ -24,7 +24,8 @@
         column-min-width="60"
         stripe
         border
-        auto-resize)
+        auto-resize
+        highlight-current-row)
         vxe-table-column(width="120" align="center")
           template(slot-scope='scope')
             button.button__white(v-if="scope.row.Operation[1]" @click="deleteOrder(scope.row)") 刪
@@ -34,7 +35,6 @@
           template(slot-scope='scope' v-if="scope.row.Operation[2]")
             label.checkbox
               input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row)" :disabled="dayCoverIsDisabled(scope.row.ID)")
-              span.checkbox__label 不留倉
               span.checkbox__label 不留倉
         vxe-table-column(field='Serial' title='序號' width="80")
         vxe-table-column(field='Name' title='商品' width="94")
@@ -161,6 +161,8 @@
       vxe-table-column(field="buy" title='買賣')
       vxe-table-column(field="price" title='價格')
       vxe-table-column(field="submit" title='口數')
+      vxe-table-column(title='時間')
+        template(slot-scope='scope') {{ dateOnlyHis(scope.row.orderTime) }}
     .dialog__footer
       button.button(@click="deleteConfirm = false") 取消
       button.button(type='primary' @click="doDelete") 確認

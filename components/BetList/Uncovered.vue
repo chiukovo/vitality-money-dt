@@ -20,7 +20,8 @@
         column-min-width="60"
         stripe
         border
-        auto-resize)
+        auto-resize
+        highlight-hover-row)
         vxe-table-column(title='操作' align="center" width="120")
           template(slot-scope='scope')
             button.button__white(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平
@@ -45,6 +46,8 @@
               input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row)" :disabled="dayCoverIsDisabled(scope.row.ID)")
               span.checkbox__label 不留倉
         vxe-table-column(field='PointMoney' title='報價')
+          template(slot-scope='scope')
+            span(v-if="findMainItemById(scope.row.ID) != ''") {{ findMainItemById(scope.row.ID).newest_price }}
         vxe-table-column(field='thisSerialTotalMoney', title='浮動損益' width="74")
           template(slot-scope='scope')
             span(v-if="scope.row['thisSerialTotalMoney'] == 0" class="text__black") {{ scope.row['thisSerialTotalMoney'] }}

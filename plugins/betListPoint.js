@@ -124,6 +124,7 @@ Vue.mixin({
         submit: row.Quantity,
         itemId: row.ID,
         serial: row.Serial,
+        orderTime: row.OrderTime,
       }]
 
       //如果勾選刪單不確認
@@ -160,6 +161,7 @@ Vue.mixin({
               submit: row.Quantity,
               itemId: row.ID,
               serial: row.Serial,
+              orderTime: row.OrderTime,
             })
           }
         })
