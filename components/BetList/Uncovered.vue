@@ -151,7 +151,7 @@
           span.badge-rr 點數
           | 設定
       .dialog__footer
-        button.button__light(@click="editDialog = false") 取消
+        button.button.button__light(@click="editDialog = false") 取消
         button.button(type='primary' @click="doEdit") 送出
   //-多單平倉
   el-dialog(
@@ -178,7 +178,7 @@
           vxe-table-column(field="price" title='價格')
           vxe-table-column(field="submit" title='口數')
     .dialog__footer
-      button.button__light(@click="multiOrderConfirm = false") 取消
+      button.button.button__light(@click="multiOrderConfirm = false") 取消
       button.button(type='primary' @click="doMultiCovered") 確認
   el-dialog(
     width="50%"

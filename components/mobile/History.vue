@@ -200,7 +200,7 @@
             span.badge-rr 點數
             | 設定
         .dialog__footer
-          button.button__light(@click="editDialog = false") 取消
+          button.button.button__light(@click="editDialog = false") 取消
           button.button(type='primary' @click="doEdit") 送出
     //-多單平倉
     el-dialog(
@@ -212,22 +212,21 @@
       v-dialogDrag)
       .header-custom(slot='title')
         |  全部未平倉單
-      .p-2
-        table
-          tr
-            th 序號
-            th 商品
-            th 成交
-            th 多空
-            th 口數
-          tbody
-            tr(v-for="item in multiOrderData")
-              td {{ item.serial }}
-              td {{ item.name }}
-              td {{ item.price }}
-              td
-                span(:class="item.buy == 0 ? 'text__danger' : 'text__success'") {{ item.buy == 0 ? '多' : '空' }}
-              td {{ item.submit }}
+      table.table_white
+        tr
+          th 序號
+          th 商品
+          th 成交
+          th 多空
+          th 口數
+        tbody
+          tr(v-for="item in multiOrderData")
+            td {{ item.serial }}
+            td {{ item.name }}
+            td {{ item.price }}
+            td
+              span(:class="item.buy == 0 ? 'text__danger' : 'text__success'") {{ item.buy == 0 ? '多' : '空' }}
+            td {{ item.submit }}
       .dialog__footer
         button.button(@click="multiOrderConfirm = false") 取消
         button.button(type='primary' @click="doMultiCovered") 確認

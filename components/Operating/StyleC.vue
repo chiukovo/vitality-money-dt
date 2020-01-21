@@ -63,7 +63,7 @@
                   .numberBtn-box(v-for="(customSubmitNum, key) in customSubmitNums" :key="key")
                     el-input-number(size="mini" controls-position='right' v-model="customSubmitNums[key]" :min="0")
               .dialog__footer
-                button.button__light(@click="dialogVisible = false") 取消
+                button.button.button__light(@click="dialogVisible = false") 取消
                 button.button(@click="setNum") 送出
     .operating-4
         button.button__danger.button__lg.text__bold(@click="checkOrder(0)") 多單
@@ -96,7 +96,7 @@
                 vxe-table-column(field="profit" title='獲利點')
                 vxe-table-column(field="damage" title='損失點')
           .dialog__footer
-            button.button__light(@click="cancel") 取消
+            button.button.button__light(@click="cancel") 取消
             button.button(@click="doOrder") 確認
     .operating-5
       label.checkbox

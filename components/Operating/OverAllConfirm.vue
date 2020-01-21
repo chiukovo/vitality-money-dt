@@ -39,7 +39,7 @@ el-dialog(
         vxe-table-column(title='時間')
           template(slot-scope='scope') {{ dateOnlyHis(scope.row.OrderTime) }}
     .dialog__footer
-      button.button__light(@click="cancel") 取消
+      button.button.button__light(@click="cancel") 取消
       button.button(type='primary' @click="doSendOverAll") 確認
 </template>
 

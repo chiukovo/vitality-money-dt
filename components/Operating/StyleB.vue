@@ -50,7 +50,7 @@
                   .numberBtn-box(v-for="(customSubmitNum, key) in customSubmitNums" :key="key")
                     el-input-number(size="small" controls-position='right' v-model="customSubmitNums[key]" :min="0")
               .dialog__footer
-                button.button__light(@click="dialogVisible = false") 取消
+                button.button.button__light(@click="dialogVisible = false") 取消
                 button.button(@click="setNum") 送出
     .operatingB-5
       el-form(ref='form' size='small' label-width='50px')
@@ -83,7 +83,7 @@
             vxe-table-column(field="price" title='價格')
             vxe-table-column(field="submit" title='口數')
       .dialog__footer
-        button.button__light(@click="cancel") 取消
+        button.button.button__light(@click="cancel") 取消
         button.button(@click="doOrder") 確認
   OverAllConfirm(v-if="overAllConfirm" @closeOverAllConfirm="overAllConfirm = false")
 </template>

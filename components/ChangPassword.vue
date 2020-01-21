@@ -14,7 +14,7 @@
         el-input(type="password" v-model="form.checkPassword")
     .badge.badge-warning *密碼是由3-20個英文字母(區分大小寫)或數字組成
   .dialog__footer
-    button.button__light(type="button" @click="cancel") 取消
+    button.button.button__light(type="button" @click="cancel") 取消
     button.button(@click="submit") 確認
 </template>
 <script>

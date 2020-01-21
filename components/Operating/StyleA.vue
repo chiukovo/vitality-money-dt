@@ -70,7 +70,7 @@
             vxe-table-column(field="price" title='價格')
             vxe-table-column(field="submit" title='口數')
       .dialog__footer
-        button.button__light(@click="cancel") 取消
+        button.button.button__light(@click="cancel") 取消
         button.button(@click="doOrder") 確認
   OverAllConfirm(v-if="overAllConfirm" @closeOverAllConfirm="overAllConfirm = false")
 </template>
