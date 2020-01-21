@@ -1,56 +1,57 @@
 <template lang='pug'>
 .page
   .main(style="overflow: auto;")
-    .area(style="width: 100%; overflow-x: auto;")
-      table.table.table__mini(style="width: 440px")
-        thead
-          tr
-            th(width="100"): .cell.text__center 商品
-            th: .cell.text__center 成交
-            th: .cell.text__center 漲跌
-            th: .cell.text__center 漲幅%
-            th: .cell.text__center 總量
-            th: .cell.text__center 時間
-            th(width="80"): .cell.text__center 交易
-        tbody
-          tr
-            td: .cell.text__center {{ nowMainItem.product_name }}
-            td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
-            td: .cell.text__center(:class="nowMainItem.color")
-              template
-                .change-icon
-                  .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-                span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
-            td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.gain_percent }}%
-            td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.total_qty }}
-            td: .cell.text__center {{ nowMainItem.newest_time }}
-            td: .cell.text__center {{ nowMainItem.state_name }}
-    .area(style="width: 100%; overflow-x: auto;")
-      table.table.table__mini(style="width: 600px")
-        thead
-          tr
-            th: .cell.text__center 昨收價
-            th: .cell.text__center 最高價
-            th: .cell.text__center 最低價
-            th: .cell.text__center 開盤價
-            th: .cell.text__center 最後價
-            th: .cell.text__center 最後交易日
-            th: .cell.text__center 強平價
-            th: .cell.text__center 強平價
-            th: .cell.text__center 禁新價
-            th: .cell.text__center 禁新價
-        tbody
-          tr
-            td: .cell.text__center {{ nowMainItem.yesterday_close_price }}
-            td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.highest_price }}
-            td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.lowest_price }}
-            td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.open_price }}
-            td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
-            td: .cell.text__center {{ nowMainItem.end_date }}
-            td: .cell.text__center {{ nowMainItem.new_point1 }}
-            td: .cell.text__center {{ nowMainItem.new_point2 }}
-            td: .cell.text__center {{ nowMainItem.cover_point1 }}
-            td: .cell.text__center {{ nowMainItem.cover_point2 }}
+    #area_top
+      .area(style="width: 100%; overflow-x: auto;")
+        table.table.table__mini(style="width: 440px")
+          thead
+            tr
+              th: .cell.text__center 商品
+              th: .cell.text__center 成交
+              th: .cell.text__center 漲跌
+              th: .cell.text__center 漲幅%
+              th: .cell.text__center 總量
+              th: .cell.text__center 時間
+              th(width="80"): .cell.text__center 交易
+          tbody
+            tr
+              td: .cell.text__center {{ nowMainItem.product_name }}
+              td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
+              td: .cell.text__center(:class="nowMainItem.color")
+                template
+                  .change-icon
+                    .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+                  span(:class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
+              td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.gain_percent }}%
+              td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.total_qty }}
+              td: .cell.text__center {{ nowMainItem.newest_time }}
+              td: .cell.text__center {{ nowMainItem.state_name }}
+      .area(style="width: 100%; overflow-x: auto;")
+        table.table.table__mini(style="width: 600px")
+          thead
+            tr
+              th: .cell.text__center 昨收價
+              th: .cell.text__center 最高價
+              th: .cell.text__center 最低價
+              th: .cell.text__center 開盤價
+              th: .cell.text__center 最後價
+              th: .cell.text__center 最後交易日
+              th: .cell.text__center 強平價
+              th: .cell.text__center 強平價
+              th: .cell.text__center 禁新價
+              th: .cell.text__center 禁新價
+          tbody
+            tr
+              td: .cell.text__center {{ nowMainItem.yesterday_close_price }}
+              td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.highest_price }}
+              td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.lowest_price }}
+              td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.open_price }}
+              td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
+              td: .cell.text__center {{ nowMainItem.end_date }}
+              td: .cell.text__center {{ nowMainItem.new_point1 }}
+              td: .cell.text__center {{ nowMainItem.new_point2 }}
+              td: .cell.text__center {{ nowMainItem.cover_point1 }}
+              td: .cell.text__center {{ nowMainItem.cover_point2 }}
     .area(v-if="orderMode == 1" style="height:300px;background-color: #000")
       button.leftButton(@click="showContentType--" v-show="showContentType != 1")
         i.material-icons chevron_left
@@ -158,11 +159,11 @@
                 td(style='width:30px'): .cell
                   .progress-bar.progress-bar__right
                     .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
-        .fiveBox(v-else style="padding: 10px") 無資料(五檔)
+        .fiveBox(v-else style="padding: 10px" :style="midHeight") 無資料(五檔)
 
       .right
-        Chart(theme="black")
-    .area
+        Chart(theme="black" :style="midHeight")
+    #area_bottom.area
       .area-order.area-order-theme2(v-if="orderMode == 2")
         table
           tbody
@@ -238,6 +239,36 @@
         li.button-group
           button.button__danger(@click="checkOrder(0)") 多單
           button.button__success(@click="checkOrder(1)") 空單
+    el-dialog(
+      :visible.sync='orderConfirm'
+      :modal='false'
+      width="50%"
+      title='確認下單'
+      v-dialogDrag)
+      .header-custom(slot='title')
+        |  確認下單
+      .p-2
+        table.popupAllSingleSelectNo.my-2(v-for="item in confirmData")
+          tbody
+            tr
+              td.title 會員
+              td {{ item.userName }}
+            tr
+              td.title 商品
+              td {{ item.name }}
+            tr
+              td.title 委託
+              td {{ item.price }}
+            tr
+              td.title 多空
+              td
+                span(:class="item.buy == 0 ? 'text__danger' : 'text__success'") {{ item.buy == 0 ? '多' : '空' }}
+            tr
+              td.title 口數
+              td {{ item.submit }}
+      .dialog__footer
+        button.button(@click="cancel") 取消
+        button.button(@click="doOrder") 確認
 </template>
 
 <script>
@@ -268,6 +299,7 @@ export default {
       checkList: ['下單不確認'],
       defaultAllSubmit: [1, 2, 3, 4, 5],
       customSubmitNums: [],
+      midHeight: '',
     };
   },
   computed: mapState({
@@ -368,8 +400,19 @@ export default {
     if (typeof defaultQuantity != 'undefined') {
       this.submitNum = defaultQuantity
     }
+
+    this.computedMidHeight()
   },
   methods: {
+    computedMidHeight() {
+      const tabs = document.getElementById('tabs-nav').offsetHeight
+      const header = document.getElementById('header').offsetHeight
+      const bottom = document.getElementById('area_bottom').offsetHeight
+      const result = window.innerHeight - (bottom + header + tabs) - 25
+      this.midHeight = 'height: ' + result + 'px'
+
+      console.log(this.midHeight)
+    },
     changeSubmitNum(type) {
       if (type == '+') {
         this.submitNum = parseFloat((this.submitNum + this.submitStep).toFixed(10))
@@ -495,16 +538,7 @@ export default {
       if (noConfirm) {
         this.doOrder()
       } else {
-        //確認
-        this.$confirm('確認下' + typeName + ' (' + this.$store.state.itemName + ') ?', '注意! ', {
-          confirmButtonText: '確定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.doOrder()
-        }).catch(() => {
-
-        })
+        this.orderConfirm = true
       }
     },
     cancel() {
