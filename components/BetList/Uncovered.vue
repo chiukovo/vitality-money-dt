@@ -174,7 +174,9 @@
           vxe-table-column(field="serial" title='序號')
           vxe-table-column(field="name" title='目標商品')
           vxe-table-column(field="userName" title='用戶名稱')
-          vxe-table-column(field="buy" title='買賣')
+          vxe-table-column(title='買賣')
+            template(slot-scope='scope')
+              span(:class="scope.row.buy == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ scope.row.buy == 0 ? '多' : '空' }}
           vxe-table-column(field="price" title='價格')
           vxe-table-column(field="submit" title='口數')
     .dialog__footer

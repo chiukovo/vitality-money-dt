@@ -20,7 +20,8 @@ el-dialog(
         vxe-table-column(field="Name" title='商品')
         vxe-table-column(field="FinalPrice" title='成交價')
         vxe-table-column(title='多空')
-          template(slot-scope='scope') {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
+          template(slot-scope='scope')
+            span(:class="scope.row.BuyOrSell == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ scope.row.BuyOrSell == 0 ? '多' : '空' }}
         vxe-table-column(field="Quantity" title='口數')
     //-刪單
     div.p-2(v-if="dayCover == 1")
@@ -34,7 +35,8 @@ el-dialog(
         vxe-table-column(field="Name" title='商品')
         vxe-table-column(field="OrderPrice" title='委託')
         vxe-table-column(title='多空')
-          template(slot-scope='scope') {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
+          template(slot-scope='scope')
+            span(:class="scope.row.BuyOrSell == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ scope.row.BuyOrSell == 0 ? '多' : '空' }}
         vxe-table-column(field="Quantity" title='口數')
         vxe-table-column(title='時間')
           template(slot-scope='scope') {{ dateOnlyHis(scope.row.OrderTime) }}
