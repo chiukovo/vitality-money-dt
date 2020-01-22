@@ -40,6 +40,7 @@
         :data='mainItem'
         :cell-class-name='tableCellClassName'
         @current-change="clickItem"
+        @scroll="vxeTableScrollEvent"
         max-width="100%"
         height="100%"
         column-min-width="90"
