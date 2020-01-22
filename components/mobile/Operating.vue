@@ -52,10 +52,10 @@
               td: .cell.text__center {{ nowMainItem.new_point2 }}
               td: .cell.text__center {{ nowMainItem.cover_point1 }}
               td: .cell.text__center {{ nowMainItem.cover_point2 }}
-    .area(v-if="orderMode == 1" style="height:300px;background-color: #000")
+    .area(v-if="orderMode == 1" :style="midHeight")
       button.leftButton(@click="showContentType--" v-show="showContentType != 1")
         i.material-icons chevron_left
-      .area-main.area-main-block1(v-show="showContentType == 1")
+      .area-main.area-main-block1(v-show="showContentType == 1" :style="midHeight")
         Chart(theme="black")
       .area-main.area-main-block2(v-show="showContentType == 2")
         //- 五檔揭示
@@ -407,9 +407,10 @@ export default {
   methods: {
     computedMidHeight() {
       const tabs = document.getElementById('tabs-nav').offsetHeight
+      const top = document.getElementById('area_top').offsetHeight
       const header = document.getElementById('header').offsetHeight
       const bottom = document.getElementById('area_bottom').offsetHeight
-      const result = window.innerHeight - (bottom + header + tabs) - 36
+      const result = window.innerHeight - (bottom + header + tabs + top)
 
       this.midHeight = 'height: ' + result + 'px'
     },
