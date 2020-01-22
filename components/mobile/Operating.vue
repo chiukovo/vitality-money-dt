@@ -122,43 +122,44 @@
       .left(style="float: left;width: 100px;")
         //- 五檔揭示
         //- 賣
-        .fiveBox(v-if="$store.state.items0.length > 0")
-          table
-            tbody
-              tr(v-for="(val, key) in $store.state.items0" v-if="key < 5")
-                td
-                  span.label(v-if="key == 2") 賣
-                td: .text__center.text__success {{ val[2] }}
-                td: .text__center {{ val[3] }}
-                td(style='width:30px'): .cell
-                  .progress-bar
-                    .progress-bar__inner(:style="'width: ' + val[4] + '%'")
-          //- 買
-          table
-            tbody
-              tr(v-for="(val, key) in $store.state.items0" v-if="key >= 6")
-                td
-                  span.label(v-if="key == 8") 買
-                td: .text__center.text__danger {{ val[2] }}
-                td: .text__center {{ val[1] }}
-                td(style='width:30px'): .cell
-                  .progress-bar.progress-bar__right
-                    .progress-bar__inner(:style="'width: ' + val[0] + '%'")
-          //-total
-          table
-            tbody
-              tr
-                td.label 總賣
-                td {{ $store.state.fiveTotal.nullNum }}
-                td(style='width:30px'): .cell
-                  .progress-bar
-                    .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.nullNumPercent + '%'")
-              tr
-                td.label 總買
-                td {{ $store.state.fiveTotal.more }}
-                td(style='width:30px'): .cell
-                  .progress-bar.progress-bar__right
-                    .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
+        .fiveBox(v-if="$store.state.items0.length > 0" :style="midHeight")
+          div
+            table
+              tbody
+                tr(v-for="(val, key) in $store.state.items0" v-if="key < 5")
+                  td
+                    span.label(v-if="key == 2") 賣
+                  td: .text__center.text__success {{ val[2] }}
+                  td: .text__center {{ val[3] }}
+                  td(style='width:30px'): .cell
+                    .progress-bar
+                      .progress-bar__inner(:style="'width: ' + val[4] + '%'")
+            //- 買
+            table
+              tbody
+                tr(v-for="(val, key) in $store.state.items0" v-if="key >= 6")
+                  td
+                    span.label(v-if="key == 8") 買
+                  td: .text__center.text__danger {{ val[2] }}
+                  td: .text__center {{ val[1] }}
+                  td(style='width:30px'): .cell
+                    .progress-bar.progress-bar__right
+                      .progress-bar__inner(:style="'width: ' + val[0] + '%'")
+            //-total
+            table
+              tbody
+                tr
+                  td.label 總賣
+                  td {{ $store.state.fiveTotal.nullNum }}
+                  td(style='width:30px'): .cell
+                    .progress-bar
+                      .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.nullNumPercent + '%'")
+                tr
+                  td.label 總買
+                  td {{ $store.state.fiveTotal.more }}
+                  td(style='width:30px'): .cell
+                    .progress-bar.progress-bar__right
+                      .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
         .fiveBox(v-else style="padding: 10px" :style="midHeight") 無資料(五檔)
 
       .right
