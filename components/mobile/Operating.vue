@@ -409,7 +409,7 @@ export default {
       const tabs = document.getElementById('tabs-nav').offsetHeight
       const header = document.getElementById('header').offsetHeight
       const bottom = document.getElementById('area_bottom').offsetHeight
-      const result = window.innerHeight - (bottom + header + tabs) - 25
+      const result = window.innerHeight - (bottom + header + tabs) - 36
 
       this.midHeight = 'height: ' + result + 'px'
     },
