@@ -225,8 +225,14 @@ $material-icons-font-path: '~material-icons/iconfont/';
     background: #ff7676;
   }
   .area-order-theme1 {
-    padding: 1rem 3rem;
     margin: auto;
+    li {
+      width: 80%;
+      margin: auto;
+      &:nth-child(2) {
+        width: 98%;
+      }
+    }
   }
   .area-fixed {
     position: fixed;
@@ -276,12 +282,13 @@ $material-icons-font-path: '~material-icons/iconfont/';
       }
     }
     .tran-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
+      display: table;
       font-size: 12.6px;
       > li {
-        margin-right: 4px;
+        display: table-cell;
+        vertical-align: top;
+        line-height: 1.2;
+        padding-right: 4px;
       }
       span + span {
         margin-left: 4px;
@@ -323,7 +330,7 @@ $material-icons-font-path: '~material-icons/iconfont/';
     .tran-item__ha {
       display: inline-block;
       text-align: center;
-      min-width: 30px;
+      min-width: 22px;
     }
     .tran-item__hey {
       min-width: 24px;
@@ -364,7 +371,7 @@ $material-icons-font-path: '~material-icons/iconfont/';
       select {
         width: 100%;
         color: #fff;
-        padding: 8px 20px 10px 10px;
+        padding: 6px 20px 8px 10px;
         background: transparent;
         border: transparent;
       }
@@ -401,7 +408,7 @@ $material-icons-font-path: '~material-icons/iconfont/';
       background-color: #333;
       .radio__label {
         display: block;
-        padding: 8px 14px 8px 30px;;
+        padding: 5px 14px 5px 30px;;
         cursor: pointer;
         &:after {
           content: '';
@@ -460,6 +467,7 @@ $material-icons-font-path: '~material-icons/iconfont/';
     }
     .number-input input {
       width: 100%;
+      margin: 0;
     }
   }
   .fiveBox {
@@ -478,6 +486,12 @@ $material-icons-font-path: '~material-icons/iconfont/';
     }
     .progress-bar__right {
       direction: ltr !important;
+    }
+    td {
+      padding: 0 2px;
+      .progress-bar {
+        height: 10px;
+      }
     }
   }
 
@@ -926,8 +940,8 @@ button {
 	}
 	button {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 34px;
+    height: 34px;
     background-color: #333;
     border-color: #1f1f1f;
     color: #fff;
@@ -984,7 +998,7 @@ button {
   }
   th,
   td {
-    padding: 6px 0;
+    padding: 3px 0;
     border: {
       right: 1px solid $table-border-color;
       bottom: 1px solid $table-border-color;

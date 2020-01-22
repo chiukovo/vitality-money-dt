@@ -12,38 +12,38 @@
       ul.area-tran-list
         li(:class="checkHasEdit(item)" v-for="item in $store.state.buySell" @click="openControl(item, '改價減量', false)")
           ul.tran-item
-            li
-              .tran-item__name(style="width: 60px;") {{ item.Name }}
+            li(style="width: 40px;")
+              .tran-item__name {{ item.Name }}
               .tran-item__yellow {{ item.Serial }}
             li
               .text__center.text__lg(:class="item.BuyOrSell == 0 ? 'text__danger' : 'text__success'" style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
               .tran-item__hey.text__lg {{ item.Quantity }}
-            li
-              div(style="min-width:60px")
+            li(style="min-width: 56px;")
+              div
                 span.text__secondary 獲利
                 span.tran-item__ha {{ parseInt(item.WinPoint) }}
               div
                 span.text__secondary 損失
                 span.tran-item__ha {{ parseInt(item.LossPoint) }}
             li
-              div(style="width: 98px;")
-                span.text__secondary {{ item.OrderPrice }}
-                span.text__secondary {{ dateOnlyHis(item.OrderTime) }}
               div
-                span {{ item.FinalPrice }}
-                span {{ dateOnlyHis(item.FinalTime) }}
+                div.text__secondary {{ item.OrderPrice }}
+                div.text__secondary {{ dateOnlyHis(item.OrderTime) }}
+              div
+                div {{ item.FinalPrice }}
+                div {{ dateOnlyHis(item.FinalTime) }}
             li
               .tran-item__yo {{ item.Odtype }}
-              div(:style="smallWidth ? 'width: 30px' : ''") {{ item.State }}
+              div {{ item.State }}
     .area(v-if='historyShow == 2' style="height: calc(100% - 40px);overflow-y: auto;")
       .area-fixed
         button.button(@click="orderAll") 全部平倉
       ul.area-tran-list
         li(:class="item.Operation[3] == 0 ? '' : 'hs-edit'" v-for="item in $store.state.uncovered" @click="openControl(item, '平倉設定', true)")
           ul.tran-item
-            li
-              .tran-item__name(style="width: 60px;")  {{ item.Name }}
+            li(style="width: 75px;")
+              .tran-item__name  {{ item.Name }}
               .tran-item__yellow {{ item.Serial }}
                 span {{ item.Day }}天
             li
@@ -51,8 +51,8 @@
             li
               .tran-item__hey {{ item.Quantity }}
               .tran-item__fee {{ item.PointMoney }}
-            li
-              div(style="min-width: 60px")
+            li(style="min-width: 56px")
+              div
                 span.text__secondary 獲利
                 span.tran-item__ha {{ parseInt(item.WinPoint) }}
               div
@@ -116,7 +116,7 @@
     el-dialog(
       :visible.sync='editDialog'
       :modal='false'
-      width="330px"
+      width="96%"
       v-dialogDrag)
       .header-custom(slot='title')
         span {{ editTitle }}

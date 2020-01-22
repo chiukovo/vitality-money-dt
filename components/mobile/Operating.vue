@@ -6,7 +6,7 @@
         table.table.table__mini(style="width: 440px")
           thead
             tr
-              th: .cell.text__center 商品
+              th(width="80"): .cell.text__center 商品
               th: .cell.text__center 成交
               th: .cell.text__center 漲跌
               th: .cell.text__center 漲幅%
