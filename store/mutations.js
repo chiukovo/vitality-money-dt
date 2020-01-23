@@ -1089,7 +1089,7 @@ export default {
         ])
 
         let last_time = 0
-        let pi = Number(items.length / 150) * 3;
+        let pi = parseInt(items.length / 150) * 3;
         if (pi < 3) {
           pi = 3;
         }
