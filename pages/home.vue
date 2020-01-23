@@ -23,6 +23,9 @@
   #footer
     Footer
     Sound
+  //-成交回報
+  Tips
+  </style>
 </template>
 
 <script>
@@ -38,6 +41,7 @@ import Sound from "~/components/Sound"
 import StyleA from '~/components/Operating/StyleA'
 import StyleB from '~/components/Operating/StyleB'
 import StyleC from '~/components/Operating/StyleC'
+import Tips from "~/components/Tips"
 import '@/assets/sass/style.scss'
 export default {
   head() {
@@ -59,6 +63,7 @@ export default {
     StyleA,
     StyleB,
     StyleC,
+    Tips
   },
   computed: mapState({
     operatingStyle: state => state.localStorage.customSetting.operatingStyle,

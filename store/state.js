@@ -64,4 +64,7 @@ export default () => ({
   canUseMoney: 0,
   //總權益數
   totalInterestNum: 0,
+  //提示訊息
+  tipsShow: false,
+  tipsContent: '',
 })

@@ -14,6 +14,8 @@
 		Message(v-if='tabShow == 5')
 		//- 帳戶
 		Account(v-if='tabShow == 6' class="over-y-auto")
+		//-成交回報
+		Tips
 	#tabs-nav
 		.tabs-nav-wrap
 			.tabs-list
@@ -60,6 +62,7 @@ import History from "~/components/mobile/History"
 import Report from "~/components/mobile/Report"
 import Message from "~/components/mobile/Message"
 import Account from "~/components/mobile/Account"
+import Tips from "~/components/Tips"
 
 import '@/assets/sass/mobile.scss'
 
@@ -86,7 +89,8 @@ export default {
 		History,
 		Report,
 		Message,
-		Account
+		Account,
+		Tips,
 	},
 	data() {
 		return {

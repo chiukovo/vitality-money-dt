@@ -77,20 +77,20 @@
               .text__danger(:class="item.BuyOrSell == 0 ? 'text__danger' : 'text__success'") {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
               .tran-item__hey {{ item.SerialCoveredNum }}
-              .tran-item__fee {{ item.Fee }}
+              .tran-item__fee {{ item.TotalFee }}
             li
               div
                 span.text__secondary 成交
                 span.tran-item__ha
-                  span.tran-item__yellow {{ item.NewPrice }}
-                  span -
+                  span.tran-item__yellow {{ item.NewSerial }}
+                  span {{ item.NewPrice }}
               div
                 span.text__secondary 平倉
                 span.tran-item__ha
-                  span.tran-item__yellow {{ item.CoverPrice }}
-                  span -
+                  span.tran-item__yellow {{ item.CoverSerial }}
+                  span {{ item.CoverPrice }}
             li
-              span(:class="item.Money < 0 ? 'text__success' : 'text__danger'") {{ item.Money | currency }}
+              span(:class="item.Money < 0 ? 'text__success' : 'text__danger'") ${{ item.Money | currency }}
     .area(v-if='historyShow == 4' style="height: calc(100% - 40px);overflow-y: auto;")
       ul.area-tran-list
         li(v-for="item in $store.state.commodity")
@@ -202,7 +202,7 @@
       :visible.sync='multiOrderConfirm'
       :modal='false'
       :show-close='false'
-      width="85%"
+      width="95%"
       title='全部未平倉單'
       v-dialogDrag)
       .header-custom(slot='title')

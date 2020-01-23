@@ -20,6 +20,13 @@ export default {
   setApiExample(state, data) {
     state.apiExampleData = data
   },
+  setTipsContent(state, data) {
+    state.tipsContent = data
+    state.tipsShow = true
+  },
+  tipsStateChange(state, data) {
+    state.tipsShow = data
+  },
   setOnRealtimeCallback(state, onRealtimeCallback) {
     state.onRealtimeCallback = onRealtimeCallback
   },
