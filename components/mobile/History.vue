@@ -12,7 +12,7 @@
       ul.area-tran-list
         li(:class="checkHasEdit(item)" v-for="item in $store.state.buySell" @click="openControl(item, '改價減量', false)")
           ul.tran-item
-            li(style="width: 40px;")
+            li(style="width: 64px;")
               .tran-item__name {{ item.Name }}
               .tran-item__yellow {{ item.Serial }}
             li
@@ -21,21 +21,19 @@
               .tran-item__hey.text__lg {{ item.Quantity }}
             li(style="min-width: 56px;")
               div
-                span.text__secondary 獲利
-                span.tran-item__ha {{ parseInt(item.WinPoint) }}
+                span.text__secondary {{ orderTypeWord(item.OrderPrice, item.Odtype) }}
               div
-                span.text__secondary 損失
-                span.tran-item__ha {{ parseInt(item.LossPoint) }}
+                span.tran-item__ha {{ item.FinalPrice }}
             li
               div
-                div.text__secondary {{ item.OrderPrice }}
                 div.text__secondary {{ dateOnlyHis(item.OrderTime) }}
               div
-                div {{ item.FinalPrice }}
                 div {{ dateOnlyHis(item.FinalTime) }}
             li
               .tran-item__yo {{ item.Odtype }}
-              div {{ item.State }}
+              div
+                span.blink(v-if="item.State == '未成交'") {{ item.State }}
+                span(v-else) {{ item.State }}
     .area(v-if='historyShow == 2' style="height: calc(100% - 40px);overflow-y: auto;")
       .area-fixed
         button.button(@click="orderAll") 全部平倉
@@ -50,7 +48,7 @@
               .text__center.text__lg(:class="item.BuyOrSell == 0 ? 'text__danger' : 'text__success'" style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
               .tran-item__hey {{ item.Quantity }}
-              .tran-item__fee {{ item.PointMoney }}
+              .tran-item__fee {{ item.TotalFee }}
             li(style="min-width: 56px")
               div
                 span.text__secondary 獲利
@@ -116,7 +114,7 @@
     el-dialog(
       :visible.sync='editDialog'
       :modal='false'
-      width="96%"
+      width="80%"
       v-dialogDrag)
       .header-custom(slot='title')
         span {{ editTitle }}
@@ -149,21 +147,21 @@
                   div(style="display: inline") {{ findMainItemById(edit.itemId).gain }}
                 //-帳跌%
                 span.ml-2 {{ findMainItemById(edit.itemId).gain_percent }}
-          el-form(ref='form' size='mini' label-width='94px')
+          el-form(ref='form' size='mini' label-width='60px')
             .edit-base(v-if="editType == 'edit'")
               el-form-item(label="口數")
                 el-input-number(v-model="edit.submit" :max="edit.submitMax" :step="0.25")
-              el-form-item
+              el-form-item(label="價格")
                 label.radio.inline
                   input.radio__input(type="radio" v-model='edit.buyType' value='1')
                   span.radio__label 限價單
                 label.radio.inline
                   input.radio__input(type="radio" v-model='edit.buyType' value='0')
                   span.radio__label 市價單
-              el-form-item(label="限價" v-if="edit.buyType == '1'")
-                el-input-number(v-model="edit.nowPrice")
+              el-form-item
+                el-input-number(v-model="edit.nowPrice" :disabled="edit.buyType != '1'")
             //-點數輸入
-            .point-input(v-show="pointInputType == 1")
+            .point-input(v-show="pointInputType == 1 && editType != 'edit'")
               .win-point.text__center
                 span.pl-4 新獲利點需大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPoint }} ]
@@ -174,13 +172,13 @@
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitLossPoint }} ]
                 el-form-item(label="損失點" style="margin-bottom: 16px;")
                   el-input-number(v-model="edit.lossPoint")
-              .inverted-point.text__center(v-if="editType != 'edit'")
+              .inverted-point.text__center
                 span.pl-4 新倒限利不得大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPoint }} ]
                 el-form-item(label="倒限點")
                   el-input-number(v-model="edit.invertedPoint")
             //-行情輸入
-            .money-input(v-show="pointInputType == 2")
+            .money-input(v-show="pointInputType == 2 && editType != 'edit'")
               .win-point.text__center
                 span.pl-4 新獲利點需大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPrice }} ]
@@ -191,14 +189,11 @@
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitLossPrice }} ]
                 el-form-item(label="損失點")
                   el-input-number(v-model="changeLossPrice")
-              .inverted-point.text__center(v-if="editType != 'edit'")
+              .inverted-point.text__center
                 span.pl-4 新倒限利不得大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPrice }} ]
                 el-form-item(label="倒限點")
                   el-input-number(v-model="changeInvertedPrice")
-          .badge.badge-warning(v-show="editType == 'edit'") 口數只能減少或不變，損失點/獲利點/倒限點 為
-            span.badge-rr 點數
-            | 設定
         .dialog__footer
           button.button.button__light(@click="editDialog = false") 取消
           button.button(type='primary' @click="doEdit") 送出
@@ -207,7 +202,7 @@
       :visible.sync='multiOrderConfirm'
       :modal='false'
       :show-close='false'
-      width="80%"
+      width="85%"
       title='全部未平倉單'
       v-dialogDrag)
       .header-custom(slot='title')
@@ -235,25 +230,28 @@
       :visible.sync='deleteConfirm'
       :modal='false'
       :show-close='false'
-      width="80%"
+      width="200px"
       title='確認刪除'
       v-dialogDrag)
       .header-custom(slot='title')
         |  確認刪除
-      table
-        tr
-          th 序號
-          th 商品
-          th 成交
-          th 多空
-          th 口數
+      table.popupAllSingleSelectNo.my-2(v-for="item in multiDeleteData")
         tbody
-          tr(v-for="item in multiDeleteData")
+          tr
+            td.title 序號
             td {{ item.serial }}
+          tr
+            td.title 商品
             td {{ item.name }}
+          tr
+            td.title 委託
             td {{ item.price }}
+          tr
+            td.title 多空
             td
               span(:class="item.buy == 0 ? 'text__danger' : 'text__success'") {{ item.buy == 0 ? '多' : '空' }}
+          tr
+            td.title 口數
             td {{ item.submit }}
       .dialog__footer
         button.button(@click="deleteConfirm = false") 取消
@@ -344,6 +342,21 @@ export default {
     mainItem: 'mainItem',
   }),
   watch: {
+    editDialog(val) {
+      if (val) {
+        this.showControl = false
+      }
+    },
+    multiOrderConfirm(val) {
+      if (val) {
+        this.showControl = false
+      }
+    },
+    deleteConfirm(val) {
+      if (val) {
+        this.showControl = false
+      }
+    },
     mainItem() {
       if (this.editDialog) {
         this.computedPointLimit()
@@ -425,7 +438,7 @@ export default {
     openControl(item, title, isUncovered) {
       this.isUncovered = isUncovered ? isUncovered : false
 
-      if (!this.cantSetWinLoss(item.Operation)) {
+      if (item.Operation[0] || !this.cantSetWinLoss(item.Operation)) {
         //open
         this.showControl = true
         this.showControlTitle = title
@@ -433,7 +446,7 @@ export default {
       }
     },
     checkHasEdit(item) {
-      if (!this.cantSetWinLoss(item.Operation)) {
+      if (item.Operation[0] || !this.cantSetWinLoss(item.Operation)) {
         return 'hs-edit'
       }
     },

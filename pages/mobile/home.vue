@@ -13,7 +13,7 @@
 		//-客服
 		Message(v-if='tabShow == 5')
 		//- 帳戶
-		Account(v-if='tabShow == 6')
+		Account(v-if='tabShow == 6' class="over-y-auto")
 	#tabs-nav
 		.tabs-nav-wrap
 			.tabs-list

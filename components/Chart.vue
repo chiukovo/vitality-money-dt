@@ -55,7 +55,7 @@ export default {
         kbun_green: '#53AB35',
         chart_q_background: '#d1e9f3',
         mouse_line: 'rgb(239, 125, 49)',
-        label_font_size: '16px',
+        label_font_size: '10px',
         chart_opposite: false,
         chart_formater_x: 48,
         chart_label_x: 22,
@@ -63,7 +63,7 @@ export default {
       chartLines: {
         chart_formater_label_width: '50px',
         label_x: 0,
-        lHeight: '16px',
+        lHeight: '10px',
         crosshairX: null,
         labelY: null,
         circleX: null,
@@ -193,7 +193,7 @@ export default {
       }).add()
       .hide().toFront()
 
-      _this.chartLines.labelY = chart.renderer.label('<div class="label-fonts" style="text-align:center;width:' + chart.plotLeft - 3 + 'px;height:16px;line-height:16px;background:rgb(91, 206, 250);></div>', -50, -50, 'callout', 520, 64, true)
+      _this.chartLines.labelY = chart.renderer.label('<div class="label-fonts" style="text-align:center;width:' + chart.plotLeft - 3 + 'px;height:10px;line-height:10px;background:rgb(91, 206, 250);></div>', -50, -50, 'callout', 520, 64, true)
       .css({
         color: '#000',
         fontSize: _this.optionCharts.label_font_size
@@ -206,7 +206,7 @@ export default {
       //   'stroke-width': 1
       // }).add().toFront().hide()
 
-      _this.chartLines.mouseLabelY = chart.renderer.label('<div style="height:16px;line-height:16px;"></div>', -50, -50, 'callout', 520, 64, true)
+      _this.chartLines.mouseLabelY = chart.renderer.label('<div style="height:10px;line-height:10px;"></div>', -50, -50, 'callout', 520, 64, true)
         .css({
           color: '#000000',
           fontSize: _this.optionCharts.label_font_size

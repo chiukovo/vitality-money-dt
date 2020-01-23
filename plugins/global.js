@@ -294,6 +294,36 @@ Vue.mixin({
       })
 
       return disabled
+    },
+    orderTypeWord(orderPrice, odtype) {
+      let result = 0
+
+      if (orderPrice != 0) {
+        return orderPrice
+      }
+
+      switch(odtype) {
+        case '收盤單':
+        　result = 2
+        　break
+        case '代收單':
+        　result = 2
+        　break
+        case '行收盤':
+        　result = 2
+        　break
+        case '行限單':
+        　result = 1
+        　break
+      }
+
+      if (result == 0) {
+        return '市'
+      } else if (result == 1) {
+        return ''
+      } else if (result == 2) {
+        return '收盤價'
+      }
     }
   }
 })

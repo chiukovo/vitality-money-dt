@@ -1,6 +1,6 @@
 <template lang='pug'>
 .page
-  .main(style="overflow: auto;")
+  .main(class="over-y-auto")
     #area_top
       .area(style="width: 100%; overflow-x: auto;")
         table.table.table__mini(style="width: 440px")
@@ -123,7 +123,7 @@
         //- 五檔揭示
         //- 賣
         .fiveBox(v-if="$store.state.items0.length > 0" :style="midHeight")
-          div
+          div(class="over-y-auto")
             table
               tbody
                 tr(v-for="(val, key) in $store.state.items0" v-if="key < 5")
@@ -410,7 +410,11 @@ export default {
       const top = document.getElementById('area_top').offsetHeight
       const header = document.getElementById('header').offsetHeight
       const bottom = document.getElementById('area_bottom').offsetHeight
-      const result = window.innerHeight - (bottom + header + tabs + top)
+      let result = window.innerHeight - (bottom + header + tabs + top)
+
+      if (result < 180) {
+        result = 180
+      }
 
       this.midHeight = 'height: ' + result + 'px'
     },
@@ -509,7 +513,6 @@ export default {
       this.sendText = 's:' + userId + ',' + type + ',' + this.submitNum + ',' + clickItem + ',' + this.profit + ',' + this.damage + ',' + nowPrice + ',' + this.buyType + ',' + token + ',' + isMobile
 
       let buyTypeName
-      let typeName = type == 1 ? '空' : '多'
 
       if (this.buyType == 0) {
         buyTypeName = '市價單'
@@ -522,7 +525,7 @@ export default {
       this.confirmData = [{
         name: this.$store.state.itemName,
         userName: this.$store.state.userInfo.Account,
-        buy: typeName,
+        buy: type,
         price: buyTypeName,
         submit: this.submitNum,
       }]

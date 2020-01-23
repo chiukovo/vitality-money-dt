@@ -107,7 +107,7 @@ Vue.mixin({
         name: row.Name,
         userName: _this.$store.state.userInfo.Account,
         buy: row.BuyOrSell == 0 ? '多' : '空',
-        price: row.Odtype,
+        price: row.FinalPrice,
         submit: row.Quantity,
         itemId: row.ID,
         serial: row.Serial,
@@ -182,7 +182,7 @@ Vue.mixin({
           name: row.Name,
           userName: _this.$store.state.userInfo.Account,
           buy: row.BuyOrSell == 0 ? '多' : '空',
-          price: row.Odtype,
+          price: row.FinalPrice,
           submit: row.Quantity,
           itemId: row.ID,
           serial: row.Serial,
@@ -202,7 +202,7 @@ Vue.mixin({
               name: row.Name,
               userName: _this.$store.state.userInfo.Account,
               buy: row.BuyOrSell == 0 ? '多' : '空',
-              price: row.Odtype,
+              price: row.FinalPrice,
               submit: row.Quantity,
               itemId: row.ID,
               serial: row.Serial,
@@ -293,7 +293,7 @@ Vue.mixin({
 
       let buyType = '0'
       //成交價
-      let finalPrice = row.FinalPrice == '' ? row.OrderPrice : row.FinalPrice
+      let finalPrice = row.FinalPrice == 0 ? row.OrderPrice : row.FinalPrice
       finalPrice = Number(finalPrice)
 
       if (row.Odtype == '限價單' || row.Inverted == '1') {
@@ -436,11 +436,23 @@ Vue.mixin({
       //買單or賣單
       const buyOrSell = row.BuyOrSell
       //成交價
-      let finalPrice = row.FinalPrice == '' ? row.OrderPrice : row.FinalPrice
+      let finalPrice = row.FinalPrice == 0 ? row.OrderPrice : row.FinalPrice
+      finalPrice = Number(finalPrice)
+
       //目前獲利點數
       let nowWin = 0
       //目前損失點數
       let nowLoss = 0
+
+      //限價單
+      if (row.OrderPrice != 0 && row.FinalPrice == 0) {
+        this.editPoint.limitLossPoint = this.editPoint.stopPoint
+        this.editPoint.limitLossPrice = this.editPoint.stopPoint + row.OrderPrice
+        this.editPoint.limitWinPoint = this.editPoint.stopPoint
+        this.editPoint.limitWinPrice = this.editPoint.stopPoint + row.OrderPrice
+
+        return
+      }
 
       //新損
       //買單的話：成交點數 - 商品現在價格
@@ -450,9 +462,6 @@ Vue.mixin({
         //賣單的話：商品現在價格 - 成交點數
         nowLoss = nowPrice - finalPrice
       }
-
-      finalPrice = Number(finalPrice)
-
       nowLoss = nowLoss > this.editPoint.stopPoint ? nowLoss : this.editPoint.stopPoint
       nowLoss = Number(nowLoss)
 
@@ -480,7 +489,7 @@ Vue.mixin({
       let nowPrice = allNowPrices[row.ID]
 
       //成交價
-      let finalPrice = row.FinalPrice == '' ? row.OrderPrice : row.FinalPrice
+      let finalPrice = row.FinalPrice == 0 ? row.OrderPrice : row.FinalPrice
 
       //沒 OrderPrice && 沒 成交價 就不用判斷了
       if (row.OrderPrice == '' && row.FinalPrice == '') {
