@@ -64,6 +64,7 @@ export default {
               result = JSON.parse(val.substring(2))
               if (result['code'] > 0) {
                 _this.$store.commit('setMainItem', result['data'])
+                _this.getUserInfo()
 
                 //取得自定義商品開關
                 _this.$store.dispatch('CALL_MEMBER_CUSTOM_ITEM', {
@@ -75,7 +76,6 @@ export default {
 
               //呼叫即時資料
               _this.$store.commit('sendMessage', _this.paramX())
-              _this.getUserInfo()
               break
             case "d":
               //商品現價通知
@@ -149,7 +149,7 @@ export default {
             if (_this.$store.state.localStorage.customSetting.orderReport) {
               let buyOrSellName = sourceFormat.BuyOrSell == 0 ? '多' : '空'
               let text = '下單完成，等待成交'
-              _this.$store.commit('setTipsContent', text)
+              _this.$store.commit('setTipsContent', {text, type: 0})
             }
           }
 
@@ -196,12 +196,12 @@ export default {
           if (_this.$store.state.localStorage.customSetting.orderReport || _this.$store.state.isMobile) {
             let buyOrSellName = sourceFormat.BuyOrSell == 0 ? '多' : '空'
             let text = '成交： ' + sourceFormat.Name + ',' + sourceFormat.SuccessPrice + 'x' + sourceFormat.Quantity + '口'
-            _this.$store.commit('setTipsContent', text)
+            _this.$store.commit('setTipsContent', {text, type: 1})
           }
 
           if ((sourceFormat.SubmitType == '限價單' || sourceFormat.SubmitType == '倒限單') && prompt) {
             let text = '限價成交： ' + sourceFormat.Name + ',' + sourceFormat.SuccessPrice + 'x' + sourceFormat.Quantity + '口'
-            _this.$store.commit('setTipsContent', text)
+            _this.$store.commit('setTipsContent', {text, type: 1})
           }
 
           if (_this.$store.state.localStorage.customSetting.sound) {

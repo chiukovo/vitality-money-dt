@@ -184,9 +184,9 @@
                 .d-flex.align-items-center
                   label.title 限價
                   .number-input
-                    button.button__decrease(@click="nowPrice--")
-                    input(type="text" v-model='nowPrice' :min="0")
-                    button.button__increase(@click="nowPrice++")
+                    button.button__decrease(@click="addLimitPoint('--')")
+                    input(type="text" v-model='nowPrice' :min="0" :disabled="buyType != 1")
+                    button.button__increase(@click="addLimitPoint('++')")
               td
                 label.radio
                   input.radio__input(type="radio" v-model='buyType' value='2')
@@ -227,9 +227,9 @@
         li
           label.title 限價
           .number-input
-            button.button__decrease(@click="nowPrice--")
+            button.button__decrease(@click="addLimitPoint('--')")
             input(type="text" v-model='nowPrice' :min="0")
-            button.button__increase(@click="nowPrice++")
+            button.button__increase(@click="addLimitPoint('++')")
           //- button.button(@click="getNowPrice") 現
         li
           label.title 口數
@@ -405,6 +405,17 @@ export default {
     this.computedMidHeight()
   },
   methods: {
+    addLimitPoint(type) {
+      if (this.buyType != 1) {
+        return
+      }
+
+      if (type == '++') {
+        this.nowPrice++
+      } else if (type == '--') {
+        this.nowPrice--
+      }
+    },
     computedMidHeight() {
       const tabs = document.getElementById('tabs-nav').offsetHeight
       const top = document.getElementById('area_top').offsetHeight

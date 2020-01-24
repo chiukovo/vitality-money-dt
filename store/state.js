@@ -66,5 +66,6 @@ export default () => ({
   totalInterestNum: 0,
   //提示訊息
   tipsShow: false,
+  tipsType: 0, //0 等待成交, 1 下單成功
   tipsContent: '',
 })

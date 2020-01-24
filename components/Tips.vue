@@ -3,11 +3,13 @@
     :visible.sync='show'
     :before-close='handleClose'
     :close-on-click-modal='false'
-    width='60%'
+    width='300px'
     :modal='false')
     .header-custom(slot='title')
       |  訊息
-    template {{ $store.state.tipsContent }}
+    template
+     .p-3(style="font-size: 16px")
+      span(:class="$store.state.tipsType == 1 ? 'text__danger' : ''") {{ $store.state.tipsContent }}
 </template>
 <script>
 

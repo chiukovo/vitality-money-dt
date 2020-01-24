@@ -47,7 +47,7 @@
         border
         auto-resize
         highlight-current-row)
-        vxe-table-column(:width="computedStyleWidth(80)" fixed="left" align="left" show-header-overflow)
+        vxe-table-column(:width="computedStyleWidth(70)" fixed="left" align="left" show-header-overflow)
           template(v-slot:header="{column}") 商品
             .table-toggle
               a(@click.stop="settingShow = true")

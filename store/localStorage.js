@@ -17,7 +17,8 @@ export const state = () => ({
   	operatingCustomGroup: [], //下單三項自訂選項
   },
   remember: {
-  	me: false,
+    me: false,
+    autoLogin: false,
   	account: '',
   	password: '',
   }

@@ -12,8 +12,6 @@
       |  {{ typeof title == 'undefined' ? $store.state.itemName : title }}
     template
       client-only
-        Kchart(v-show="clickType == 'kLine'")
-        Chart(theme="black" v-show="clickType == 'chart'")
         HistoryWinLoss(v-if="clickType == 'historyWinLoss'")
         UserDetail(v-if="clickType == 'userDetail'" :onlyItem="onlyItem" :itemId="itemId")
         HistoryPrices(v-if="clickType == 'historyPrices'")
@@ -30,8 +28,6 @@
 </template>
 <script>
 
-import Kchart from "~/components/Kchart"
-import Chart from "~/components/Chart"
 import UserDetail from "~/components/UserDetail"
 import HistoryWinLoss from "~/components/HistoryWinLoss"
 import HistoryPrices from "~/components/HistoryPrices"
@@ -55,8 +51,6 @@ export default {
     }
   },
   components: {
-    Kchart,
-    Chart,
     UserDetail,
     HistoryWinLoss,
     HistoryPrices,

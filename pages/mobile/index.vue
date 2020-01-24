@@ -12,12 +12,11 @@
 				el-form-item
 					.row
 						.col
-							el-checkbox(label='記住我' v-model="rememberMe")
+							el-checkbox(label='儲存帳號' v-model="rememberMe")
 						.col
-							el-select(placeholder='1-伺服器' v-model='server' style='width: 100%;')
-								el-option(label='1-伺服器' value='server1')
+							el-checkbox(label='儲存密碼/自動登入' v-model="autoLogin")
 				el-form-item
-					el-button(type='primary' native-type="submit" @click.native.prevent="doLogin") 登入
+					el-button(type='primary' native-type="submit" @click.native.prevent="checkToLogin") 登入
 
 	.loading(v-loading='loading' v-if="loading")
 </template>
@@ -43,8 +42,9 @@ export default {
 	  return {
       loading: true,
       account: '',
-      password: '',
-      rememberMe: '',
+			password: '',
+			autoLogin: false,
+      rememberMe: false,
 	  	server: 'server1'
 	  }
 	},
@@ -57,23 +57,48 @@ export default {
 		//remember data
 		const remember = this.$store.state.localStorage.remember
 		this.rememberMe = remember.me
+		this.autoLogin = remember.autoLogin
 
 		if (this.rememberMe) {
 			this.account = remember.account
+		}
+
+		if (this.autoLogin) {
+			this.account = remember.account
 			this.password = remember.password
+
+			this.checkToLogin()
 		}
 	},
 	methods: {
-		nuxt: function() {
+		nuxt() {
 			this.$el.querySelector('.login-wrap').style.height = '100%'
 		},
-		async doLogin() {
-			let _this = this
+		checkToLogin() {
+			const _this = this
+			let cancel = false
 
 			if (this.account == '' || this.password == '') {
 				this.$alert('帳號或密碼不得為空', '注意!')
 				return
 			}
+			//-登入中
+			this.$alert('登入中', {
+				showConfirmButton: false,
+				showCancelButton: true,
+			}).then(({ value }) => {
+			}).catch(() => {
+				cancel = true
+			})
+
+			setTimeout(function(){
+				if (!cancel) {
+					_this.doLogin()
+				}
+			}, 1000)
+		},
+		async doLogin() {
+			let _this = this
 
 			await axios.post(process.env.NUXT_ENV_API_URL + "/validation", qs.stringify({
 			  LoginAccount: this.account,
@@ -89,19 +114,20 @@ export default {
 			  }
 
 			  if (result["Code"] == 2) {
-				sessionStorage.setItem("UserAccount", result["UserAccount"]);
-				sessionStorage.setItem("UserID", result["UserId"]);
-				sessionStorage.setItem("ChooseID", result["ChooseId"]);
-				sessionStorage.setItem("UserToken", result["Token"]);
-				window.location.href = "/agent/mobi/index.php"
-				return
+					sessionStorage.setItem("UserAccount", result["UserAccount"]);
+					sessionStorage.setItem("UserID", result["UserId"]);
+					sessionStorage.setItem("ChooseID", result["ChooseId"]);
+					sessionStorage.setItem("UserToken", result["Token"]);
+					window.location.href = "/agent/mobi/index.php"
+					return
 			  }
 
-			  //記住我
+				//記住我
 			  _this.$store.commit('setRemember', {
 			  	me: _this.rememberMe,
 			  	account: _this.account,
-			  	password: _this.password,
+					password: _this.password,
+					autoLogin: _this.autoLogin
 			  })
 
 			  //set user info

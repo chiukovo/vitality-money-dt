@@ -9,7 +9,7 @@ Vue.mixin({
 
       setTimeout(function() {
         //for firfox
-        _this.LoginLoopCheck()
+				_this.LoginLoopCheck()
         _this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
       }, 1500)
 

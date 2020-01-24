@@ -32,6 +32,7 @@ div(class="h-100")
         align="right"
         stripe
         border
+        auto-resize
         highlight-current-row)
         vxe-table-column(:width="computedStyleWidth(50)" fixed="left" align="left" show-header-overflow)
           template(v-slot:header="{column}") 商品
