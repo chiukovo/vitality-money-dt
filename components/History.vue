@@ -13,12 +13,12 @@
         .badge.badge-success.mybadge {{ Math.abs($store.state.unCoverSellSum) }}
       .tabs__item(@click='handleHistoryTabs(5)' :class="{'is-active' : historyTabShow == 5}") 已平倉
       .tabs__item(@click='handleHistoryTabs(6)' :class="{'is-active' : historyTabShow == 6}") 統計
-  HistoryK(v-show='historyTabShow == 1' :reSize="reSize")
-  HistoryC(v-show='historyTabShow == 2')
-  AllList(v-show='historyTabShow == 3')
-  Uncovered(v-show='historyTabShow == 4')
-  Covered(v-show='historyTabShow == 5')
-  Commodity(v-show='historyTabShow == 6')
+  HistoryK(v-if='historyTabShow == 1' :reSize="reSize")
+  HistoryC(v-if='historyTabShow == 2')
+  AllList(v-if='historyTabShow == 3')
+  Uncovered(v-if='historyTabShow == 4')
+  Covered(v-if='historyTabShow == 5')
+  Commodity(v-if='historyTabShow == 6')
 </template>
 
 <script>
@@ -70,16 +70,32 @@ export default {
   },
   methods: {
     computedHeight() {
-      const buySellHeader = document.getElementById('buySellHeader').offsetHeight
-      const uncoveredHeader = document.getElementById('uncoveredHeader').offsetHeight
-      const coveredHeader = document.getElementById('coveredHeader').offsetHeight
-      const commodityHeader = document.getElementById('commodityHeader').offsetHeight
+      if (this.historyTabShow == 3) {
+        const buySellHeader = document.getElementById('buySellHeader').offsetHeight
+        this.height = {
+          buySell: 'calc(100% - ' + buySellHeader + 'px)',
+        }
+      }
 
-      this.height = {
-        buySell: 'calc(100% - ' + buySellHeader + 'px)',
-        uncovered: 'calc(100% - ' + uncoveredHeader + 'px)',
-        covered: 'calc(100% - ' + coveredHeader + 'px)',
-        commodity: 'calc(100% - ' + commodityHeader + 'px)',
+      if (this.historyTabShow == 4) {
+        const uncoveredHeader = document.getElementById('uncoveredHeader').offsetHeight
+        this.height = {
+          uncovered: 'calc(100% - ' + uncoveredHeader + 'px)',
+        }
+      }
+
+      if (this.historyTabShow == 5) {
+        const coveredHeader = document.getElementById('coveredHeader').offsetHeight
+        this.height = {
+          covered: 'calc(100% - ' + coveredHeader + 'px)',
+        }
+      }
+
+      if (this.historyTabShow == 6) {
+        const commodityHeader = document.getElementById('commodityHeader').offsetHeight
+        this.height = {
+          commodity: 'calc(100% - ' + commodityHeader + 'px)',
+        }
       }
     },
     handleHistoryTabs(e) {
