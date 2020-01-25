@@ -19,7 +19,7 @@
           ul.tran-item
             li
               .tran-item__name {{ item.Name }}
-              .tran-item__yellow {{ item.OrderPrice }}
+              .tran-item__yellow {{ item.Serial }}
             li
               .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
@@ -45,32 +45,33 @@
       ul.area-tran-list
         li(v-for="item in uncoveredArray")
           ul.tran-item
-            li
-              .tran-item__name {{ item.Name }}
+            li(style="width: 75px;")
+              .tran-item__name  {{ item.Name }}
               .tran-item__yellow {{ item.Serial }}
-                //-span 1天
+                span {{ item.Day }}天
             li
-              .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}
+              .text__center.text__lg(:class="item.BuyOrSell == 0 ? 'text__danger' : 'text__success'" style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
-              .tran-item__hey {{ item.WinPoint }}
-              .tran-item__fee {{ item.LossPoint }}
-            li
+              .tran-item__hey {{ item.Quantity }}
+              .tran-item__fee {{ item.TotalFee }}
+            li(style="min-width: 56px")
               div
                 span.text__secondary 獲利
-                span.tran-item__ha -
+                span.tran-item__ha {{ parseInt(item.WinPoint) }}
               div
                 span.text__secondary 損失
-                span.tran-item__ha -
+                span.tran-item__ha {{ parseInt(item.LossPoint) }}
             li {{ item.FinalPrice }}
             li
               div
-                .change-icon(v-if="typeof item.thisSerialPointDiff != 'undefined'")
-                  .icon-arrow(v-if="item.thisSerialPointDiff != 0" :class="item.thisSerialPointDiff > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-                span(v-if="item.thisSerialPointDiff == 0" class="text__black") {{ item.thisSerialPointDiff }}
-                span(v-else :class="item.thisSerialPointDiff > 0 ? 'text__up' : 'text__down'") {{ item.thisSerialPointDiff }}
+                //-成交價
+                span.tran-item__ha
+                  span(v-if="findMainItemById(item.ID) != ''") {{ findMainItemById(item.ID).newest_price }}
               div
-                span(v-if="item.thisSerialTotalMoney == 0" class="text__black") {{ item.thisSerialTotalMoney }}
-                span(v-else :class="item.thisSerialTotalMoney > 0 ? 'text__up' : 'text__down'") {{ item.thisSerialTotalMoney }}
+                span.tran-item__ha
+                  div
+                    span(v-if="item.OriginalMoney == 0" class="text__black") ${{ item.OriginalMoney }}
+                    span(v-else :class="item.OriginalMoney > 0 ? 'text__danger' : 'text__success'") ${{ item.OriginalMoney }}
     .area(v-if='historyShow == 3' style="height: calc(100% - 40px);overflow-y: auto;")
       ul.area-tran-list
         li(v-for="item in coveredArray")
@@ -81,7 +82,7 @@
               .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
               .tran-item__hey {{ item.SerialCoveredNum }}
-              .tran-item__fee {{ item.Fee }}
+              .tran-item__fee {{ item.TotalFee }}
             li
               div
                 span.text__secondary 成交

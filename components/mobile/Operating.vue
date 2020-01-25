@@ -183,7 +183,7 @@
               td(colspan="2")
                 .d-flex.align-items-center
                   label.title 限價
-                  .number-input
+                  .number-input(:class="buyType != 1 ? 'disabled' : ''")
                     button.button__decrease(@click="addLimitPoint('--')")
                     input(type="text" v-model='nowPrice' :min="0" :disabled="buyType != 1")
                     button.button__increase(@click="addLimitPoint('++')")
@@ -226,7 +226,7 @@
             span.radio__label 限價單
         li
           label.title 限價
-          .number-input
+          .number-input(:class="buyType != 1 ? 'disabled' : ''")
             button.button__decrease(@click="addLimitPoint('--')")
             input(type="text" v-model='nowPrice' :min="0")
             button.button__increase(@click="addLimitPoint('++')")

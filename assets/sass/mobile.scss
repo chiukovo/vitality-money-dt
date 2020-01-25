@@ -284,6 +284,7 @@ $material-icons-font-path: '~material-icons/iconfont/';
     .tran-item {
       display: table;
       font-size: 12.6px;
+      white-space: nowrap;
       > li {
         display: table-cell;
         vertical-align: top;
@@ -345,6 +346,10 @@ $material-icons-font-path: '~material-icons/iconfont/';
     }
     .tran-item__yo {
       color: #c3b342;
+    }
+    .label {
+      display: inline-block;
+      width: 29px;
     }
   }
   .area-order {
@@ -465,9 +470,11 @@ $material-icons-font-path: '~material-icons/iconfont/';
     .order__select {
       width: 100%;
     }
-    .number-input input {
-      width: 100%;
-      margin: 0;
+    .number-input {
+      input {
+        width: 100%;
+        margin: 0;
+      }
     }
   }
   .fiveBox {
@@ -927,7 +934,10 @@ button {
   border-radius: 5px;
 }
 .number-input {
-	display: inline-flex;
+  display: inline-flex;
+  &.disabled {
+    opacity: 0.2;
+  }
 	input {
 			width: 140px;
 			color: #fff;

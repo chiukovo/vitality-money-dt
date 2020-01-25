@@ -17,36 +17,63 @@
             .tabs__item(@click="changeType('beforeWeek')" :class="checkTypeClass('beforeWeek')") 上週
             .tabs__item(@click="changeType('thisMonth')" :class="checkTypeClass('thisMonth')") 本月
             .tabs__item(@click="changeType('beforeMonth')" :class="checkTypeClass('beforeMonth')") 上月
-      .area(style="height: calc(100% - 40px); overflow-y: scroll;")
+      .area(style="height: calc(100% - 40px); overflow-y: scroll; font-size: 10px;")
         ul.area-tran-list
           li.hs-edit(@click="getDetailData(item)" v-for="item in items" v-if="items.length > 0")
-            ul.tran-item
-              li.tran-item__yellow {{ item.Date }}
-              li
-                div
-                  span.label 昨餘:
-                  span(:class="getMoneyColor(item.YesterdayInterestNum)") {{ item.YesterdayInterestNum | currency }}
-                div
-                  span.label 今損:
-                  span(:class="getMoneyColor(item.TodayMoney)") {{ item.TodayMoney | currency }}
-                div
-                  span.label 餘額:
-                  span(:class="getMoneyColor(item.RemainingMoney)") {{ item.RemainingMoney | currency }}
-              li
-                div
-                  span.label 手續費:
-                  span {{ item.TotalFee }}
-                div
-                  span.label 口數:
-                  span {{ item.TotalSubmit }}
-              li
-                div
-                  span.label 轉出:
-                  span(:class="getMoneyColor(item.Uppay)") {{ item.Uppay | currency }}
-                div
-                  span.label 儲值:
-                  span(:class="getMoneyColor(item.SaveMoney)") {{ item.SaveMoney | currency }}
-          li(v-else) 無資料
+            .tran-item-wrap(style="overflow: scroll;")
+              ul.tran-item
+                li.tran-item__yellow {{ item.Date }}
+                li
+                  div
+                    span.label 昨餘:
+                    span(:class="getMoneyColor(item.YesterdayInterestNum)") {{ item.YesterdayInterestNum | currency }}
+                  div
+                    span.label 今損:
+                    span(:class="getMoneyColor(item.TodayMoney)") {{ item.TodayMoney | currency }}
+                  div
+                    span.label 餘額:
+                    span(:class="getMoneyColor(item.RemainingMoney)") {{ item.RemainingMoney | currency }}
+                li
+                  div
+                    span.label(style="width: 42px;") 手續費:
+                    span {{ item.TotalFee }}
+                  div
+                    span.label 口數:
+                    span {{ item.TotalSubmit }}
+                  div
+                    span.label 轉出:
+                    span(:class="getMoneyColor(item.Uppay)") {{ item.Uppay | currency }}
+                  div
+                    span.label 儲值:
+                    span(:class="getMoneyColor(item.SaveMoney)") {{ item.SaveMoney | currency }}
+          li
+            .tran-item-wrap(style="overflow: scroll;")
+              ul.tran-item
+                li.tran-item__yellow(style="width: 73px") 合計
+                li(style="width: 98px")
+                  div
+                    span.label 昨餘:
+                    span -
+                  div
+                    span.label 今損:
+                    span(:class="getMoneyColor(itemsTotal.TodayMoney)") {{ itemsTotal.TodayMoney | currency }}
+                  div
+                    span.label 餘額:
+                    span -
+                li
+                  div
+                    span.label(style="width: 42px;") 手續費:
+                    span {{ itemsTotal.TotalFee }}
+                  div
+                    span.label 口數:
+                    span {{ itemsTotal.TotalSubmit }}
+                  div
+                    span.label 轉出:
+                    span(:class="getMoneyColor(itemsTotal.Uppay)") {{ itemsTotal.Uppay | currency }}
+                  div
+                    span.label 儲值:
+                    span(:class="getMoneyColor(itemsTotal.SaveMoney)") {{ itemsTotal.SaveMoney | currency }}
+          li(v-if="items.length == 0") 無資料
         template(v-if='showDetail')
           .modals.HistoryWinLoss__detail
             .page
@@ -75,6 +102,15 @@ export default {
       },
       type: 'today',
       items: [],
+      itemsTotal: {
+        YesterdayInterestNum: '-',
+        TodayMoney: 0,
+        RemainingMoney: 0,
+        TotalFee: 0,
+        TotalSubmit: 0,
+        Uppay: 0,
+        SaveMoney: 0,
+      },
       detailDay: '',
       detail: [],
       coveredArray: [],
@@ -123,11 +159,20 @@ export default {
 
           if (response.data.Code == 1) {
             _this.items = response.data.MoneyArray
-            
+
             //計算昨日權益數
             _this.items = _this.items.map(function (val) {
               val.YesterdayInterestNum = Number(val.RemainingMoney) - Number(val.TouchPoint) + Number(val.Withholding) - Number(val.TodayMoney)
               return val
+            })
+
+            //計算total
+            _this.items.forEach(function(val) {
+              _this.itemsTotal.TodayMoney += Number(val.TodayMoney)
+              _this.itemsTotal.TotalFee += Number(val.TotalFee)
+              _this.itemsTotal.TotalSubmit += Number(val.TotalSubmit)
+              _this.itemsTotal.Uppay += Number(val.Uppay)
+              _this.itemsTotal.SaveMoney += Number(val.SaveMoney)
             })
           }
         })

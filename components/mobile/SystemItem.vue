@@ -9,6 +9,14 @@
   .main(style="height: calc(100% - 40px);overflow-y: auto;")
     .area
       .collapse
+        ul.collapse__list
+          li
+            span 時間以冬令
+            span(style="color: #ecdf7c;") (每年十一月第一個星期天開始)
+            span 為主，歐美商品於夏令
+            span(style="color: #ecdf7c;") (每年三月第二個星期天開始)
+            span 提前一小時開盤、收盤
+      .collapse
         .dialog__content
           ul.collapse__list_theme2.collapse__list_theme3
             li(v-for="item in items")

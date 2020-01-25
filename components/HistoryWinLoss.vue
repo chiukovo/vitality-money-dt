@@ -31,7 +31,7 @@
         vxe-table-column
           template(slot-scope='scope')
             button(@click="clickDetail(scope.row)") 明細
-        vxe-table-column(field="Date" title='日期')
+        vxe-table-column(field="Date" title='日期' width="90")
         vxe-table-column(title='昨日權益數')
           template(slot-scope='scope')
             span(:class="getMoneyColor(scope.row.YesterdayInterestNum)") {{ scope.row.YesterdayInterestNum | currency }}
@@ -54,7 +54,8 @@
     height="500px"
     :title="detail.title"
     :visible.sync="innerVisible"
-    append-to-body)
+    append-to-body
+    v-if="innerVisible")
     HistoryWinLossDetail(:detail="detail" v-if="innerVisible")
 </template>
 <script>

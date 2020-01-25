@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       dialogFullScreen: false,
-      diaiogSize: '50%',
+      diaiogSize: '60%',
     }
   },
   components: {

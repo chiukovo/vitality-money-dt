@@ -37,7 +37,7 @@ div
           template(slot-scope='scope') {{ parseInt(scope.row.LossPoint) }}
         vxe-table-column(title='獲利點數' align="center")
           template(slot-scope='scope') {{ parseInt(scope.row.WinPoint) }}
-        vxe-table-column(title='狀態' width='110' fixed="right")
+        vxe-table-column(title='狀態' width='100')
           template(slot-scope='scope')
             span.blink(v-if="scope.row.State == '未成交'") {{ scope.row.State }}
             span(v-else) {{ scope.row.State }}
