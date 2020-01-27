@@ -68,4 +68,5 @@ export default () => ({
   tipsShow: false,
   tipsType: 0, //0 等待成交, 1 下單成功
   tipsContent: '',
+  errorMsgDate: '',
 })

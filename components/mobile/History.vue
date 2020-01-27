@@ -148,7 +148,7 @@
                 //-帳跌%
                 span.ml-2 {{ findMainItemById(edit.itemId).gain_percent }}
           el-form(ref='form' size='mini' label-width='60px')
-            .edit-base(v-if="editType == 'edit'")
+            .edit-base(v-if="editType == 'edit' && edit.operation[0]")
               el-form-item(label="口數")
                 el-input-number(v-model="edit.submit" :max="edit.submitMax" :step="0.25")
               el-form-item(label="價格")
@@ -161,7 +161,7 @@
               el-form-item
                 el-input-number(v-model="edit.nowPrice" :disabled="edit.buyType != '1'")
             //-點數輸入
-            .point-input(v-show="pointInputType == 1 && editType != 'edit'")
+            .point-input(v-show="pointInputType == 1")
               .win-point.text__center
                 span.pl-4 新獲利點需大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPoint }} ]
@@ -172,13 +172,13 @@
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitLossPoint }} ]
                 el-form-item(label="損失點" style="margin-bottom: 16px;")
                   el-input-number(v-model="edit.lossPoint")
-              .inverted-point.text__center
+              .inverted-point.text__center(v-if="editType != 'edit'")
                 span.pl-4 新倒限利不得大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPoint }} ]
                 el-form-item(label="倒限點")
                   el-input-number(v-model="edit.invertedPoint")
             //-行情輸入
-            .money-input(v-show="pointInputType == 2 && editType != 'edit'")
+            .money-input(v-show="pointInputType == 2")
               .win-point.text__center
                 span.pl-4 新獲利點需大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPrice }} ]
@@ -189,7 +189,7 @@
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitLossPrice }} ]
                 el-form-item(label="損失點")
                   el-input-number(v-model="changeLossPrice")
-              .inverted-point.text__center
+              .inverted-point.text__center(v-if="editType != 'edit'")
                 span.pl-4 新倒限利不得大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPrice }} ]
                 el-form-item(label="倒限點")

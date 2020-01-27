@@ -46,6 +46,9 @@ export default {
       state.localStorage.remember.password = password
     }
   },
+  setErrorMsgDate(state, date) {
+    state.errorMsgDate = date
+  },
   setHasMessage(state, data) {
     state.hasMessage = data
   },
