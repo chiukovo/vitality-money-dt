@@ -11,10 +11,11 @@
       .area
         .area__header
           .tabs-nav.tabs-nav-theme1
-            .tabs__item(@click="selectDayType('thisWeek')") 本週
-            .tabs__item(@click="selectDayType('beforeWeek')") 上週
-            .tabs__item(@click="selectDayType('thisMonth')") 本月
-            .tabs__item(@click="selectDayType('beforeMonth')") 上月
+            .tabs__item(@click="changeType('today')" :class="checkTypeClass('today')") 今日
+            .tabs__item(@click="changeType('thisWeek')" :class="checkTypeClass('thisWeek')") 本週
+            .tabs__item(@click="changeType('beforeWeek')" :class="checkTypeClass('beforeWeek')") 上週
+            .tabs__item(@click="changeType('thisMonth')" :class="checkTypeClass('thisMonth')") 本月
+            .tabs__item(@click="changeType('beforeMonth')" :class="checkTypeClass('beforeMonth')") 上月
       client-only
         vxe-table.table(
           :data='items'
@@ -42,13 +43,21 @@ export default {
         start: '',
         end: '',
       },
-      items: []
+      items: [],
+      type: 'today',
     }
   },
   mounted () {
     this.selectDayType('today')
   },
   methods: {
+    checkTypeClass(type) {
+      return this.type == type ? 'is-active' : ''
+    },
+    changeType(type) {
+      this.type = type
+      this.selectDayType(type)
+    },
     async query() {
       let _this = this
 
