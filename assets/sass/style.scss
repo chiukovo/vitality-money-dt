@@ -467,10 +467,14 @@ $use-fadeInDown: true;
     width: 24%;
     border-right: 1px solid #dee2e6;
   }
+  thead {
+    background-color: #f1f1f1;
+  }
   tr {
     border: 1px solid #dee2e6;
   }
   td {
+    border-right: 1px solid #dee2e6;
     padding: 2px 4px;
   }
 }
