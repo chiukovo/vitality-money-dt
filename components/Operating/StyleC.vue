@@ -272,6 +272,7 @@ export default {
       this.overAllConfirm = true
     },
     checkOrder(type) {
+      console.log(type)
       const clickItem = this.$store.state.clickItemId
       const isMobile = this.$store.state.isMobile
       const userId = this.$store.state.localStorage.userAuth.userId
@@ -293,7 +294,7 @@ export default {
       this.confirmData = [{
         name: this.$store.state.itemName,
         userName: this.$store.state.userInfo.Account,
-        buy: type == 1 ? '空' : '多',
+        buy: type,
         price: buyTypeName,
         submit: this.submitNum,
         profit: this.profit,

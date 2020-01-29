@@ -249,7 +249,7 @@ export default {
       this.confirmData = [{
         name: this.$store.state.itemName,
         userName: this.$store.state.userInfo.Account,
-        buy: type == 1 ? '空' : '多',
+        buy: type,
         price: buyTypeName,
         submit: this.submitNum,
       }]

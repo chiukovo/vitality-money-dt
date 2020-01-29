@@ -200,9 +200,12 @@ Vue.mixin({
       let _this = this
       this.multiOrderData = []
 
-      _this.multiOrderSelect.forEach(function(serial) {
-        _this.$store.state.uncovered.forEach(function(row) {
-          if (row.Serial == serial) {
+      _this.$store.state.uncovered.forEach(function(row) {
+        //判斷是否開盤
+        let target = _this.findMainItemById(row.ID)
+
+        if (target != '') {
+          if (target.state == 2) {
             _this.multiOrderData.push({
               name: row.Name,
               userName: _this.$store.state.userInfo.Account,
@@ -213,7 +216,7 @@ Vue.mixin({
               serial: row.Serial,
             })
           }
-        })
+        }
       })
 
       this.multiOrderConfirm = true
@@ -294,6 +297,8 @@ Vue.mixin({
         this.editTitle = '倒限點'
       } else if (type == 'edit') {
         this.editTitle = '改價減量'
+      } else if (type == 'inAll') {
+        this.editTitle = '設定損益'
       }
 
       let buyType = '0'

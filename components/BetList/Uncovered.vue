@@ -99,7 +99,7 @@
                   .icon-arrow(:class="findMainItemById(edit.itemId).gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
                 div(style="display: inline") {{ findMainItemById(edit.itemId).gain }}
               //-帳跌%
-              span.ml-2 {{ findMainItemById(edit.itemId).gain_percent }}
+              span.ml-2 {{ findMainItemById(edit.itemId).gain_percent }}%
         el-form(ref='form' size='mini' label-width='94px')
           .edit-base(v-if="editType == 'edit'")
             el-form-item(label="口數")

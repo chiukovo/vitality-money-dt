@@ -19,7 +19,7 @@
               .text__center.text__lg(:class="item.BuyOrSell == 0 ? 'text__danger' : 'text__success'" style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
             li
               .tran-item__hey.text__lg {{ item.Quantity }}
-            li(style="min-width: 56px;")
+            li
               div
                 span.text__secondary {{ orderTypeWord(item.OrderPrice, item.Odtype) }}
               div
@@ -49,7 +49,7 @@
             li
               .tran-item__hey {{ item.Quantity }}
               .tran-item__fee {{ item.TotalFee }}
-            li(style="min-width: 56px")
+            li
               div
                 span.text__secondary 獲利
                 span.tran-item__ha {{ parseInt(item.WinPoint) }}
@@ -118,7 +118,6 @@
       v-dialogDrag)
       .header-custom(slot='title')
         span {{ editTitle }}
-        span.badge.badge-warning ({{ pointInputType == 1 ? '點數' : '行情' }})
       template
         .dialog__body
           .d-flex.justify-content-around.mb-3
@@ -146,7 +145,7 @@
                     .icon-arrow(:class="findMainItemById(edit.itemId).gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
                   div(style="display: inline") {{ findMainItemById(edit.itemId).gain }}
                 //-帳跌%
-                span.ml-2 {{ findMainItemById(edit.itemId).gain_percent }}
+                span.ml-2 {{ findMainItemById(edit.itemId).gain_percent }}%
           el-form(ref='form' size='mini' label-width='60px')
             .edit-base(v-if="editType == 'edit' && edit.operation[0]")
               el-form-item(label="口數")
@@ -161,7 +160,7 @@
               el-form-item
                 el-input-number(v-model="edit.nowPrice" :disabled="edit.buyType != '1'")
             //-點數輸入
-            .point-input(v-show="pointInputType == 1")
+            .point-input(v-show="pointInputType == 1 && editType != 'edit'")
               .win-point.text__center
                 span.pl-4 新獲利點需大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPoint }} ]
@@ -172,13 +171,13 @@
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitLossPoint }} ]
                 el-form-item(label="損失點" style="margin-bottom: 16px;")
                   el-input-number(v-model="edit.lossPoint")
-              .inverted-point.text__center(v-if="editType != 'edit'")
+              .inverted-point.text__center(v-if="editType != 'edit' && editType != 'inAll'")
                 span.pl-4 新倒限利不得大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPoint }} ]
                 el-form-item(label="倒限點")
                   el-input-number(v-model="edit.invertedPoint")
             //-行情輸入
-            .money-input(v-show="pointInputType == 2")
+            .money-input(v-show="pointInputType == 2 && editType != 'edit'")
               .win-point.text__center
                 span.pl-4 新獲利點需大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPrice }} ]
@@ -189,7 +188,7 @@
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitLossPrice }} ]
                 el-form-item(label="損失點")
                   el-input-number(v-model="changeLossPrice")
-              .inverted-point.text__center(v-if="editType != 'edit'")
+              .inverted-point.text__center(v-if="editType != 'edit' && editType != 'inAll'")
                 span.pl-4 新倒限利不得大於:
                   span.text__bold.bg-colr-warring [ {{ editPoint.limitWinPrice }} ]
                 el-form-item(label="倒限點")
@@ -205,8 +204,7 @@
       width="95%"
       title='全部未平倉單'
       v-dialogDrag)
-      .header-custom(slot='title')
-        |  全部未平倉單
+      .header-custom(slot='title' style="height: 25px;")
       table.table_white
         tr
           th 序號
@@ -260,15 +258,14 @@
     el-dialog(
       :visible.sync='showControl'
       :modal='false'
-      :title='showControlTitle'
       v-dialogDrag)
-      .header-custom(slot='title') {{ showControlTitle }}
+      .header-custom(slot='title' style="height: 25px;")
       template
         div(v-if="showControlTitle == '改價減量'")
           ul.el-dialog__list
             li.button(@click="deleteOrder(controlData)" v-if="controlData.Operation[1]") 刪單
             li.button(@click="openEdit(controlData, 'edit')" v-if="controlData.Operation[0]") 改價減量
-            li.button(@click="openEdit(controlData)") 設定損益
+            li.button(@click="openEdit(controlData, 'inAll')") 設定損益
         div(v-else)
           ul.el-dialog__list
             li.button(@click="doCovered(controlData, 1)") 市價平倉
@@ -285,7 +282,7 @@
               td.title 商品
               td {{ controlData.Name }}
             tr
-              td.title 委託價
+              td.title 委託
               td {{ controlData.OrderPrice }}
             tr
               td.title 多空

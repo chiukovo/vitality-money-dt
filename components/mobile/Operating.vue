@@ -131,7 +131,7 @@
                     span.label(v-if="key == 2") 賣
                   td: .text__center.text__success {{ val[2] }}
                   td: .text__center {{ val[3] }}
-                  td(style='width:30px'): .cell
+                  td(style='width:15px'): .cell
                     .progress-bar
                       .progress-bar__inner(:style="'width: ' + val[4] + '%'")
             //- 買
@@ -142,7 +142,7 @@
                     span.label(v-if="key == 8") 買
                   td: .text__center.text__danger {{ val[2] }}
                   td: .text__center {{ val[1] }}
-                  td(style='width:30px'): .cell
+                  td(style='width:15px'): .cell
                     .progress-bar.progress-bar__right
                       .progress-bar__inner(:style="'width: ' + val[0] + '%'")
             //-total
@@ -151,13 +151,13 @@
                 tr
                   td.label 總賣
                   td {{ $store.state.fiveTotal.nullNum }}
-                  td(style='width:30px'): .cell
+                  td(style='width:15px'): .cell
                     .progress-bar
                       .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.nullNumPercent + '%'")
                 tr
                   td.label 總買
                   td {{ $store.state.fiveTotal.more }}
-                  td(style='width:30px'): .cell
+                  td(style='width:15px'): .cell
                     .progress-bar.progress-bar__right
                       .progress-bar__inner(:style="'width: ' + $store.state.fiveTotal.morePercent + '%'")
         .fiveBox(v-else style="padding: 10px" :style="midHeight") 無資料(五檔)
@@ -423,8 +423,8 @@ export default {
       const bottom = document.getElementById('area_bottom').offsetHeight
       let result = window.innerHeight - (bottom + header + tabs + top)
 
-      if (result < 180) {
-        result = 180
+      if (result < 210) {
+        result = 210
       }
 
       this.midHeight = 'height: ' + result + 'px'
