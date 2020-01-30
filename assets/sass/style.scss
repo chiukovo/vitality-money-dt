@@ -678,30 +678,26 @@ td {
   .text__danger {
     color: #FF0000;
   }
-  .vxe-body--row:nth-last-child(n+2) {
-    .vxe-body--column {
-      border-bottom: 0;
-    }
-  }
 }
 .default .table__dark.vxe-table {
   border-color: #3a3a3a;
-  table {
-    border-bottom: 1px solid #3a3a3a;
-  }
   .vxe-table--border-line {
     &:before, &:after {
-      border-color: #3a3a3a;
+      background-image: linear-gradient(-90deg, #3a3a3a, #3a3a3a), linear-gradient(-180deg, #3a3a3a50, #3a3a3a50);
     }
   }
   &:before, &:after,
-  .vxe-table--header-wrapper .vxe-table--repair {
-    background-color: #3a3a3a;
+  .vxe-table--header-wrapper .vxe-table--repair,
+  .vxe-table--border-line:after,
+  .vxe-table--border-line:before {
     border-color: #3a3a3a;
+  }
+  .vxe-table--header-wrapper .vxe-table--repair {
+    background-image: linear-gradient(-90deg, #3a3a3a, #3a3a3a), linear-gradient(-180deg, #3a3a3a50, #3a3a3a50);
   }
   .vxe-header--column {
     color: #ccc;
-    border-color: #3a3a3a;
+    background-image: linear-gradient(-90deg, #3a3a3a, #3a3a3a), linear-gradient(-180deg, #3a3a3a50, #3a3a3a50);
   }
   .vxe-body--row {
     color: #ccc;
@@ -710,8 +706,7 @@ td {
       background-color: #1d1d1d;
     }
     .vxe-body--column {
-      border-bottom: 0;
-      border-color: #3a3a3a;
+      background-image: linear-gradient(-90deg, #3a3a3a, #3a3a3a), linear-gradient(-180deg, #3a3a3a50, #3a3a3a50);
     }
   }
   .vxe-table--header-wrapper {
