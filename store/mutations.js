@@ -261,7 +261,8 @@ export default {
           }
         })
 
-        if (sysHide && state.commidyArray.length > 0) {
+        //加權指數強制顯示
+        if (sysHide && state.commidyArray.length > 0 && val.product_id != 'TSLQ') {
           return
         }
 
