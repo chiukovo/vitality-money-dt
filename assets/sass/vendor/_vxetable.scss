@@ -74,6 +74,10 @@ $vxe-tooltip-dark-background-color: #303133;
 $vxe-tooltip-light-background-color: #fff;
 
 
+//other
+$vxe-table-range-background-color: #fff;
+$vxe-table-range-border-color: #fff;
+$vxe-modal-header-background-color: #fff;
 
 // @import '~vxe-table/styles/icon.scss';
 @import '~vxe-table/styles/table.scss';
@@ -91,7 +95,7 @@ $vxe-tooltip-light-background-color: #fff;
 // @import '~vxe-table/styles/radio.scss';
 // @import '~vxe-table/styles/input.scss';
 // @import '~vxe-table/styles/button.scss';
-// @import '~vxe-table/styles/modal.scss';
+@import '~vxe-table/styles/modal.scss';
 @import '~vxe-table/styles/tooltip.scss';
 
 
