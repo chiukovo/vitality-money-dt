@@ -5,7 +5,7 @@
 		//- 商品報價
 		MainItem(v-if='tabShow == 1')
 		//- 技術
-		Kchart(v-if='tabShow == 2')
+		Technology(v-if='tabShow == 2')
 		//- 商品下單
 		Operating(v-if='tabShow == 3')
 		//- 交易
@@ -56,7 +56,7 @@ import websocketService from '~/plugins/service/websocketService.js'
 import { mapState } from 'vuex'
 import MainHeader from "~/components/mobile/MainHeader"
 import MainItem from "~/components/mobile/MainItem"
-import Kchart from "~/components/Kchart"
+import Technology from "~/components/mobile/Technology"
 import Operating from "~/components/mobile/Operating"
 import History from "~/components/mobile/History"
 import Report from "~/components/mobile/Report"
@@ -85,7 +85,7 @@ export default {
     MainHeader,
 		MainItem,
 		Operating,
-		Kchart,
+		Technology,
 		History,
 		Report,
 		Message,

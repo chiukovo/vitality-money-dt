@@ -141,7 +141,7 @@ export default {
         'num': 1
       })
 
-      this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id);
+      this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
     },
     fontStyle() {
       this.$refs.xTable.refreshColumn()
@@ -185,6 +185,7 @@ export default {
     clickItem(row) {
       //取消
       this.$store.commit('sendMessage', this.cancelAllFive())
+      //開始新的
       this.$store.commit('setClickItemId', {
         id: row.product_id,
         name: row.product_name

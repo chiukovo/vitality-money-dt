@@ -434,6 +434,7 @@ export default {
   setClickItemId(state, {id, name}) {
     const _this = this
     _this.commit('sendMessage', 'h:' + id)
+
     //change now mainItem
     state.mainItem.forEach(function(val) {
       if (val.product_id == id) {

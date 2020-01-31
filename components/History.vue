@@ -13,7 +13,7 @@
         .badge.badge-success.mybadge {{ Math.abs($store.state.unCoverSellSum) }}
       .tabs__item(@click='handleHistoryTabs(5)' :class="{'is-active' : historyTabShow == 5}") 已平倉
       .tabs__item(@click='handleHistoryTabs(6)' :class="{'is-active' : historyTabShow == 6}") 統計
-  HistoryK(v-if='historyTabShow == 1' :reSize="reSize")
+  HistoryK(v-if='historyTabShow == 1')
   HistoryC(v-if='historyTabShow == 2')
   AllList(v-if='historyTabShow == 3')
   Uncovered(v-if='historyTabShow == 4')
@@ -47,7 +47,6 @@ export default {
       },
     }
   },
-  props: ['reSize'],
   computed: mapState({
     operatingStyle: state => state.localStorage.customSetting.operatingStyle,
     clickItemId: 'clickItemId'

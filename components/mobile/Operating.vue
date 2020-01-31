@@ -6,13 +6,13 @@
         table.table.table__mini(style="width: 440px")
           thead
             tr
-              th(width="80"): .cell.text__center 商品
+              th(width="90"): .cell.text__center 商品
               th: .cell.text__center 成交
               th: .cell.text__center 漲跌
-              th: .cell.text__center 漲幅%
+              th(width="60"): .cell.text__center 漲幅%
               th: .cell.text__center 總量
               th: .cell.text__center 時間
-              th(width="80"): .cell.text__center 交易
+              th(width="100"): .cell.text__center 交易
           tbody
             tr
               td: .cell.text__center {{ nowMainItem.product_name }}
@@ -322,16 +322,21 @@ export default {
         }
       })
 
+      //取消
+      this.$store.commit('sendMessage', this.cancelAllFive())
+      //開始新的
+      this.$store.commit('setClickItemId', {
+        id: id,
+        name: name
+      })
+
       this.$store.dispatch('CALL_QUERY_TECH', {
         'id': id,
         'type': 'chart',
         'num': 1
       })
 
-      this.$store.commit('setClickItemId', {
-        id: id,
-        name: name
-      })
+      this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
     },
     commidyArray() {
       this.getNowOverall()

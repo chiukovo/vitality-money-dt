@@ -1,5 +1,5 @@
-<template>
-  <div id="tdview-container" class="h-100"></div>
+<template lang='pug'>
+  #tdview-container.h-100
 </template>
 
 <script>

@@ -19,7 +19,7 @@
             .icon-arrow(:class="nowMainItem.gain > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
           div(style="display: inline" :class="nowMainItem.gain > 0 ? 'text__danger' : 'text__success'") {{ nowMainItem.gain }}
   .history-content__body(style="height: calc(100% - 28px)")
-    Kchart(:reSize="reSize")
+    Kchart
 </template>
 
 <script>
@@ -29,7 +29,6 @@ import Kchart from "~/components/Kchart"
 
 export default {
   name: 'app',
-  props: ['reSize'],
   computed: mapState({
     nowMainItem: 'nowMainItem',
     mainStyle: state => state.localStorage.customSetting.mainStyle,
