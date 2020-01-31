@@ -20,8 +20,14 @@ export default {
       this.init()
     }
   },
-  mounted () {
+  mounted() {
     this.init()
+    //openKline
+    this.$store.commit('setOpenKchart', true)
+  },
+  destroyed() {
+    //closeKline
+    this.$store.commit('setOpenKchart', false)
   },
   methods: {
     init() {
@@ -36,7 +42,7 @@ export default {
             id: this.$route.query.id,
             name: this.$route.query.name
           })
-        }, 3000)
+        }, 1000)
       }
 
       const tdChart = window.tvWidget = new TradingView.widget({

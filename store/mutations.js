@@ -420,6 +420,9 @@ export default {
   setMobile(state, data) {
     state.isMobile = data
   },
+  setOpenKchart(state, data) {
+    state.openKchart = data
+  },
   setTradingViewChart(state, tdChart) {
     state.tdChart = tdChart
   },
@@ -655,6 +658,10 @@ export default {
     }
 
     const newPrice = state.nowNewPrice[itemId]
+
+    if (typeof newPrice == "undefined") {
+      return
+    }
 
     //計算未平損益
     this.commit('computedUncovered', state.uncovered)

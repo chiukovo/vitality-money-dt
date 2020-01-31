@@ -16,7 +16,7 @@
           tbody
             tr
               td: .cell.text__center
-                select(v-model='selectItemId')
+                select(v-model='selectItemId' @change="changeSelectId")
                   option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
               td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
               td: .cell.text__center(:class="nowMainItem.color")
@@ -71,8 +71,20 @@ export default {
       selectItemId: '',
     }
   },
+  props: ['tabShow'],
   watch: {
-    selectItemId(id) {
+    tabShow(type) {
+      if (type == 2) {
+        //目前選擇商品
+        this.selectItemId = this.$store.state.clickItemId
+      }
+    },
+  },
+  mounted() {
+  },
+  methods: {
+    changeSelectId() {
+      let id = this.selectItemId
       let name = ''
       //找出名稱
       this.mainItem.forEach(function(val) {
@@ -96,13 +108,7 @@ export default {
       })
 
       this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
-    },
-  },
-  mounted() {
-    //目前選擇商品
-    this.selectItemId = this.$store.state.clickItemId
-  },
-  methods: {
+    }
   },
   components: {
     Kchart,

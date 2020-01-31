@@ -90,7 +90,9 @@ export default {
   mounted () {
     const _this = this;
     window.onresize = () => {
-      _this.drawLines(_this.syncChart);
+      if (_this.syncChart != null) {
+        _this.drawLines(_this.syncChart)
+      }
     }
 
     if (this.theme == 'white') {
@@ -112,7 +114,7 @@ export default {
           id: this.$route.query.id,
           name: this.$route.query.name
         })
-      }, 3000)
+      }, 1000)
 
       this.name = this.$route.query.name
     } else {

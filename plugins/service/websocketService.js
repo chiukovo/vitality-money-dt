@@ -163,6 +163,14 @@ export default {
 
           break
         case "d":
+          sourceFormat = JSON.parse(event.data.substring(2))
+
+          if (_this.$store.state.isMobile) {
+            let buyOrSellName = sourceFormat.BuyOrSell == 0 ? '多' : '空'
+            let text = '掛單成功： ' + sourceFormat.Name + ',' + sourceFormat.OrderPrice + 'x' + sourceFormat.Quantity + '口'
+            _this.$store.commit('setTipsContent', {text, type: 1})
+          }
+
           _this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
 
           break
@@ -196,6 +204,10 @@ export default {
                 prompt = true
               }
             })
+          }
+
+          if (_this.$store.state.isMobile) {
+            prompt = true
           }
 
           if (_this.$store.state.localStorage.customSetting.orderReport || _this.$store.state.isMobile) {
@@ -251,7 +263,7 @@ export default {
                   _this.$alert('重複登入', '提示', {
                     confirmButtonText: '确定',
                     callback: action => {
-                      location.href = "/"
+                      _this.logout()
                     }
                   })
                 }

@@ -312,7 +312,13 @@ export default {
   components: {
     Chart,
   },
+  props: ['tabShow'],
   watch: {
+    tabShow(type) {
+      if (type == 3) {
+        this.init()
+      }
+    },
     selectItemId(id) {
       let name = ''
       //找出名稱
@@ -377,39 +383,41 @@ export default {
     }
   },
   mounted() {
-    const customSubmitNums = this.$cookies.get('customSubmitNums')
-    const customGroup = this.$cookies.get('customGroup')
-    const orderMode = this.$store.state.localStorage.customSetting.orderMode
-    const defaultQuantity = this.$store.state.localStorage.customSetting.defaultQuantity
-
-    let _this = this
-
-    if (typeof customSubmitNums == 'undefined') {
-      this.customSubmitNums = this.defaultAllSubmit
-    } else {
-      this.customSubmitNums = customSubmitNums
-    }
-
-    if (typeof customGroup != 'undefined') {
-      this.customGroup = customGroup
-    }
-
-    //目前選擇商品
-    this.selectItemId = this.$store.state.clickItemId
-    this.getNowPrice()
-
-    if (typeof orderMode != 'undefined') {
-      this.orderMode = orderMode
-    }
-
-    //預設口數
-    if (typeof defaultQuantity != 'undefined') {
-      this.submitNum = defaultQuantity
-    }
-
-    this.computedMidHeight()
   },
   methods: {
+    init() {
+      const customSubmitNums = this.$cookies.get('customSubmitNums')
+      const customGroup = this.$cookies.get('customGroup')
+      const orderMode = this.$store.state.localStorage.customSetting.orderMode
+      const defaultQuantity = this.$store.state.localStorage.customSetting.defaultQuantity
+
+      let _this = this
+
+      if (typeof customSubmitNums == 'undefined') {
+        this.customSubmitNums = this.defaultAllSubmit
+      } else {
+        this.customSubmitNums = customSubmitNums
+      }
+
+      if (typeof customGroup != 'undefined') {
+        this.customGroup = customGroup
+      }
+
+      //目前選擇商品
+      this.selectItemId = this.$store.state.clickItemId
+      this.getNowPrice()
+
+      if (typeof orderMode != 'undefined') {
+        this.orderMode = orderMode
+      }
+
+      //預設口數
+      if (typeof defaultQuantity != 'undefined') {
+        this.submitNum = defaultQuantity
+      }
+
+      this.computedMidHeight()
+    },
     addLimitPoint(type) {
       if (this.buyType != 1) {
         return
@@ -422,10 +430,17 @@ export default {
       }
     },
     computedMidHeight() {
-      const tabs = document.getElementById('tabs-nav').offsetHeight
-      const top = document.getElementById('area_top').offsetHeight
-      const header = document.getElementById('header').offsetHeight
-      const bottom = document.getElementById('area_bottom').offsetHeight
+      const tabs = 55
+      const top = 76
+      const header = 44
+      let bottom
+
+      if (this.orderMode == 1) {
+        bottom = 207
+      } else {
+        bottom = 165
+      }
+
       let result = window.innerHeight - (bottom + header + tabs + top)
 
       if (result < 210) {
