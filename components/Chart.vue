@@ -55,7 +55,7 @@ export default {
         kbun_green: '#53AB35',
         chart_q_background: '#d1e9f3',
         mouse_line: 'rgb(239, 125, 49)',
-        label_font_size: '10px',
+        label_font_size: '12px',
         chart_opposite: false,
         chart_formater_x: 48,
         chart_label_x: 22,
@@ -292,8 +292,7 @@ export default {
 
       const tra_chart_array = [
         '<div class="label-fonts" style="background:rgb(91, 206, 250);text-align:center;',
-        ';width:',
-        chart.plotLeft - 3 + 'px',
+        ';width:auto;padding:0 2px;',
         ';height:',
         _this.chartLines.lHeight,
         ';line-height:',
@@ -404,9 +403,8 @@ export default {
         if (thePoint && _this.crossEnable) {
           _this.chartLines.mouseLabelY.translate(_this.chartLines.label_x, thePoint.plotY + chart.plotTop - _this.chartLines.mouseLabelY.height / 2)
           const mouse_array = [
-            '<div class="label-fonts" style="background:rgb(239, 125, 49);text-shadow: 0 0 0 !important;text-align:center;',
-            'width:',
-            chart.plotLeft - 3 + 'px',
+            '<div class="label-fonts" style="background:rgb(239, 125, 49);text-shadow: 0 0 0 !important;text-align:right;',
+            'width:auto;padding:0 2px;',
             ';height:',
             _this.chartLines.lHeight,
             ';line-height:',
@@ -461,12 +459,12 @@ export default {
             fontFamily: "Signika, serif"
           },
           plotBackgroundColor: this.optionCharts.chart_plot_background_color,
-          marginLeft: 54, // Keep all charts left aligned
+          marginLeft: 42, // Keep all charts left aligned
           marginRight: 10,
           spacingTop: 15,
           plotBorderWidth: 2,
           plotBorderColor: this.optionCharts.chart_grid_color,
-          spacingBottom: 7,
+          spacingBottom: 2,
           spacingRight: 200,
           spacingLeft: 200,
           zoomType: '',
@@ -494,7 +492,7 @@ export default {
               fontWeight: 'normal',
               color: this.optionCharts.chart_font_color,
             },
-            y: 20,
+            y: 13,
             formatter: function () {
               const date = new Date(this.value);
               let hour = date.getHours();
@@ -576,7 +574,7 @@ export default {
               crop: false
             },
             y: 19,
-            x: 44,
+            x: 34,
             align: 'right',
           },
           title: {
