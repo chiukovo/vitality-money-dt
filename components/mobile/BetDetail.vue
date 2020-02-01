@@ -61,17 +61,18 @@
               div
                 span.text__secondary 損失
                 span.tran-item__ha {{ parseInt(item.LossPoint) }}
+            //-成交價
             li {{ item.FinalPrice }}
             li
               div
-                //-成交價
+                //-收盤價
                 span.tran-item__ha
-                  span(v-if="findMainItemById(item.ID) != ''") {{ findMainItemById(item.ID).newest_price }}
+                  span {{ item.ClosePrice }}
               div
+                //-過帳損益
                 span.tran-item__ha
                   div
-                    span(v-if="item.OriginalMoney == 0" class="text__black") ${{ item.OriginalMoney }}
-                    span(v-else :class="item.OriginalMoney > 0 ? 'text__danger' : 'text__success'") ${{ item.OriginalMoney }}
+                    span(:class="getMoneyColor(item.OldToNewMoney)") ${{ item.OldToNewMoney }}
     .area(v-if='historyShow == 3' style="height: calc(100% - 40px);overflow-y: auto;")
       ul.area-tran-list
         li(v-for="item in coveredArray")

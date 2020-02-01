@@ -43,12 +43,16 @@
             span(:class="getMoneyColor(scope.row.RemainingMoney)") {{ scope.row.RemainingMoney | currency }}
         vxe-table-column(field="TotalFee" title='手續費')
         vxe-table-column(field="TotalSubmit" title='投注口數')
-        vxe-table-column(field="Uppay" title='轉出')
+        vxe-table-column(title='轉出')
           template(slot-scope='scope')
-            span(:class="getMoneyColor(scope.row.Uppay)") {{ scope.row.Uppay | currency }}
+            span(v-if="scope.row.SaveMoney < 0")
+              span(:class="getMoneyColor(scope.row.SaveMoney)") {{ scope.row.SaveMoney | currency }}
+            span(v-else) 0
         vxe-table-column(field="SaveMoney" title='儲值')
-          template(slot-scope='scope' v-if="scope.row.SaveMoney > 0")
-            span(:class="getMoneyColor(scope.row.SaveMoney)" style="text-decoration:underline;") {{ scope.row.SaveMoney | currency }}
+          template(slot-scope='scope')
+            span(v-if="scope.row.SaveMoney > 0")
+              span(:class="getMoneyColor(scope.row.SaveMoney)") {{ scope.row.SaveMoney | currency }}
+            span(v-else) 0
   el-dialog(
     width="50%"
     height="500px"
