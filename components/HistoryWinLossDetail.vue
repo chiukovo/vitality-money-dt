@@ -58,23 +58,21 @@ div
             span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
         vxe-table-column(field='FinalPrice' title='成交價' width="80px")
         vxe-table-column(field='Quantity' title='口數')
-        vxe-table-column(field='Fee' title='手續費')
-        vxe-table-column(title='損失點數' align="center")
+        vxe-table-column(field='TotalFee' title='手續費')
+        vxe-table-column(title='損失點' align="center" width="60px")
           template(slot-scope='scope') {{ scope.row.LossPoint }}
-        vxe-table-column(title='獲利點數' align="center")
+        vxe-table-column(title='獲利點' align="center" width="60px")
           template(slot-scope='scope') {{ scope.row.WinPoint }}
-        vxe-table-column(title='點數')
+        vxe-table-column(title='報價' width="60px")
+          template(slot-scope='scope') {{ scope.row.ClosePrice }}
+        vxe-table-column(title='浮動損益' width="80px")
           template(slot-scope='scope')
-            .change-icon(v-if="typeof scope.row['thisSerialPointDiff'] != 'undefined'")
-              .icon-arrow(v-if="scope.row['thisSerialPointDiff'] != 0" :class="scope.row['thisSerialPointDiff'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-            span(v-if="scope.row['thisSerialPointDiff'] == 0" class="text__black") {{ scope.row['thisSerialPointDiff'] }}
-            span(v-else :class="scope.row['thisSerialPointDiff'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialPointDiff'] }}
-        vxe-table-column(field='thisSerialTotalMoney', title='浮動損益')
-          template(slot-scope='scope')
-            span(v-if="scope.row['thisSerialTotalMoney'] == 0" class="text__black") {{ scope.row['thisSerialTotalMoney'] }}
-            span(v-else :class="scope.row['thisSerialTotalMoney'] > 0 ? 'text__up' : 'text__down'") {{ scope.row['thisSerialTotalMoney'] }}
+            span(:class="getMoneyColor(scope.row.OldToNewMoney)") {{ scope.row.OldToNewMoney }}
         vxe-table-column(field='Day', title='天數')
-        vxe-table-column(field='State', title='狀態' width="150px" fixed="right")
+        vxe-table-column(field='State', title='狀態' width="100px")
+        vxe-table-column(title='昨日損益' width="100px")
+          template(slot-scope='scope')
+            span(:class="getMoneyColor(scope.row.OriginalMoney)") {{ scope.row.OriginalMoney }}
   .content(v-show="type == 3")
     client-only
       vxe-table(
