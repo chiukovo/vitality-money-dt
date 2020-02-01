@@ -464,7 +464,7 @@ export default {
           spacingTop: 15,
           plotBorderWidth: 2,
           plotBorderColor: this.optionCharts.chart_grid_color,
-          spacingBottom: 2,
+          spacingBottom: 4,
           spacingRight: 200,
           spacingLeft: 200,
           zoomType: '',
