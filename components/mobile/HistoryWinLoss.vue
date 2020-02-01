@@ -42,10 +42,16 @@
                     span {{ item.TotalSubmit }}
                   div
                     span.label 轉出:
-                    span(:class="getMoneyColor(item.Uppay)") {{ item.Uppay | currency }}
+                    //-正數=儲值 負數=轉出
+                    span(v-if="itemsTotal.SaveMoney < 0")
+                      span(:class="getMoneyColor(itemsTotal.SaveMoney)") {{ itemsTotal.SaveMoney | currency }}
+                    span(v-else) 0
                   div
                     span.label 儲值:
-                    span(:class="getMoneyColor(item.SaveMoney)") {{ item.SaveMoney | currency }}
+                    //-正數=儲值 負數=轉出
+                    span(v-if="itemsTotal.SaveMoney > 0")
+                      span(:class="getMoneyColor(itemsTotal.SaveMoney)") {{ itemsTotal.SaveMoney | currency }}
+                    span(v-else) 0
           li
             .tran-item-wrap(style="overflow: scroll;")
               ul.tran-item
@@ -69,10 +75,16 @@
                     span {{ itemsTotal.TotalSubmit }}
                   div
                     span.label 轉出:
-                    span(:class="getMoneyColor(itemsTotal.Uppay)") {{ itemsTotal.Uppay | currency }}
+                    //-正數=儲值 負數=轉出
+                    span(v-if="itemsTotal.SaveMoney < 0")
+                      span(:class="getMoneyColor(itemsTotal.SaveMoney)") {{ itemsTotal.SaveMoney | currency }}
+                    span(v-else) 0
                   div
                     span.label 儲值:
-                    span(:class="getMoneyColor(itemsTotal.SaveMoney)") {{ itemsTotal.SaveMoney | currency }}
+                    //-正數=儲值 負數=轉出
+                    span(v-if="itemsTotal.SaveMoney > 0")
+                      span(:class="getMoneyColor(itemsTotal.SaveMoney)") {{ itemsTotal.SaveMoney | currency }}
+                    span(v-else) 0
           li(v-if="items.length == 0") 無資料
         template(v-if='showDetail')
           .modals.HistoryWinLoss__detail
