@@ -13,7 +13,9 @@
         li(:class="checkHasEdit(item)" v-for="item in $store.state.buySell" @click="openControl(item, '改價減量', false)")
           ul.tran-item
             li(style="width: 64px;")
-              .tran-item__name {{ item.Name }}
+              .tran-item__name
+                span(v-if="item.State != '已刪除'") {{ item.Name }}
+                s(v-else) {{ item.Name }}
               .tran-item__yellow {{ item.Serial }}
             li
               .text__center.text__lg(:class="item.BuyOrSell == 0 ? 'text__danger' : 'text__success'" style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}

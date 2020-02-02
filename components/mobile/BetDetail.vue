@@ -18,7 +18,9 @@
         li(v-for="item in orderArray")
           ul.tran-item
             li
-              .tran-item__name {{ item.Name }}
+              .tran-item__name
+                span(v-if="item.State != '已刪除'") {{ item.Name }}
+                s(v-else) {{ item.Name }}
               .tran-item__yellow {{ item.Serial }}
             li
               .text__danger.text__lg {{ item.BuyOrSell == 0 ? '多' : '空' }}

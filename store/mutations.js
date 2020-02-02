@@ -20,6 +20,9 @@ export default {
   setApiExample(state, data) {
     state.apiExampleData = data
   },
+  clearFiveData(state) {
+    state.items0 = []
+  },
   setTipsContent(state,  {text, type}) {
     state.tipsContent = text
     state.tipsType = type

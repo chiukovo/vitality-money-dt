@@ -140,6 +140,9 @@ Vue.mixin({
     	return 'h:TXF,TXFAF,EXF,FXF,TSLQ,HSI,HSIAF,E7,NK225,NK225AF,FDAX,YM,NQ,CL,GC,SI,CN,CNAF,CIF'
     },
     cancelAllFive() {
+      //清空五檔
+      this.$store.commit('clearFiveData')
+      //清空五檔socket
       return 'f:TXF,TXFAF,EXF,FXF,TSLQ,HSI,HSIAF,E7,NK225,NK225AF,FDAX,YM,NQ,CL,GC,SI,CN,CNAF,CIF'
     },
     paramBcancelclickId(clickItemId) {

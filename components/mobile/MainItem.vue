@@ -22,15 +22,6 @@
       .tabs__item(@click="tabs = 3" :class="{'is-active' : tabs == 3}") 指數期貨
       .tabs__item(@click="tabs = 4" :class="{'is-active' : tabs == 4}") 商品期貨
       .tabs__item(@click="tabs = 5" :class="{'is-active' : tabs == 5}") 加密貨幣
-    .modals.mainItem(v-if="analysisShow")
-      .header
-        .header__left
-          el-link(icon='el-icon-arrow-left' :underline='false' @click="analysisShow = false") 返回
-        .header__title
-          .select.header-select
-            select(v-model='selectItemId')
-              option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
-      Analysis
     //-市場總覽
     client-only(v-if="settingType == 1")
       vxe-table.table(
@@ -101,7 +92,6 @@
 
 import UserInfoHeader from "~/components/mobile/UserInfoHeader"
 import CustomItem from "~/components/mobile/CustomItem"
-import Analysis from "~/components/mobile/Analysis"
 import UserDetailList from "~/components/mobile/UserDetailList"
 import Dialog from "~/components/Dialog"
 
@@ -114,7 +104,6 @@ export default {
       selectItemId: '',
       userInfoHeaderShow: false,
       costomShow: false,
-      analysisShow: false,
       settingShow: false,
       customItemShow: false,
       settingType: 1,
@@ -127,7 +116,6 @@ export default {
   components: {
     UserInfoHeader,
     CustomItem,
-    Analysis,
     UserDetailList,
     Dialog
   },
@@ -138,17 +126,6 @@ export default {
     listColorStyle: state => state.localStorage.customSetting.listColorStyle,
   }),
   watch: {
-    clickItemId(id) {
-      //目前選擇商品
-      this.selectItemId = id
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': id,
-        'type': 'chart',
-        'num': 1
-      })
-
-      this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id);
-    },
     fontStyle() {
       this.$refs.xTable.refreshColumn()
     },

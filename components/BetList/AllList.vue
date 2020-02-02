@@ -38,7 +38,10 @@
               input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row)" :disabled="dayCoverIsDisabled(scope.row.ID)")
               span.checkbox__label 不留倉
         vxe-table-column(field='Serial' title='序號' width="80")
-        vxe-table-column(field='Name' title='商品' width="94")
+        vxe-table-column(title='商品' width="94")
+          template(slot-scope='scope')
+            span(v-if="scope.row.State != '已刪除'") {{ scope.row.Name }}
+            s(v-else) {{ scope.row.Name }}
         vxe-table-column(title='倒')
           template(slot-scope='scope') {{ scope.row.InvertedPoint }}
         vxe-table-column(title='多空' width="40px" align="center")

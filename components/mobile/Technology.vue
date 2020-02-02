@@ -54,7 +54,7 @@
               td: .cell.text__center {{ nowMainItem.new_point2 }}
               td: .cell.text__center {{ nowMainItem.cover_point1 }}
               td: .cell.text__center {{ nowMainItem.cover_point2 }}
-    .area(style="height: calc(100% - 76px)")
+    .area(style="height: calc(100% - 80px)")
       Kchart
 </template>
 
@@ -73,6 +73,17 @@ export default {
   },
   props: ['tabShow'],
   watch: {
+    clickItemId(id) {
+      //目前選擇商品
+      this.selectItemId = id
+      this.$store.dispatch('CALL_QUERY_TECH', {
+        'id': id,
+        'type': 'chart',
+        'num': 1
+      })
+
+      this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id);
+    },
     tabShow(type) {
       if (type == 2) {
         //目前選擇商品
@@ -82,6 +93,11 @@ export default {
   },
   mounted() {
   },
+  computed: mapState([
+    'mainItem',
+    'nowMainItem',
+    'clickItemId',
+  ]),
   methods: {
     changeSelectId() {
       let id = this.selectItemId
@@ -113,9 +129,5 @@ export default {
   components: {
     Kchart,
   },
-  computed: mapState([
-    'mainItem',
-    'nowMainItem',
-  ]),
 }
 </script>
