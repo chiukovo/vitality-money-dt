@@ -350,6 +350,10 @@ export default {
     clickItemId(itemId) {
       this.getNowPrice()
       this.getNowOverall()
+
+      if (this.selectItemId == '') {
+        this.selectItemId = itemId
+      }
     },
     customGroup(data) {
       this.$cookies.set('customGroup', this.customGroup)
@@ -404,7 +408,7 @@ export default {
       }
 
       //目前選擇商品
-      this.selectItemId = this.$store.state.clickItemId
+      this.selectItemId = this.clickItemId
       this.getNowPrice()
 
       if (typeof orderMode != 'undefined') {

@@ -82,7 +82,7 @@ export default {
         'num': 1
       })
 
-      this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id);
+      this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
     },
     tabShow(type) {
       if (type == 2) {
