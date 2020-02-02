@@ -11,6 +11,10 @@
   overflow-y: auto
 }
 
+*, *:focus {
+  outline: 0;
+}
+
 // button
 button {
   min-width: $button-min-width;

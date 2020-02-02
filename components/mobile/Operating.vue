@@ -3,7 +3,7 @@
   .main(class="over-y-auto")
     #area_top
       .area(style="width: 100%; overflow-x: auto;")
-        table.table.table__mini(style="width: 440px")
+        table.table.table__mini(style="width: 480px")
           thead
             tr
               th(width="90"): .cell.text__center 商品

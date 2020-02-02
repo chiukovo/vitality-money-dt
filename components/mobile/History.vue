@@ -17,16 +17,16 @@
                 span(v-if="item.State != '已刪除'") {{ item.Name }}
                 s(v-else) {{ item.Name }}
               .tran-item__yellow {{ item.Serial }}
-            li
+            li(style="width: 24px;")
               .text__center.text__lg(:class="item.BuyOrSell == 0 ? 'text__danger' : 'text__success'" style="width: 20px;") {{ item.BuyOrSell == 0 ? '多' : '空' }}
-            li
+            li(style="width: 28px;")
               .tran-item__hey.text__lg {{ item.Quantity }}
-            li
+            li(style="width: 43px;")
               div
                 span.text__secondary {{ orderTypeWord(item.OrderPrice, item.Odtype) }}
               div
                 span.tran-item__ha {{ item.FinalPrice }}
-            li
+            li(style="width: 58px;")
               div
                 div.text__secondary {{ dateOnlyHis(item.OrderTime) }}
               div
