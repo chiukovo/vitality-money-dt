@@ -305,7 +305,6 @@ export default {
     userArray.TodayMoney = Number(userArray.TodayMoney)
     userArray.TouchPoint = Number(userArray.TouchPoint)
     userArray.WithholdingMoney = Number(userArray.WithholdingMoney)
-
     //帳戶餘額 UserArray.Money + 未平損益
     state.nowMoney = userArray.Money + state.totalUncoverLossWinMoney - userArray.TouchPoint
     //昨日權益數 Money - TouchPoint  +  WithholdingMoney - TodayMoney
@@ -358,14 +357,14 @@ export default {
     let _this = this
     state.multiDelete = []
     state.commodity = []
-
     state.buySell = data.OrderArray
     state.uncovered = data.UncoveredArray
     state.covered = data.CoveredArray
     state.unCoverBuySum = data.UnCoverBuySum
     state.unCoverSellSum = data.UnCoverSellSum == 0 ? 0 : '-' + data.UnCoverSellSum
     state.unCoverTotal = state.uncovered.length
-
+    //計算未平損益
+    this.commit('computedUncovered', state.uncovered)
     //加入多檔刪除
     state.buySell = state.buySell.map(function(source) {
       const multiDeleteInfo = {
@@ -668,6 +667,7 @@ export default {
 
     //計算未平損益
     this.commit('computedUncovered', state.uncovered)
+
     //更新五檔
     //量價分布
     //分價揭示
