@@ -101,7 +101,6 @@ export default {
 	data() {
 	  return {
       tabs: 1,
-      selectItemId: '',
       userInfoHeaderShow: false,
       costomShow: false,
       settingShow: false,
@@ -128,38 +127,6 @@ export default {
   watch: {
     fontStyle() {
       this.$refs.xTable.refreshColumn()
-    },
-    mainItem() {
-      const _this = this
-
-      setTimeout(function(){
-        const success = document.querySelectorAll("#mainItemTable .vxe-cell .border__success")
-        const danger = document.querySelectorAll("#mainItemTable .vxe-cell .border__danger")
-
-        success.forEach(function(el) {
-          el.classList.remove("border")
-          el.classList.remove("border__success")
-        })
-
-        danger.forEach(function(el) {
-          el.classList.remove("border")
-          el.classList.remove("border__danger")
-        })
-      }, 400)
-    },
-    selectItemId(id) {
-      let name = ''
-      //找出名稱
-      this.$store.state.mainItem.forEach(function(val) {
-        if (val.product_id == id) {
-          name = val.product_name
-        }
-      })
-
-      this.$store.commit('setClickItemId', {
-        id: id,
-        name: name
-      })
     },
   },
   methods: {
