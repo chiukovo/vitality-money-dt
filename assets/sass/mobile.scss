@@ -675,6 +675,9 @@ $material-icons-font-path: '~material-icons/iconfont/';
     background-color: #3d3d3d;
     border: 0;
     padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 }
 
