@@ -738,7 +738,7 @@ export default {
     let _this = this
     let targetNewPrice = state.nowNewPrice[itemId]
 
-    if (typeof fiveData != "undefined") {
+    if (typeof fiveData != "undefined" && typeof targetNewPrice != "undefined") {
       if (fiveData[5][2] != targetNewPrice) {
         fiveData[5][2] = targetNewPrice
       }
@@ -884,7 +884,7 @@ export default {
       return result
     })
 
-    state.nowFiveMoney[itemId] = formatData
+    state.nowFiveMoney[itemId] = JSON.parse(JSON.stringify(formatData))
 
     this.commit('setFiveItemChange', {fiveData: formatData, itemId})
     //陣列第[3]：第一筆買價
