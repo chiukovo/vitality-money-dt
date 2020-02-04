@@ -33,14 +33,14 @@
             span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
         vxe-table-column(field='FinalPrice' title='成交價')
         vxe-table-column(field='Quantity' title='口數')
-        vxe-table-column(field='Fee' title='手續費')
+        vxe-table-column(field='TotalFee' title='手續費')
         vxe-table-column(title='損失點' align="center" width="74")
           template(slot-scope='scope') {{ parseInt(scope.row.LossPoint) }}
         vxe-table-column(title='獲利點' align="center" width="74")
           template(slot-scope='scope') {{ parseInt(scope.row.WinPoint) }}
         vxe-table-column(title='倒限(利)' align="center" width="70px")
           template(slot-scope='scope') {{ parseInt(scope.row.InvertedPoint) }}
-        vxe-table-column(title='不留倉')
+        vxe-table-column(title='不留倉' width="80")
           template(slot-scope='scope' v-if="scope.row.Operation[2]")
             label.checkbox
               input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row)" :disabled="dayCoverIsDisabled(scope.row.ID)")
