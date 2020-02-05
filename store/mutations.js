@@ -319,6 +319,8 @@ export default {
     state.totalInterestNum = userArray.Money - userArray.TouchPoint + state.totalUncoverLossWinMoney + userArray.WithholdingMoney
   },
   setUserOrder(state, data) {
+    const _this = this
+
     state.userOrder = data
     let uncoveredCountDetail = []
     //計算未平倉數量
@@ -339,6 +341,8 @@ export default {
           uncoveredCountDetail[val.ID] += -1 * val.Quantity
         }
       }
+
+      uncoveredCountDetail[val.ID] = _this._vm.numberToPrecision(uncoveredCountDetail[val.ID])
 
       //default
       val.thisSerialPointDiff = 0
@@ -689,6 +693,7 @@ export default {
     }
   },
   computedUncovered(state, data) {
+    const _this = this
     let nowNewPrice = state.nowNewPrice
     //總共未平損益
     state.totalUncoverLossWinMoney = 0
@@ -723,8 +728,11 @@ export default {
         state.totalUncoverLossWinMoney -= diff * Number(val.PointMoney) * Number(val.Quantity)
       }
 
+      state.totalUncoverLossWinMoney = _this._vm.numberToPrecision(state.totalUncoverLossWinMoney)
+
       // 此單未平損益 (要算手續費)，要更新在未平單上
       val.thisSerialTotalMoney = val.thisSerialPointDiff * Number(val.PointMoney) * Number(val.Quantity)
+      val.thisSerialTotalMoney = _this._vm.numberToPrecision(val.thisSerialTotalMoney)
 
       result.push(val)
     })
