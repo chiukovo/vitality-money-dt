@@ -197,7 +197,7 @@ export default {
         }
       }
       //判斷整行顏色
-      if(columnIndex >= 1 && columnIndex != 5 && columnIndex != 7 && columnIndex != 13) {
+      if(columnIndex >= 1 && columnIndex != 5 && columnIndex != 7 && columnIndex != 12) {
         if (this.listColorStyle == 2) {
           //相反
           if (row.color == 'text__danger') {

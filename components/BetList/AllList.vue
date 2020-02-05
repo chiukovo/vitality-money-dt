@@ -35,7 +35,7 @@
         vxe-table-column(title='不留倉' width="80")
           template(slot-scope='scope' v-if="scope.row.Operation[2]")
             label.checkbox
-              input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row)" :disabled="dayCoverIsDisabled(scope.row.ID)")
+              input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row, $event)" :disabled="dayCoverIsDisabled(scope.row.ID)")
               span.checkbox__label 不留倉
         vxe-table-column(field='Serial' title='序號' width="80")
         vxe-table-column(title='商品' width="94")

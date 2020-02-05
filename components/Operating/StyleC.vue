@@ -220,20 +220,31 @@ export default {
       const userId = this.$store.state.localStorage.userAuth.userId
       const token = this.$store.state.localStorage.userAuth.token
 
-      axios.post(process.env.NUXT_ENV_API_URL + "/set_close_cover_all?lang=" + lang, qs.stringify({
-        UserID: userId,
-        Token: token,
-        SetCloseCover: _this.dayCover,
-        SetCloseCommodity: _this.clickItemId,
-      }))
-      .then(response => {
-        if (response.data.Code != 1) {
-          _this.$alert(response.data.ErrorMsg)
-          _this.dayCover = !_this.dayCover
-        }
+      //確認視窗
+      const confirmText = _this.dayCover ? '確認勾選(全平 + 取消委託)?' : '確認取消勾選(全平 + 取消委託)?'
+      this.$confirm(confirmText, '注意! ', {
+        confirmButtonText: '確定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post(process.env.NUXT_ENV_API_URL + "/set_close_cover_all?lang=" + lang, qs.stringify({
+          UserID: userId,
+          Token: token,
+          SetCloseCover: _this.dayCover,
+          SetCloseCommodity: _this.clickItemId,
+        }))
+        .then(response => {
+          if (response.data.Code != 1) {
+            _this.$alert(response.data.ErrorMsg)
+            _this.dayCover = !_this.dayCover
+          }
 
-        this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
-        this.$store.dispatch('CALL_MEMBER_INFO')
+          this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
+          this.$store.dispatch('CALL_MEMBER_INFO')
+        }).catch(() => {
+        })
+      }).catch(() => {
+        _this.dayCover = !_this.dayCover
       })
     },
     setCustomSetting(type) {

@@ -357,18 +357,6 @@ export default {
     },
     customGroup(data) {
       this.$cookies.set('customGroup', this.customGroup)
-
-      //修改收盤全平
-      let overall = 0
-
-      this.customGroup.forEach(function(val){
-        if (val == 'overall') {
-          overall = 1
-        }
-      })
-
-      this.$store.dispatch('CALL_SET_CLOSE_OVER_ALL', { overall })
-      this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
     },
     submitNum(newNum, oldNum) {
       if (newNum == 0 && oldNum == 1) {

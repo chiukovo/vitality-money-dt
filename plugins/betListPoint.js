@@ -249,19 +249,31 @@ Vue.mixin({
         }
       })
     },
-    changeDayCover(row) {
+    changeDayCover(row, e) {
       const _this = this
-      const setDayCover = row.DayCover ? 0 : 1
+      let setDayCover = row.DayCover ? 0 : 1
 
-      axios.post(process.env.NUXT_ENV_API_URL + "/set_serial_daycover?lang=" + this.lang, qs.stringify({
-        UserID: this.userId,
-        Token: this.token,
-        DayCover: setDayCover,
-        DayCoverSerialId: row.Serial,
-      }))
-      .then(response => {
-        _this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
-        _this.$store.dispatch('CALL_MEMBER_INFO')
+      //確認視窗
+      const confirmText = setDayCover ? '確認勾選不留倉?' : '確認取消勾選不留倉?'
+
+      this.$confirm(confirmText, '注意! ', {
+        confirmButtonText: '確定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post(process.env.NUXT_ENV_API_URL + "/set_serial_daycover?lang=" + this.lang, qs.stringify({
+          UserID: this.userId,
+          Token: this.token,
+          DayCover: setDayCover,
+          DayCoverSerialId: row.Serial,
+        }))
+        .then(response => {
+          _this.$store.dispatch('CALL_MEMBER_ORDER_LIST')
+          _this.$store.dispatch('CALL_MEMBER_INFO')
+        })
+      }).catch(() => {
+        setDayCover = row.DayCover
+        e.target.checked = row.DayCover
       })
     },
     selectionChangeDelete(target) {

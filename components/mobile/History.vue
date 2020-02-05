@@ -265,14 +265,17 @@
       template
         div(v-if="showControlTitle == '改價減量'")
           ul.el-dialog__list
-            li.button(@click="deleteOrder(controlData)" v-if="controlData.Operation[1]") 刪單
-            li.button(@click="openEdit(controlData, 'edit')" v-if="controlData.Operation[0]") 改價減量
-            li.button(@click="openEdit(controlData, 'inAll')") 設定損益
+            li.button(@click="deleteOrder(controlData); showControl = false" v-if="controlData.Operation[1]") 刪單
+            li.button(@click="openEdit(controlData, 'edit'); showControl = false" v-if="controlData.Operation[0]") 改價減量
+            li.button(@click="openEdit(controlData, 'inAll'); showControl = false") 設定損益
+            li.button(@click="changeDayCover(controlData, $event); showControl = false")
+              span(v-if="controlData.DayCover") 不留倉
+              span(v-else) 留倉
         div(v-else)
           ul.el-dialog__list
-            li.button(@click="doCovered(controlData, 1)") 市價平倉
-            li.button(@click="openEdit(controlData)") 設定損益
-            li.button(@click="changeDayCover(controlData)")
+            li.button(@click="doCovered(controlData, 1); showControl = false") 市價平倉
+            li.button(@click="openEdit(controlData); showControl = false") 設定損益
+            li.button(@click="changeDayCover(controlData, $event); showControl = false")
               span(v-if="controlData.DayCover") 不留倉
               span(v-else) 留倉
         table.popupAllSingleSelectNo.my-2
