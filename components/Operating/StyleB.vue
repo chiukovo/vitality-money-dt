@@ -108,6 +108,7 @@ export default {
       confirmData: [],
       radioA: '0',
       buyType: '0',
+      dayCover: 0,
       profit: 0,
       damage: 0,
       submitNum: 1,
@@ -127,6 +128,22 @@ export default {
   watch: {
     commidyArray() {
       this.getNowOverall()
+    },
+    itemChange(itemId) {
+      let target = this.findMainItemById(itemId)
+      let name = ''
+
+      if (typeof target != 'undefined') {
+        name = target.product_name
+      }
+
+      //取消
+      this.$store.commit('sendMessage', this.cancelAllFive())
+      //開始新的
+      this.$store.commit('setClickItemId', {
+        id: itemId,
+        name: name
+      })
     },
     clickItemId(itemId) {
       this.itemChange = itemId
@@ -177,36 +194,16 @@ export default {
     },
     getNowOverall() {
       //使用者設定
-      const commidyArray = this.$store.state.commidyArray
-      const clickItem = this.$store.state.clickItemId
-      let newCustomGroup = []
-      let dayCover = ''
+      const _this = this
+      const commidyArray = this.commidyArray
+      const clickItemId = this.clickItemId
 
       commidyArray.forEach(function(val) {
-        if (val.ID == clickItem) {
-          dayCover = val.DayCover
+        if (val.ID == clickItemId) {
+          _this.dayCover = val.DayCover
+          _this.noRemaining = val.NoRemaining
         }
       })
-
-      let has = false
-
-      this.customGroup.forEach(function(val) {
-        if (val == 'overall') {
-          has = true
-
-          if (dayCover == '1') {
-            newCustomGroup.push(val)
-          }
-        } else {
-          newCustomGroup.push(val)
-        }
-      })
-
-      if (!has && dayCover == '1') {
-        newCustomGroup.push('overall')
-      }
-
-      this.customGroup = newCustomGroup
     },
     getNowPrice(itemId) {
       const nowNewPrice = this.$store.state.nowNewPrice
