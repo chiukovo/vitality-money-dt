@@ -244,8 +244,7 @@
       :visible.sync='orderConfirm'
       :modal='false'
       width="60%"
-      title='確認下單'
-      v-dialogDrag)
+      title='確認下單')
       .header-custom(slot='title')
         |  確認下單
       .p-2

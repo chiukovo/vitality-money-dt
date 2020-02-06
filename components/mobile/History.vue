@@ -116,8 +116,7 @@
     el-dialog(
       :visible.sync='editDialog'
       :modal='false'
-      width="80%"
-      v-dialogDrag)
+      width="80%")
       .header-custom(slot='title')
         span {{ editTitle }}
       template
@@ -204,8 +203,7 @@
       :modal='false'
       :show-close='false'
       width="95%"
-      title='全部未平倉單'
-      v-dialogDrag)
+      title='全部未平倉單')
       .header-custom(slot='title' style="height: 25px;")
       table.table_white
         tr
@@ -231,8 +229,7 @@
       :modal='false'
       :show-close='false'
       width="200px"
-      title='確認刪除'
-      v-dialogDrag)
+      title='確認刪除')
       .header-custom(slot='title')
         |  確認刪除
       table.popupAllSingleSelectNo.my-2(v-for="item in multiDeleteData")
@@ -259,8 +256,7 @@
     //-控制選項
     el-dialog(
       :visible.sync='showControl'
-      :modal='false'
-      v-dialogDrag)
+      :modal='false')
       .header-custom(slot='title' style="height: 25px;")
       template
         div(v-if="showControlTitle == '改價減量'")

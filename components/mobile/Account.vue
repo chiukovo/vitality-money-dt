@@ -57,8 +57,7 @@
       :visible.sync='dialogShow'
       :modal='false'
       width="300px"
-      title='dialogTitle'
-      v-dialogDrag)
+      title='dialogTitle')
       .header-custom(slot='title') {{ dialogTitle }}
       CustomItem(v-if='systemShow == 7')
       div(v-if='systemShow == 8')

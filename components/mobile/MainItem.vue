@@ -4,8 +4,7 @@
     :visible.sync='settingShow'
     :modal='false'
     :width="customItemShow ? '300px' : ''"
-    :before-close='handleClose'
-    v-dialogDrag)
+    :before-close='handleClose')
     .header-custom(slot='title') 設定
     CustomItem(v-if='customItemShow')
     ul.el-dialog__list(v-else)

@@ -25,6 +25,7 @@
         stripe
         border
         auto-resize
+        show-overflow
         highlight-hover-row
         highlight-current-row)
         vxe-table-column(width="120" align="center")
@@ -66,8 +67,7 @@
   el-dialog(
     :visible.sync='editDialog'
     :modal='false'
-    width="330px"
-    v-dialogDrag)
+    width="330px")
     .header-custom(slot='title')
       span 改價減量
       span.badge.badge-warning ({{ pointInputType == 1 ? '點數' : '行情' }})
@@ -148,8 +148,7 @@
     :modal='false'
     :show-close='false'
     width="600px"
-    title='確認刪除'
-    v-dialogDrag)
+    title='確認刪除')
     .header-custom(slot='title')
       |  確認刪除
     vxe-table(
@@ -178,8 +177,7 @@
     :modal='false'
     :show-close='false'
     width="600px"
-    title='確認平倉'
-    v-dialogDrag)
+    title='確認平倉')
     .header-custom(slot='title')
       |  確認平倉
     .p-2
