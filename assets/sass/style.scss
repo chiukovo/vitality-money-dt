@@ -731,6 +731,9 @@ td {
 .vxe-header--column .vxe-cell {
   height: 26px;
 }
+.vxe-table .vxe-body--column.col--ellipsis {
+  height: 30px !important;
+}
 .vxe-table.size--mini .vxe-header--column:not(.col--ellipsis), .vxe-table.size--mini .vxe-body--column:not(.col--ellipsis), .vxe-table.size--mini .vxe-footer--column:not(.col--ellipsis) {
   padding: 0;
 }
