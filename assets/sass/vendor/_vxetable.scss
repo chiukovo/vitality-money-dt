@@ -105,3 +105,9 @@ $vxe-modal-header-background-color: #fff;
 .vxe-header--column .vxe-cell {
   padding: $table-header-cell-padding;
 }
+
+
+.vxe-table.size--mini.virtual--x .col--ellipsis .vxe-cell, .vxe-table.size--mini.virtual--y .col--ellipsis .vxe-cell,
+.vxe-table.size--mini .vxe-header--column.col--ellipsis .vxe-cell, .vxe-table.size--mini .vxe-body--column.col--ellipsis .vxe-cell, .vxe-table.size--mini .vxe-footer--column.col--ellipsis .vxe-cell {
+  max-height: none !important;
+}
