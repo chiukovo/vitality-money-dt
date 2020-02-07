@@ -1,5 +1,4 @@
 require('dotenv').config()
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 module.exports = {
   mode: 'spa',
@@ -63,18 +62,24 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    extractCSS: true,
     transpile: [/^element-ui/],
-    extend(config, ctx) {
-      config.plugins.unshift(new LodashModuleReplacementPlugin)
-      config.module.rules[2].use[0].options.plugins = ['lodash']
-    },
-    optimization: {
-      splitChunks: {
-        minSize: 10000,
-        maxSize: 250000
-      }
-    }
+    collapseBooleanAttributes: true,
+    collapseWhitespace: false,
+    decodeEntities: true,
+    minifyCSS: true,
+    minifyJS: true,
+    processConditionalComments: true,
+    removeAttributeQuotes: false,
+    removeComments: false,
+    removeEmptyAttributes: true,
+    removeOptionalTags: false,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: false,
+    removeStyleLinkTypeAttributes: false,
+    removeTagWhitespace: false,
+    sortClassName: false,
+    trimCustomFragments: true,
+    useShortDoctype: true
   },
   proxy: {
     '/api': {

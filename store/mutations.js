@@ -149,7 +149,7 @@ export default {
     let result = []
     let resultToOrder = []
 
-    mainItem.forEach(function(val) {
+    result = mainItem.map(function(val) {
       //確認此筆是否要隱藏
       //使用者設定
       let userHide = false
@@ -191,7 +191,7 @@ export default {
       //寫入store 目前最新成交價錢
       state.nowNewPrice[val.product_id] = val.newest_price
 
-      result.push(val)
+      return val
     })
 
     //order
@@ -253,8 +253,7 @@ export default {
     }
 
     if (state.commidyArray.length > 0) {
-      let newMainItem = []
-      state.mainItem.forEach(function(val) {
+      state.mainItem = state.mainItem.map(function(val) {
         //確認此筆是否要隱藏
         let sysHide = true
         //系統設定
@@ -285,10 +284,8 @@ export default {
           _this.commit('setNowMainItem', val)
         }
 
-        newMainItem.push(val)
+        return val
       })
-
-      state.mainItem = newMainItem
     }
 
     state.userInfo = userArray
@@ -385,7 +382,7 @@ export default {
     })
 
     //商品統計 加入其他
-    state.allCommodity.forEach(function(source) {
+    state.commodity = state.allCommodity.map(function(source) {
       let pushData = {
         Name: source.Name,
         TotalBuySubmit: 0,
@@ -417,7 +414,7 @@ export default {
         }
       })
 
-      state.commodity.push(pushData)
+      return pushData
     })
   },
   setNowMainItem(state, data) {
@@ -564,12 +561,12 @@ export default {
     let chartData = state.chartData
 
     if (kLineData.length > 0 && itemId == clickItemId) {
-      _this.commit('doUpdateklLineData', nowItems)
+      //_this.commit('doUpdateklLineData', nowItems)
     }
 
     //if click 長條圖
     if (chartData.length > 0 && itemId == clickItemId) {
-      _this.commit('doUpdateChartData', nowItems)
+      //_this.commit('doUpdateChartData', nowItems)
     }
 
     state.mainItem = state.mainItem.map(function (val) {
@@ -704,7 +701,7 @@ export default {
       return
     }
 
-    data.forEach(function(val) {
+    result = data.map(function(val) {
       // 取得點數現價差，要更新在未平單上
       val.thisSerialPointDiff = 0
       // 取得價格
@@ -734,7 +731,7 @@ export default {
       val.thisSerialTotalMoney = val.thisSerialPointDiff * Number(val.PointMoney) * Number(val.Quantity)
       val.thisSerialTotalMoney = _this._vm.numberToPrecision(val.thisSerialTotalMoney)
 
-      result.push(val)
+      return val
     })
 
     state.uncovered = result

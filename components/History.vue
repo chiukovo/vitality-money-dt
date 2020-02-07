@@ -4,8 +4,8 @@
 #history.history
   .history-header
     .history-tabs.tabs-nav
-      .tabs__item(@click='handleHistoryTabs(1)' :class="{'is-active' : historyTabShow == 1}") K線圖
-      .tabs__item(@click='handleHistoryTabs(2)' :class="{'is-active' : historyTabShow == 2}") 走勢圖
+      //-.tabs__item(@click='handleHistoryTabs(1)' :class="{'is-active' : historyTabShow == 1}") K線圖
+      //-.tabs__item(@click='handleHistoryTabs(2)' :class="{'is-active' : historyTabShow == 2}") 走勢圖
       .tabs__item(@click='handleHistoryTabs(3)' :class="{'is-active' : historyTabShow == 3}") 全部單
         .badge.badge-danger.mybadge {{ $store.state.buySell.length }}
       .tabs__item(@click='handleHistoryTabs(4)' :class="{'is-active' : historyTabShow == 4}") 未平倉單
@@ -13,8 +13,8 @@
         .badge.badge-success.mybadge {{ Math.abs($store.state.unCoverSellSum) }}
       .tabs__item(@click='handleHistoryTabs(5)' :class="{'is-active' : historyTabShow == 5}") 已平倉
       .tabs__item(@click='handleHistoryTabs(6)' :class="{'is-active' : historyTabShow == 6}") 統計
-  HistoryK(v-show='historyTabShow == 1')
-  HistoryC(v-show='historyTabShow == 2')
+  //-HistoryK(v-show='historyTabShow == 1')
+  //-HistoryC(v-show='historyTabShow == 2')
   AllList(v-show='historyTabShow == 3')
   Uncovered(v-show='historyTabShow == 4')
   Covered(v-show='historyTabShow == 5')
@@ -30,15 +30,15 @@ import AllList from "~/components/BetList/AllList"
 import Uncovered from "~/components/BetList/Uncovered"
 import Covered from "~/components/BetList/Covered"
 import Commodity from "~/components/BetList/Commodity"
-import HistoryK from "~/components/HistoryK"
-import HistoryC from "~/components/HistoryC"
+//-import HistoryK from "~/components/HistoryK"
+//-import HistoryC from "~/components/HistoryC"
 //-改單用
 import "@/plugins/betListPoint.js"
 
 export default {
   data() {
     return {
-      historyTabShow: 1,
+      historyTabShow: 3,
       height: {
         buySell: '',
         uncovered: '',
@@ -58,8 +58,8 @@ export default {
     AllList,
     Uncovered,
     Covered,
-    HistoryK,
-    HistoryC,
+    //-HistoryK,
+    //-HistoryC,
     Commodity,
   },
   watch: {
@@ -101,6 +101,7 @@ export default {
       if (e == 2) {
         this.$store.dispatch('RESIZE_CHART')
       }
+
 			this.historyTabShow = e
 		},
   }
