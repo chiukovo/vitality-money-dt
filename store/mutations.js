@@ -561,12 +561,12 @@ export default {
     let chartData = state.chartData
 
     if (kLineData.length > 0 && itemId == clickItemId) {
-      //_this.commit('doUpdateklLineData', nowItems)
+      _this.commit('doUpdateklLineData', nowItems)
     }
 
     //if click 長條圖
     if (chartData.length > 0 && itemId == clickItemId) {
-      //_this.commit('doUpdateChartData', nowItems)
+      _this.commit('doUpdateChartData', nowItems)
     }
 
     state.mainItem = state.mainItem.map(function (val) {
