@@ -439,6 +439,14 @@ export default {
   },
   setClickItemId(state, {id, name}) {
     const _this = this
+
+    if (state.clickItemId == id) {
+      return
+    }
+
+    //清空五檔socket
+    state.items0 = []
+    _this.commit('sendMessage', 'f:TXF,TXFAF,EXF,FXF,TSLQ,HSI,HSIAF,E7,NK225,NK225AF,FDAX,YM,NQ,CL,GC,SI,CN,CNAF,CIF')
     _this.commit('sendMessage', 'h:' + id)
 
     //change now mainItem
@@ -499,41 +507,41 @@ export default {
       //只放入有用到的
       setData = {
         bp_price: val.bp_price,
-        bp_price_change: val.bp_price_change,
+        bp_price_change: '',
         close_date_time: val.close_date_time,
         color: val.color,
         cover_point1: val.cover_point1,
         cover_point2: val.cover_point2,
         end_date: _this._vm.formatEndDate(val.end_date),
         gain: val.gain,
-        gain_change: val.gain_change,
+        gain_change: '',
         gain_percent: val.gain_percent,
-        gain_percent_change: val.gain_percent_change,
+        gain_percent_change: '',
         highest_price: val.highest_price,
         highest_price: val.highest_price,
-        highest_price_change: val.highest_price_change,
+        highest_price_change: '',
         highest_price: val.highest_price,
         lowest_price: val.lowest_price,
-        lowest_price_change: val.lowest_price_change,
+        lowest_price_change: '',
         market: val.market,
         new_point1: val.new_point1,
         new_point2: val.new_point2,
         newest_price: val.newest_price,
-        newest_price_change: val.newest_price_change,
+        newest_price_change: '',
         open_date_time: val.open_date_time,
         open_price: val.open_price,
         newest_time: _this._vm.formatTime(val.newest_time),
-        newest_time_change: val.newest_time_change,
+        newest_time_change: '',
         product_id: val.product_id,
         product_name: val.product_name,
         sp_price: val.sp_price,
-        sp_price_change: val.sp_price_change,
+        sp_price_change: '',
         state: val.state,
         state_name: val.state_name,
         total_qty: val.total_qty,
         newest_qty: val.newest_qty,
-        newest_qty_change: val.newest_qty_change,
-        total_qty_change: val.total_qty_change,
+        newest_qty_change: '',
+        total_qty_change: '',
         yesterday_close_price: val.yesterday_close_price,
         yesterday_last_price: val.yesterday_last_price,
         monthday: val.monthday,

@@ -320,6 +320,9 @@ export default {
     },
     selectItemId(id) {
       let name = ''
+      this.getNowPrice()
+      this.getNowOverall()
+
       //找出名稱
       this.$store.state.mainItem.forEach(function(val) {
         if (val.product_id == id) {
@@ -327,32 +330,11 @@ export default {
         }
       })
 
-      //取消
-      this.$store.commit('sendMessage', this.cancelAllFive())
       //開始新的
-      this.$store.commit('setClickItemId', {
-        id: id,
-        name: name
-      })
-
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': id,
-        'type': 'chart',
-        'num': 1
-      })
-
-      this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
+      this.preSetClickItemId(id, name)
     },
     commidyArray() {
       this.getNowOverall()
-    },
-    clickItemId(itemId) {
-      this.getNowPrice()
-      this.getNowOverall()
-
-      if (this.selectItemId == '') {
-        this.selectItemId = itemId
-      }
     },
     customGroup(data) {
       this.$cookies.set('customGroup', this.customGroup)

@@ -62,7 +62,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    transpile: [/^element-ui/],
+    vendor: ['element-ui'],
     collapseBooleanAttributes: true,
     collapseWhitespace: false,
     decodeEntities: true,

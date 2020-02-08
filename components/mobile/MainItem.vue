@@ -160,10 +160,7 @@ export default {
       return result + 'px'
     },
     clickItem({ row }) {
-      this.$store.commit('setClickItemId', {
-        id: row.product_id,
-        name: row.product_name
-      })
+      this.preSetClickItemId(row.product_id, row.product_name)
     },
     tableCellClassName({ row, column, columnIndex }) {
       //判斷是否顯示

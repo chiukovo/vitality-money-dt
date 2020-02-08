@@ -76,13 +76,6 @@ export default {
     clickItemId(id) {
       //目前選擇商品
       this.selectItemId = id
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': id,
-        'type': 'chart',
-        'num': 1
-      })
-
-      this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
     },
     tabShow(type) {
       if (type == 2) {
@@ -109,21 +102,7 @@ export default {
         }
       })
 
-      //取消
-      this.$store.commit('sendMessage', this.cancelAllFive())
-      //開始新的
-      this.$store.commit('setClickItemId', {
-        id: id,
-        name: name
-      })
-
-      this.$store.dispatch('CALL_QUERY_TECH', {
-        'id': id,
-        'type': 'chart',
-        'num': 1
-      })
-
-      this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
+      this.preSetClickItemId(id, name)
     }
   },
   components: {

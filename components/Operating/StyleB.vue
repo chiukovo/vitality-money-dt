@@ -135,13 +135,7 @@ export default {
         name = target.product_name
       }
 
-      //取消
-      this.$store.commit('sendMessage', this.cancelAllFive())
-      //開始新的
-      this.$store.commit('setClickItemId', {
-        id: itemId,
-        name: name
-      })
+      this.preSetClickItemId(itemId, name)
     },
     clickItemId(itemId) {
       this.itemChange = itemId
