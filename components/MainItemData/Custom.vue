@@ -127,11 +127,6 @@ export default {
     SetListDataColor,
   },
   mounted() {
-    const _this = this
-
-    document.body.addEventListener("click", function(e) {
-      _this.closeSetting()
-    })
   },
   watch: {
     fontStyle() {
