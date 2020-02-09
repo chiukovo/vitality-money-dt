@@ -17,7 +17,7 @@
     client-only
       vxe-table.table__dark(
         :data='$store.state.buySell'
-        :cell-class-name='buySelltableCellClassName',
+        :row-class-name='rowClass',
         max-width="100%"
         height="100%"
         size="mini"
@@ -310,7 +310,7 @@ export default {
     cantSetWinLoss(operation) {
       return operation[0] == 0 && operation[1] == 0 && operation[2] == 0 && operation[4] == 0
     },
-    buySelltableCellClassName({ row, column, columnIndex }) {
+    rowClass({ row, column, columnIndex }) {
       //判斷是否顯示
       if (this.seeAllOrder == 0 && row.State != '未成交') {
         return 'hide'

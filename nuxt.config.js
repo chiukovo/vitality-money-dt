@@ -31,6 +31,7 @@ module.exports = {
     {src: '~plugins/websocket.js', ssr: false},
     {src: '~plugins/auth.js', ssr: false},
     {src: '~plugins/element-ui', ssr: true},
+    {src: '~plugins/utils', ssr: false},
     {src: '~plugins/vue-table', ssr: false},
     {src: '~plugins/version', ssr: false},
   ],
@@ -62,25 +63,25 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['element-ui'],
-    collapseBooleanAttributes: true,
-    collapseWhitespace: false,
-    decodeEntities: true,
-    minifyCSS: true,
-    minifyJS: true,
-    processConditionalComments: true,
-    removeAttributeQuotes: false,
-    removeComments: false,
-    removeEmptyAttributes: true,
-    removeOptionalTags: false,
-    removeRedundantAttributes: true,
-    removeScriptTypeAttributes: false,
-    removeStyleLinkTypeAttributes: false,
-    removeTagWhitespace: false,
-    sortClassName: false,
-    trimCustomFragments: true,
-    useShortDoctype: true
-  },
+    babel: {
+      "plugins":[
+        [
+          "component",
+          {
+            "libraryName":"element-ui",
+            "styleLibraryName":"theme-chalk"
+          }
+        ],
+        [
+          "import",
+          {
+            "libraryName": "vxe-table",
+            "style": true
+          }
+        ]
+      ]
+    },
+   },
   proxy: {
     '/api': {
       target: process.env.NUXT_ENV_API_URL,

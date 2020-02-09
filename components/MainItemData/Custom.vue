@@ -23,8 +23,8 @@ div(class="h-100")
         :class="'fontStyle-' + fontStyle"
         id="mainItemTable"
         :data='mainItem'
-        :cell-class-name='tableCellClassName'
         @scroll="vxeTableScrollEvent"
+        :row-class-name="rowClass"
         max-width="100%"
         height="100%"
         size="mini"
@@ -34,7 +34,7 @@ div(class="h-100")
         border
         auto-resize
         highlight-current-row)
-        vxe-table-column(:width="computedStyleWidth(50)" fixed="left" align="left" show-header-overflow)
+        vxe-table-column(:width="computedStyleWidth(50)" fixed="left" align="left")
           template(v-slot:header="{column}") 商品
             .table-toggle
               a(@click.stop="customSetting = !customSetting")
@@ -49,19 +49,24 @@ div(class="h-100")
             span(class="text__center bg__success" v-if="$store.state.uncoveredCountDetail[scope.row['product_id']] < 0") {{ Math.abs($store.state.uncoveredCountDetail[scope.row['product_id']]) }}
         vxe-table-column(:width="computedStyleWidth(10)" title='買進價' v-if="checkHide('買進價')")
           template(slot-scope='scope')
-            span(:class="scope.row['bp_price_change']") {{ scope.row['bp_price'] }}
+            div(:class="scope.row.computed_color")
+              span(:class="scope.row['bp_price_change']") {{ scope.row['bp_price'] }}
         vxe-table-column(:width="computedStyleWidth(10)" title='賣出價' v-if="checkHide('賣出價')")
           template(slot-scope='scope')
-            span(:class="scope.row['sp_price_change']") {{ scope.row['sp_price'] }}
+            div(:class="scope.row.computed_color")
+              span(:class="scope.row['sp_price_change']") {{ scope.row['sp_price'] }}
         vxe-table-column(:width="computedStyleWidth(10)" title='成交價' v-if="checkHide('成交價')")
           template(slot-scope='scope')
-            span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
+            div(:class="scope.row.computed_color")
+              span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
         vxe-table-column(title='漲跌' v-if="checkHide('漲跌')")
           template(slot-scope='scope')
-            span(:class="scope.row['gain_change']") {{ scope.row['gain'] }}
+            div(:class="scope.row.computed_color")
+              span(:class="scope.row['gain_change']") {{ scope.row['gain'] }}
         vxe-table-column(:width="computedStyleWidth(10)" title='漲幅%' v-if="checkHide('漲幅%')")
           template(slot-scope='scope')
-            span(:class="scope.row['gain_percent_change']") {{ scope.row['gain_percent'] }}%
+            div(:class="scope.row.computed_color")
+              span(:class="scope.row['gain_percent_change']") {{ scope.row['gain_percent'] }}%
         vxe-table-column(title='單量' v-if="checkHide('單量')")
           template(slot-scope='scope')
             span(:class="scope.row['newest_qty_change']") {{ scope.row['newest_qty'] }}
@@ -73,17 +78,21 @@ div(class="h-100")
         vxe-table-column(:width="computedStyleWidth(10)" title='開盤價' v-if="checkHide('開盤價')")
           template(slot-scope='scope') {{ scope.row['open_price']}}
         vxe-table-column(:width="computedStyleWidth(10)" title='最高價' v-if="checkHide('最高價')")
-          template(slot-scope='scope') {{ scope.row['highest_price']}}
+          template(slot-scope='scope')
+            div(:class="scope.row.computed_color") {{ scope.row['highest_price']}}
         vxe-table-column(:width="computedStyleWidth(10)" title='最低價' v-if="checkHide('最低價')")
-          template(slot-scope='scope') {{ scope.row['lowest_price']}}
+          template(slot-scope='scope')
+            div(:class="scope.row.computed_color") {{ scope.row['lowest_price']}}
         vxe-table-column(:width="computedStyleWidth(50)" title='時間' v-if="checkHide('時間')")
           template(slot-scope='scope')
             span(:class="scope.row['newest_time_change']") {{ scope.row['newest_time'] }}
         vxe-table-column(:width="computedStyleWidth(10)" title='交易' align="center" v-if="checkHide('交易')")
-          template(slot-scope='scope') {{ scope.row['state_name'] }}
+          template(slot-scope='scope')
+            div(:class="scope.row.state_color") {{ scope.row['state_name'] }}
         vxe-table-column(:width="computedStyleWidth(70)" title='最後成交價' v-if="checkHide('最後成交價')")
           template(slot-scope='scope')
-            span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
+            div(:class="scope.row.computed_color")
+              span(:class="scope.row['newest_price_change']") {{ scope.row['newest_price'] }}
         vxe-table-column(:width="computedStyleWidth(70)" title='最後交易日' v-if="checkHide('最後交易日')")
           template(slot-scope='scope') {{ scope.row['end_date'] }}
         vxe-table-column(title='說明' align="center" v-if="checkHide('說明')")
@@ -114,7 +123,6 @@ export default {
       customSetting: false,
 	  }
 	},
-  props: ['tabs'],
   computed: mapState({
     mainItem: 'mainItem',
     clickItemId: 'clickItemId',
@@ -187,47 +195,9 @@ export default {
 
       return needShow
     },
-    tableCellClassName({ row, column, columnIndex }) {
-      //判斷是否顯示
-      //指數
-      if (this.tabs == 2) {
-        if (row.type != 'index') {
-          return 'hide'
-        }
-      }
-      //指數期貨
-      if (this.tabs == 3) {
-        if (row.type != 'index_futures') {
-          return 'hide'
-        }
-      }
-      //商品期貨
-      if (this.tabs == 4) {
-        if (row.type != 'commodity_futures') {
-          return 'hide'
-        }
-      }
-
-      //判斷整行顏色
-      if(columnIndex >= 3 && columnIndex != 8 && columnIndex != 9 && columnIndex != 10 && columnIndex != 11 && columnIndex != 14 && columnIndex != 15 && columnIndex != 17 && columnIndex != 19) {
-        if (this.listColorStyle == 2) {
-          //相反
-          if (row.color == 'text__danger') {
-            return 'text__success'
-          }
-          if (row.color == 'text__success') {
-            return 'text__danger'
-          }
-        }
-
-        return row.color
-      }
-
-      //判斷狀態
-      if(columnIndex == 15) {
-        if (row.state != 2) {
-          return 'text__secondary'
-        }
+    rowClass({ row, column, columnIndex }) {
+      if (row.row_hide) {
+        return 'hide'
       }
     },
   }
