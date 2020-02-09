@@ -30,7 +30,29 @@
 // @import "~element-theme-chalk/src/message.scss";
 // @import "~element-theme-chalk/src/link.scss";
 
+.el-dialog__wrapper {
+  transition-duration: 0s;
+}
+.dialog-fade-enter-active{
+  animation: none !important;
+}
+.dialog-fade-leave-active {
+  transition-duration: 0s !important;
+  animation: none !important;
+}
 
+.dialog-fade-enter-active .el-dialog,
+.dialog-fade-leave-active .el-dialog{
+  animation-fill-mode: forwards;
+}
+
+.dialog-fade-enter-active .el-dialog{
+  animation-duration: 0s;
+}
+
+.dialog-fade-leave-active .el-dialog{
+  animation-duration: 0s;
+}
 
 // form
 .el-form {

@@ -176,11 +176,53 @@ export default {
       val.newest_qty_change = ''
       val.gain_change = ''
       val.gain_percent_change = ''
+      val.state_color = ''
+      val.row_hide = false
+
 
       if (val.newest_price > val.yesterday_close_price) {
         val.color = 'text__danger'
       } else {
         val.color = 'text__success'
+      }
+
+      val.computed_color = val.color
+
+      //判斷是否要相反
+      if (state.listColorStyle == 2) {
+        //相反
+        if (val.color == 'text__danger') {
+          val.computed_color = 'text__success'
+        }
+        if (val.color == 'text__success') {
+          val.computed_color = 'text__danger'
+        }
+      }
+
+      //狀態顏色
+      if (val.state != 2) {
+        val.state_color = 'text__secondary'
+      }
+
+      //判斷欄位是否要隱藏
+      //判斷是否顯示
+      //指數
+      if (state.mainItemTabs == 2) {
+        if (val.type != 'index') {
+          val.row_hide = true
+        }
+      }
+      //指數期貨
+      if (state.mainItemTabs == 3) {
+        if (val.type != 'index_futures') {
+          val.row_hide = true
+        }
+      }
+      //商品期貨
+      if (state.mainItemTabs == 4) {
+        if (val.type != 'commodity_futures') {
+          val.row_hide = true
+        }
       }
 
       val.gain = val.newest_price - val.yesterday_close_price
@@ -416,6 +458,12 @@ export default {
 
       return pushData
     })
+  },
+  setTabs(state, type) {
+    state.mainItemTabs = type
+
+    //計算mainItem
+    this.commit('computedMainItem')
   },
   setNowMainItem(state, data) {
     state.nowMainItem = data
