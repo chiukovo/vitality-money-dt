@@ -1339,6 +1339,12 @@ td {
         background-repeat: no-repeat;
         background-size: 1px 100%, 100% 1px;
         background-position: right top, right bottom;
+        &:nth-child(1) {
+          background-color: #3a3a3a;
+          &:nth-child(odd) {
+            background-color: #1c1c1c;
+          }
+        }
       }
       .cell {
         padding: 2px 4px;
