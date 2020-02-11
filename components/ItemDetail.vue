@@ -62,11 +62,11 @@ export default {
   updated() {
     const _this = this
     _this.$nextTick(function () {
-      _this.computedTableContent('itemDetail-content')
+      _this.computedTableContent('itemDetail')
 
       if (this.autoScroll) {
         //自動置底
-         document.querySelector('#itemDetail-content .custom__table .tbody').scrollTop = 9999
+         document.querySelector('#itemDetail .custom__table .tbody').scrollTop = 9999
       }
     })
   },
