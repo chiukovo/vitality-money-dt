@@ -152,23 +152,27 @@
     title='確認刪除')
     .header-custom(slot='title')
       |  確認刪除
-    vxe-table(
-      :data="multiDeleteData"
-      max-width="100%"
-      height="100px"
-      size="mini"
-      column-min-width="60"
-      borde)
-      vxe-table-column(field="serial" title='序號')
-      vxe-table-column(field="name" title='目標商品')
-      vxe-table-column(field="userName" title='用戶名稱')
-      vxe-table-column(title='買賣')
-        template(slot-scope='scope')
-          span(:class="scope.row.buy == 0 ? 'bg__danger' : 'bg__success'" class="text__white") {{ scope.row.buy == 0 ? '多' : '空' }}
-      vxe-table-column(field="price" title='價格')
-      vxe-table-column(field="submit" title='口數')
-      vxe-table-column(title='時間')
-        template(slot-scope='scope') {{ dateOnlyHis(scope.row.orderTime) }}
+    table.custom__table
+      thead
+        tr
+          th 序號
+          th 目標商品
+          th 用戶名稱
+          th 買賣
+          th 價格
+          th 口數
+          th 時間
+      tbody
+        tr(v-for="row in multiDeleteData")
+          td {{ row.serial }}
+          td {{ row.name }}
+          td {{ row.userName }}
+          td
+            div
+              span(:class="row.buy == 0 ? 'bg__danger' : 'bg__success'" class="text__white") {{ row.buy == 0 ? '多' : '空' }}
+          td {{ row.price }}
+          td {{ row.submit }}
+          td {{ dateOnlyHis(row.orderTime) }}
     .dialog__footer
       button.button(@click="deleteConfirm = false") 取消
       button.button(type='primary' @click="doDelete") 確認
@@ -182,21 +186,25 @@
     .header-custom(slot='title')
       |  確認平倉
     .p-2
-      client-only
-        vxe-table(
-          :data="multiOrderData"
-          height="100px"
-          size="mini"
-          column-min-width="60"
-          border)
-          vxe-table-column(field="serial" title='序號')
-          vxe-table-column(field="name" title='目標商品')
-          vxe-table-column(field="userName" title='用戶名稱')
-          vxe-table-column(title='買賣')
-            template(slot-scope='scope')
-              span(:class="scope.row.buy == 0 ? 'bg_danger' : 'bg_success'" class="text__white buy-sell-bg-width") {{ scope.row.buy == 0 ? '多' : '空' }}
-          vxe-table-column(field="price" title='價格')
-          vxe-table-column(field="submit" title='口數')
+      table.custom__table
+        thead
+          tr
+            th 序號
+            th 目標商品
+            th 用戶名稱
+            th 買賣
+            th 價格
+            th 口數
+        tbody
+          tr(v-for="row in multiOrderData")
+            td {{ row.serial }}
+            td {{ row.name }}
+            td {{ row.userName }}
+            td
+              div
+                span(:class="row.buy == 0 ? 'bg__danger' : 'bg__success'" class="text__white") {{ row.buy == 0 ? '多' : '空' }}
+            td {{ row.price }}
+            td {{ row.submit }}
     .dialog__footer
       button.button.button__light(@click="multiOrderConfirm = false") 取消
       button.button(type='primary' @click="doMultiCovered") 確認

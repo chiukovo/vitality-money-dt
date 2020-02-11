@@ -90,6 +90,11 @@ export default {
     }
 
     this.checkLogin()
+
+    window.onresize = function() {
+      //計算寬高
+      _this.computedAllTable()
+    };
   },
   data() {
     return {
