@@ -17,105 +17,111 @@ div(class="h-100")
         MainFontSize
       li.dropdown-item.dropdown-toggle(href="#") 切換漲跌顏色
         SetListDataColor
-    table.custom__table(:class="'fontStyle-' + fontStyle")
+    table.custom__table.table__dark(:class="'fontStyle-' + fontStyle")
       thead.thead
         tr
           th
-            div(:style="computedStyleWidth(50)")
+            .cell(:style="computedStyleWidth(50)")
               span(v-if="checkHide('商品')") 商品
               .table-toggle
                 a(@click.stop="customSetting = !customSetting")
           th(v-if="checkHide('倉位多')")
-            div 倉位多
+            .cell 倉位多
           th(v-if="checkHide('倉位空')")
-            div 倉位空
+            .cell 倉位空
           th(v-if="checkHide('買進價')")
-            div 買進價
+            .cell 買進價
           th(v-if="checkHide('賣出價')")
-            div 賣出價
+            .cell 賣出價
           th(v-if="checkHide('成交價')")
-            div 成交價
+            .cell 成交價
           th(v-if="checkHide('漲跌')")
-            div 漲跌
+            .cell 漲跌
           th(v-if="checkHide('漲幅%')")
-            div 漲幅%
+            .cell 漲幅%
           th(:v-if="checkHide('單量')")
-            div 單量
+            .cell 單量
           th(v-if="checkHide('總量')")
-            div(:style="computedStyleWidth(50)") 總量
+            .cell(:style="computedStyleWidth(50)") 總量
           th(v-if="checkHide('昨收價')")
-            div 昨收價
+            .cell 昨收價
           th(v-if="checkHide('開盤價')")
-            div 開盤價
+            .cell 開盤價
           th(v-if="checkHide('最高價')")
-            div 最高價
+            .cell 最高價
           th(v-if="checkHide('最低價')")
-            div 最低價
+            .cell 最低價
           th(v-if="checkHide('時間')")
-            div(:style="computedStyleWidth(50)") 時間
+            .cell(:style="computedStyleWidth(50)") 時間
           th(v-if="checkHide('交易')")
-            div 交易
+            .cell 交易
           th(v-if="checkHide('最後成交價')")
-            div(:style="computedStyleWidth(70)") 最後成交價
+            .cell(:style="computedStyleWidth(70)") 最後成交價
           th(v-if="checkHide('最後交易日')")
-            div(:style="computedStyleWidth(70)") 最後交易日
+            .cell(:style="computedStyleWidth(70)") 最後交易日
           th(v-if="checkHide('說明')")
-            div 說明
+            .cell 說明
           th(v-if="checkHide('商品類別')")
-            div(:style="computedStyleWidth(30)") 商品類別
+            .cell(:style="computedStyleWidth(30)") 商品類別
       tbody.tbody(@scroll="tbodyScroll")
         tr(v-for="row in mainItem")
           td(v-if="checkHide('商品')")
-            div(:style="computedStyleWidth(50)" :class="clickItemId == row.product_id ? 'bg__danger' : ''" @click="clickItem(row)") {{ row.product_name }}
+            .cell(:style="computedStyleWidth(50)" :class="clickItemId == row.product_id ? 'bg__danger' : ''" @click="clickItem(row)") {{ row.product_name }}
           td(v-if="checkHide('倉位多')")
-            div(v-if="typeof $store.state.uncoveredCountDetail[row.product_id] != 'undefined'")
+            .cell(v-if="typeof $store.state.uncoveredCountDetail[row.product_id] != 'undefined'")
               span(class="text__center bg__danger" v-if="$store.state.uncoveredCountDetail[row.product_id] > 0") {{ $store.state.uncoveredCountDetail[row.product_id] }}
           td(v-if="checkHide('倉位空')")
-            div(v-if="typeof $store.state.uncoveredCountDetail[row.product_id] != 'undefined'")
+            .cell(v-if="typeof $store.state.uncoveredCountDetail[row.product_id] != 'undefined'")
               span(class="text__center bg__success" v-if="$store.state.uncoveredCountDetail[row.product_id] < 0") {{ Math.abs($store.state.uncoveredCountDetail[row.product_id]) }}
           td(v-if="checkHide('買進價')")
-            div(:class="row.computed_color")
+            .cell(:class="row.computed_color")
               span(:class="row.bp_price_change") {{ row['bp_price'] }}
           td(v-if="checkHide('賣出價')")
-            div(:class="row.computed_color")
+            .cell(:class="row.computed_color")
               span(:class="row.sp_price_change") {{ row['sp_price'] }}
           td(v-if="checkHide('成交價')")
-            div(:class="row.computed_color")
+            .cell(:class="row.computed_color")
               span(:class="row.newest_price_change") {{ row.newest_price }}
           td(v-if="checkHide('漲跌')")
-            div(:class="row.computed_color")
+            .cell(:class="row.computed_color")
               span(:class="row.gain_change") {{ row.gain }}
           td(v-if="checkHide('漲幅%')")
-            div(:class="row.computed_color")
+            .cell(:class="row.computed_color")
               span(:class="row.gain_percent_change") {{ row.gain_percent }}%
           td(v-if="checkHide('單量')")
             span(:class="row.newest_qty_change") {{ row.newest_qty }}
           td(v-if="checkHide('總量')")
-            div(:style="computedStyleWidth(50)" :class="row.computed_color")
+            .cell(:style="computedStyleWidth(50)" :class="row.computed_color")
               span(:class="row.total_qty_change") {{ row.total_qty }}
           td(v-if="checkHide('昨收價')")
-            span {{ row.yesterday_close_price }}
+            .cell
+              span {{ row.yesterday_close_price }}
           td(v-if="checkHide('開盤價')")
-            span {{ row.open_price }}
+            .cell
+              span {{ row.open_price }}
           td(v-if="checkHide('最高價')")
-            span(:class="row.computed_color") {{ row.highest_price }}
+            .cell
+              span(:class="row.computed_color") {{ row.highest_price }}
           td(v-if="checkHide('最低價')")
-            span(:class="row.computed_color") {{ row.lowest_price }}
+            .cell
+              span(:class="row.computed_color") {{ row.lowest_price }}
           td(v-if="checkHide('時間')")
-            div(:style="computedStyleWidth(50)")
+            .cell(:style="computedStyleWidth(50)")
               span(:class="row.newest_time_change") {{ row.newest_time }}
           td(v-if="checkHide('交易')")
-            span(:class="row.state_color") {{ row.state_name }}
+            .cell
+              span(:class="row.state_color") {{ row.state_name }}
           td(v-if="checkHide('最後成交價')")
-            div(:style="computedStyleWidth(70)" :class="row.computed_color")
+            .cell(:style="computedStyleWidth(70)" :class="row.computed_color")
               span(:class="row.newest_price_change") {{ row.newest_price }}
           td(v-if="checkHide('最後交易日')")
-            div(:style="computedStyleWidth(70)")
+            .cell(:style="computedStyleWidth(70)")
               span {{ row.end_date }}
           td(v-if="checkHide('說明')")
-            a.table-link(href="#" @click="openModal('userDetail', '商品資訊', '', true, row.product_id)") 說明
+            .cell
+              a.table-link(href="#" @click="openModal('userDetail', '商品資訊', '', true, row.product_id)") 說明
           td(v-if="checkHide('商品類別')")
-            div(:style="computedStyleWidth(30)") CFD
+            .cell(:style="computedStyleWidth(30)") CFD
 </template>
 
 <script>
@@ -189,7 +195,7 @@ export default {
 
       thead.style.left = '-' + scrollLeft + 'px'
       theadFirst.style.left = scrollLeft + 'px'
-      
+
       for (let num = 0; num < tbodyFirst.length; num++) {
         tbodyFirst[num].style.left = scrollLeft + 'px'
       }
