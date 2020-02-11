@@ -285,7 +285,7 @@ export default {
         }
 
         return val
-      })
+      }).filter(val => val)
     }
 
     state.userInfo = userArray
