@@ -352,11 +352,12 @@ Vue.mixin({
       let thead = document.querySelector('#' + id + ' .custom__table .thead')
       let tbodyFirst = document.querySelectorAll('#' + id + ' .custom__table .tbody td:nth-child(1)')
       let theadFirst = document.querySelector('#' + id + ' .custom__table .thead th:nth-child(1)')
-      const scrollLeft = tbody.scrollLeft
 
-      if (scrollLeft == null) {
+      if (tbody == null) {
         return
       }
+
+      const scrollLeft = tbody.scrollLeft
 
       thead.style.left = '-' + scrollLeft + 'px'
 
