@@ -12,7 +12,7 @@ div(style="height: 300px")
     .tabs__item(@click="type = 2" :class="type == 2 ? 'is-active' : ''") 未平倉單
     .tabs__item(@click="type = 3" :class="type == 3 ? 'is-active' : ''") 已平倉單
     .tabs__item(@click="type = 4" :class="type == 4 ? 'is-active' : ''") 統計
-  .content(v-show="type == 1")
+  .content(v-show="type == 1" style="height: 300px")
     table.custom__table
       thead
         tr
@@ -45,7 +45,7 @@ div(style="height: 300px")
           td
             span.blink(v-if="row.State == '未成交'") {{ row.State }}
             span(v-else) {{ row.State }}
-  .content(v-show="type == 2")
+  .content(v-show="type == 2" style="height: 300px")
     table.custom__table
       thead
         tr
@@ -80,7 +80,7 @@ div(style="height: 300px")
           td {{ row.State }}
           td
             span(:class="getMoneyColor(row.OriginalMoney)") {{ row.OriginalMoney }}
-  .content(v-show="type == 3")
+  .content(v-show="type == 3" style="height: 300px")
     table.custom__table
       thead
         tr
@@ -112,7 +112,7 @@ div(style="height: 300px")
           td {{ row.CoverPrice }}
           td
             span(:class="getMoneyColor(row['Money'])") {{ row['Money'] }}
-  .content(v-show="type == 4")
+  .content(v-show="type == 4" style="height: 300px")
     table.custom__table
       thead
         tr

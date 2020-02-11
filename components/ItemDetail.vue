@@ -19,7 +19,7 @@
                 .cell 成交價
               th
                 .cell 單量
-          tbody.tbody(@scroll="tbodyScroll('itemDetail-content')")
+          tbody.tbody(@scroll="tbodyScroll('itemDetail')")
             tr(v-for="row in items2")
               td
                 .cell {{ row.flocalTime }}
