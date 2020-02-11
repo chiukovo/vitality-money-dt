@@ -158,16 +158,17 @@ export default {
     MainFontSize,
     SetListDataColor,
   },
-  updated() {
+  mounted() {
     const _this = this
 
-    _this.$nextTick(function () {
+    _this.$nextTick(function() {
       _this.computedTableContent('mainItemContent')
       _this.firstIn = false
     })
   },
   watch: {
     fontStyle() {
+      this.customSetting = false
     }
   },
   methods: {

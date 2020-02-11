@@ -1281,7 +1281,10 @@ td {
   }
 }
 
-
+//font style
+.fontStyle-3 th, .fontStyle-3 td, .fontStyle-2 th, .fontStyle-2 td {
+	min-width: 100px !important;
+}
 
 //new table
 .custom__table {

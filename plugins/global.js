@@ -363,22 +363,57 @@ Vue.mixin({
         }
       }
     },
-    computedTableContent(id) {
-      let content = document.querySelector('#' + id)
-      let tbody = document.querySelector('#' + id + ' .custom__table .tbody')
-      let thead = document.querySelector('#' + id + ' .custom__table .thead')
-      let w = content.offsetWidth
-      let h = content.offsetHeight
+    computedAllTable() {
+      const _this = this
 
-      if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
-        if (tbody.style.height == h - 28 + 'px') {
+      //table需要計算的所有id
+      const tableIds = ['mainItemContent', 'uncovered', 'allList', 'itemDetail']
+
+      tableIds.forEach(function(id) {
+        _this.computedTableContent(id)
+      })
+    },
+    computedTableContent(id) {
+      const _this = this
+
+      setTimeout(function() {
+        let content = document.querySelector('#' + id)
+
+        if (content == null) {
           return
         }
-      }
 
-      tbody.style.width = w + 'px'
-      thead.style.width = w + 'px'
-      tbody.style.height = h - 28 + 'px'
+        let tbody = document.querySelector('#' + id + ' .custom__table .tbody')
+        let thead = document.querySelector('#' + id + ' .custom__table .thead')
+        let w = content.offsetWidth
+        let h = content.offsetHeight
+        let fontStyle = 1
+        let num = 28
+
+        if (typeof _this.$store.state.localStorage != 'undefined') {
+          fontStyle = _this.$store.state.localStorage.customSetting.fontStyle
+        }
+
+        //判斷字形
+        if (id == 'mainItemContent') {
+          if (fontStyle == 2) {
+            num = 40
+          }
+          if (fontStyle == 3) {
+            num = 45
+          }
+        }
+
+        if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
+          if (tbody.style.height == h - num + 'px') {
+            return
+          }
+        }
+
+        tbody.style.width = w + 'px'
+        thead.style.width = w + 'px'
+        tbody.style.height = h - num + 'px'
+       }, 0)
     },
   }
 })
