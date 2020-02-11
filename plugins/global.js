@@ -345,6 +345,40 @@ Vue.mixin({
       })
 
       this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
-    }
+    },
+    tbodyScroll(id, fixedLeft) {
+      //tbody scrollleft
+      let tbody = document.querySelector('#' + id + ' .custom__table .tbody')
+      let thead = document.querySelector('#' + id + ' .custom__table .thead')
+      let tbodyFirst = document.querySelectorAll('#' + id + ' .custom__table .tbody td:nth-child(1)')
+      let theadFirst = document.querySelector('#' + id + ' .custom__table .thead th:nth-child(1)')
+      const scrollLeft = tbody.scrollLeft
+
+      thead.style.left = '-' + scrollLeft + 'px'
+
+      if (fixedLeft) {
+        theadFirst.style.left = scrollLeft + 'px'
+        for (let num = 0; num < tbodyFirst.length; num++) {
+          tbodyFirst[num].style.left = scrollLeft + 'px'
+        }
+      }
+    },
+    computedTableContent(id) {
+      let content = document.querySelector('#' + id)
+      let tbody = document.querySelector('#' + id + ' .custom__table .tbody')
+      let thead = document.querySelector('#' + id + ' .custom__table .thead')
+      let w = content.offsetWidth
+      let h = content.offsetHeight
+
+      if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
+        if (tbody.style.height == h - 28 + 'px') {
+          return
+        }
+      }
+
+      tbody.style.width = w + 'px'
+      thead.style.width = w + 'px'
+      tbody.style.height = h - 28 + 'px'
+    },
   }
 })

@@ -9,7 +9,7 @@
           label(style="margin-left: 20px")
             input(type="checkbox" v-model="autoScroll")
             span 自動捲動
-      .itemDetail-content(:style="'height: calc(100% - ' + $store.state.userInfoStyleHeight + ')'")
+      #itemDetail.itemDetail-content(:style="'height: calc(100% - ' + $store.state.userInfoStyleHeight + ')'")
         table.custom__table.table__dark
           thead.thead
             tr
@@ -19,6 +19,7 @@
                 .cell 成交價
               th
                 .cell 單量
+          tbody.tbody(@scroll="tbodyScroll('itemDetail-content')")
             tr(v-for="row in items2")
               td
                 .cell {{ row.flocalTime }}
@@ -58,19 +59,21 @@ export default {
     clickItemId: 'clickItemId',
     listColorStyle: state => state.localStorage.customSetting.listColorStyle,
   }),
+  updated() {
+    const _this = this
+    _this.$nextTick(function () {
+      _this.computedTableContent('itemDetail-content')
+
+      if (this.autoScroll) {
+        //自動置底
+         document.querySelector('#itemDetail-content .custom__table .tbody').scrollTop = 9999
+      }
+    })
+  },
   watch: {
-    clickItemId() {
-      this.setAutoScroll()
-    },
-    items2(items) {
-      this.setAutoScroll()
-    }
   },
   methods: {
     setAutoScroll() {
-      if (this.autoScroll) {
-        //自動置底
-      }
     },
     handleItemDetailTabs(e) {
       this.itemDetailTabShow = e

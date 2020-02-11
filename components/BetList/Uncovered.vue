@@ -9,61 +9,70 @@
     label.radio.inline
       input.radio__input(type="radio" v-model='pointInputType' value='2')
       span.radio__label 行情輸入
-  .history-content__body(:style="{height: $parent.height.uncovered}")
-    client-only
-      vxe-table.table__dark(
-        :data='$store.state.uncovered'
-        ref="multipleTable"
-        max-width="100%"
-        height="100%"
-        size="mini"
-        column-min-width="60"
-        stripe
-        border
-        auto-resize
-        show-overflow
-        highlight-hover-row)
-        vxe-table-column(title='操作' align="center" width="120")
-          template(slot-scope='scope')
-            button.button__white(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平
-            button.button__white(v-if="!cantSetWinLoss(scope.row.Operation)" @click="openEdit(scope.row, '')") 設損
-        vxe-table-column(field='Serial' title='序號' width="80")
-        vxe-table-column(field='Name' title='商品' width="94")
-        vxe-table-column(title='多空')
-          template(slot-scope='scope')
-            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
-        vxe-table-column(field='FinalPrice' title='成交價')
-        vxe-table-column(field='Quantity' title='口數')
-        vxe-table-column(field='TotalFee' title='手續費')
-        vxe-table-column(title='損失點' align="center" width="74")
-          template(slot-scope='scope') {{ parseInt(scope.row.LossPoint) }}
-        vxe-table-column(title='獲利點' align="center" width="74")
-          template(slot-scope='scope') {{ parseInt(scope.row.WinPoint) }}
-        vxe-table-column(title='倒限(利)' align="center" width="70px")
-          template(slot-scope='scope') {{ parseInt(scope.row.InvertedPoint) }}
-        vxe-table-column(title='不留倉' width="80")
-          template(slot-scope='scope' v-if="scope.row.Operation[2]")
-            label.checkbox
-              input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row, $event)" :disabled="dayCoverIsDisabled(scope.row.ID)")
-              span.checkbox__label 不留倉
-        vxe-table-column(field='PointMoney' title='報價')
-          template(slot-scope='scope')
-            span(v-if="findMainItemById(scope.row.ID) != ''") {{ findMainItemById(scope.row.ID).newest_price }}
-        vxe-table-column(field='thisSerialTotalMoney', title='浮動損益' width="74")
-          template(slot-scope='scope')
-            span(v-if="scope.row['thisSerialTotalMoney'] == 0" class="text__black") {{ scope.row['thisSerialTotalMoney'] }}
-            span(v-else :class="getMoneyColor(scope.row.thisSerialTotalMoney)") {{ scope.row['thisSerialTotalMoney'] }}
-        vxe-table-column(title='點數')
-          template(slot-scope='scope')
-            .change-icon(v-if="typeof scope.row['thisSerialPointDiff'] != 'undefined'")
-              .icon-arrow(v-if="scope.row['thisSerialPointDiff'] != 0" :class="scope.row['thisSerialPointDiff'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-            span(v-if="scope.row['thisSerialPointDiff'] == 0" class="text__black") {{ scope.row['thisSerialPointDiff'] }}
-            span(v-else :class="getMoneyColor(scope.row.thisSerialPointDiff)") {{ scope.row['thisSerialPointDiff'] }}
-        vxe-table-column(field='Day', title='天數')
-        vxe-table-column(field='State', title='狀態' width="150px")
-        vxe-table-column(title='昨日損益' width="74")
-          template(slot-scope='scope' v-if="scope.row.OriginalMoney > 0")
-            span(:class="getMoneyColor(scope.row.OriginalMoney)" style="text-decoration:underline;" @click="openDetail(scope.row)") {{ scope.row.OriginalMoney | currency }}
+  #uncovered.history-content__body(:style="{height: $parent.height.uncovered}")
+    table.custom__table
+      thead.thead
+        tr
+          th 操作
+          th 序號
+          th 商品
+          th 多空
+          th 成交價
+          th 口數
+          th 手續費
+          th 損失點
+          th 獲利點
+          th 倒限(利)
+          th 不留倉
+          th 報價
+          th 浮動損益
+          th 點數
+          th 天數
+          th 狀態
+          th 昨日損益
+      tbody.tbody(@scroll="tbodyScroll('uncovered')")
+        tr(v-for="row in $store.state.uncovered")
+          td(width="120")
+            div
+              button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
+              button.button__white(v-if="!cantSetWinLoss(row.Operation)" @click="openEdit(row, '')") 設損
+          td(width="80") {{ row.Serial }}
+          td(width="94") {{ row.Name }}
+          td
+            div
+              span(:class="row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ row['BuyOrSell'] == 0 ? '多' : '空' }}
+          td {{ row.FinalPrice }}
+          td {{ row.Quantity }}
+          td {{ row.TotalFee }}
+          td(width="74")
+            div {{ parseInt(row.LossPoint) }}
+          td(width="74")
+            div {{ parseInt(row.WinPoint) }}
+          td(width="70px")
+            div {{ parseInt(row.InvertedPoint) }}
+          td(width="80")
+            div(v-if="row.Operation[2]")
+              label.checkbox
+                input.checkbox__input(type="checkbox" style="margin: 0" :checked="row.DayCover" @click="changeDayCover(row, $event)" :disabled="dayCoverIsDisabled(row.ID)")
+                span.checkbox__label 不留倉
+          td(title='報價')
+            div
+              span(v-if="findMainItemById(row.ID) != ''") {{ findMainItemById(row.ID).newest_price }}
+          td(width="74")
+            div
+              span(v-if="row['thisSerialTotalMoney'] == 0" class="text__black") {{ row['thisSerialTotalMoney'] }}
+              span(v-else :class="getMoneyColor(row.thisSerialTotalMoney)") {{ row['thisSerialTotalMoney'] }}
+          td
+            div
+              .change-icon(v-if="typeof row['thisSerialPointDiff'] != 'undefined'")
+                .icon-arrow(v-if="row['thisSerialPointDiff'] != 0" :class="row['thisSerialPointDiff'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+              span(v-if="row['thisSerialPointDiff'] == 0" class="text__black") {{ row['thisSerialPointDiff'] }}
+              span(v-else :class="getMoneyColor(row.thisSerialPointDiff)") {{ row['thisSerialPointDiff'] }}
+          td {{ row.Day }}
+          td(width="150") {{ row.State }}
+          td(width="74")
+            div(v-if="row.OriginalMoney > 0")
+              span(:class="getMoneyColor(row.OriginalMoney)" style="text-decoration:underline;" @click="openDetail(row)") {{ row.OriginalMoney | currency }}
   //-改價減量
   el-dialog(
     :visible.sync='editDialog'
@@ -224,6 +233,13 @@ export default {
     this.token = this.$store.state.localStorage.userAuth.token
     this.lang = this.$store.state.localStorage.lang
     this.isMobile = this.$store.state.isMobile
+  },
+  updated() {
+    const _this = this
+
+    _this.$nextTick(function () {
+      _this.computedTableContent('uncovered')
+    })
   },
   computed: mapState({
     mainItem: 'mainItem',

@@ -8,7 +8,7 @@ div(class="h-100")
     :onlyItem="dialog.onlyItem"
     :itemId="dialog.itemId"
   )
-  div(id="mainItemContent" style="height: calc(100% - 64px);")
+  div(id="mainItemContent" style="height: calc(100% - 64px);" v-show="!firstIn")
     ul.table-dropdown.dropdown-menu(id="customSettingContent" v-show="customSetting")
       li.dropdown-item(href="#", @click="openModal('showHideItem', '自訂商品')") 自訂商品
       li.dropdown-item(href="#", @click="openModal('showHideItemField', '自訂欄位')") 自訂欄位
@@ -63,7 +63,7 @@ div(class="h-100")
             .cell 說明
           th(v-if="checkHide('商品類別')")
             .cell(:style="computedStyleWidth(30)") 商品類別
-      tbody.tbody(@scroll="tbodyScroll")
+      tbody.tbody(@scroll="tbodyScroll('mainItemContent', true)")
         tr(v-for="row in mainItem")
           td(v-if="checkHide('商品')")
             .cell(:style="computedStyleWidth(50)" :class="clickItemId == row.product_id ? 'bg__danger' : ''" @click="clickItem(row)") {{ row.product_name }}
@@ -144,6 +144,7 @@ export default {
         itemId: '',
       },
       customSetting: false,
+      firstIn: true,
 	  }
 	},
   computed: mapState({
@@ -161,7 +162,8 @@ export default {
     const _this = this
 
     _this.$nextTick(function () {
-      _this.computedMainItemContent()
+      _this.computedTableContent('mainItemContent')
+      _this.firstIn = false
     })
   },
   watch: {
@@ -169,38 +171,6 @@ export default {
     }
   },
   methods: {
-    computedMainItemContent() {
-      let content = document.querySelector('#mainItemContent')
-      let tbody = document.querySelector('.custom__table .tbody')
-      let thead = document.querySelector('.custom__table .thead')
-      let w = content.offsetWidth
-      let h = content.offsetHeight
-
-      if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
-        if (tbody.style.height == h - 28 + 'px') {
-          return
-        }
-      }
-
-      tbody.style.width = w + 'px'
-      thead.style.width = w + 'px'
-      tbody.style.height = h - 28 + 'px'
-    },
-    tbodyScroll() {
-      //tbody scrollleft
-      let tbody = document.querySelector('.custom__table .tbody')
-      let thead = document.querySelector('.custom__table .thead')
-      let tbodyFirst = document.querySelectorAll('.custom__table .tbody td:nth-child(1)')
-      let theadFirst = document.querySelector('.custom__table .thead th:nth-child(1)')
-      const scrollLeft = tbody.scrollLeft
-
-      thead.style.left = '-' + scrollLeft + 'px'
-      theadFirst.style.left = scrollLeft + 'px'
-
-      for (let num = 0; num < tbodyFirst.length; num++) {
-        tbodyFirst[num].style.left = scrollLeft + 'px'
-      }
-    },
     computedStyleWidth(sourceWidth) {
       let needAdd = 0
       let result = 0
