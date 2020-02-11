@@ -8,7 +8,7 @@ div(class="h-100")
     :onlyItem="dialog.onlyItem"
     :itemId="dialog.itemId"
   )
-  div(style="height: calc(100% - 64px);")
+  div(id="mainItemContent" style="height: calc(100% - 64px);")
     ul.table-dropdown.dropdown-menu(id="customSettingContent" v-show="customSetting")
       li.dropdown-item(href="#", @click="openModal('showHideItem', '自訂商品')") 自訂商品
       li.dropdown-item(href="#", @click="openModal('showHideItemField', '自訂欄位')") 自訂欄位
@@ -150,13 +150,28 @@ export default {
     MainFontSize,
     SetListDataColor,
   },
-  mounted() {
+  updated() {
+    const _this = this
+
+    _this.$nextTick(function () {
+      _this.computedMainItemContent()
+    })
   },
   watch: {
     fontStyle() {
     }
   },
   methods: {
+    computedMainItemContent() {
+      let content = document.querySelector('#mainItemContent')
+      let tbody = document.querySelector('.custom__table .tbody')
+      let thead = document.querySelector('.custom__table .thead')
+
+      tbody.style.width = content.offsetWidth + 'px'
+      thead.style.width = content.offsetWidth + 'px'
+
+      tbody.style.height = content.offsetHeight - 20 + 'px'
+    },
     tbodyScroll() {
       //tbody scrollleft
       let tbody = document.querySelector('.custom__table .tbody')
