@@ -1283,14 +1283,13 @@ td {
 
 //new table
 .custom__table {
-  width: 900px;
   position: relative;
   overflow: hidden;
   border-collapse: collapse;
-  /*thead*/
+
   thead {
     position: relative;
-    display: block; /*seperates the header from the body allowing it to be positioned*/
+    display: block;
     width: 900px;
     overflow: visible;
   }
@@ -1302,18 +1301,16 @@ td {
     border: 1px solid #606266;
   }
 
-  thead th:nth-child(1) {/*first cell in the header*/
+  thead th:nth-child(1) {
     position: relative;
-    display: block; /*seperates the first cell in the header from the header*/
+    display: block;
     z-index: 99;
     background-color: #666;
   }
 
-
-  /*tbody*/
   tbody {
     position: relative;
-    display: block; /*seperates the tbody from the header*/
+    display: block;
     width: 900px;
     height: 239px;
     overflow: scroll;
@@ -1325,10 +1322,10 @@ td {
     border: 1px solid #606266;
   }
 
-  tbody tr td:nth-child(1) {  /*the first cell in each tr*/
+  tbody tr td:nth-child(1) {
     position: relative;
     background-color: #212529;
-    display: block; /*seperates the first column from the tbody*/
+    display: block;
     z-index: 99;
   }
 }
