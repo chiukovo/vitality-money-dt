@@ -10,20 +10,16 @@
             input(type="checkbox" v-model="autoScroll")
             span 自動捲動
       .itemDetail-content(:style="'height: calc(100% - ' + $store.state.userInfoStyleHeight + ')'")
-        client-only
-          vxe-table.table__dark.table__stripe(
-            ref="xTable"
-            :data="items2"
-            :cell-class-name="tableCellClassName"
-            max-width="100%"
-            height="100%"
-            size="mini"
-            align="center"
-            border
-            auto-resize)
-            vxe-table-column(field="flocalTime" title='時間' width="80")
-            vxe-table-column(field="price" title='成交價' width="80")
-            vxe-table-column(field="amount" title='單量')
+        table.custom__table
+          thead.thead
+            tr
+              th 時間
+              th 成交價
+              th 單量
+            tr(v-for="row in items2")
+              td {{ row.flocalTime }}
+              td {{ row.price }}
+              td {{ row.amount }}
       UserInfo(ref="userInfo")
   Dialog(
     :click-type="dialog.clickType",
@@ -68,7 +64,6 @@ export default {
     setAutoScroll() {
       if (this.autoScroll) {
         //自動置底
-        this.$refs.xTable.scrollTo(0, 99999)
       }
     },
     handleItemDetailTabs(e) {
