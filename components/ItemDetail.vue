@@ -13,20 +13,14 @@
         table.custom__table.table__dark
           thead.thead
             tr
-              th
-                .cell 時間
-              th
-                .cell 成交價
-              th
-                .cell 單量
+              th 時間
+              th 成交價
+              th 單量
           tbody.tbody(@scroll="tbodyScroll('itemDetail')")
             tr(v-for="row in items2")
-              td
-                .cell {{ row.flocalTime }}
-              td
-                .cell {{ row.price }}
-              td
-                .cell {{ row.amount }}
+              td {{ row.flocalTime }}
+              td {{ row.price }}
+              td {{ row.amount }}
       UserInfo(ref="userInfo")
   Dialog(
     :click-type="dialog.clickType",

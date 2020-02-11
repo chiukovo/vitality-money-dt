@@ -1281,11 +1281,6 @@ td {
   }
 }
 
-//font style
-.fontStyle-3 th, .fontStyle-3 td, .fontStyle-2 th, .fontStyle-2 td {
-	min-width: 100px !important;
-}
-
 //new table
 .custom__table {
   width: 100%;
@@ -1295,12 +1290,13 @@ td {
   border-collapse: collapse;
   thead {
     position: relative;
-    display: block;
+    display: table;
+    table-layout: fixed;
     width: 100%;
     overflow: visible;
     background-color: #f9f9f9;
     th {
-      min-width: 80px;
+      width: 80px;
       height: 100%;
       line-height: 1.2;
       padding: 4px;
@@ -1323,6 +1319,9 @@ td {
     overflow: auto;
     background-color: #fff;
     tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
       &.current {
         td {
           background-color: #502d2d !important;
@@ -1345,7 +1344,7 @@ td {
       }
     }
     td {
-      min-width: 80px;
+      width: 80px;
       height: 100%;
       line-height: 1.2;
       padding: 2px 4px;
@@ -1372,9 +1371,15 @@ td {
     }
     &-2 {
       font-size: 20px;
+      th, td {
+        width: 100px !important;
+      }
     }
     &-3 {
       font-size: 25px;
+      th, td {
+        width: 120px !important;
+      }
     }
   }
 }
