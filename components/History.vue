@@ -15,10 +15,10 @@
       .tabs__item(@click='handleHistoryTabs(6)' :class="{'is-active' : historyTabShow == 6}") 統計
   HistoryK(v-show='historyTabShow == 1')
   HistoryC(v-show='historyTabShow == 2')
-  AllList(v-show='historyTabShow == 3')
-  Uncovered(v-show='historyTabShow == 4')
-  Covered(v-show='historyTabShow == 5')
-  Commodity(v-show='historyTabShow == 6')
+  AllList(v-if='historyTabShow == 3')
+  Uncovered(v-if='historyTabShow == 4')
+  Covered(v-if='historyTabShow == 5')
+  Commodity(v-if='historyTabShow == 6')
 </template>
 
 <script>

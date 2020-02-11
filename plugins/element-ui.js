@@ -20,6 +20,7 @@ import {
   Loading,
   MessageBox,
   Message,
+  Pagination,
   Notification
 } from 'element-ui';
 
@@ -38,6 +39,7 @@ Vue.use(TimePicker);
 Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(Alert);
+Vue.use(Pagination);
 Vue.use(Icon);
 
 Vue.use(Loading.directive);

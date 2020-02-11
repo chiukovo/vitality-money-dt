@@ -13,56 +13,57 @@
         label.radio.inline
           input.radio__input(type="radio" v-model='seeAllOrder' value='2')
           span.radio__label 已成交單
-  .history-content__body(:style="{height: $parent.height.buySell}")
-    client-only
-      vxe-table.table__dark(
-        :data='$store.state.buySell'
-        :row-class-name='rowClass',
-        max-width="100%"
-        height="100%"
-        size="mini"
-        column-min-width="60"
-        stripe
-        border
-        auto-resize
-        show-overflow
-        highlight-hover-row
-        highlight-current-row)
-        vxe-table-column(width="120" align="center")
-          template(slot-scope='scope')
-            button.button__white(v-if="scope.row.Operation[1]" @click="deleteOrder(scope.row)") 刪
-            button.button__white(v-if="scope.row.Operation[2]" @click="doCovered(scope.row, 1)") 平
-            button.button__white(v-if="scope.row.Operation[0] || !cantSetWinLoss(scope.row.Operation)" @click="openEdit(scope.row, 'edit')") 改
-        vxe-table-column(title='不留倉' width="80")
-          template(slot-scope='scope' v-if="scope.row.Operation[2]")
-            label.checkbox
-              input.checkbox__input(type="checkbox" style="margin: 0" :checked="scope.row.DayCover" @click="changeDayCover(scope.row, $event)" :disabled="dayCoverIsDisabled(scope.row.ID)")
-              span.checkbox__label 不留倉
-        vxe-table-column(field='Serial' title='序號' width="80")
-        vxe-table-column(title='商品' width="94")
-          template(slot-scope='scope')
-            span(v-if="scope.row.State != '已刪除'") {{ scope.row.Name }}
-            s(v-else) {{ scope.row.Name }}
-        vxe-table-column(title='倒')
-          template(slot-scope='scope') {{ scope.row.InvertedPoint }}
-        vxe-table-column(title='多空' width="40px" align="center")
-          template(slot-scope='scope')
-            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
-        vxe-table-column(field='OrderPrice' title='委託價')
-        vxe-table-column(field='Quantity' title='口數' width="40px" align="center")
-        vxe-table-column(field='FinalPrice' title='成交價')
-        vxe-table-column(field='OrderTime' width='150' title='下單時間')
-        vxe-table-column(field='FinalTime' width='150' title='完成時間')
-        vxe-table-column(field='Odtype' title='型別')
-        vxe-table-column(title='損失點數' align="center" width="74")
-          template(slot-scope='scope') {{ parseInt(scope.row.LossPoint) }}
-        vxe-table-column(title='獲利點數' align="center" width="74")
-          template(slot-scope='scope') {{ parseInt(scope.row.WinPoint) }}
-        vxe-table-column(field='FinalTime' width='150' title='完成時間')
-        vxe-table-column(title='狀態' width='130')
-          template(slot-scope='scope')
-            span.blink(v-if="scope.row.State == '未成交'") {{ scope.row.State }}
-            span(v-else) {{ scope.row.State }}
+  #allList.history-content__body(:style="{height: $parent.height.buySell}")
+    table.custom__table
+      thead.thead
+        tr
+          th
+          th 不留倉
+          th 序號
+          th 商品
+          th 倒
+          th 多空
+          th 委託價
+          th 口數
+          th 成交價
+          th 下單時間
+          th 完成時間
+          th 型別
+          th 損失點數
+          th 獲利點數
+          th 完成時間
+          th 狀態
+      tbody.tbody(@scroll="tbodyScroll('allList')")
+        tr(v-for="row in $store.state.buySell")
+          td
+            div
+              button.button__white(v-if="row.Operation[1]" @click="deleteOrder(row)") 刪
+              button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
+              button.button__white(v-if="row.Operation[0] || !cantSetWinLoss(row.Operation)" @click="openEdit(row, 'edit')") 改
+          td
+            div(v-if="row.Operation[2]")
+              label.checkbox
+                input.checkbox__input(type="checkbox" style="margin: 0" :checked="row.DayCover" @click="changeDayCover(row, $event)" :disabled="dayCoverIsDisabled(row.ID)")
+                span.checkbox__label 不留倉
+          td {{ row.Serial }}
+          td
+            span(v-if="row.State != '已刪除'") {{ row.Name }}
+            s(v-else) {{ row.Name }}
+          td {{ row.InvertedPoint }}
+          td
+            span(:class="row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ row['BuyOrSell'] == 0 ? '多' : '空' }}
+          td {{ row.OrderPrice }}
+          td {{ row.Quantity }}
+          td {{ row.FinalPrice }}
+          td {{ row.OrderTime }}
+          td {{ row.FinalTime }}
+          td {{ row.Odtype }}
+          td {{ parseInt(row.LossPoint) }}
+          td {{ parseInt(row.WinPoint) }}
+          td {{ row.FinalTime }}
+          td
+            span.blink(v-if="row.State == '未成交'") {{ row.State }}
+            span(v-else) {{ row.State }}
   //-改價減量
   el-dialog(
     :visible.sync='editDialog'
@@ -227,6 +228,13 @@ export default {
     this.token = this.$store.state.localStorage.userAuth.token
     this.lang = this.$store.state.localStorage.lang
     this.isMobile = this.$store.state.isMobile
+  },
+  updated() {
+    const _this = this
+
+    _this.$nextTick(function () {
+      _this.computedTableContent('allList')
+    })
   },
   computed: mapState({
     mainItem: 'mainItem',
