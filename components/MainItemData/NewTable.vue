@@ -166,11 +166,18 @@ export default {
       let content = document.querySelector('#mainItemContent')
       let tbody = document.querySelector('.custom__table .tbody')
       let thead = document.querySelector('.custom__table .thead')
+      let w = content.offsetWidth
+      let h = content.offsetHeight
 
-      tbody.style.width = content.offsetWidth + 'px'
-      thead.style.width = content.offsetWidth + 'px'
+      if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
+        if (tbody.style.height == h - 20 + 'px') {
+          return
+        }
+      }
 
-      tbody.style.height = content.offsetHeight - 20 + 'px'
+      tbody.style.width = w + 'px'
+      thead.style.width = w + 'px'
+      tbody.style.height = h - 20 + 'px'
     },
     tbodyScroll() {
       //tbody scrollleft
