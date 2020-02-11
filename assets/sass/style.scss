@@ -1283,49 +1283,69 @@ td {
 
 //new table
 .custom__table {
+  width: 100%;
+  height: 100px;
   position: relative;
   overflow: hidden;
   border-collapse: collapse;
-
   thead {
     position: relative;
     display: block;
     width: 900px;
     overflow: visible;
+    th {
+      min-width: 80px;
+      height: 100%;
+      &:nth-child(1) {
+        position: relative;
+        display: block;
+        z-index: 99;
+      }
+    }
   }
-
-  thead th {
-    min-width: 80px;
-    height: 100%;
-    background-color: #3a3a3a;
-    border: 1px solid #606266;
-  }
-
-  thead th:nth-child(1) {
-    position: relative;
-    display: block;
-    z-index: 99;
-    background-color: #666;
-  }
-
   tbody {
     position: relative;
     display: block;
     width: 900px;
     height: 239px;
     overflow: scroll;
+    td {
+      min-width: 80px;
+      height: 100%;
+      &:nth-child(1) {
+        position: relative;
+        display: block;
+        z-index: 99;
+      }
+    }
   }
 
-  tbody td {
-    min-width: 80px;
-    height: 100%;
-    border: 1px solid #606266;
+  &.table__dark {
+    thead {
+      background-color: #3a3a3a;
+      .cell {
+        padding: 4px;
+      }
+    }
+    tbody {
+      background-color: #101010;
+      tr {
+        &:nth-child(odd) {
+          background-color: #1c1c1c;
+        }
+      }
+      td {
+        background-image: linear-gradient(-90deg, #3a3a3a, #3a3a3a), linear-gradient(-180deg, rgba(58,58,58,0.31373), rgba(58,58,58,0.31373));
+        background-repeat: no-repeat;
+        background-size: 1px 100%, 100% 1px;
+        background-position: right top, right bottom;
+      }
+      .cell {
+        padding: 2px 4px;
+      }
+    }
   }
-
-  tbody tr td:nth-child(1) {
-    position: relative;
-    background-color: #212529;
-    display: block;
-    z-index: 99;
+  .border__danger, .border__success {
+    padding: 2px 4px;
   }
 }
