@@ -89,7 +89,8 @@ div(class="h-100")
             .cell(:class="row.computed_color")
               span(:class="row.gain_percent_change") {{ row.gain_percent }}%
           td(v-if="checkHide('單量')")
-            span(:class="row.newest_qty_change") {{ row.newest_qty }}
+            .cell
+              span(:class="row.newest_qty_change") {{ row.newest_qty }}
           td(v-if="checkHide('總量')")
             .cell(:style="computedStyleWidth(50)" :class="row.computed_color")
               span(:class="row.total_qty_change") {{ row.total_qty }}
