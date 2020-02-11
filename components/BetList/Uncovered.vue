@@ -32,25 +32,25 @@
           th 昨日損益
       tbody.tbody(@scroll="tbodyScroll('uncovered')")
         tr(v-for="row in $store.state.uncovered")
-          td(width="120")
+          td
             .cell
               button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
               button.button__white(v-if="!cantSetWinLoss(row.Operation)" @click="openEdit(row, '')") 設損
-          td(width="80") {{ row.Serial }}
-          td(width="94") {{ row.Name }}
+          td {{ row.Serial }}
+          td {{ row.Name }}
           td
             .cell
               span(:class="row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ row['BuyOrSell'] == 0 ? '多' : '空' }}
           td {{ row.FinalPrice }}
           td {{ row.Quantity }}
           td {{ row.TotalFee }}
-          td(width="74")
+          td
             .cell {{ parseInt(row.LossPoint) }}
-          td(width="74")
+          td
             .cell {{ parseInt(row.WinPoint) }}
-          td(width="70px")
+          td
             .cell {{ parseInt(row.InvertedPoint) }}
-          td(width="80")
+          td
             .cell(v-if="row.Operation[2]")
               label.checkbox
                 input.checkbox__input(type="checkbox" style="margin: 0" :checked="row.DayCover" @click="changeDayCover(row, $event)" :disabled="dayCoverIsDisabled(row.ID)")
@@ -58,7 +58,7 @@
           td(title='報價')
             .cell
               span(v-if="findMainItemById(row.ID) != ''") {{ findMainItemById(row.ID).newest_price }}
-          td(width="74")
+          td
             .cell
               span(v-if="row['thisSerialTotalMoney'] == 0" class="text__black") {{ row['thisSerialTotalMoney'] }}
               span(v-else :class="getMoneyColor(row.thisSerialTotalMoney)") {{ row['thisSerialTotalMoney'] }}
@@ -69,8 +69,8 @@
               span(v-if="row['thisSerialPointDiff'] == 0" class="text__black") {{ row['thisSerialPointDiff'] }}
               span(v-else :class="getMoneyColor(row.thisSerialPointDiff)") {{ row['thisSerialPointDiff'] }}
           td {{ row.Day }}
-          td(width="150") {{ row.State }}
-          td(width="74")
+          td {{ row.State }}
+          td
             .cell(v-if="row.OriginalMoney > 0")
               span(:class="getMoneyColor(row.OriginalMoney)" style="text-decoration:underline;" @click="openDetail(row)") {{ row.OriginalMoney | currency }}
   //-改價減量
@@ -172,21 +172,25 @@
     .header-custom(slot='title')
       |  確認平倉
     .p-2
-      client-only
-        vxe-table(
-          :data="multiOrderData"
-          height="100px"
-          size="mini"
-          column-min-width="60"
-          border)
-          vxe-table-column(field="serial" title='序號')
-          vxe-table-column(field="name" title='目標商品')
-          vxe-table-column(field="userName" title='用戶名稱')
-          vxe-table-column(title='買賣')
-            template(slot-scope='scope')
-              span(:class="scope.row.buy == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ scope.row.buy == 0 ? '多' : '空' }}
-          vxe-table-column(field="price" title='價格')
-          vxe-table-column(field="submit" title='口數')
+      table.custom__table
+        thead
+          tr
+            th 序號
+            th 目標商品
+            th 用戶名稱
+            th 買賣
+            th 價格
+            th 口數
+        tbody
+          tr(v-for="row in multiOrderData")
+            td {{ row.serial }}
+            td {{ row.name }}
+            td {{ row.userName }}
+            td
+              div
+                span(:class="row.buy == 0 ? 'bg__danger' : 'bg__success'" class="text__white") {{ row.buy == 0 ? '多' : '空' }}
+            td {{ row.price }}
+            td {{ row.submit }}
     .dialog__footer
       button.button.button__light(@click="multiOrderConfirm = false") 取消
       button.button(type='primary' @click="doMultiCovered") 確認

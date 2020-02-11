@@ -354,6 +354,10 @@ Vue.mixin({
       let theadFirst = document.querySelector('#' + id + ' .custom__table .thead th:nth-child(1)')
       const scrollLeft = tbody.scrollLeft
 
+      if (scrollLeft == null) {
+        return
+      }
+
       thead.style.left = '-' + scrollLeft + 'px'
 
       if (fixedLeft) {
@@ -413,7 +417,7 @@ Vue.mixin({
         tbody.style.width = w + 'px'
         thead.style.width = w + 'px'
         tbody.style.height = h - num + 'px'
-       }, 0)
+       }, 100)
     },
   }
 })

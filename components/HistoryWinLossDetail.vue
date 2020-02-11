@@ -1,5 +1,5 @@
 <template lang='pug'>
-div
+div(style="height: 300px")
   .title(style="background: #f7f7f7; padding: 10px;")
     span 昨日權益數
     span(:class="getMoneyColor(detail.yesterdayInterestNum)") {{ detail.yesterdayInterestNum | currency }}
@@ -13,116 +13,126 @@ div
     .tabs__item(@click="type = 3" :class="type == 3 ? 'is-active' : ''") 已平倉單
     .tabs__item(@click="type = 4" :class="type == 4 ? 'is-active' : ''") 統計
   .content(v-show="type == 1")
-    client-only
-      vxe-table(
-        :data='orderArray'
-        max-width="100%"
-        height="300"
-        size="mini"
-        align="center"
-        border
-        auto-resize)
-        vxe-table-column(field="Serial" title='序號' width="80px")
-        vxe-table-column(field="Name" title='商品' width="80px")
-        vxe-table-column(title='多空' width="40px" align="center")
-          template(slot-scope='scope')
-            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
-        vxe-table-column(field='OrderPrice' title='委託價' width="80px")
-        vxe-table-column(field='Quantity' title='口數' width="40px" align="center")
-        vxe-table-column(field='FinalPrice' title='成交價' width="80px")
-        vxe-table-column(field='OrderTime' width='150' title='下單時間')
-        vxe-table-column(field='FinalTime' width='150' title='完成時間')
-        vxe-table-column(field='Odtype' title='型別' width="80px")
-        vxe-table-column(title='損失點數' align="center")
-          template(slot-scope='scope') {{ parseInt(scope.row.LossPoint) }}
-        vxe-table-column(title='獲利點數' align="center")
-          template(slot-scope='scope') {{ parseInt(scope.row.WinPoint) }}
-        vxe-table-column(title='狀態' width='100')
-          template(slot-scope='scope')
-            span.blink(v-if="scope.row.State == '未成交'") {{ scope.row.State }}
-            span(v-else) {{ scope.row.State }}
+    table.custom__table
+      thead
+        tr
+          th 序號
+          th 商品
+          th 多空
+          th 委託價
+          th 口數
+          th 成交價
+          th 下單時間
+          th 完成時間
+          th 型別
+          th 損失點數
+          th 獲利點數
+          th 狀態
+      tbody
+        tr(v-for="row in orderArray")
+          td {{ row.Serial }}
+          td {{ row.Name }}
+          td
+            span(:class="row.BuyOrSell == 0 ? 'text__danger' : 'text__success'") {{ row.BuyOrSell == 0 ? '多' : '空' }}
+          td {{ row.OrderPrice }}
+          td {{ row.Quantity }}
+          td {{ row.FinalPrice }}
+          td {{ row.OrderTime }}
+          td {{ row.FinalTime }}
+          td {{ row.Odtype }}
+          td {{ parseInt(row.LossPoint) }}
+          td {{ parseInt(row.WinPoint) }}
+          td
+            span.blink(v-if="row.State == '未成交'") {{ row.State }}
+            span(v-else) {{ row.State }}
   .content(v-show="type == 2")
-    client-only
-      vxe-table(
-        :data='uncoveredArray'
-        max-width="100%"
-        height="300"
-        size="mini"
-        align="center"
-        border
-        auto-resize)
-        vxe-table-column(field='Serial' title='序號' width="80px")
-        vxe-table-column(field='Name' title='商品' width="80px")
-        vxe-table-column(title='多空')
-          template(slot-scope='scope')
-            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
-        vxe-table-column(field='FinalPrice' title='成交價' width="80px")
-        vxe-table-column(field='Quantity' title='口數')
-        vxe-table-column(field='TotalFee' title='手續費')
-        vxe-table-column(title='損失點' align="center" width="60px")
-          template(slot-scope='scope') {{ scope.row.LossPoint }}
-        vxe-table-column(title='獲利點' align="center" width="60px")
-          template(slot-scope='scope') {{ scope.row.WinPoint }}
-        vxe-table-column(title='報價' width="60px")
-          template(slot-scope='scope') {{ scope.row.ClosePrice }}
-        vxe-table-column(title='浮動損益' width="80px")
-          template(slot-scope='scope')
-            span(:class="getMoneyColor(scope.row.OldToNewMoney)") {{ scope.row.OldToNewMoney }}
-        vxe-table-column(field='Day', title='天數')
-        vxe-table-column(field='State', title='狀態' width="100px")
-        vxe-table-column(title='昨日損益' width="100px")
-          template(slot-scope='scope')
-            span(:class="getMoneyColor(scope.row.OriginalMoney)") {{ scope.row.OriginalMoney }}
+    table.custom__table
+      thead
+        tr
+          th 序號
+          th 商品
+          th 多空
+          th 成交價
+          th 口數
+          th 手續費
+          th 損失點
+          th 獲利點
+          th 報價
+          th 浮動損益
+          th 天數
+          th 狀態
+          th 昨日損益
+      tbody
+        tr(v-for="row in uncoveredArray")
+          td {{ row.Serial }}
+          td {{ row.Name }}
+          td
+            span(:class="row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ row['BuyOrSell'] == 0 ? '多' : '空' }}
+          td {{ row.FinalPrice }}
+          td {{ row.Quantity }}
+          td {{ row.TotalFee }}
+          td {{ row.LossPoint }}
+          td {{ row.WinPoint }}
+          td {{ row.ClosePrice }}
+          td
+            span(:class="getMoneyColor(row.OldToNewMoney)") {{ row.OldToNewMoney }}
+          td {{ row.Day }}
+          td {{ row.State }}
+          td
+            span(:class="getMoneyColor(row.OriginalMoney)") {{ row.OriginalMoney }}
   .content(v-show="type == 3")
-    client-only
-      vxe-table(
-        :data='coveredArray'
-        max-width="100%"
-        height="300"
-        size="mini"
-        align="center"
-        border
-        auto-resize)
-        vxe-table-column(field="NewSerial" title='序號' width="80px")
-        vxe-table-column(field="Name" title='商品' width="80px")
-        vxe-table-column(title='多空')
-          template(slot-scope='scope')
-            span(:class="scope.row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ scope.row['BuyOrSell'] == 0 ? '多' : '空' }}
-        vxe-table-column(field="NewDate" title='成交日期' width="150px")
-        vxe-table-column(field="NewPrice" title='成交價' width="80px")
-        vxe-table-column(field="SerialCoveredNum" title='口數')
-        vxe-table-column(field="Fee" title='手續費')
-        vxe-table-column(title='損失點')
-        vxe-table-column(title='獲利點')
-        vxe-table-column(field="CoverSerial" title='平倉序號' width="150px")
-        vxe-table-column(field="CoverDate" title='平倉時間' width="150px")
-        vxe-table-column(field="CoverPrice" title='成交價' width="80px")
-        vxe-table-column(title='損益' width="80px")
-          template(slot-scope='scope')
-            span(:class="getMoneyColor(scope.row['Money'])") {{ scope.row['Money'] }}
+    table.custom__table
+      thead
+        tr
+          th 序號
+          th 商品
+          th 多空
+          th 成交日期
+          th 成交價
+          th 口數
+          th 手續費
+          th 損失點
+          th 獲利點
+          th 平倉序號
+          th 平倉時間
+          th 成交價
+          th 損益
+      tbody
+        tr(v-for="row in coveredArray")
+          td {{ row.NewSerial }}
+          td {{ row.Name }}
+          td
+            span(:class="row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ row['BuyOrSell'] == 0 ? '多' : '空' }}
+          td {{ row.NewDate }}
+          td {{ row.NewPrice }}
+          td {{ row.SerialCoveredNum }}
+          td {{ row.TotalFee }}
+          td {{ row.CoverSerial }}
+          td {{ row.CoverDate }}
+          td {{ row.CoverPrice }}
+          td
+            span(:class="getMoneyColor(row['Money'])") {{ row['Money'] }}
   .content(v-show="type == 4")
-    client-only
-      vxe-table(
-        :data='commodityArray'
-        max-width="100%"
-        height="300"
-        size="mini"
-        align="center"
-        border
-        auto-resize)
-        vxe-table-column(field="Name" title='商品' width="80px")
-        vxe-table-column(title='未平多')
-          template(slot-scope='scope')
-            span(class="text__danger") {{ scope.row.TotalBuySubmit }}
-        vxe-table-column(title='未平空')
-          template(slot-scope='scope')
-            span(class="text__success") {{ scope.row.TotalSellSubmit }}
-        vxe-table-column(title='已平倉')
-          template(slot-scope='scope') {{ coveredArray.length }}
-        vxe-table-column(field="TotalSubmit" title='總口數')
-        vxe-table-column(title='損益')
-          template(slot-scope='scope')
-            span(:class="getMoneyColor(scope.row['TodayMoney'])") {{ scope.row['TodayMoney'] }}
+    table.custom__table
+      thead
+        tr
+          th 商品
+          th 未平多
+          th 未平空
+          th 已平倉
+          th 總口數
+          th 損益
+      tbody
+        tr(v-for="row in commodityArray")
+          td {{ row.Name }}
+          td
+            span(class="text__danger") {{ row.TotalBuySubmit }}
+          td
+            span(class="text__success") {{ row.TotalSellSubmit }}
+          td {{ coveredArray.length }}
+          td {{ row.TotalSubmit }}
+          td
+            span(:class="getMoneyColor(row['TodayMoney'])") {{ row['TodayMoney'] }}
 </template>
 <script>
 
