@@ -1,9 +1,9 @@
 <template lang='pug'>
 .root
   #main
-    splitpanes(class="default-theme" @resized="resizeChart()")
+    splitpanes(class="default-theme" @resized="resized()")
       pane(:size="getSize('left')")
-        splitpanes(horizontal @resize="onResize($event)" @resized="resizeChart()")
+        splitpanes(horizontal @resize="onResize($event)" @resized="resized()")
           pane(:size="getSize('mid')")
             Header
             MainItem(v-if="pageStyle != 4")
@@ -14,7 +14,7 @@
           pane(:size="getSize('C')" v-show="style == 'C'")
             StyleC
       pane(:size="getSize('right')")
-        splitpanes(horizontal @resize="onResize($event)")
+        splitpanes(horizontal @resize="onResize($event)" @resized="resized()")
           pane(:size="getSize('itemDetail')")
             ItemDetail
           pane(:size="getSize('ab')" max-size="50")
@@ -112,8 +112,11 @@ export default {
     },
   },
   methods: {
-    resizeChart() {
+    resized() {
       this.$store.dispatch('RESIZE_CHART')
+
+      //計算寬高
+      this.computedAllTable()
     },
     onResize(event) {
       this.reSize = event[1].size

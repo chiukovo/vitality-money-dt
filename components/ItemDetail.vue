@@ -59,9 +59,10 @@ export default {
     clickItemId: 'clickItemId',
     listColorStyle: state => state.localStorage.customSetting.listColorStyle,
   }),
-  updated() {
+  mounted() {
     const _this = this
-    _this.$nextTick(function () {
+
+    _this.$nextTick(function() {
       _this.computedTableContent('itemDetail')
 
       if (this.autoScroll) {

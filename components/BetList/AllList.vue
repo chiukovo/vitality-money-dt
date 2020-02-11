@@ -14,7 +14,7 @@
           input.radio__input(type="radio" v-model='seeAllOrder' value='2')
           span.radio__label 已成交單
   #allList.history-content__body(:style="{height: $parent.height.buySell}")
-    table.custom__table
+    table.custom__table.table__dark
       thead.thead
         tr
           th
@@ -36,12 +36,12 @@
       tbody.tbody(@scroll="tbodyScroll('allList')")
         tr(v-for="row in $store.state.buySell")
           td
-            div
+            .cell
               button.button__white(v-if="row.Operation[1]" @click="deleteOrder(row)") 刪
               button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
               button.button__white(v-if="row.Operation[0] || !cantSetWinLoss(row.Operation)" @click="openEdit(row, 'edit')") 改
           td
-            div(v-if="row.Operation[2]")
+            .cell(v-if="row.Operation[2]")
               label.checkbox
                 input.checkbox__input(type="checkbox" style="margin: 0" :checked="row.DayCover" @click="changeDayCover(row, $event)" :disabled="dayCoverIsDisabled(row.ID)")
                 span.checkbox__label 不留倉
@@ -228,11 +228,9 @@ export default {
     this.token = this.$store.state.localStorage.userAuth.token
     this.lang = this.$store.state.localStorage.lang
     this.isMobile = this.$store.state.isMobile
-  },
-  updated() {
     const _this = this
 
-    _this.$nextTick(function () {
+    _this.$nextTick(function() {
       _this.computedTableContent('allList')
     })
   },
