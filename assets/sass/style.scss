@@ -1280,3 +1280,55 @@ td {
     }
   }
 }
+
+//new table
+.custom__table {
+  width: 900px;
+  position: relative;
+  overflow: hidden;
+  border-collapse: collapse;
+  /*thead*/
+  thead {
+    position: relative;
+    display: block; /*seperates the header from the body allowing it to be positioned*/
+    width: 900px;
+    overflow: visible;
+  }
+
+  thead th {
+    min-width: 80px;
+    height: 100%;
+    background-color: #3a3a3a;
+    border: 1px solid #606266;
+  }
+
+  thead th:nth-child(1) {/*first cell in the header*/
+    position: relative;
+    display: block; /*seperates the first cell in the header from the header*/
+    z-index: 99;
+    background-color: #666;
+  }
+
+
+  /*tbody*/
+  tbody {
+    position: relative;
+    display: block; /*seperates the tbody from the header*/
+    width: 900px;
+    height: 239px;
+    overflow: scroll;
+  }
+
+  tbody td {
+    min-width: 80px;
+    height: 100%;
+    border: 1px solid #606266;
+  }
+
+  tbody tr td:nth-child(1) {  /*the first cell in each tr*/
+    position: relative;
+    background-color: #212529;
+    display: block; /*seperates the first column from the tbody*/
+    z-index: 99;
+  }
+}
