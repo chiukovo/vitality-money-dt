@@ -177,14 +177,14 @@ export default {
       let h = content.offsetHeight
 
       if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
-        if (tbody.style.height == h - 20 + 'px') {
+        if (tbody.style.height == h - 28 + 'px') {
           return
         }
       }
 
       tbody.style.width = w + 'px'
       thead.style.width = w + 'px'
-      tbody.style.height = h - 20 + 'px'
+      tbody.style.height = h - 28 + 'px'
     },
     tbodyScroll() {
       //tbody scrollleft
