@@ -39,8 +39,8 @@ div(class="h-100")
           th(v-if="checkHide('最低價')") 最低價
           th(v-if="checkHide('時間')") 時間
           th(v-if="checkHide('交易')") 交易
-          th(v-if="checkHide('最後成交價')" style="min-width: 100px;") 最後成交價
-          th(v-if="checkHide('最後交易日')" style="min-width: 100px;") 最後交易日
+          th(v-if="checkHide('最後成交價')" style="width: 100px;") 最後成交價
+          th(v-if="checkHide('最後交易日')" style="width: 100px;") 最後交易日
           th(v-if="checkHide('說明')") 說明
           th(v-if="checkHide('商品類別')") 商品類別
       tbody.tbody(@scroll="tbodyScroll('mainItemContent', true)")
@@ -77,9 +77,9 @@ div(class="h-100")
             span(:class="row.newest_time_change") {{ row.newest_time }}
           td(v-if="checkHide('交易')")
             span(:class="row.state_color") {{ row.state_name }}
-          td(v-if="checkHide('最後成交價')" style="min-width: 100px;")
+          td(v-if="checkHide('最後成交價')" style="width: 100px;")
             span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
-          td(v-if="checkHide('最後交易日')" style="min-width: 100px;")
+          td(v-if="checkHide('最後交易日')" style="width: 100px;")
             span {{ row.end_date }}
           td(v-if="checkHide('說明')")
             a.table-link(href="#" @click="openModal('userDetail', '商品資訊', '', true, row.product_id)") 說明
