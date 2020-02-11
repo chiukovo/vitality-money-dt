@@ -10,16 +10,22 @@
             input(type="checkbox" v-model="autoScroll")
             span 自動捲動
       .itemDetail-content(:style="'height: calc(100% - ' + $store.state.userInfoStyleHeight + ')'")
-        table.custom__table
+        table.custom__table.table__dark
           thead.thead
             tr
-              th 時間
-              th 成交價
-              th 單量
+              th
+                .cell 時間
+              th
+                .cell 成交價
+              th
+                .cell 單量
             tr(v-for="row in items2")
-              td {{ row.flocalTime }}
-              td {{ row.price }}
-              td {{ row.amount }}
+              td
+                .cell {{ row.flocalTime }}
+              td
+                .cell {{ row.price }}
+              td
+                .cell {{ row.amount }}
       UserInfo(ref="userInfo")
   Dialog(
     :click-type="dialog.clickType",
