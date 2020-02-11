@@ -21,108 +21,69 @@ div(class="h-100")
       thead.thead
         tr
           th
-            .cell(:style="computedStyleWidth(50)")
-              span(v-if="checkHide('商品')") 商品
-              .table-toggle
-                a(@click.stop="customSetting = !customSetting")
-          th(v-if="checkHide('倉位多')")
-            .cell 倉位多
-          th(v-if="checkHide('倉位空')")
-            .cell 倉位空
-          th(v-if="checkHide('買進價')")
-            .cell 買進價
-          th(v-if="checkHide('賣出價')")
-            .cell 賣出價
-          th(v-if="checkHide('成交價')")
-            .cell 成交價
-          th(v-if="checkHide('漲跌')")
-            .cell 漲跌
-          th(v-if="checkHide('漲幅%')")
-            .cell 漲幅%
-          th(:v-if="checkHide('單量')")
-            .cell 單量
-          th(v-if="checkHide('總量')")
-            .cell(:style="computedStyleWidth(50)") 總量
-          th(v-if="checkHide('昨收價')")
-            .cell 昨收價
-          th(v-if="checkHide('開盤價')")
-            .cell 開盤價
-          th(v-if="checkHide('最高價')")
-            .cell 最高價
-          th(v-if="checkHide('最低價')")
-            .cell 最低價
-          th(v-if="checkHide('時間')")
-            .cell(:style="computedStyleWidth(50)") 時間
-          th(v-if="checkHide('交易')")
-            .cell 交易
-          th(v-if="checkHide('最後成交價')")
-            .cell(:style="computedStyleWidth(70)") 最後成交價
-          th(v-if="checkHide('最後交易日')")
-            .cell(:style="computedStyleWidth(70)") 最後交易日
-          th(v-if="checkHide('說明')")
-            .cell 說明
-          th(v-if="checkHide('商品類別')")
-            .cell(:style="computedStyleWidth(30)") 商品類別
+            span(v-if="checkHide('商品')") 商品
+            .table-toggle
+              a(@click.stop="customSetting = !customSetting")
+          th(v-if="checkHide('倉位多')") 倉位多
+          th(v-if="checkHide('倉位空')") 倉位空
+          th(v-if="checkHide('買進價')") 買進價
+          th(v-if="checkHide('賣出價')") 賣出價
+          th(v-if="checkHide('成交價')") 成交價
+          th(v-if="checkHide('漲跌')") 漲跌
+          th(v-if="checkHide('漲幅%')") 漲幅%
+          th(v-if="checkHide('單量')") 單量
+          th(v-if="checkHide('總量')") 總量
+          th(v-if="checkHide('昨收價')") 昨收價
+          th(v-if="checkHide('開盤價')") 開盤價
+          th(v-if="checkHide('最高價')") 最高價
+          th(v-if="checkHide('最低價')") 最低價
+          th(v-if="checkHide('時間')") 時間
+          th(v-if="checkHide('交易')") 交易
+          th(v-if="checkHide('最後成交價')" style="min-width: 100px;") 最後成交價
+          th(v-if="checkHide('最後交易日')" style="min-width: 100px;") 最後交易日
+          th(v-if="checkHide('說明')") 說明
+          th(v-if="checkHide('商品類別')") 商品類別
       tbody.tbody(@scroll="tbodyScroll('mainItemContent', true)")
         tr(v-for="row in mainItem")
           td(v-if="checkHide('商品')")
-            .cell(:style="computedStyleWidth(50)" :class="clickItemId == row.product_id ? 'bg__danger' : ''" @click="clickItem(row)") {{ row.product_name }}
+            .cell(:class="clickItemId == row.product_id ? 'bg__danger' : ''" @click="clickItem(row)") {{ row.product_name }}
           td(v-if="checkHide('倉位多')")
-            .cell(v-if="typeof $store.state.uncoveredCountDetail[row.product_id] != 'undefined'")
-              span(class="text__center bg__danger" v-if="$store.state.uncoveredCountDetail[row.product_id] > 0") {{ $store.state.uncoveredCountDetail[row.product_id] }}
+            .cell(v-if="typeof uncoveredCountDetail[row.product_id] != 'undefined' && uncoveredCountDetail[row.product_id] > 0" class="text__center bg__danger") {{ uncoveredCountDetail[row.product_id] }}
           td(v-if="checkHide('倉位空')")
-            .cell(v-if="typeof $store.state.uncoveredCountDetail[row.product_id] != 'undefined'")
-              span(class="text__center bg__success" v-if="$store.state.uncoveredCountDetail[row.product_id] < 0") {{ Math.abs($store.state.uncoveredCountDetail[row.product_id]) }}
+            .cell(v-if="typeof uncoveredCountDetail[row.product_id] != 'undefined' && uncoveredCountDetail[row.product_id] < 0" class="text__center bg__success") {{ Math.abs(uncoveredCountDetail[row.product_id]) }}
           td(v-if="checkHide('買進價')")
-            .cell(:class="row.computed_color")
-              span(:class="row.bp_price_change") {{ row['bp_price'] }}
+            span(:class="[row.bp_price_change,row.computed_color]") {{ row['bp_price'] }}
           td(v-if="checkHide('賣出價')")
-            .cell(:class="row.computed_color")
-              span(:class="row.sp_price_change") {{ row['sp_price'] }}
+            span(:class="[row.sp_price_change,row.computed_color]") {{ row['sp_price'] }}
           td(v-if="checkHide('成交價')")
-            .cell(:class="row.computed_color")
-              span(:class="row.newest_price_change") {{ row.newest_price }}
+            span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
           td(v-if="checkHide('漲跌')")
-            .cell(:class="row.computed_color")
-              span(:class="row.gain_change") {{ row.gain }}
+            span(:class="[row.gain_change,row.computed_color]") {{ row.gain }}
           td(v-if="checkHide('漲幅%')")
-            .cell(:class="row.computed_color")
-              span(:class="row.gain_percent_change") {{ row.gain_percent }}%
+            span(:class="[row.gain_percent_change,row.computed_color]") {{ row.gain_percent }}%
           td(v-if="checkHide('單量')")
-            .cell
-              span(:class="row.newest_qty_change") {{ row.newest_qty }}
+            span(:class="row.newest_qty_change") {{ row.newest_qty }}
           td(v-if="checkHide('總量')")
-            .cell(:style="computedStyleWidth(50)" :class="row.computed_color")
-              span(:class="row.total_qty_change") {{ row.total_qty }}
+            span(:class="[row.total_qty_change,row.computed_color]") {{ row.total_qty }}
           td(v-if="checkHide('昨收價')")
-            .cell
-              span {{ row.yesterday_close_price }}
+            span {{ row.yesterday_close_price }}
           td(v-if="checkHide('開盤價')")
-            .cell
-              span {{ row.open_price }}
+            span {{ row.open_price }}
           td(v-if="checkHide('最高價')")
-            .cell
-              span(:class="row.computed_color") {{ row.highest_price }}
+            span(:class="row.computed_color") {{ row.highest_price }}
           td(v-if="checkHide('最低價')")
-            .cell
-              span(:class="row.computed_color") {{ row.lowest_price }}
+            span(:class="row.computed_color") {{ row.lowest_price }}
           td(v-if="checkHide('時間')")
-            .cell(:style="computedStyleWidth(50)")
-              span(:class="row.newest_time_change") {{ row.newest_time }}
+            span(:class="row.newest_time_change") {{ row.newest_time }}
           td(v-if="checkHide('交易')")
-            .cell
-              span(:class="row.state_color") {{ row.state_name }}
-          td(v-if="checkHide('最後成交價')")
-            .cell(:style="computedStyleWidth(70)" :class="row.computed_color")
-              span(:class="row.newest_price_change") {{ row.newest_price }}
-          td(v-if="checkHide('最後交易日')")
-            .cell(:style="computedStyleWidth(70)")
-              span {{ row.end_date }}
+            span(:class="row.state_color") {{ row.state_name }}
+          td(v-if="checkHide('最後成交價')" style="min-width: 100px;")
+            span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
+          td(v-if="checkHide('最後交易日')" style="min-width: 100px;")
+            span {{ row.end_date }}
           td(v-if="checkHide('說明')")
-            .cell
-              a.table-link(href="#" @click="openModal('userDetail', '商品資訊', '', true, row.product_id)") 說明
-          td(v-if="checkHide('商品類別')")
-            .cell(:style="computedStyleWidth(30)") CFD
+            a.table-link(href="#" @click="openModal('userDetail', '商品資訊', '', true, row.product_id)") 說明
+          td(v-if="checkHide('商品類別')") CFD
 </template>
 
 <script>
@@ -150,6 +111,7 @@ export default {
   computed: mapState({
     mainItem: 'mainItem',
     clickItemId: 'clickItemId',
+    uncoveredCountDetail: 'uncoveredCountDetail',
     fontStyle: state => state.localStorage.customSetting.fontStyle,
     listColorStyle: state => state.localStorage.customSetting.listColorStyle,
   }),

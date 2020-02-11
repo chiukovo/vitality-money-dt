@@ -1301,9 +1301,10 @@ td {
     th {
       min-width: 80px;
       height: 100%;
+      line-height: 1.2;
+      padding: 4px;
       &:nth-child(1) {
         position: relative;
-        display: block;
         z-index: 99;
       }
     }
@@ -1317,9 +1318,10 @@ td {
     td {
       min-width: 80px;
       height: 100%;
+      line-height: 1.2;
+      padding: 2px 4px;
       &:nth-child(1) {
         position: relative;
-        display: block;
         z-index: 99;
       }
     }
@@ -1330,9 +1332,6 @@ td {
       background-color: #3a3a3a;
       th {
         background-color: #3a3a3a;
-      }
-      .cell {
-        padding: 4px;
       }
     }
     tbody {
@@ -1359,12 +1358,14 @@ td {
           }
         }
       }
-      .cell {
-        padding: 2px 4px;
-      }
     }
   }
-  .border__danger, .border__success {
+  .cell {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     padding: 2px 4px;
   }
   &.fontStyle {
