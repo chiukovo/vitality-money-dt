@@ -18,40 +18,38 @@
         button.button(@click="selectDayType('thisMonth')") 本月
         button.button(@click="selectDayType('beforeMonth')") 上月
   .dialog__content
-    client-only
-      vxe-table(
-        :data='items'
-        max-width="100%"
-        height="500"
-        column-min-width="74"
-        size="mini"
-        align="center"
-        border
-        auto-resize)
-        vxe-table-column
-          template(slot-scope='scope')
-            button(@click="clickDetail(scope.row)") 明細
-        vxe-table-column(field="Date" title='日期' width="90")
-        vxe-table-column(title='昨日權益數')
-          template(slot-scope='scope')
-            span(:class="getMoneyColor(scope.row.YesterdayInterestNum)") {{ scope.row.YesterdayInterestNum | currency }}
-        vxe-table-column(title='今日損益')
-          template(slot-scope='scope')
-            span(:class="getMoneyColor(scope.row.TodayMoney)") {{ scope.row.TodayMoney | currency }}
-        vxe-table-column(title='餘額')
-          template(slot-scope='scope')
-            span(:class="getMoneyColor(scope.row.RemainingMoney)") {{ scope.row.RemainingMoney | currency }}
-        vxe-table-column(field="TotalFee" title='手續費')
-        vxe-table-column(field="TotalSubmit" title='投注口數')
-        vxe-table-column(title='轉出')
-          template(slot-scope='scope')
-            span(v-if="scope.row.SaveMoney < 0")
-              span(:class="getMoneyColor(scope.row.SaveMoney)") {{ scope.row.SaveMoney | currency }}
+    table.custom__table.auto__H
+      thead
+        tr
+          th 明細
+          th 日期
+          th 昨日權益數
+          th 今日損益
+          th 餘額
+          th 手續費
+          th 投注口數
+          th 轉出
+          th 儲值
+      tbody
+        tr(v-for="row in items")
+          td
+            button(@click="clickDetail(row)") 明細
+          td {{ row.Date }}
+          td
+            span(:class="getMoneyColor(row.YesterdayInterestNum)") {{ row.YesterdayInterestNum | currency }}
+          td
+            span(:class="getMoneyColor(row.TodayMoney)") {{ row.TodayMoney | currency }}
+          td
+            span(:class="getMoneyColor(row.RemainingMoney)") {{ row.RemainingMoney | currency }}
+          td {{ row.TotalFee }}
+          td {{ row.TotalSubmit }}
+          td
+            span(v-if="row.SaveMoney < 0")
+              span(:class="getMoneyColor(row.SaveMoney)") {{ row.SaveMoney | currency }}
             span(v-else) 0
-        vxe-table-column(field="SaveMoney" title='儲值')
-          template(slot-scope='scope')
-            span(v-if="scope.row.SaveMoney > 0")
-              span(:class="getMoneyColor(scope.row.SaveMoney)") {{ scope.row.SaveMoney | currency }}
+          td
+            span(v-if="row.SaveMoney > 0")
+              span(:class="getMoneyColor(row.SaveMoney)") {{ row.SaveMoney | currency }}
             span(v-else) 0
   el-dialog(
     width="50%"

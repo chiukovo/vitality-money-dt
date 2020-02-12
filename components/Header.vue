@@ -18,6 +18,7 @@
           li.dropdown-item(@click="openModal('userDetail', '會員資訊')") 會員資訊
           li.dropdown-item(@click="openModal('historyWinLoss', '帳戶歷史')") 帳戶歷史
           li.dropdown-item(@click="openModal('storedRecords', '儲值記錄')") 儲值記錄
+          li.dropdown-item(@click="openModal('actionLog', '動作日誌')") 動作日誌
       li.nav-item
         a.nav-link.dropdown-toggle 設定
         ul.dropdown-menu
