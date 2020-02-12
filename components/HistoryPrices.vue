@@ -21,25 +21,20 @@
           button.button(type="button" @click="query") 查詢
           .badge.badge-warning(style="margin-left: 10px;position: relative;bottom: 6px;") *3 分鐘
   .dialog__content
-    client-only
-      vxe-table(
-        :data="items.slice((currentPage-1)*pagesize,currentPage*pagesize)"
-        max-width="100%"
-        height="266px"
-        size="mini"
-        align="center"
-        border
-        auto-resize
-        highlight-current-row
-        highlight-hover-row)
-        vxe-table-column(field="time" title='時間' min-width='30%')
-        vxe-table-column(field="price" title='成交價' width='28%')
-        vxe-table-column(field="submit" title='單量' width='14%')
-    el-pagination(
-      background
-      layout="prev, pager, next"
-      :total="total"
-      @current-change="currentChange")
+    .m-10
+      table.custom__table.large
+        thead.thead
+          tr
+            th 時間
+            th 成交價
+            th 單量
+        tbody.tbody(@scroll="tbodyScroll($event)")
+          tr(v-for="row in items")
+            td {{ row.time }}
+            td {{ row.price }}
+            td {{ row.submit }}
+          tr(class="non-data" v-if="items.length == 0")
+            td 無資料
 </template>
 <script>
 
@@ -62,10 +57,15 @@ export default {
       currentPage: 1
     }
   },
-  mounted () {
+  mounted() {
     //end date
     this.form.start = this.formatDate(new Date())
     this.form.end = this.formatDate(new Date())
+  },
+  watch: {
+    items() {
+      this.computedTableContent()
+    }
   },
   methods: {
     currentChange(currentPage) {
@@ -122,7 +122,7 @@ export default {
               }
             }
 
-            _this.total= _this.items.length;
+            _this.total = _this.items.length
           }
         })
       }

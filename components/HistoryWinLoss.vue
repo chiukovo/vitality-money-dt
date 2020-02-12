@@ -51,6 +51,8 @@
             span(v-if="row.SaveMoney > 0")
               span(:class="getMoneyColor(row.SaveMoney)") {{ row.SaveMoney | currency }}
             span(v-else) 0
+        tr(class="non-data" v-if="items.length == 0")
+          td 無資料
   el-dialog(
     width="50%"
     height="500px"
@@ -136,6 +138,8 @@ export default {
               val.YesterdayInterestNum = Number(val.RemainingMoney) - Number(val.TouchPoint) + Number(val.Withholding) - Number(val.TodayMoney)
               return val
             })
+
+            _this.computedTableContent()
           }
         })
       }

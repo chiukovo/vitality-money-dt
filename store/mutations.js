@@ -63,6 +63,8 @@ export default {
   },
   setListColorStyle(state, type) {
     state.localStorage.customSetting.listColorStyle = type
+
+    this.commit('computedMainItem')
   },
   setTheme(state, type) {
     state.localStorage.customSetting.theme = type
@@ -161,7 +163,7 @@ export default {
       })
 
       if (userHide && setting.length > 0) {
-        return
+        return ''
       }
 
       //顏色 昨收價 < 成交價 紅
@@ -189,7 +191,7 @@ export default {
       val.computed_color = val.color
 
       //判斷是否要相反
-      if (state.listColorStyle == 2) {
+      if (state.localStorage.customSetting.listColorStyle == 2) {
         //相反
         if (val.color == 'text__danger') {
           val.computed_color = 'text__success'
@@ -239,8 +241,10 @@ export default {
     //order
     setting.forEach(function(custom) {
       result.forEach(function(val) {
-        if (custom.id == val.product_id) {
-          resultToOrder.push(val)
+        if (val != '') {
+          if (custom.id == val.product_id) {
+            resultToOrder.push(val)
+          }
         }
       })
     })

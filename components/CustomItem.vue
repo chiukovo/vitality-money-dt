@@ -21,6 +21,8 @@
           td
             span(v-html="row.trade_time")
           td {{ row.market_name }}
+        tr(class="non-data" v-if="items.length == 0")
+          td 無資料
   .dialog__footer
     button.button_light(@click="cancel") 取消
     button.button(type='primary' @click="submit") 確認

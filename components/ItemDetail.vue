@@ -21,6 +21,8 @@
               td {{ row.flocalTime }}
               td {{ row.price }}
               td {{ row.amount }}
+            tr(class="non-data" v-if="items2.length == 0")
+              td 無資料
       UserInfo(ref="userInfo")
   Dialog(
     :click-type="dialog.clickType",

@@ -5,7 +5,7 @@
     table.custom__table.table__dark
       thead.thead
         tr
-          th 商品
+          th(style="width: 100px;") 商品
           th 新倉序號
           th 平倉序號
           th 新倉型別
@@ -16,12 +16,12 @@
           th 成交價
           th 平倉價
           th 點數
-          th(style="width: 130px;") 成交日期
-          th(style="width: 130px;") 平倉日期
+          th(style="width: 150px;") 成交日期
+          th(style="width: 150px;") 平倉日期
           th 損益
       tbody.tbody(@scroll="tbodyScroll($event)")
         tr(v-for="row in $store.state.covered")
-          td {{ row.Name }}
+          td(style="width: 100px;") {{ row.Name }}
           td {{ row.NewSerial }}
           td {{ row.CoverSerial }}
           td
@@ -37,10 +37,12 @@
             .change-icon
               .icon-arrow(:class="row['Point'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
             span(:class="row['Point'] < 0 ? 'text__success' : 'text__danger'") {{ row['Point'] }}
-          td(style="width: 130px;") {{ row.NewDate }}
-          td(style="width: 130px;") {{ row.CoverDate }}
+          td(style="width: 150px;") {{ row.NewDate }}
+          td(style="width: 150px;") {{ row.CoverDate }}
           td
             span(:class="row['Money'] < 0 ? 'text__success' : 'text__danger'") {{ row['Money'] | currency }}
+        tr(class="non-data" v-if="$store.state.covered.length == 0")
+          td 無資料
 </template>
 
 <script>

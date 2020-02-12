@@ -2,7 +2,7 @@
 .history-content
   .history-content__header(id="buySellHeader")
     .d-flex.align-items-center
-      button.button__white(@click="openMultiDelete") 全部刪單
+      button.button__white(@click="deleteAll") 全部刪單
       div(style="margin-left: 10px;")
         label.radio.inline
           input.radio__input(type="radio" v-model='seeAllOrder' value='1')
@@ -20,20 +20,20 @@
           th
           th 不留倉
           th 序號
-          th 商品
+          th(style="width: 100px;") 商品
           th 倒
           th 多空
           th 委託價
           th 口數
           th 成交價
-          th(style="width: 130px;") 下單時間
-          th(style="width: 130px;") 完成時間
+          th(style="width: 150px;") 下單時間
+          th(style="width: 150px;") 完成時間
           th 型別
           th 損失點數
           th 獲利點數
-          th 狀態
+          th(style="width: 130px;") 狀態
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in $store.state.buySell")
+        tr(v-for="row in $store.state.buySell" v-if="checkRowShow(row)")
           td
             button.button__white(v-if="row.Operation[1]" @click="deleteOrder(row)") 刪
             button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
@@ -44,7 +44,7 @@
                 input.checkbox__input(type="checkbox" style="margin: 0" :checked="row.DayCover" @click="changeDayCover(row, $event)" :disabled="dayCoverIsDisabled(row.ID)")
                 span.checkbox__label 不留倉
           td {{ row.Serial }}
-          td
+          td(style="width: 100px;")
             span(v-if="row.State != '已刪除'") {{ row.Name }}
             s(v-else) {{ row.Name }}
           td {{ row.InvertedPoint }}
@@ -53,14 +53,16 @@
           td {{ row.OrderPrice }}
           td {{ row.Quantity }}
           td {{ row.FinalPrice }}
-          td(style="width: 130px;") {{ row.OrderTime }}
-          td(style="width: 130px;") {{ row.FinalTime }}
+          td(style="width: 150px;") {{ row.OrderTime }}
+          td(style="width: 150px;") {{ row.FinalTime }}
           td {{ row.Odtype }}
           td {{ parseInt(row.LossPoint) }}
           td {{ parseInt(row.WinPoint) }}
-          td
+          td(style="width: 130px;")
             span.blink(v-if="row.State == '未成交'") {{ row.State }}
             span(v-else) {{ row.State }}
+        tr(class="non-data" v-if="$store.state.buySell.length == 0")
+          td 無資料
   //-改價減量
   el-dialog(
     :visible.sync='editDialog'
@@ -155,7 +157,7 @@
         thead.thead
           tr
             th 序號
-            th 目標商品
+            th(style="width: 100px") 目標商品
             th 用戶名稱
             th 買賣
             th 價格
@@ -164,7 +166,7 @@
         tbody.tbody
           tr(v-for="row in multiDeleteData")
             td {{ row.serial }}
-            td {{ row.name }}
+            td(style="width: 100px") {{ row.name }}
             td {{ row.userName }}
             td
               div
@@ -172,6 +174,8 @@
             td {{ row.price }}
             td {{ row.submit }}
             td {{ dateOnlyHis(row.orderTime) }}
+          tr(class="non-data" v-if="multiDeleteData.length == 0")
+            td 無資料
     .dialog__footer
       button.button(@click="deleteConfirm = false") 取消
       button.button(type='primary' @click="doDelete") 確認
@@ -190,7 +194,7 @@
         thead.thead
           tr
             th 序號
-            th 目標商品
+            th(style="width: 100px") 目標商品
             th 用戶名稱
             th 買賣
             th 價格
@@ -198,13 +202,15 @@
         tbody.tbody
           tr(v-for="row in multiOrderData")
             td {{ row.serial }}
-            td {{ row.name }}
+            td(style="width: 100px") {{ row.name }}
             td {{ row.userName }}
             td
               div
                 span(:class="row.buy == 0 ? 'bg__danger' : 'bg__success'" class="text__white") {{ row.buy == 0 ? '多' : '空' }}
             td {{ row.price }}
             td {{ row.submit }}
+          tr(class="non-data" v-if="multiOrderData.length == 0")
+            td 無資料
     .dialog__footer
       button.button.button__light(@click="multiOrderConfirm = false") 取消
       button.button(type='primary' @click="doMultiCovered") 確認
@@ -320,14 +326,17 @@ export default {
     cantSetWinLoss(operation) {
       return operation[0] == 0 && operation[1] == 0 && operation[2] == 0 && operation[4] == 0
     },
-    rowClass({ row, column, columnIndex }) {
+    checkRowShow(row) {
       //判斷是否顯示
       if (this.seeAllOrder == 0 && row.State != '未成交') {
-        return 'hide'
+        return false
       }
+
       if (this.seeAllOrder == 2 && row.State == '未成交') {
-        return 'hide'
+        return false
       }
+
+      return true
     },
   }
 }

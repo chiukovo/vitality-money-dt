@@ -5,26 +5,28 @@
       |  為主，歐美商品於夏令
       span.text__danger  (每年三月第二個星期天開始)
       |  提前一小時開盤、收盤
-    client-only
-      vxe-table(
-        :data="tableData"
-        max-width="100%"
-        height="460px"
-        size="mini"
-        border
-        auto-resize)
-        vxe-table-column(field="product" title='模擬商品')
-        vxe-table-column(field="startTime" title='開盤時間')
-        vxe-table-column(field="transactionTime" title='可交易時間')
-        vxe-table-column(field="low" title='低量時段(禁新)')
-        vxe-table-column(field="exchange" title='交易所')
+    table.custom__table.large
+      thead.thead
+        tr
+          th 模擬商品
+          th 開盤時間
+          th 可交易時間
+          th 低量時段(禁新)
+          th 交易所
+      tbody.tbody(@scroll="tbodyScroll($event)")
+        tr(v-for="row in items")
+          td {{ row.product }}
+          td {{ row.startTime }}
+          td {{ row.transactionTime }}
+          td {{ row.low }}
+          td {{ row.exchange }}
 </template>
 
 <script>
 export default {
     data () {
       return {
-        tableData: [{
+        items: [{
           product: '加權指數',
           startTime: '09:00~13:30',
           transactionTime: '09:00~13:31',

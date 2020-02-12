@@ -6,39 +6,50 @@ el-dialog(
   width="500px")
   .header-custom(slot='title')
     |  {{ title }}
-  client-only
-    //-全平
-    div.p-2
-      .title(style="color: #0477b6;") 全部平倉
-      vxe-table(
-        :data="overAllList"
-        size="mini"
-        column-min-width="60"
-        border)
-        vxe-table-column(field="Serial" title='序號')
-        vxe-table-column(field="Name" title='商品')
-        vxe-table-column(field="FinalPrice" title='成交價')
-        vxe-table-column(title='多空')
-          template(slot-scope='scope')
-            span(:class="scope.row.BuyOrSell == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ scope.row.BuyOrSell == 0 ? '多' : '空' }}
-        vxe-table-column(field="Quantity" title='口數')
-    //-刪單
-    div.p-2(v-if="dayCover == 1")
-      .title(style="color: #0477b6;") 刪單
-      vxe-table(
-        :data="deleteList"
-        size="mini"
-        column-min-width="60"
-        border)
-        vxe-table-column(field="Serial" title='序號')
-        vxe-table-column(field="Name" title='商品')
-        vxe-table-column(field="OrderPrice" title='委託')
-        vxe-table-column(title='多空')
-          template(slot-scope='scope')
-            span(:class="scope.row.BuyOrSell == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ scope.row.BuyOrSell == 0 ? '多' : '空' }}
-        vxe-table-column(field="Quantity" title='口數')
-        vxe-table-column(title='時間')
-          template(slot-scope='scope') {{ dateOnlyHis(scope.row.OrderTime) }}
+  //-全平
+  div
+    .title(style="color: #0477b6;") 全部平倉
+    table.custom__table.large
+      thead.thead
+        tr
+          th 序號
+          th 商品
+          th 成交價
+          th 多空
+          th 口數
+      tbody.tbody(@scroll="tbodyScroll($event)")
+        tr(v-for="row in overAllList")
+         td {{ row.Serial }}
+         td {{ row.Name }}
+         td {{ row.FinalPrice }}
+         td
+            span(:class="row.BuyOrSell == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ row.BuyOrSell == 0 ? '多' : '空' }}
+         td {{ row.Quantity }}
+        tr(class="non-data" v-if="overAllList.length == 0")
+          td 無資料
+  //-刪單
+  div(v-if="dayCover == 1")
+    .title(style="color: #0477b6;") 刪單
+    table.custom__table.large
+      thead.thead
+        tr
+          th 序號
+          th 商品
+          th 委託
+          th 多空
+          th 口數
+          th 時間
+      tbody.tbody(@scroll="tbodyScroll($event)")
+        tr(v-for="row in deleteList")
+          td(field="Serial" title='序號') {{ row.Serial }}
+          td(field="Name" title='商品') {{ row.Name }}
+          td(field="OrderPrice" title='委託') {{ row.OrderPrice }}
+          td
+            span(:class="row.BuyOrSell == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ row.BuyOrSell == 0 ? '多' : '空' }}
+          td(field="Quantity" title='口數') {{ row.Quantity }}
+          td {{ dateOnlyHis(row.OrderTime) }}
+        tr(class="non-data" v-if="deleteList.length == 0")
+          td 無資料
     .dialog__footer
       button.button.button__light(@click="cancel") 取消
       button.button(type='primary' @click="doSendOverAll") 確認
@@ -97,6 +108,8 @@ export default {
 
       this.title = '全部平倉+刪單'
     }
+
+    this.computedTableContent()
   },
   methods: {
     doSendOverAll() {

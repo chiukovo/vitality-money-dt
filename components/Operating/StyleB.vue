@@ -66,22 +66,25 @@
       title='確認下單')
       .header-custom(slot='title')
         |  確認下單
-      .p-2
-        client-only
-          vxe-table(
-            :data="confirmData"
-            max-width="100%"
-            height="200px"
-            size="mini"
-            border
-            auto-resize)
-            vxe-table-column(field="name" title='目標商品')
-            vxe-table-column(field="userName" title='用戶名稱')
-            vxe-table-column(title='買賣')
-              template(slot-scope='scope')
-                span(:class="scope.row.buy == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ scope.row.buy == 0 ? '多' : '空' }}
-            vxe-table-column(field="price" title='價格')
-            vxe-table-column(field="submit" title='口數')
+      .m-10
+        table.custom__table.general
+          thead.thead
+            tr
+              th 目標商品
+              th 用戶名稱
+              th 買賣
+              th 價格
+              th 口數
+          tbody.tbody
+            tr(v-for="row in confirmData")
+              td {{ row.name }}
+              td {{ row.userName }}
+              td
+                span(:class="row.buy == 0 ? 'bg_danger' : 'bg_success'" class="text__white") {{ row.buy == 0 ? '多' : '空' }}
+              td {{ row.price }}
+              td {{ row.submit }}
+            tr(class="non-data" v-if="confirmData.length == 0")
+              td 無資料
       .dialog__footer
         button.button.button__light(@click="cancel") 取消
         button.button(@click="doOrder") 確認

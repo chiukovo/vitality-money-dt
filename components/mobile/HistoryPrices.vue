@@ -34,19 +34,19 @@
               button.button(type="button" @click="query" style="width: 100%") 送出
           el-divider(content-position='left') 時間: {{ form.start }} {{ form.startDt }} ~ {{ form.end }} 23:59:59
       .area(style="height: calc(100% - 234px); overflow-y: scroll;")
-        client-only
-          vxe-table(
-            :data='items'
-            max-width="100%"
-            height="100%"
-            column-min-width="90"
-            size="mini"
-            border
-            auto-resize
-            highlight-current-row)
-            vxe-table-column(field="time" title='市場時間' min-width='50%')
-            vxe-table-column(field="submit" title='口' min-width='15%')
-            vxe-table-column(field="price" title='價格' min-width='35%')
+        table.custom__table.large
+          thead.thead
+            tr
+              th 市場時間
+              th 口
+              th 價格
+          tbody.tbody(@scroll="tbodyScroll($event)")
+            tr(v-for="row in items")
+              td {{ row.time }}
+              td {{ row.submit }}
+              td {{ row.submit }}
+            tr(class="non-data" v-if="items.length == 0")
+              td 無資料
 </template>
 <script>
 
@@ -143,7 +143,8 @@ export default {
               }
             }
 
-            _this.total= _this.items.length;
+            _this.total = _this.items.length
+            _this.computedTableContent()
           }
         })
       }

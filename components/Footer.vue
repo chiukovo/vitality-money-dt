@@ -5,6 +5,16 @@
 			marquee.news__list(onmouseover='this.stop()' onmouseout='this.start()')
 				a.news__item(href='#' v-for="item in items" @click="openModal('news', '公告總攬')") {{ item }}
 				a.news__item(href='#' v-if="items.length == 0" @click="openModal('news', '公告總攬')") 尚無任何公告
+		//-ul.navbar-nav.navbar-nav-left
+			li.nav-item.nav-item-text
+			  .navbar-txt {{ $store.state.itemName }}
+			  .navbar-txt 最後交易日: {{ targetItem.end_date }}
+			  .navbar-txt 禁新:
+			    span.text__success {{ targetItem.new_point1 }}
+			    span.text__danger {{ targetItem.new_point2 }}
+			  .navbar-txt 強平:
+			    span.text__success {{ targetItem.cover_point1 }}
+			    span.text__danger {{ targetItem.cover_point2 }}
 	Dialog(
 		:click-type="dialog.clickType",
 		:visible.sync="dialog.isOpen"
@@ -29,10 +39,22 @@ export default {
         size: '',
       },
 			items: [],
+			targetItem: {}
 		}
 	},
 	mounted() {
 		this.announce()
+	},
+	watch: {
+	  clickItemId (nowItems) {
+	    let _this = this
+	    let mainItem = this.$store.state.mainItem
+	    mainItem.forEach(function(val) {
+	      if (nowItems == val.product_id) {
+	        _this.targetItem = val
+	      }
+	    })
+	  }
 	},
 	components: {
     Dialog,

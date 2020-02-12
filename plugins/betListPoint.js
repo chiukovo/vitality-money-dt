@@ -151,6 +151,31 @@ Vue.mixin({
       this.multiDeleteData = []
       this.deleteConfirm = false
     },
+    deleteAll() {
+      let _this = this
+      this.multiDeleteData = []
+
+      this.$store.state.buySell.forEach(function(row) {
+        if (row.Operation[1]) {
+          _this.multiDeleteData.push({
+            name: row.Name,
+            userName: _this.$store.state.userInfo.Account,
+            buy: row.BuyOrSell == 0 ? '多' : '空',
+            price: row.Odtype,
+            submit: row.Quantity,
+            itemId: row.ID,
+            serial: row.Serial,
+            orderTime: row.OrderTime,
+          })
+        }
+      })
+
+      if (this.$store.state.localStorage.customSetting.noConfirmDelete) {
+        this.doDelete()
+      } else {
+        this.deleteConfirm = true
+      }
+    },
     openMultiDelete() {
       let _this = this
       this.multiDeleteData = []
