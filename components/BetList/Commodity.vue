@@ -16,42 +16,36 @@
         span(:class="getMoneyColor(canUseMoney)") {{ canUseMoney | currency }}
       .linesp 總權益數
         span(:class="getMoneyColor(totalInterestNum)") {{ totalInterestNum | currency }}
-  .history-content__body(:style="{height: $parent.height.commodity}")
-    client-only
-      vxe-table.table__dark(
-        :data='$store.state.commodity'
-        :row-class-name="checkRowShow"
-        max-width="100%"
-        height="100%"
-        size="mini"
-        column-min-width="60"
-        align="center"
-        stripe
-        border
-        auto-resize
-        highlight-hover-row
-        highlight-current-row)
-        vxe-table-column(field="Name" title='商品名稱')
-        vxe-table-column(title='總多')
-          template(slot-scope='scope')
-            span.text__danger {{ scope.row.TotalBuySubmit }}
-        vxe-table-column(title='總空')
-          template(slot-scope='scope')
-            span.text__success {{ scope.row.TotalSellSubmit }}
-        vxe-table-column(title='未平倉')
-          template(slot-scope='scope')
-            span(class="text__center bg__danger" v-if="scope.row.RemainingBuyStock - scope.row.RemainingSellStock > 0") {{ scope.row.RemainingBuyStock - scope.row.RemainingSellStock }}
-            span(class="text__center bg__success" v-else) {{ Math.abs(scope.row.RemainingBuyStock - scope.row.RemainingSellStock) }}
-        vxe-table-column(field="TotalSubmit" title='總口數')
-        vxe-table-column(field="TotalFee" title='手續費合計')
-        vxe-table-column(title='損益')
-          template(slot-scope='scope')
-            span.text__success(v-if="scope.row.TodayMoney < 0") {{ scope.row.TodayMoney}}
-            span.text__danger(v-else) {{ scope.row.TodayMoney}}
-        vxe-table-column(title='留倉預扣')
-          template(slot-scope='scope')
-            span.text__success(v-if="scope.row.RemainingWithholding < 0") {{ scope.row.RemainingWithholding}}
-            span.text__danger(v-else) {{ scope.row.RemainingWithholding}}
+  #commodity.history-content__body(:style="{height: $parent.height.commodity}")
+    table.custom__table.table__dark
+      thead.thead
+        tr
+          th 商品名稱
+          th 總多
+          th 總空
+          th 未平倉
+          th 總口數
+          th 手續費合計
+          th 損益
+          th 留倉預扣
+      tbody.tbody(@scroll="tbodyScroll('commodity')")
+        tr(v-for="row in $store.state.commodity")
+          td(field="Name" title='商品名稱') {{ row.Name }}
+          td
+            span.text__danger {{ row.TotalBuySubmit }}
+          td
+            span.text__success {{ row.TotalSellSubmit }}
+          td
+            span(class="cell text__center bg__danger" v-if="row.RemainingBuyStock - row.RemainingSellStock > 0") {{ row.RemainingBuyStock - row.RemainingSellStock }}
+            span(class="cell text__center bg__success" v-else) {{ Math.abs(row.RemainingBuyStock - row.RemainingSellStock) }}
+          td {{ row.TotalSubmit }}
+          td {{ row.TotalFee }}
+          td
+            span.text__success(v-if="row.TodayMoney < 0") {{ row.TodayMoney }}
+            span.text__danger(v-else) {{ row.TodayMoney }}
+          td
+            span.text__success(v-if="row.RemainingWithholding < 0") {{ row.RemainingWithholding}}
+            span.text__danger(v-else) {{ row.RemainingWithholding}}
 </template>
 
 <script>
@@ -69,6 +63,13 @@ export default {
         size: '',
       },
     }
+  },
+  mounted() {
+    const _this = this
+
+    _this.$nextTick(function() {
+      _this.computedTableContent('commodity')
+    })
   },
   components: {
     Dialog,

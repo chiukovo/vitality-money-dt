@@ -372,7 +372,7 @@ Vue.mixin({
       const _this = this
 
       //table需要計算的所有id
-      const tableIds = ['mainItemContent', 'uncovered', 'allList', 'itemDetail']
+      const tableIds = ['mainItemContent', 'commodity', 'covered', 'uncovered', 'allList', 'itemDetail']
 
       tableIds.forEach(function(id) {
         _this.computedTableContent(id)
@@ -392,8 +392,8 @@ Vue.mixin({
         let thead = document.querySelector('#' + id + ' .custom__table .thead')
         let w = content.offsetWidth
         let h = content.offsetHeight
-        let fontStyle = 1
-        let num = 28
+        let fontStyle = 0
+        let num = 22
 
         if (typeof _this.$store.state.localStorage != 'undefined') {
           fontStyle = _this.$store.state.localStorage.customSetting.fontStyle
@@ -401,11 +401,14 @@ Vue.mixin({
 
         //判斷字形
         if (id == 'mainItemContent') {
+          if (fontStyle == 1) {
+            num = 26
+          }
           if (fontStyle == 2) {
-            num = 40
+            num = 32
           }
           if (fontStyle == 3) {
-            num = 45
+            num = 38
           }
         }
 
