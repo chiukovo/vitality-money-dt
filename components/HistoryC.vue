@@ -39,6 +39,7 @@
               tr
                 th 比例
                 th 委買
+                th 價格
                 th 委賣
                 th 比例
             tbody
