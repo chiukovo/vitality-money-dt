@@ -65,11 +65,7 @@ export default {
     }
   },
   mounted() {
-    const _this = this
-
-    _this.$nextTick(function() {
-      _this.computedTableContent('commodity')
-    })
+    this.computedTableContent()
   },
   components: {
     Dialog,

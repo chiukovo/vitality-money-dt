@@ -47,11 +47,7 @@
 
 export default {
   mounted() {
-    const _this = this
-
-    _this.$nextTick(function() {
-      _this.computedTableContent('covered')
-    })
+    this.computedTableContent()
   },
 }
 </script>

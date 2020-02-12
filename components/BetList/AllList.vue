@@ -146,30 +146,32 @@
     :modal='false'
     :show-close='false'
     width="600px"
-    title='確認刪除')
+    title='確認刪除'
+    v-if="deleteConfirm")
     .header-custom(slot='title')
       |  確認刪除
-    table.custom__table.auto__H
-      thead
-        tr
-          th 序號
-          th 目標商品
-          th 用戶名稱
-          th 買賣
-          th 價格
-          th 口數
-          th 時間
-      tbody
-        tr(v-for="row in multiDeleteData")
-          td {{ row.serial }}
-          td {{ row.name }}
-          td {{ row.userName }}
-          td
-            div
-              span(:class="row.buy == 0 ? 'bg__danger' : 'bg__success'" class="text__white") {{ row.buy == 0 ? '多' : '空' }}
-          td {{ row.price }}
-          td {{ row.submit }}
-          td {{ dateOnlyHis(row.orderTime) }}
+    div
+      table.custom__table.general
+        thead.thead
+          tr
+            th 序號
+            th 目標商品
+            th 用戶名稱
+            th 買賣
+            th 價格
+            th 口數
+            th 時間
+        tbody.tbody
+          tr(v-for="row in multiDeleteData")
+            td {{ row.serial }}
+            td {{ row.name }}
+            td {{ row.userName }}
+            td
+              div
+                span(:class="row.buy == 0 ? 'bg__danger' : 'bg__success'" class="text__white") {{ row.buy == 0 ? '多' : '空' }}
+            td {{ row.price }}
+            td {{ row.submit }}
+            td {{ dateOnlyHis(row.orderTime) }}
     .dialog__footer
       button.button(@click="deleteConfirm = false") 取消
       button.button(type='primary' @click="doDelete") 確認
@@ -179,12 +181,13 @@
     :modal='false'
     :show-close='false'
     width="600px"
-    title='確認平倉')
+    title='確認平倉'
+    v-if="multiOrderConfirm")
     .header-custom(slot='title')
       |  確認平倉
-    .p-2
-      table.custom__table.auto__H
-        thead
+    div
+      table.custom__table.general
+        thead.thead
           tr
             th 序號
             th 目標商品
@@ -192,7 +195,7 @@
             th 買賣
             th 價格
             th 口數
-        tbody
+        tbody.tbody
           tr(v-for="row in multiOrderData")
             td {{ row.serial }}
             td {{ row.name }}
@@ -233,11 +236,7 @@ export default {
     this.token = this.$store.state.localStorage.userAuth.token
     this.lang = this.$store.state.localStorage.lang
     this.isMobile = this.$store.state.isMobile
-    const _this = this
-
-    _this.$nextTick(function() {
-      _this.computedTableContent('allList')
-    })
+    this.computedTableContent()
   },
   computed: mapState({
     mainItem: 'mainItem',

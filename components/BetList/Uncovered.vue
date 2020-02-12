@@ -163,9 +163,9 @@
     title='確認平倉')
     .header-custom(slot='title')
       |  確認平倉
-    .p-2
-      table.custom__table
-        thead
+    div
+      table.custom__table.general
+        thead.thead
           tr
             th 序號
             th 目標商品
@@ -173,7 +173,7 @@
             th 買賣
             th 價格
             th 口數
-        tbody
+        tbody.tbody
           tr(v-for="row in multiOrderData")
             td {{ row.serial }}
             td {{ row.name }}
@@ -229,11 +229,7 @@ export default {
     this.token = this.$store.state.localStorage.userAuth.token
     this.lang = this.$store.state.localStorage.lang
     this.isMobile = this.$store.state.isMobile
-    const _this = this
-
-    _this.$nextTick(function() {
-      _this.computedTableContent('uncovered')
-    })
+    this.computedTableContent()
   },
   computed: mapState({
     mainItem: 'mainItem',

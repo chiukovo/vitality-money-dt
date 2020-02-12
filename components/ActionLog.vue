@@ -20,7 +20,7 @@
         button.button(@click="selectDayType('thisMonth')") 本月
         button.button(@click="selectDayType('beforeMonth')") 上月
   #actionLog.dialog__content
-    table.custom__table.auto__H
+    table.custom__table.large
       thead.thead
         tr
           th 序號
