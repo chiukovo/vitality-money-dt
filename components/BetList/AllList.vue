@@ -152,7 +152,7 @@
     title='確認刪除')
     .header-custom(slot='title')
       |  確認刪除
-    table.custom__table
+    table.custom__table.auto__H
       thead
         tr
           th 序號
@@ -186,7 +186,7 @@
     .header-custom(slot='title')
       |  確認平倉
     .p-2
-      table.custom__table
+      table.custom__table.auto__H
         thead
           tr
             th 序號
