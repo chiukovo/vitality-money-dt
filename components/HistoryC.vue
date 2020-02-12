@@ -34,14 +34,14 @@
           .select.badge.badge-warning(style="margin-bottom: 6px;")
             select(v-model="fiveChange" @change="changeFiveSelect")
               option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
-          table.custom__table
-            thead.thead
+          table.table__dark.table__hi
+            thead
               tr
                 th 比例
                 th 委買
                 th 委賣
                 th 比例
-            tbody.tbody
+            tbody
               tr(v-for="row in $store.state.items0")
                 td
                   div(v-if="row[0] == ''")
