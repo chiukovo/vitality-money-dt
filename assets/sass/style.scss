@@ -1288,6 +1288,12 @@ td {
   position: relative;
   overflow: hidden;
   border-collapse: collapse;
+  &.auto__H {
+    height: 300px;
+  }
+  tr {
+    border-left: 1px solid #dee2e6;
+  }
   thead {
     position: relative;
     display: table;
@@ -1295,6 +1301,7 @@ td {
     width: 100%;
     overflow: visible;
     background-color: #f9f9f9;
+    border-top: 1px solid #dee2e6;
     th {
       width: 80px;
       height: 100%;
@@ -1322,6 +1329,7 @@ td {
       display: table;
       width: 100%;
       table-layout: fixed;
+      border-left: 1px solid #dee2e6;
       &.current {
         td {
           background-color: #502d2d !important;
@@ -1392,8 +1400,12 @@ td {
     .text__danger {
       color: #FF0000;
     }
+    tr {
+      border-color: #3a3a3a;
+    }
     thead {
       background-color: #3a3a3a;
+      border-color: #3a3a3a;
       th {
         background-color: #3a3a3a;
         background-image: linear-gradient(-90deg,#3a3a3a,#3a3a3a),linear-gradient(-180deg,#3a3a3a,#3a3a3a);
@@ -1414,7 +1426,7 @@ td {
           }
         }
         td {
-          background-image: linear-gradient(-90deg, #3a3a3a, #3a3a3a), linear-gradient(-180deg, rgba(58,58,58,0.31373), rgba(58,58,58,0.31373));
+          background-image: linear-gradient(-90deg, #3a3a3a, #3a3a3a), linear-gradient(-180deg, rgba(58,58,58,0.3), rgba(58,58,58,0.3));
           &:nth-child(1) {
             background-color: #101010;
           }
