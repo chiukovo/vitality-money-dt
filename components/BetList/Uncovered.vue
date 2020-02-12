@@ -30,7 +30,7 @@
           th 天數
           th 狀態
           th 昨日損益
-      tbody.tbody(@scroll="tbodyScroll('uncovered')")
+      tbody.tbody(@scroll="tbodyScroll($event)")
         tr(v-for="row in $store.state.uncovered")
           td(style="width: 100px;")
             button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平

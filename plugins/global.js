@@ -346,12 +346,18 @@ Vue.mixin({
 
       this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
     },
-    tbodyScroll(id, fixedLeft) {
+    tbodyScroll(event, fixedLeft) {
+      const target = event.target.parentNode
+
+      if (target == null) {
+        return
+      }
+
       //tbody scrollleft
-      let tbody = document.querySelector('#' + id + ' .custom__table .tbody')
-      let thead = document.querySelector('#' + id + ' .custom__table .thead')
-      let tbodyFirst = document.querySelectorAll('#' + id + ' .custom__table .tbody td:nth-child(1)')
-      let theadFirst = document.querySelector('#' + id + ' .custom__table .thead th:nth-child(1)')
+      let tbody = target.querySelector('.custom__table .tbody')
+      let thead = target.querySelector('.custom__table .thead')
+      let tbodyFirst = target.querySelectorAll('.custom__table .tbody td:nth-child(1)')
+      let theadFirst = target.querySelector('.custom__table .thead th:nth-child(1)')
 
       if (tbody == null) {
         return
@@ -379,49 +385,32 @@ Vue.mixin({
         let w = 0
         let h = 0
         let fontStyle = 0
-        let num = 22
         let id = ''
 
         if (target.length > 0) {
           target.forEach(function(el) {
             content = el.parentNode
 
-            if (content == null) {
-              return
-            }
-
             id = content.getAttribute('id')
             tbody = content.querySelector('.custom__table .tbody')
             thead = content.querySelector('.custom__table .thead')
+
+            if (content == null || tbody == null || thead == null) {
+              return
+            }
+
             w = content.offsetWidth
             h = content.offsetHeight
 
             if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
-              if (tbody.style.height == h - num + 'px') {
+              if (tbody.style.height == h - thead.offsetHeight + 'px') {
                 return
-              }
-            }
-
-            if (typeof _this.$store.state.localStorage != 'undefined') {
-              fontStyle = _this.$store.state.localStorage.customSetting.fontStyle
-            }
-
-            //判斷字形
-            if (id == 'mainItemContent') {
-              if (fontStyle == 1) {
-                num = 26
-              }
-              if (fontStyle == 2) {
-                num = 32
-              }
-              if (fontStyle == 3) {
-                num = 38
               }
             }
 
             tbody.style.width = w + 'px'
             thead.style.width = w + 'px'
-            tbody.style.height = h - num + 'px'
+            tbody.style.height = h - thead.offsetHeight + 'px'
           })
         }
        }, 100)

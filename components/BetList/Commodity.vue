@@ -16,7 +16,7 @@
         span(:class="getMoneyColor(canUseMoney)") {{ canUseMoney | currency }}
       .linesp 總權益數
         span(:class="getMoneyColor(totalInterestNum)") {{ totalInterestNum | currency }}
-  #commodity.history-content__body(:style="{height: $parent.height.commodity}")
+  .history-content__body(:style="{height: $parent.height.commodity}")
     table.custom__table.table__dark
       thead.thead
         tr
@@ -28,7 +28,7 @@
           th 手續費合計
           th 損益
           th 留倉預扣
-      tbody.tbody(@scroll="tbodyScroll('commodity')")
+      tbody.tbody(@scroll="tbodyScroll($event)")
         tr(v-for="row in $store.state.commodity")
           td(field="Name" title='商品名稱') {{ row.Name }}
           td

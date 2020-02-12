@@ -18,24 +18,24 @@
         button.button(@click="selectDayType('thisMonth')") 本月
         button.button(@click="selectDayType('beforeMonth')") 上月
   .dialog__content
-    table.custom__table.auto__H
-      thead
+    table.custom__table.large
+      thead.thead
         tr
           th 明細
-          th 日期
-          th 昨日權益數
+          th(style="width: 100px;") 日期
+          th(style="width: 100px;") 昨日權益數
           th 今日損益
           th 餘額
           th 手續費
           th 投注口數
           th 轉出
           th 儲值
-      tbody
+      tbody.tbody(@scroll="tbodyScroll($event)")
         tr(v-for="row in items")
           td
             button(@click="clickDetail(row)") 明細
-          td {{ row.Date }}
-          td
+          td(style="width: 100px;") {{ row.Date }}
+          td(style="width: 100px;")
             span(:class="getMoneyColor(row.YesterdayInterestNum)") {{ row.YesterdayInterestNum | currency }}
           td
             span(:class="getMoneyColor(row.TodayMoney)") {{ row.TodayMoney | currency }}
