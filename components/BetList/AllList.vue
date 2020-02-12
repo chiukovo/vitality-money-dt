@@ -13,7 +13,7 @@
         label.radio.inline
           input.radio__input(type="radio" v-model='seeAllOrder' value='2')
           span.radio__label 已成交單
-  #allList.history-content__body(:style="{height: $parent.height.buySell}")
+  .history-content__body(:style="{height: $parent.height.buySell}")
     table.custom__table.table__dark
       thead.thead
         tr
@@ -32,7 +32,7 @@
           th 損失點數
           th 獲利點數
           th 狀態
-      tbody.tbody(@scroll="tbodyScroll('allList')")
+      tbody.tbody(@scroll="tbodyScroll($event)")
         tr(v-for="row in $store.state.buySell")
           td
             button.button__white(v-if="row.Operation[1]" @click="deleteOrder(row)") 刪

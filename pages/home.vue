@@ -111,6 +111,7 @@ export default {
     },
     mainStyle(style) {
       this.pageStyle = style
+      this.computedTableContent()
     },
     operatingStyle(style) {
       this.style = style

@@ -1,7 +1,7 @@
 <template lang='pug'>
 .history-content
   .history-content__header(id="coveredHeader")
-  #covered.history-content__body(:style="{height: $parent.height.covered}")
+  .history-content__body(:style="{height: $parent.height.covered}")
     table.custom__table.table__dark
       thead.thead
         tr
@@ -19,7 +19,7 @@
           th(style="width: 130px;") 成交日期
           th(style="width: 130px;") 平倉日期
           th 損益
-      tbody.tbody(@scroll="tbodyScroll('covered')")
+      tbody.tbody(@scroll="tbodyScroll($event)")
         tr(v-for="row in $store.state.covered")
           td {{ row.Name }}
           td {{ row.NewSerial }}

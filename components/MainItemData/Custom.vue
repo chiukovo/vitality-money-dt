@@ -8,7 +8,7 @@ div(class="h-100")
     :onlyItem="dialog.onlyItem"
     :itemId="dialog.itemId"
   )
-  div(id="mainItemContent" style="height: calc(100% - 64px);" v-show="!firstIn")
+  div(style="height: calc(100% - 64px);" v-show="!firstIn")
     ul.table-dropdown.dropdown-menu(id="customSettingContent" v-show="customSetting")
       li.dropdown-item(href="#", @click="openModal('showHideItem', '自訂商品')") 自訂商品
       li.dropdown-item(href="#", @click="openModal('showHideItemField', '自訂欄位')") 自訂欄位
@@ -43,7 +43,7 @@ div(class="h-100")
           th(v-if="checkHide('最後交易日')" style="width: 100px;") 最後交易日
           th(v-if="checkHide('說明')") 說明
           th(v-if="checkHide('商品類別')") 商品類別
-      tbody.tbody(@scroll="tbodyScroll('mainItemContent', true)")
+      tbody.tbody(@scroll="tbodyScroll($event, true)")
         tr(v-for="row in mainItem" v-if="!row.row_hide")
           td(v-if="checkHide('商品')")
             .cell(:class="clickItemId == row.product_id ? 'bg__danger' : ''" @click="clickItem(row)") {{ row.product_name }}
@@ -124,14 +124,14 @@ export default {
     const _this = this
 
     _this.$nextTick(function() {
-      _this.computedTableContent('mainItemContent')
+      _this.computedTableContent()
       _this.firstIn = false
     })
   },
   watch: {
     fontStyle() {
       this.customSetting = false
-      this.computedTableContent('mainItemContent')
+      this.computedTableContent()
     }
   },
   methods: {

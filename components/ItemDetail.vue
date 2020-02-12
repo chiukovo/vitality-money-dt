@@ -16,7 +16,7 @@
               th 時間
               th 成交價
               th 單量
-          tbody.tbody(@scroll="tbodyScroll('itemDetail')")
+          tbody.tbody(@scroll="tbodyScroll($event)")
             tr(v-for="row in items2")
               td {{ row.flocalTime }}
               td {{ row.price }}
@@ -55,20 +55,18 @@ export default {
   }),
   mounted() {
     const _this = this
-
-    _this.$nextTick(function() {
-      _this.computedTableContent('itemDetail')
-
+  },
+  watch: {
+    items2() {
+      this.setAutoScroll()
+    }
+  },
+  methods: {
+    setAutoScroll() {
       if (this.autoScroll) {
         //自動置底
          document.querySelector('#itemDetail .custom__table .tbody').scrollTop = 9999
       }
-    })
-  },
-  watch: {
-  },
-  methods: {
-    setAutoScroll() {
     },
     handleItemDetailTabs(e) {
       this.itemDetailTabShow = e

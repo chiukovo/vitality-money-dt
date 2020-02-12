@@ -19,24 +19,24 @@
         button.button(@click="selectDayType('beforeWeek')") 上週
         button.button(@click="selectDayType('thisMonth')") 本月
         button.button(@click="selectDayType('beforeMonth')") 上月
-  #actionLog.dialog__content
+  .dialog__content
     table.custom__table.large
       thead.thead
         tr
           th 序號
           th 帳號
           th 動作類別
-          th 說明
+          th(style="width: 200px;") 說明
           th(style="width: 130px;") 日期
-          th IP紀錄
-      tbody.tbody(@scroll="tbodyScroll('actionLog')")
+          th(style="width: 130px;") IP紀錄
+      tbody.tbody(@scroll="tbodyScroll($event)")
         tr(v-for="row in items")
           td {{ row.Index }}
           td {{ row.ActionUserAccount }}
           td {{ row.ActionType }}
-          td {{ row.ActionData }}
+          td(style="width: 200px;") {{ row.ActionData }}
           td(style="width: 130px;") {{ row.ActionTime }}
-          td {{ row.ActionIP }}
+          td(style="width: 130px;") {{ row.ActionIP }}
 </template>
 <script>
 
