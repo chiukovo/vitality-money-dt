@@ -12,8 +12,8 @@ div(style="height: 300px")
     .tabs__item(@click="type = 2" :class="type == 2 ? 'is-active' : ''") 未平倉單
     .tabs__item(@click="type = 3" :class="type == 3 ? 'is-active' : ''") 已平倉單
     .tabs__item(@click="type = 4" :class="type == 4 ? 'is-active' : ''") 統計
-  .content(v-show="type == 1" style="height: 300px")
-    table.custom__table
+  .content(v-show="type == 1")
+    table.custom__table.auto__H
       thead
         tr
           th 序號
@@ -22,8 +22,8 @@ div(style="height: 300px")
           th 委託價
           th 口數
           th 成交價
-          th 下單時間
-          th 完成時間
+          th(style="width: 130px;") 下單時間
+          th(style="width: 130px;") 完成時間
           th 型別
           th 損失點數
           th 獲利點數
@@ -37,16 +37,16 @@ div(style="height: 300px")
           td {{ row.OrderPrice }}
           td {{ row.Quantity }}
           td {{ row.FinalPrice }}
-          td {{ row.OrderTime }}
-          td {{ row.FinalTime }}
+          td(style="width: 130px;") {{ row.OrderTime }}
+          td(style="width: 130px;") {{ row.FinalTime }}
           td {{ row.Odtype }}
           td {{ parseInt(row.LossPoint) }}
           td {{ parseInt(row.WinPoint) }}
           td
             span.blink(v-if="row.State == '未成交'") {{ row.State }}
             span(v-else) {{ row.State }}
-  .content(v-show="type == 2" style="height: 300px")
-    table.custom__table
+  .content(v-show="type == 2")
+    table.custom__table.auto__H
       thead
         tr
           th 序號
@@ -80,8 +80,8 @@ div(style="height: 300px")
           td {{ row.State }}
           td
             span(:class="getMoneyColor(row.OriginalMoney)") {{ row.OriginalMoney }}
-  .content(v-show="type == 3" style="height: 300px")
-    table.custom__table
+  .content(v-show="type == 3")
+    table.custom__table.auto__H
       thead
         tr
           th 序號
@@ -94,7 +94,7 @@ div(style="height: 300px")
           th 損失點
           th 獲利點
           th 平倉序號
-          th 平倉時間
+          th(style="width: 130px;") 平倉時間
           th 成交價
           th 損益
       tbody
@@ -108,12 +108,12 @@ div(style="height: 300px")
           td {{ row.SerialCoveredNum }}
           td {{ row.TotalFee }}
           td {{ row.CoverSerial }}
-          td {{ row.CoverDate }}
+          td(style="width: 130px;") {{ row.CoverDate }}
           td {{ row.CoverPrice }}
           td
             span(:class="getMoneyColor(row['Money'])") {{ row['Money'] }}
-  .content(v-show="type == 4" style="height: 300px")
-    table.custom__table
+  .content(v-show="type == 4")
+    table.custom__table.auto__H
       thead
         tr
           th 商品
