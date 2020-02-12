@@ -34,32 +34,28 @@
           .select.badge.badge-warning(style="margin-bottom: 6px;")
             select(v-model="fiveChange" @change="changeFiveSelect")
               option(v-for="item in $store.state.customItemSetting" v-if="item.show" :value="item.id") {{ item.name }}
-          client-only
-            vxe-table.table__dark.table__hi(
-              :data="$store.state.items0"
-              max-width="100%"
-              size="mini"
-              align="center"
-              border
-              auto-resize)
-              vxe-table-column(title="比例")
-                template(slot-scope='scope')
-                  template(v-if="scope.row[0] == ''")
-                  template(v-else)
+          table.custom__table
+            thead.thead
+              tr
+                th 比例
+                th 委買
+                th 委賣
+                th 比例
+            tbody.tbody
+              tr(v-for="row in $store.state.items0")
+                td
+                  div(v-if="row[0] == ''")
+                  div(v-else)
                     .progress-bar.progress-bar__right
-                      .progress-bar__inner(:style="'width: ' + scope.row[0] + '%'")
-              vxe-table-column(title="委買" width="20%")
-                template(slot-scope="scope") {{ scope.row[1] }}
-              vxe-table-column(title="價格")
-                template(slot-scope="scope") {{ scope.row[2] }}
-              vxe-table-column(title="委賣" width="20%")
-                template(slot-scope="scope") {{ scope.row[3] }}
-              vxe-table-column(title="比例")
-                template(slot-scope="scope")
-                  template(v-if="scope.row[4] == ''")
-                  template(v-else)
+                      .progress-bar__inner(:style="'width: ' + row[0] + '%'")
+                td {{ row[1] }}
+                td {{ row[2] }}
+                td {{ row[3] }}
+                td
+                  div(v-if="row[4] == ''")
+                  div(v-else)
                     .progress-bar
-                      .progress-bar__inner(:style="'width: ' + scope.row[4] + '%'")
+                      .progress-bar__inner(:style="'width: ' + row[4] + '%'")
           .itemDetail__Total.d-flex.align-items-center
             .text__danger.text__center(style="flex: 0 0 20%;") {{ $store.state.fiveTotal.more }}
             div(style="flex: 1;")

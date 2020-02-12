@@ -1288,7 +1288,10 @@ td {
   position: relative;
   overflow: hidden;
   border-collapse: collapse;
-  &.auto__H {
+  &.general {
+    height: 150px;
+  }
+  &.large {
     height: 300px;
   }
   tr {

@@ -63,6 +63,9 @@ export default {
     NounDescription,
     TradingTime
   },
+  mounted() {
+    this.computedTableContent()
+  },
   watch: {
     visible(isOpen) {
       if (isOpen) {

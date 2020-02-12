@@ -93,7 +93,7 @@ export default {
 
     window.onresize = function() {
       //計算寬高
-      _this.computedAllTable()
+      _this.computedTableContent()
     };
   },
   data() {
@@ -121,7 +121,7 @@ export default {
       this.$store.dispatch('RESIZE_CHART')
 
       //計算寬高
-      this.computedAllTable()
+      this.computedTableContent()
     },
     onResize(event) {
       this.reSize = event[1].size

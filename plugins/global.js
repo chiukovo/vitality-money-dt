@@ -368,59 +368,62 @@ Vue.mixin({
         }
       }
     },
-    computedAllTable() {
-      const _this = this
-
-      //table需要計算的所有id
-      const tableIds = ['mainItemContent', 'commodity', 'covered', 'uncovered', 'allList', 'itemDetail']
-
-      tableIds.forEach(function(id) {
-        _this.computedTableContent(id)
-      })
-    },
-    computedTableContent(id) {
+    computedTableContent() {
       const _this = this
 
       setTimeout(function() {
-        let content = document.querySelector('#' + id)
-
-        if (content == null) {
-          return
-        }
-
-        let tbody = document.querySelector('#' + id + ' .custom__table .tbody')
-        let thead = document.querySelector('#' + id + ' .custom__table .thead')
-        let w = content.offsetWidth
-        let h = content.offsetHeight
+        let target = document.querySelectorAll('.custom__table')
+        let content = null
+        let tbody
+        let thead
+        let w = 0
+        let h = 0
         let fontStyle = 0
         let num = 22
+        let id = ''
 
-        if (typeof _this.$store.state.localStorage != 'undefined') {
-          fontStyle = _this.$store.state.localStorage.customSetting.fontStyle
+        if (target.length > 0) {
+          target.forEach(function(el) {
+            content = el.parentNode
+
+            if (content == null) {
+              return
+            }
+
+            id = content.getAttribute('id')
+            tbody = content.querySelector('.custom__table .tbody')
+            thead = content.querySelector('.custom__table .thead')
+            w = content.offsetWidth
+            h = content.offsetHeight
+
+            if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
+              if (tbody.style.height == h - num + 'px') {
+                return
+              }
+            }
+
+            if (typeof _this.$store.state.localStorage != 'undefined') {
+              fontStyle = _this.$store.state.localStorage.customSetting.fontStyle
+            }
+
+            //判斷字形
+            if (id == 'mainItemContent') {
+              if (fontStyle == 1) {
+                num = 26
+              }
+              if (fontStyle == 2) {
+                num = 32
+              }
+              if (fontStyle == 3) {
+                num = 38
+              }
+            }
+
+            tbody.style.width = w + 'px'
+            thead.style.width = w + 'px'
+            tbody.style.height = h - num + 'px'
+          })
         }
-
-        //判斷字形
-        if (id == 'mainItemContent') {
-          if (fontStyle == 1) {
-            num = 26
-          }
-          if (fontStyle == 2) {
-            num = 32
-          }
-          if (fontStyle == 3) {
-            num = 38
-          }
-        }
-
-        if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
-          if (tbody.style.height == h - num + 'px') {
-            return
-          }
-        }
-
-        tbody.style.width = w + 'px'
-        thead.style.width = w + 'px'
-        tbody.style.height = h - num + 'px'
        }, 100)
     },
   }
