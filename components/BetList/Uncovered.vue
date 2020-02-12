@@ -13,7 +13,7 @@
     table.custom__table.table__dark
       thead.thead
         tr
-          th 操作
+          th(style="width: 100px;") 操作
           th 序號
           th 商品
           th 多空
@@ -32,46 +32,38 @@
           th 昨日損益
       tbody.tbody(@scroll="tbodyScroll('uncovered')")
         tr(v-for="row in $store.state.uncovered")
-          td
-            .cell
-              button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
-              button.button__white(v-if="!cantSetWinLoss(row.Operation)" @click="openEdit(row, '')") 設損
+          td(style="width: 100px;")
+            button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
+            button.button__white(v-if="!cantSetWinLoss(row.Operation)" @click="openEdit(row, '')") 設損
           td {{ row.Serial }}
           td {{ row.Name }}
           td
-            .cell
-              span(:class="row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ row['BuyOrSell'] == 0 ? '多' : '空' }}
+            span(:class="row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ row['BuyOrSell'] == 0 ? '多' : '空' }}
           td {{ row.FinalPrice }}
           td {{ row.Quantity }}
           td {{ row.TotalFee }}
+          td {{ parseInt(row.LossPoint) }}
+          td {{ parseInt(row.WinPoint) }}
+          td {{ parseInt(row.InvertedPoint) }}
           td
-            .cell {{ parseInt(row.LossPoint) }}
-          td
-            .cell {{ parseInt(row.WinPoint) }}
-          td
-            .cell {{ parseInt(row.InvertedPoint) }}
-          td
-            .cell(v-if="row.Operation[2]")
+            div(v-if="row.Operation[2]")
               label.checkbox
                 input.checkbox__input(type="checkbox" style="margin: 0" :checked="row.DayCover" @click="changeDayCover(row, $event)" :disabled="dayCoverIsDisabled(row.ID)")
                 span.checkbox__label 不留倉
-          td(title='報價')
-            .cell
-              span(v-if="findMainItemById(row.ID) != ''") {{ findMainItemById(row.ID).newest_price }}
           td
-            .cell
-              span(v-if="row['thisSerialTotalMoney'] == 0" class="text__black") {{ row['thisSerialTotalMoney'] }}
-              span(v-else :class="getMoneyColor(row.thisSerialTotalMoney)") {{ row['thisSerialTotalMoney'] }}
+            span(v-if="findMainItemById(row.ID) != ''") {{ findMainItemById(row.ID).newest_price }}
           td
-            .cell
-              .change-icon(v-if="typeof row['thisSerialPointDiff'] != 'undefined'")
-                .icon-arrow(v-if="row['thisSerialPointDiff'] != 0" :class="row['thisSerialPointDiff'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
-              span(v-if="row['thisSerialPointDiff'] == 0" class="text__black") {{ row['thisSerialPointDiff'] }}
-              span(v-else :class="getMoneyColor(row.thisSerialPointDiff)") {{ row['thisSerialPointDiff'] }}
+            span(v-if="row['thisSerialTotalMoney'] == 0" class="text__black") {{ row['thisSerialTotalMoney'] }}
+            span(v-else :class="getMoneyColor(row.thisSerialTotalMoney)") {{ row['thisSerialTotalMoney'] }}
+          td
+            .change-icon(v-if="typeof row['thisSerialPointDiff'] != 'undefined'")
+              .icon-arrow(v-if="row['thisSerialPointDiff'] != 0" :class="row['thisSerialPointDiff'] > 0 ? 'icon-arrow-up' : 'icon-arrow-down'")
+            span(v-if="row['thisSerialPointDiff'] == 0" class="text__black") {{ row['thisSerialPointDiff'] }}
+            span(v-else :class="getMoneyColor(row.thisSerialPointDiff)") {{ row['thisSerialPointDiff'] }}
           td {{ row.Day }}
           td {{ row.State }}
           td
-            .cell(v-if="row.OriginalMoney > 0")
+            div(v-if="row.OriginalMoney > 0")
               span(:class="getMoneyColor(row.OriginalMoney)" style="text-decoration:underline;" @click="openDetail(row)") {{ row.OriginalMoney | currency }}
   //-改價減量
   el-dialog(

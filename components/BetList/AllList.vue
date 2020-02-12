@@ -26,22 +26,20 @@
           th 委託價
           th 口數
           th 成交價
-          th 下單時間
-          th 完成時間
+          th(style="width: 130px;") 下單時間
+          th(style="width: 130px;") 完成時間
           th 型別
           th 損失點數
           th 獲利點數
-          th 完成時間
           th 狀態
       tbody.tbody(@scroll="tbodyScroll('allList')")
         tr(v-for="row in $store.state.buySell")
           td
-            .cell
-              button.button__white(v-if="row.Operation[1]" @click="deleteOrder(row)") 刪
-              button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
-              button.button__white(v-if="row.Operation[0] || !cantSetWinLoss(row.Operation)" @click="openEdit(row, 'edit')") 改
+            button.button__white(v-if="row.Operation[1]" @click="deleteOrder(row)") 刪
+            button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
+            button.button__white(v-if="row.Operation[0] || !cantSetWinLoss(row.Operation)" @click="openEdit(row, 'edit')") 改
           td
-            .cell(v-if="row.Operation[2]")
+            div(v-if="row.Operation[2]")
               label.checkbox
                 input.checkbox__input(type="checkbox" style="margin: 0" :checked="row.DayCover" @click="changeDayCover(row, $event)" :disabled="dayCoverIsDisabled(row.ID)")
                 span.checkbox__label 不留倉
@@ -55,12 +53,11 @@
           td {{ row.OrderPrice }}
           td {{ row.Quantity }}
           td {{ row.FinalPrice }}
-          td {{ row.OrderTime }}
-          td {{ row.FinalTime }}
+          td(style="width: 130px;") {{ row.OrderTime }}
+          td(style="width: 130px;") {{ row.FinalTime }}
           td {{ row.Odtype }}
           td {{ parseInt(row.LossPoint) }}
           td {{ parseInt(row.WinPoint) }}
-          td {{ row.FinalTime }}
           td
             span.blink(v-if="row.State == '未成交'") {{ row.State }}
             span(v-else) {{ row.State }}

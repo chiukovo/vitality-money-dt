@@ -7,19 +7,19 @@
       #tab-item.tabs__item(@click="clickTab(2)" :class="{'is-active': $store.state.mainItemTabs == 2}") 指數
       #tab-item.tabs__item(@click="clickTab(3)" :class="{'is-active': $store.state.mainItemTabs == 3}") 指數期貨
       #tab-item.tabs__item(@click="clickTab(4)" :class="{'is-active': $store.state.mainItemTabs == 4}") 商品期貨
-    NewTable
+    Custom
 </template>
 
 <script>
 
-import NewTable from "~/components/MainItemData/NewTable"
+import Custom from "~/components/MainItemData/Custom"
 
 export default {
 	data() {
 	  return {}
 	},
   components: {
-    NewTable,
+    Custom,
   },
   methods: {
     clickTab(type) {
