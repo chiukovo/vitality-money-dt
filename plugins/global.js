@@ -229,6 +229,7 @@ Vue.mixin({
     },
     changeOperating(type) {
       this.$store.commit('setOperatingStyle', type)
+      this.computedTableContent()
     },
     getProductNameById(id) {
       let target = this.$store.state.customItemSetting
@@ -385,13 +386,11 @@ Vue.mixin({
         let w = 0
         let h = 0
         let fontStyle = 0
-        let id = ''
 
         if (target.length > 0) {
           target.forEach(function(el) {
+            let num = 0
             content = el.parentNode
-
-            id = content.getAttribute('id')
             tbody = content.querySelector('.custom__table .tbody')
             thead = content.querySelector('.custom__table .thead')
 
@@ -402,18 +401,23 @@ Vue.mixin({
             w = content.offsetWidth
             h = content.offsetHeight
 
+            //only scrollY
+            if (tbody.scrollHeight > content.clientHeight && tbody.scrollWidth < content.clientWidth) {
+              num = 16
+            }
+
             if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
-              if (tbody.style.height == h - thead.offsetHeight + 'px') {
+              if (tbody.style.height == h - thead.offsetHeight + 'px' && num == 0) {
                 return
               }
             }
 
             tbody.style.width = w + 'px'
-            thead.style.width = w + 'px'
+            thead.style.width = (w - num) + 'px'
             tbody.style.height = h - thead.offsetHeight + 'px'
           })
         }
-       }, 100)
+       }, 200)
     },
   }
 })

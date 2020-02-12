@@ -45,6 +45,8 @@ div
           td
             span.blink(v-if="row.State == '未成交'") {{ row.State }}
             span(v-else) {{ row.State }}
+        tr(class="non-data" v-if="orderArray.length == 0")
+          td 無資料
   .content(v-show="type == 2")
     table.custom__table.large
       thead.thead
@@ -80,6 +82,8 @@ div
           td {{ row.State }}
           td
             span(:class="getMoneyColor(row.OriginalMoney)") {{ row.OriginalMoney }}
+        tr(class="non-data" v-if="uncoveredArray.length == 0")
+          td 無資料
   .content(v-show="type == 3")
     table.custom__table.large
       thead.thead
@@ -110,6 +114,8 @@ div
           td {{ row.CoverPrice }}
           td
             span(:class="getMoneyColor(row['Money'])") {{ row['Money'] }}
+        tr(class="non-data" v-if="coveredArray.length == 0")
+          td 無資料
   .content(v-show="type == 4")
     table.custom__table.large
       thead.thead
@@ -131,6 +137,8 @@ div
           td {{ row.TotalSubmit }}
           td
             span(:class="getMoneyColor(row['TodayMoney'])") {{ row['TodayMoney'] }}
+        tr(class="non-data" v-if="commodityArray.length == 0")
+          td 無資料
 </template>
 <script>
 

@@ -16,20 +16,20 @@
             .tabs__item(@click="changeType('beforeWeek')" :class="checkTypeClass('beforeWeek')") 上週
             .tabs__item(@click="changeType('thisMonth')" :class="checkTypeClass('thisMonth')") 本月
             .tabs__item(@click="changeType('beforeMonth')" :class="checkTypeClass('beforeMonth')") 上月
-      client-only
-        vxe-table.table(
-          :data='items'
-          max-width="100%"
-          height="100%"
-          column-min-width="90"
-          size="mini"
-          border
-          auto-resize
-          highlight-current-row)
-          vxe-table-column(prop="SaveMoney" title='儲值金額')
-          vxe-table-column(title='類型')
-            template(slot-scope='scope') {{ scope.row['MoneyType'] == 0 ? '餘額' : '信用額度' }}
-          vxe-table-column(prop="MoneyDate" title='儲值日期')
+      table.custom__table.large
+        thead.thead
+          tr
+            th 儲值金額
+            th 類型
+            th 儲值日期
+        tbody.tbody(@scroll="tbodyScroll($event)")
+          tr(v-for="row in items")
+            td {{ row.SaveMoney }}
+            td
+              span {{ row['MoneyType'] == 0 ? '餘額' : '信用額度' }}
+            td {{ row.MoneyDate }}
+          tr(class="non-data" v-if="items.length == 0")
+            td 無資料
 </template>
 <script>
 
@@ -78,6 +78,7 @@ export default {
 
           if (result.Code == 1) {
             _this.items = result.MoneyArray
+            _this.computedTableContent()
           }
         })
       }

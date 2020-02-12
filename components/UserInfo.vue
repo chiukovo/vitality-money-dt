@@ -78,6 +78,7 @@ export default {
       }
 
       this.computedH()
+      this.computedTableContent()
       this.$store.commit('setUserInfoStyleHeight', this.styleHeight)
     },
     computedH() {

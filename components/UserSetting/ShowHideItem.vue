@@ -46,10 +46,13 @@ export default {
     customItemSetting = JSON.parse(JSON.stringify(customItemSetting))
 
     customItemSetting.forEach(function(val) {
-      if (val.show) {
-        _this.selectedItems.push(val)
-      } else {
-        _this.canSelectItems.push(val)
+      //TSLQ 一定會顯示
+      if (val.id != 'TSLQ') {
+        if (val.show) {
+          _this.selectedItems.push(val)
+        } else {
+          _this.canSelectItems.push(val)
+        }
       }
     })
   },

@@ -37,6 +37,8 @@
           td(style="width: 200px;") {{ row.ActionData }}
           td(style="width: 130px;") {{ row.ActionTime }}
           td(style="width: 130px;") {{ row.ActionIP }}
+        tr(class="non-data" v-if="items.length == 0")
+          td 無資料
 </template>
 <script>
 
@@ -75,6 +77,7 @@ export default {
         .then(response => {
           const result = response.data
           _this.items = result.ActionArray
+          _this.computedTableContent()
         })
       }
     }

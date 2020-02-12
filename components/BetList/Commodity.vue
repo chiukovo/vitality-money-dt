@@ -46,6 +46,8 @@
           td
             span.text__success(v-if="row.RemainingWithholding < 0") {{ row.RemainingWithholding}}
             span.text__danger(v-else) {{ row.RemainingWithholding}}
+        tr(class="non-data" v-if="$store.state.commodity.length == 0")
+          td 無資料
 </template>
 
 <script>

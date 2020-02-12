@@ -24,33 +24,41 @@
         td.table-userDetail__title 結算時間
         td {{ userInfo.EndTime }}
     .table-title 商品資訊
-    client-only
-      vxe-table(
-        :data='commidyArray'
-        :cell-class-name='tableCellClassName',
-        max-width="100%"
-        :height="onlyItem === true ? '150px': '300px'"
-        column-min-width="74"
-        size="mini"
-        align="center"
-        border
-        auto-resize
-        highlight-current-row
-        highlight-hover-row)
-        vxe-table-column(fixed="left" prop="Name" title='商品名稱')
-        vxe-table-column(field="OpenMaxPoint" title='開盤風控點數')
-        vxe-table-column(field="Fee" title='手續費')
-        vxe-table-column(field="PointMoney" title='每點價格')
-        vxe-table-column(field="TradePoint" title='最小跳動點')
-        vxe-table-column(field="StopPoint" title='最小損益點')
-        vxe-table-column(field="LimitCoverPoint" title='限價單平倉限制')
-        vxe-table-column(field="SubmitMax" title='最大口數')
-        vxe-table-column(field="RemaingLimit" title='留倉上限')
-        vxe-table-column(field="RemaingDayLimit" title='留倉天數')
-        vxe-table-column(field="NotNewPercent" title='禁新')
-        vxe-table-column(field="CoverPercent" title='強平')
-        vxe-table-column(field="State" title='狀態')
-    .badge.badge-warning 時間以冬令 (每年十一月第一個星期天開始) 為主，歐美商品於夏令 (每年三月第二個星期天開始) 提前一小時開盤、收盤
+    div
+      table.custom__table.large
+        thead.thead
+          tr
+            th 商品名稱
+            th(style="width: 110px") 開盤風控點數
+            th 手續費
+            th 每點價格
+            th(style="width: 110px") 最小跳動點
+            th(style="width: 110px") 最小損益點
+            th(style="width: 120px") 限價單平倉限制
+            th 最大口數
+            th 留倉上限
+            th 留倉天數
+            th 禁新
+            th 狀態
+            th 強平
+        tbody.tbody(@scroll="tbodyScroll($event)")
+          tr(v-for="row in commidyArray")
+            td {{ row.Name }}
+            td(style="width: 110px") {{ row.OpenMaxPoint }}
+            td {{ row.Fee }}
+            td {{ row.PointMoney }}
+            td(style="width: 110px") {{ row.TradePoint }}
+            td(style="width: 110px") {{ row.StopPoint }}
+            td(style="width: 120px") {{ row.LimitCoverPoint }}
+            td {{ row.SubmitMax }}
+            td {{ row.RemaingLimit }}
+            td {{ row.RemaingDayLimit }}
+            td {{ row.NotNewPercent }}
+            td {{ row.CoverPercent }}
+            td {{ row.State }}
+          tr(class="non-data" v-if="commidyArray.length == 0")
+            td 無資料
+      .badge.badge-warning 時間以冬令 (每年十一月第一個星期天開始) 為主，歐美商品於夏令 (每年三月第二個星期天開始) 提前一小時開盤、收盤
 </template>
 
 <script>

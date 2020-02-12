@@ -121,40 +121,18 @@ export default {
     SetListDataColor,
   },
   mounted() {
-    const _this = this
-
-    _this.$nextTick(function() {
-      _this.computedTableContent()
-      _this.firstIn = false
-    })
+    this.firstIn = false
   },
   watch: {
     fontStyle() {
       this.customSetting = false
       this.computedTableContent()
+    },
+    listColorStyle() {
+      this.customSetting = false
     }
   },
   methods: {
-    computedStyleWidth(sourceWidth) {
-      let needAdd = 0
-      let result = 0
-      sourceWidth = typeof sourceWidth == 'undefined' ? 50 : sourceWidth
-
-      switch (this.fontStyle) {
-        case 0:
-        case 1:
-          result = sourceWidth + 50
-          break
-        case 2:
-          result = sourceWidth + 70
-          break
-        case 3:
-          result = sourceWidth + 80
-          break
-      }
-
-      return 'width:' + result + 'px'
-    },
     closeSetting() {
       this.customSetting = false
     },
@@ -163,6 +141,7 @@ export default {
       this.dialog.clickType = type
       this.dialog.title = title
       this.dialog.isOpen = true
+      this.customSetting = false
 
       if (typeof onlyItem != 'undefined' && typeof itemId != 'undefined') {
         this.dialog.onlyItem = true

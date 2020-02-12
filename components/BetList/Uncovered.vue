@@ -15,7 +15,7 @@
         tr
           th(style="width: 100px;") 操作
           th 序號
-          th 商品
+          th(style="width: 100px;") 商品
           th 多空
           th 成交價
           th 口數
@@ -28,7 +28,7 @@
           th 浮動損益
           th 點數
           th 天數
-          th 狀態
+          th(style="width: 130px;") 狀態
           th 昨日損益
       tbody.tbody(@scroll="tbodyScroll($event)")
         tr(v-for="row in $store.state.uncovered")
@@ -36,7 +36,7 @@
             button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
             button.button__white(v-if="!cantSetWinLoss(row.Operation)" @click="openEdit(row, '')") 設損
           td {{ row.Serial }}
-          td {{ row.Name }}
+          td(style="width: 100px;") {{ row.Name }}
           td
             span(:class="row['BuyOrSell'] == 0 ? 'text__danger' : 'text__success'") {{ row['BuyOrSell'] == 0 ? '多' : '空' }}
           td {{ row.FinalPrice }}
@@ -61,10 +61,12 @@
             span(v-if="row['thisSerialPointDiff'] == 0" class="text__black") {{ row['thisSerialPointDiff'] }}
             span(v-else :class="getMoneyColor(row.thisSerialPointDiff)") {{ row['thisSerialPointDiff'] }}
           td {{ row.Day }}
-          td {{ row.State }}
+          td(style="width: 130px;") {{ row.State }}
           td
             div(v-if="row.OriginalMoney > 0")
               span(:class="getMoneyColor(row.OriginalMoney)" style="text-decoration:underline;" @click="openDetail(row)") {{ row.OriginalMoney | currency }}
+        tr(class="non-data" v-if="$store.state.uncovered.length == 0")
+          td 無資料
   //-改價減量
   el-dialog(
     :visible.sync='editDialog'
@@ -168,7 +170,7 @@
         thead.thead
           tr
             th 序號
-            th 目標商品
+            th(style="width: 100px") 目標商品
             th 用戶名稱
             th 買賣
             th 價格
@@ -176,13 +178,15 @@
         tbody.tbody
           tr(v-for="row in multiOrderData")
             td {{ row.serial }}
-            td {{ row.name }}
+            td(style="width: 100px") {{ row.name }}
             td {{ row.userName }}
             td
               div
                 span(:class="row.buy == 0 ? 'bg__danger' : 'bg__success'" class="text__white") {{ row.buy == 0 ? '多' : '空' }}
             td {{ row.price }}
             td {{ row.submit }}
+          tr(class="non-data" v-if="multiOrderData.length == 0")
+            td 無資料
     .dialog__footer
       button.button.button__light(@click="multiOrderConfirm = false") 取消
       button.button(type='primary' @click="doMultiCovered") 確認
