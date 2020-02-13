@@ -22,11 +22,11 @@
       .tabs__item(@click="clickTab(4)" :class="{'is-active': $store.state.mainItemTabs == 4}") 商品期貨
       .tabs__item(@click="clickTab(5)" :class="{'is-active': $store.state.mainItemTabs == 5}") 加密貨幣
     //-市場總覽
-    div.h-100(v-if="settingType == 1")
+    div(v-if="settingType == 1" style="height: calc(100% - 43px)")
       table.custom__table(:class="'fontStyle-' + fontStyle")
         thead.thead
           tr
-            th(style="width:100px")
+            th(style="width:120px")
               span 商品
                 .table-toggle
                   a(@click.stop="settingShow = true")
@@ -43,11 +43,11 @@
             th(v-if="checkHide('最低價')") 最低
             th(v-if="checkHide('時間')") 時間
             th(v-if="checkHide('交易')") 交易
-            th(v-if="checkHide('最後成交價')" style="width: 100px;") 最後成交價
-            th(v-if="checkHide('最後交易日')" style="width: 100px;") 最後交易日
+            th(v-if="checkHide('最後成交價')" style="width: 110px;") 最後成交價
+            th(v-if="checkHide('最後交易日')" style="width: 110px;") 最後交易日
         tbody.tbody(@scroll="tbodyScroll($event, true)")
           tr(v-for="row in mainItem" v-if="!row.row_hide")
-            td(v-if="checkHide('商品')" style="width:100px")
+            td(v-if="checkHide('商品')" style="width:120px")
               .first
                 .myname
                   .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
@@ -84,9 +84,9 @@
               span(:class="row.newest_time_change") {{ row.newest_time }}
             td(v-if="checkHide('交易')")
               span(:class="row.state_color") {{ row.state_name }}
-            td(v-if="checkHide('最後成交價')" style="width: 100px;")
+            td(v-if="checkHide('最後成交價')" style="width: 110px;")
               span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
-            td(v-if="checkHide('最後交易日')" style="width: 100px;")
+            td(v-if="checkHide('最後交易日')" style="width: 110px;")
               span {{ row.end_date }}
     //-會員明細
     div(v-if="settingType == 3")
