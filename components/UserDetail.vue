@@ -42,7 +42,7 @@
             th 狀態
             th 強平
         tbody.tbody(@scroll="tbodyScroll($event)")
-          tr(v-for="row in commidyArray")
+          tr(v-for="row in commidyArray" @click="trClick($event)")
             td {{ row.Name }}
             td(style="width: 110px") {{ row.OpenMaxPoint }}
             td {{ row.Fee }}

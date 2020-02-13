@@ -352,6 +352,18 @@ Vue.mixin({
         type: 'error'
       })
     },
+    trClick(event) {
+      const target = event.target.closest('tr')
+
+      let other = target.parentNode.querySelectorAll('tr')
+
+      //other rm class
+      for (let num = 0; num < other.length; num++) {
+        other[num].classList.remove("current")
+      }
+
+      target.classList.add("current")
+    },
     tbodyScroll(event, fixedLeft) {
       const target = event.target.parentNode
 

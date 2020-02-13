@@ -31,7 +31,7 @@
           th(style="width: 130px;") 狀態
           th 昨日損益
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in $store.state.uncovered")
+        tr(v-for="row in $store.state.uncovered" @click="trClick($event)")
           td(style="width: 100px;")
             button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平
             button.button__white(v-if="!cantSetWinLoss(row.Operation)" @click="openEdit(row, '')") 設損

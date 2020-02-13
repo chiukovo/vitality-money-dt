@@ -30,7 +30,7 @@
           th(style="width: 130px;") 日期
           th(style="width: 130px;") IP紀錄
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in items")
+        tr(v-for="row in items" @click="trClick($event)")
           td {{ row.Index }}
           td {{ row.ActionUserAccount }}
           td {{ row.ActionType }}

@@ -41,7 +41,7 @@
               th 口
               th 價格
           tbody.tbody(@scroll="tbodyScroll($event)")
-            tr(v-for="row in items")
+            tr(v-for="row in items" @click="trClick($event)")
               td {{ row.time }}
               td {{ row.submit }}
               td {{ row.submit }}

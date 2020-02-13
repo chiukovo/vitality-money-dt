@@ -29,7 +29,7 @@
           th 損益
           th 留倉預扣
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in $store.state.commodity")
+        tr(v-for="row in $store.state.commodity" @click="trClick($event)")
           td(field="Name" title='商品名稱') {{ row.Name }}
           td
             span.text__danger {{ row.TotalBuySubmit }}

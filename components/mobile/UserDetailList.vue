@@ -25,7 +25,7 @@ div(style="height: calc(100% - 64px);")
         th 禁新
         th 強平
     tbody.tbody(@scroll="tbodyScroll($event)")
-      tr(v-for="row in items")
+      tr(v-for="row in items" @click="trClick($event)")
         td {{ row.Name }}
         td {{ row.PointMoney }}
         td {{ row.StoreLimit }}

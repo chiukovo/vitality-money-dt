@@ -14,7 +14,7 @@
           th 低量時段(禁新)
           th 交易所
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in items")
+        tr(v-for="row in items" @click="trClick($event)")
           td {{ row.product }}
           td {{ row.startTime }}
           td {{ row.transactionTime }}
