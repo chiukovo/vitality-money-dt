@@ -32,6 +32,7 @@ export default {
     return {
       messages: [],
       sendMsg: '',
+      sending: false,
     }
   },
   props: ['tabShow'],
@@ -87,8 +88,9 @@ export default {
       })
     },
     send() {
-      if (this.sendMsg != '') {
+      if (this.sendMsg != '' && !this.sending) {
         const _this = this
+        this.sending = true
 
         axios.post(process.env.NUXT_ENV_API_URL + "/add_service_messages?lang=" + this.lang, qs.stringify({
           UserID: this.userAuth.userId,
@@ -97,6 +99,7 @@ export default {
         }))
         .then(response => {
           _this.sendMsg = ''
+          _this.sending = false
           _this.$store.dispatch('CALL_SERVICE_MESSAGE')
         })
       }
