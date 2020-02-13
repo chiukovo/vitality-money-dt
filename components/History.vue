@@ -13,12 +13,15 @@
         .badge.badge-success.mybadge {{ Math.abs($store.state.unCoverSellSum) }}
       .tabs__item(@click='handleHistoryTabs(5)' :class="{'is-active' : historyTabShow == 5}") 已平倉
       .tabs__item(@click='handleHistoryTabs(6)' :class="{'is-active' : historyTabShow == 6}") 統計
+      .tabs__item(@click='handleHistoryTabs(7)' :class="{'is-active' : historyTabShow == 7}")
+        span(:class="blink ? 'blink' : ''") 客服
   HistoryK(v-show='historyTabShow == 1')
   HistoryC(v-show='historyTabShow == 2')
   AllList(v-if='historyTabShow == 3')
   Uncovered(v-if='historyTabShow == 4')
   Covered(v-if='historyTabShow == 5')
   Commodity(v-if='historyTabShow == 6')
+  Message(v-show='historyTabShow == 7' :tabShow="historyTabShow")
 </template>
 
 <script>
@@ -32,6 +35,7 @@ import Covered from "~/components/BetList/Covered"
 import Commodity from "~/components/BetList/Commodity"
 import HistoryK from "~/components/HistoryK"
 import HistoryC from "~/components/HistoryC"
+import Message from "~/components/Message"
 //-改單用
 import "@/plugins/betListPoint.js"
 
@@ -39,15 +43,18 @@ export default {
   data() {
     return {
       historyTabShow: 1,
+      blink: false,
       height: {
         buySell: '',
         uncovered: '',
         covered: '',
         commodity: '',
+        message: '',
       },
     }
   },
   computed: mapState({
+    hasMessage: 'hasMessage',
     operatingStyle: state => state.localStorage.customSetting.operatingStyle,
     clickItemId: 'clickItemId'
   }),
@@ -61,10 +68,20 @@ export default {
     HistoryK,
     HistoryC,
     Commodity,
+    Message,
   },
   watch: {
     historyTabShow() {
       window.setTimeout((() => this.computedHeight() ), 100)
+    },
+    hasMessage(type) {
+      if (this.historyTabShow != 7 && type) {
+        this.blink = true
+      } else {
+        this.blink = false
+      }
+
+      this.$store.commit('setHasMessage', this.blink)
     },
   },
   methods: {
@@ -94,6 +111,13 @@ export default {
         const commodityHeader = document.getElementById('commodityHeader').offsetHeight
         this.height = {
           commodity: 'calc(100% - ' + commodityHeader + 'px)',
+        }
+      }
+
+      if (this.historyTabShow == 7) {
+        const messageHeader = document.getElementById('messageHeader').offsetHeight
+        this.height = {
+          message: 'calc(100% - ' + messageHeader + 'px)',
         }
       }
     },
