@@ -95,7 +95,7 @@ export default {
 				if (!cancel) {
 					_this.doLogin()
 				}
-			}, 1000)
+			}, 500)
 		},
 		async doLogin() {
 			let _this = this

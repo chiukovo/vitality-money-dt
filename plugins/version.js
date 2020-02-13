@@ -1,1 +1,1 @@
-console.log('v1.1.7-performance')
+console.log('v1.2.0')
