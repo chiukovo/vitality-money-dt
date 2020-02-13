@@ -347,6 +347,11 @@ Vue.mixin({
 
       this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
     },
+    showErrorMsg(msg) {
+      this.$alert(msg, 'Api Server Error', {
+        type: 'error'
+      })
+    },
     tbodyScroll(event, fixedLeft) {
       const target = event.target.parentNode
 

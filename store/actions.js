@@ -47,11 +47,12 @@ export default {
     })
 	},
   CALL_MEMBER_ORDER_LIST ({ commit, state }) {
+    const _this = this
     const lang = state.localStorage.lang
     const userId = state.localStorage.userAuth.userId
     const token = state.localStorage.userAuth.token
 
-    axios.post(process.env.NUXT_ENV_API_URL + "/query_orderlist?lang=" + lang, qs.stringify({
+    axios.post(process.env.NUXT_ENV_API_URL + "/query_ordderlist?lang=" + lang, qs.stringify({
       UserID: userId,
       Token: token,
     }))
@@ -61,6 +62,8 @@ export default {
       if (result['Code'] > 0) {
         commit('setUserOrder', result)
       }
+    }).catch(error => {
+      _this._vm.showErrorMsg(error)
     })
   },
   CALL_MEMBER_CUSTOM_ITEM ({ commit, state }, { defaultData, defaultFieldData, marketInfo }) {

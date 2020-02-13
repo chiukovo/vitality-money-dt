@@ -6,13 +6,15 @@
 			a.news__item(href='#' v-if="items.length == 0" @click="openModal('news', '公告總攬')") 尚無任何公告
 	ul#infor
 		li {{ $store.state.itemName }}
-		li 最後交易日: {{ targetItem.end_date }}
+		li 最後交易日: {{ nowMainItem.end_date }}
 		li 禁新:
-			span.text__success {{ targetItem.new_point1 }}
-			span.text__danger {{ targetItem.new_point2 }}
+			span.text__success {{ nowMainItem.new_point1 }}
+			|,
+			span.text__danger {{ nowMainItem.new_point2 }}
 		li 強平:
-			span.text__success {{ targetItem.cover_point1 }}
-			span.text__danger {{ targetItem.cover_point2 }}
+			span.text__success {{ nowMainItem.cover_point1 }}
+			|,
+			span.text__danger {{ nowMainItem.cover_point2 }}
 	Dialog(
 		:click-type="dialog.clickType",
 		:visible.sync="dialog.isOpen"
@@ -25,6 +27,7 @@
 
 import axios from 'axios'
 import qs from 'qs'
+import { mapState } from 'vuex'
 import Dialog from "~/components/Dialog"
 
 export default {
@@ -40,19 +43,13 @@ export default {
 			targetItem: {}
 		}
 	},
+	computed: mapState({
+	  nowMainItem: 'nowMainItem',
+	}),
 	mounted() {
 		this.announce()
 	},
 	watch: {
-	  clickItemId (nowItems) {
-	    let _this = this
-	    let mainItem = this.$store.state.mainItem
-	    mainItem.forEach(function(val) {
-	      if (nowItems == val.product_id) {
-	        _this.targetItem = val
-	      }
-	    })
-	  }
 	},
 	components: {
     Dialog,
