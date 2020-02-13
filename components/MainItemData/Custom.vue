@@ -46,7 +46,8 @@ div(class="h-100")
       tbody.tbody(@scroll="tbodyScroll($event, true)")
         tr(v-for="row in mainItem" v-if="!row.row_hide")
           td(v-if="checkHide('商品')")
-            .cell(:class="clickItemId == row.product_id ? 'bg__danger' : ''" @click="clickItem(row)") {{ row.product_name }}
+            .cell(:class="clickItemId == row.product_id ? 'bg__danger' : ''" @click="clickItem(row)")
+              span(:class="row.state != 2 ? 'text__secondary' : ''") {{ row.product_name }}
           td(v-if="checkHide('倉位多')")
             .cell(v-if="typeof uncoveredCountDetail[row.product_id] != 'undefined' && uncoveredCountDetail[row.product_id] > 0" class="text__center bg__danger") {{ uncoveredCountDetail[row.product_id] }}
           td(v-if="checkHide('倉位空')")
