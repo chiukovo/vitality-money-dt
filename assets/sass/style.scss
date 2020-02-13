@@ -415,14 +415,28 @@ $use-fadeInDown: true;
   height: calc(100% - 26px);
 }
 .footer {
+  justify-content: space-between;
   height: 26px;
   border-top: 1px solid #4a4a4a;
+  white-space: nowrap;
   #news {
-    width: 100%;
+    flex: 0 1 auto;
     height: 28px;
     a {
       color: #fff;
       font-size: 16px;
+    }
+  }
+  #infor {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    font-size: 16px;
+    color: #ccc;
+    li {
+      padding: 0 10px;
+      border-left: 1px solid #2a2a2a;
     }
   }
 }
