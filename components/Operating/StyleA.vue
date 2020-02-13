@@ -40,15 +40,15 @@
       el-form(ref='form' size='small' label-width='50px')
         el-form-item(label='限價:')
           .number-input(:class="buyType != 1 ? 'disabled' : ''")
-            button.button__decrease(type="button" @click="addLimitPoint('--')")
+            button.button__increase(type="button" @click="addLimitPoint('--')")
             input(type="text" v-model='nowPrice' :min="0" :disabled="buyType != 1")
-            button.button__increase(type="button" @click="addLimitPoint('++')")
+            button.button__decrease(type="button" @click="addLimitPoint('++')")
           button.button__warning(type="button") 現價
         el-form-item(label='口數:' style='margin: 2px 0;')
           .number-input
-            button.button__decrease(type="button" @click="changeSubmitNum('-')")
+            button.button__increase(type="button" @click="changeSubmitNum('-')")
             input(type="text" v-model='submitNum' :min="0")
-            button.button__increase(type="button" @click="changeSubmitNum('+')")
+            button.button__decrease(type="button" @click="changeSubmitNum('+')")
           button.button__warning(type="button" @click="checkOrderAll()") 全平
     .button-operating
       button.button__danger.text__bold(@click="checkOrder(0)" v-if="buttonType == 0") 多單
