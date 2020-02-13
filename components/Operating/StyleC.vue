@@ -33,19 +33,19 @@
         el-form-item(label='限價:')
           button.nowPrice.button__warning(type="button") 現價
           .number-input(:class="buyType != 1 ? 'disabled' : ''")
-            button.button__decrease(type="button" @click="addLimitPoint('--')")
+            button.button__increase(type="button" @click="addLimitPoint('--')")
             input(type="text" v-model='nowPrice' :min="0" :disabled="buyType != 1")
-            button.button__increase(type="button" @click="addLimitPoint('++')")
+            button.button__decrease(type="button" @click="addLimitPoint('++')")
         el-form-item(label='獲利點:')
           .number-input
-            button.button__decrease(type="button" @click="profit++")
-            input(type="text" v-model='profit')
             button.button__increase(type="button" @click="profit--")
+            input(type="text" v-model='profit')
+            button.button__decrease(type="button" @click="profit++")
         el-form-item(label='損失點:')
           .number-input
-            button.button__decrease(type="button" @click="damage++")
-            input(type="text" v-model='damage')
             button.button__increase(type="button" @click="damage--")
+            input(type="text" v-model='damage')
+            button.button__decrease(type="button" @click="damage++")
     .operating-3
       .numberbtn
         el-form(ref='form' size='mini' label-width='30px')
