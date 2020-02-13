@@ -32,10 +32,10 @@ export default {
 	  return {
 	    htmlAttrs: {
 	       class: this.$store.state.customStyle.htmlClass + ' login mobile'
-		},
-		meta: [
-			{ name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' }
-		]
+			},
+			meta: [
+				{ name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' }
+			]
 	  }
 	},
 	data () {

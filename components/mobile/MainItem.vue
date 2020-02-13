@@ -43,8 +43,8 @@
             th(v-if="checkHide('最低價')") 最低
             th(v-if="checkHide('時間')" style="width: 100px") 時間
             th(v-if="checkHide('交易')") 交易
-            th(v-if="checkHide('最後成交價')" style="width: 110px;") 最後成交價
-            th(v-if="checkHide('最後交易日')" style="width: 110px;") 最後交易日
+            th(v-if="checkHide('最後成交價')" style="width: 130px;") 最後成交價
+            th(v-if="checkHide('最後交易日')" style="width: 130px;") 最後交易日
         tbody.tbody(@scroll="tbodyScroll($event, true)")
           tr(v-for="row in mainItem" v-if="!row.row_hide")
             td(v-if="checkHide('商品')" style="width:120px")
@@ -84,9 +84,9 @@
               span(:class="row.newest_time_change") {{ row.newest_time }}
             td(v-if="checkHide('交易')")
               span(:class="row.state_color") {{ row.state_name }}
-            td(v-if="checkHide('最後成交價')" style="width: 110px;")
+            td(v-if="checkHide('最後成交價')" style="width: 130px;")
               span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
-            td(v-if="checkHide('最後交易日')" style="width: 110px;")
+            td(v-if="checkHide('最後交易日')" style="width: 130px;")
               span {{ row.end_date }}
     //-會員明細
     div(v-if="settingType == 3")
