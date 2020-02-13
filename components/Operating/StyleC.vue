@@ -32,11 +32,20 @@
       el-form(ref='form' size='mini' label-width='70px')
         el-form-item(label='限價:')
           button.nowPrice.button__warning(type="button") 現價
-          el-input-number(v-model='nowPrice' :min="0" :disabled="buyType != 1")
+          .number-input(:class="buyType != 1 ? 'disabled' : ''")
+            button.button__decrease(type="button" @click="addLimitPoint('--')")
+            input(type="text" v-model='nowPrice' :min="0" :disabled="buyType != 1")
+            button.button__increase(type="button" @click="addLimitPoint('++')")
         el-form-item(label='獲利點:')
-          el-input-number(v-model='profit' :min="0")
+          .number-input
+            button.button__decrease(type="button" @click="profit++")
+            input(type="text" v-model='profit')
+            button.button__increase(type="button" @click="profit--")
         el-form-item(label='損失點:')
-          el-input-number(v-model='damage' :min="0")
+          .number-input
+            button.button__decrease(type="button" @click="damage++")
+            input(type="text" v-model='damage')
+            button.button__increase(type="button" @click="damage--")
     .operating-3
       .numberbtn
         el-form(ref='form' size='mini' label-width='30px')
@@ -45,7 +54,10 @@
       .numberinput
         el-form(ref='form' size='mini' label-width='50px')
           el-form-item(label='口數:' style='margin: 6px 0;')
-            el-input-number(v-model='submitNum' :min="0" :step="submitStep")
+            .number-input
+              button.button__decrease(type="button" @click="changeSubmitNum('-')")
+              input(type="text" v-model='submitNum' :min="0")
+              button.button__increase(type="button" @click="changeSubmitNum('+')")
         .badge.badge-warning 損失點/ 獲利點 為
           span.badge-rr 點數
           |設定
@@ -162,6 +174,18 @@ export default {
     customGroup(data) {
       this.$cookies.set('customGroup', this.customGroup)
     },
+    damage() {
+      //最小為零
+      if (this.damage < 0) {
+        this.damage = 0
+      }
+    },
+    profit() {
+      //最小為零
+      if (this.profit < 0) {
+        this.profit = 0
+      }
+    },
     submitNum(newNum, oldNum) {
       if (newNum == 0 && oldNum == 1) {
         this.submitNum = 0.9
@@ -171,6 +195,11 @@ export default {
       if (newNum == 1.1 && oldNum == 1) {
         this.submitNum = 2
         this.submitStep = 1
+      }
+
+      //最小為零
+      if (this.submitNum < 0) {
+        this.submitNum = 0
       }
     }
   },
@@ -189,6 +218,24 @@ export default {
     }
   },
   methods: {
+    addLimitPoint(type) {
+      if (this.buyType != 1) {
+        return
+      }
+
+      if (type == '++') {
+        this.nowPrice++
+      } else if (type == '--') {
+        this.nowPrice--
+      }
+    },
+    changeSubmitNum(type) {
+      if (type == '+') {
+        this.submitNum = parseFloat((this.submitNum + this.submitStep).toFixed(10))
+      } else {
+        this.submitNum = parseFloat((this.submitNum - this.submitStep).toFixed(10))
+      }
+    },
     setNoRemaining() {
       //設定不留倉
       const _this = this
