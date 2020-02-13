@@ -29,7 +29,7 @@ div
           th 獲利點數
           th 狀態
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in orderArray")
+        tr(v-for="row in orderArray" @click="trClick($event)")
           td {{ row.Serial }}
           td(style="width: 100px;") {{ row.Name }}
           td
@@ -65,7 +65,7 @@ div
           th 狀態
           th 昨日損益
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in uncoveredArray")
+        tr(v-for="row in uncoveredArray" @click="trClick($event)")
           td {{ row.Serial }}
           td(style="width: 100px;") {{ row.Name }}
           td
@@ -100,7 +100,7 @@ div
           th 成交價
           th 損益
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in coveredArray")
+        tr(v-for="row in coveredArray" @click="trClick($event)")
           td {{ row.NewSerial }}
           td(style="width: 100px;") {{ row.Name }}
           td
@@ -127,7 +127,7 @@ div
           th 總口數
           th 損益
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in commodityArray")
+        tr(v-for="row in commodityArray" @click="trClick($event)")
           td(style="width: 100px;") {{ row.Name }}
           td
             span(class="text__danger") {{ row.TotalBuySubmit }}

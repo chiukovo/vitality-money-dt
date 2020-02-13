@@ -6,7 +6,7 @@
           th 名詞
           th 說明
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in items")
+        tr(v-for="row in items" @click="trClick($event)")
           td {{ row.noun }}
           td {{ row.description }}
 </template>

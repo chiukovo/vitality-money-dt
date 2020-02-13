@@ -31,7 +31,7 @@
           th 轉出
           th 儲值
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in items")
+        tr(v-for="row in items" @click="trClick($event)")
           td
             button(@click="clickDetail(row)") 明細
           td(style="width: 100px;") {{ row.Date }}

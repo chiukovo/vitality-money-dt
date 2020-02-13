@@ -25,7 +25,7 @@
           th 類型
           th 儲值日期
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in items")
+        tr(v-for="row in items" @click="trClick($event)")
           td {{ row.SaveMoney }}
           td
             span {{ row['MoneyType'] == 0 ? '餘額' : '信用額度' }}

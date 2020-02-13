@@ -20,7 +20,7 @@
           th(style="width: 150px;") 平倉日期
           th 損益
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in $store.state.covered")
+        tr(v-for="row in $store.state.covered" @click="trClick($event)")
           td(style="width: 100px;") {{ row.Name }}
           td {{ row.NewSerial }}
           td {{ row.CoverSerial }}

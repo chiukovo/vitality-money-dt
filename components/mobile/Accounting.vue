@@ -25,7 +25,7 @@
               th 對匯額度
               th 交收
           tbody.tbody(@scroll="tbodyScroll($event)")
-            tr(v-for="row in accountMoneyList")
+            tr(v-for="row in accountMoneyList" @click="trClick($event)")
               td {{ row.Date }}
               td {{ row.TouchPoint }}
               td {{ row.RemainingMoney }}

@@ -13,7 +13,7 @@
           th 可下單時間
           th 交易所
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in items")
+        tr(v-for="row in items" @click="trClick($event)")
           td
             input(type="checkbox" v-model="multipleSelection" :value="row.id")
           td {{ row.name }}

@@ -17,7 +17,7 @@
               th 成交價
               th 單量
           tbody.tbody(@scroll="tbodyScroll($event)")
-            tr(v-for="row in items2")
+            tr(v-for="row in items2" @click="trClick($event)")
               td {{ row.flocalTime }}
               td(:class="getClass(row)") {{ row.price }}
               td {{ row.amount }}

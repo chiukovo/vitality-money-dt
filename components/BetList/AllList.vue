@@ -33,7 +33,7 @@
           th 獲利點數
           th(style="width: 130px;") 狀態
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in $store.state.buySell" v-if="checkRowShow(row)")
+        tr(v-for="row in $store.state.buySell" v-if="checkRowShow(row)" @click="trClick($event)")
           td
             button.button__white(v-if="row.Operation[1]" @click="deleteOrder(row)") 刪
             button.button__white(v-if="row.Operation[2]" @click="doCovered(row, 1)") 平

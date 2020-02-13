@@ -18,7 +18,7 @@ el-dialog(
           th 多空
           th 口數
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in overAllList")
+        tr(v-for="row in overAllList" @click="trClick($event)")
          td {{ row.Serial }}
          td {{ row.Name }}
          td {{ row.FinalPrice }}
@@ -40,7 +40,7 @@ el-dialog(
           th 口數
           th 時間
       tbody.tbody(@scroll="tbodyScroll($event)")
-        tr(v-for="row in deleteList")
+        tr(v-for="row in deleteList" @click="trClick($event)")
           td(field="Serial" title='序號') {{ row.Serial }}
           td(field="Name" title='商品') {{ row.Name }}
           td(field="OrderPrice" title='委託') {{ row.OrderPrice }}
