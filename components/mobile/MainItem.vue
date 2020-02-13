@@ -41,7 +41,7 @@
             th(v-if="checkHide('開盤價')") 開盤
             th(v-if="checkHide('最高價')") 最高
             th(v-if="checkHide('最低價')") 最低
-            th(v-if="checkHide('時間')") 時間
+            th(v-if="checkHide('時間')" style="width: 100px") 時間
             th(v-if="checkHide('交易')") 交易
             th(v-if="checkHide('最後成交價')" style="width: 110px;") 最後成交價
             th(v-if="checkHide('最後交易日')" style="width: 110px;") 最後交易日
@@ -80,7 +80,7 @@
               span(:class="row.computed_color") {{ row.highest_price }}
             td(v-if="checkHide('最低價')")
               span(:class="row.computed_color") {{ row.lowest_price }}
-            td(v-if="checkHide('時間')")
+            td(v-if="checkHide('時間')" style="width: 100px")
               span(:class="row.newest_time_change") {{ row.newest_time }}
             td(v-if="checkHide('交易')")
               span(:class="row.state_color") {{ row.state_name }}

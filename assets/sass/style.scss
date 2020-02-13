@@ -1405,9 +1405,12 @@ td {
     }
     td {
       width: 80px;
-      height: 100%;
-      line-height: 1.2;
+      height: 26px;
       padding: 2px 4px;
+      position: relative;
+      input[type="checkbox"] {
+        margin: 10px;
+      }
       &:nth-child(1) {
         position: relative;
         z-index: 99;
@@ -1421,6 +1424,18 @@ td {
     right: 0;
     bottom: 0;
     padding: 2px 4px;
+  }
+  .bg__success, .bg__danger {
+    color: #fff;
+    background-image: linear-gradient(-90deg,#dee2e6,#dee2e6),linear-gradient(-180deg,#dee2e6,#dee2e6);
+    background-repeat: no-repeat;
+    background-size: 1px 100%, 100% 1px;
+    background-position: right top, right bottom;
+  }
+  .button__white {
+    background-color: #fff;
+    border: 1px solid #333;
+    padding: 4px 4px;
   }
   &.fontStyle {
     &-0 {
@@ -1446,12 +1461,6 @@ td {
 
 .default {
   .table__dark {
-    .text__success {
-      color: #27d627;
-    }
-    .text__danger {
-      color: #FF0000;
-    }
     tr {
       border-color: #3a3a3a;
     }
@@ -1483,7 +1492,87 @@ td {
             background-color: #101010;
           }
         }
+        .text__success {
+          color: #27d627;
+        }
+        .text__danger {
+          color: #FF0000;
+        }
+        .bg__success, .bg__danger {
+          background-image: linear-gradient(-90deg, #3a3a3a, #3a3a3a), linear-gradient(-180deg, #3a3a3a, #3a3a3a);
+        }
       }
     }
+  }
+}
+
+
+// 線上客服
+.chat {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  line-height: 1.64;
+  background-color: #1b1b1b;
+  border-top: 1px solid #3a3a3a;
+  .no-service {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  .chat-area {
+    height: calc(100% - 33px);
+    padding: 6px;
+    overflow-y: auto;
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+  }
+  .from-service {
+    color: #ffe400;
+  }
+  .from-customer {
+    color: #fff;
+    span {
+      color: #9e9e9e;
+    }
+  }
+  .message-list {
+    margin-bottom: 6px;
+  }
+  .chat-input-wrap {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #cdcdcd;
+    input.chat-input {
+      width: 100%;
+      line-height: 2.6;
+      background-color: #fff;
+      padding: 0 10px;
+      border: 0;
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+}
+.white {
+  .chat {
+    background-color: #fff;
+    border-color: #cdcdcd;
+    .from-service {
+      color: #dc3545;
+    }
+    .from-customer {
+      color: #000;
+    }
+  }
+  .button__white {
+    background-color: #fff;
+    border: 1px solid #333;
   }
 }

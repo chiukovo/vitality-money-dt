@@ -2,7 +2,7 @@
 .history-content
   .history-content__header(id="messageHeader")
     div(style="padding: 2px 0px;")
-      button(@click="clearConfirmMsg").button 清除訊息
+      button(@click="clearConfirmMsg").button__white 清除訊息
   .history-content__body(:style="{height: $parent.height.message}")
     .chat
       //- .chat-area.no-service 尚未啟用線上客服，請洽管理員開通。
