@@ -23,7 +23,7 @@
       .tabs__item(@click="clickTab(5)" :class="{'is-active': $store.state.mainItemTabs == 5}") 加密貨幣
     //-市場總覽
     div(v-if="settingType == 1")
-      table.custom__table.table(:class="'fontStyle-' + fontStyle")
+      table.custom__table(:class="'fontStyle-' + fontStyle")
         thead.thead
           tr
             th
@@ -48,17 +48,16 @@
         tbody.tbody(@scroll="tbodyScroll($event, true)")
           tr(v-for="row in mainItem" v-if="!row.row_hide")
             td(v-if="checkHide('商品')")
-              div
-                .first
-                  .myname
-                    .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
-                    .mycfd
-                  .mybox(v-if="typeof $store.state.uncoveredCountDetail[row['product_id']] != 'undefined'")
-                    .nopingb {{ $store.state.uncoveredCountDetail[row['product_id']] > 0 ? $store.state.uncoveredCountDetail[row['product_id']] : 0 }}
-                    .nopings {{ $store.state.uncoveredCountDetail[row['product_id']] < 0 ? Math.abs($store.state.uncoveredCountDetail[row['product_id']]) : 0 }}
-                  //- .mybar
-                    .progress-bar.progress-bar__total
-                      .progress-bar__inner(style="width: 10%")
+              .first
+                .myname
+                  .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
+                  .mycfd
+                .mybox(v-if="typeof $store.state.uncoveredCountDetail[row['product_id']] != 'undefined'")
+                  .nopingb {{ $store.state.uncoveredCountDetail[row['product_id']] > 0 ? $store.state.uncoveredCountDetail[row['product_id']] : 0 }}
+                  .nopings {{ $store.state.uncoveredCountDetail[row['product_id']] < 0 ? Math.abs($store.state.uncoveredCountDetail[row['product_id']]) : 0 }}
+                //- .mybar
+                  .progress-bar.progress-bar__total
+                    .progress-bar__inner(style="width: 10%")
             td(v-if="checkHide('成交價')")
               span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
             td(v-if="checkHide('買進價')")
