@@ -1282,6 +1282,53 @@ td {
   }
 }
 
+.operating {
+  .el-form-item__content {
+    display: flex;
+    .number-input {
+      flex: 1;
+    }
+  }
+}
+.number-input {
+  display: flex;
+  &.disabled {
+    opacity: .3;
+  }
+  button, input {
+    width: 30px;
+  }
+  input {
+    flex: 1 0 auto;
+    min-width: 80px;
+    height: 30px;
+    line-height: 30px;
+    border: 0;
+    border-top: 1px solid #949494;
+    border-bottom: 1px solid #949494;
+    padding: 0 6px;
+  }
+  .button__decrease, .button__increase {
+    position: relative;
+    color: #606060;
+    border: solid 1px #949494;
+    background: #fff;
+    background-image: linear-gradient(to bottom,#fff 0,#ededed 100%);
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('~static/images/theme_dt/add.png') center center no-repeat;
+    }
+  }
+  .button__decrease:after  {
+    background: url('~static/images/theme_dt/edd.png') center center no-repeat;
+  }
+}
+
 //new table
 .custom__table {
   width: 100%;
