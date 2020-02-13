@@ -1488,7 +1488,7 @@ select {
       width: 80px;
       text-align: right;
       line-height: 1.2;
-      padding: 4px;
+      padding: 6px 10px;
       background-color: #3a3a3a;
       background-image: linear-gradient(-90deg,#191b1d,#191b1d),linear-gradient(-180deg,#191b1d,#191b1d);
       background-repeat: no-repeat;
@@ -1498,6 +1498,7 @@ select {
         text-align: left;
         position: relative;
         z-index: 99;
+        padding: 6px 2px;
       }
     }
   }
@@ -1527,6 +1528,7 @@ select {
         &:nth-child(1) {
           text-align: left;
           background-color: #121315;
+          padding: 6px 2px;
         }
       }
     }
@@ -1534,7 +1536,7 @@ select {
       width: 80px;
       height: 100%;
       line-height: 1.2;
-      padding: 4px;
+      padding: 6px 10px;
       &:nth-child(1) {
         position: relative;
         z-index: 99;
@@ -1548,6 +1550,19 @@ select {
     right: 0;
     bottom: 0;
     padding: 2px 4px;
+  }
+  .border__danger,
+  .border__success {
+    background-color: #3d3d3d;
+    border: 0;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-image: linear-gradient(-90deg,#191b1d,#191b1d),linear-gradient(-180deg,#191b1d,#191b1d);
+    background-repeat: no-repeat;
+    background-size: 1px 100%,100% 1px;
+    background-position: 100% 0,100% 100%;
   }
   &.fontStyle {
     &-0 {

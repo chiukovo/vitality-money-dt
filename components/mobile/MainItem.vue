@@ -22,7 +22,7 @@
       .tabs__item(@click="clickTab(4)" :class="{'is-active': $store.state.mainItemTabs == 4}") 商品期貨
       .tabs__item(@click="clickTab(5)" :class="{'is-active': $store.state.mainItemTabs == 5}") 加密貨幣
     //-市場總覽
-    div(v-if="settingType == 1")
+    div.h-100(v-if="settingType == 1")
       table.custom__table(:class="'fontStyle-' + fontStyle")
         thead.thead
           tr
