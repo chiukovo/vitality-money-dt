@@ -282,6 +282,7 @@ export default {
         this.doOrder()
       } else {
         this.orderConfirm = true
+        this.computedTableContent()
       }
     },
     cancel() {

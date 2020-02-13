@@ -55,9 +55,9 @@
         el-form(ref='form' size='mini' label-width='50px')
           el-form-item(label='口數:' style='margin: 6px 0;')
             .number-input
-              button.button__decrease(type="button" @click="changeSubmitNum('-')")
+              button.button__increase(type="button" @click="changeSubmitNum('-')")
               input(type="text" v-model='submitNum' :min="0")
-              button.button__increase(type="button" @click="changeSubmitNum('+')")
+              button.button__decrease(type="button" @click="changeSubmitNum('+')")
         .badge.badge-warning 損失點/ 獲利點 為
           span.badge-rr 點數
           |設定
@@ -329,7 +329,6 @@ export default {
       this.overAllConfirm = true
     },
     checkOrder(type) {
-      console.log(type)
       const clickItem = this.$store.state.clickItemId
       const isMobile = this.$store.state.isMobile
       const userId = this.$store.state.localStorage.userAuth.userId
@@ -371,6 +370,7 @@ export default {
         this.doOrder()
       } else {
         this.orderConfirm = true
+        this.computedTableContent()
       }
     },
     cancel() {

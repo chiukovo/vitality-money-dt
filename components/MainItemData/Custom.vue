@@ -143,6 +143,7 @@ export default {
       this.dialog.title = title
       this.dialog.isOpen = true
       this.customSetting = false
+      this.computedTableContent()
 
       if (typeof onlyItem != 'undefined' && typeof itemId != 'undefined') {
         this.dialog.onlyItem = true
