@@ -238,21 +238,7 @@ tr.border-tr {
     }
   }
 }
-td {
-  position: relative;
-  .bg__danger, .bg__success {
-    /*position: absolute;
-    top: 0;
-    left: 0;*/
-    width: 100%;
-    height: 100%;
-    color: #fff;
-    padding: 2px 4px;
-  }
-  input[type="checkbox"] {
-    margin: 10px;
-  }
-}
+
 
 // .row
 .row {
