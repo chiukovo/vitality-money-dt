@@ -39,10 +39,16 @@
     .operatingA-5
       el-form(ref='form' size='small' label-width='50px')
         el-form-item(label='限價:')
-          el-input-number(v-model='nowPrice' style="width: calc(100% - 52px)" :min="0" :disabled="buyType != 1")
+          .number-input(:class="buyType != 1 ? 'disabled' : ''")
+            button.button__decrease(type="button" @click="addLimitPoint('--')")
+            input(type="text" v-model='nowPrice' :min="0" :disabled="buyType != 1")
+            button.button__increase(type="button" @click="addLimitPoint('++')")
           button.button__warning(type="button") 現價
         el-form-item(label='口數:' style='margin: 2px 0;')
-          el-input-number(v-model='submitNum' style="width: calc(100% - 52px)" :min="0" :step="submitStep")
+          .number-input
+            button.button__decrease(type="button" @click="changeSubmitNum('-')")
+            input(type="text" v-model='submitNum' :min="0")
+            button.button__increase(type="button" @click="changeSubmitNum('+')")
           button.button__warning(type="button" @click="checkOrderAll()") 全平
     .button-operating
       button.button__danger.text__bold(@click="checkOrder(0)" v-if="buttonType == 0") 多單
@@ -156,6 +162,11 @@ export default {
         this.submitNum = 2
         this.submitStep = 1
       }
+
+      //最小為零
+      if (this.submitNum < 0) {
+        this.submitNum = 0
+      }
     }
   },
   mounted() {
@@ -173,6 +184,24 @@ export default {
     }
   },
   methods: {
+    addLimitPoint(type) {
+      if (this.buyType != 1) {
+        return
+      }
+
+      if (type == '++') {
+        this.nowPrice++
+      } else if (type == '--') {
+        this.nowPrice--
+      }
+    },
+    changeSubmitNum(type) {
+      if (type == '+') {
+        this.submitNum = parseFloat((this.submitNum + this.submitStep).toFixed(10))
+      } else {
+        this.submitNum = parseFloat((this.submitNum - this.submitStep).toFixed(10))
+      }
+    },
     setClickItem() {
       let name = this.getProductNameById(this.itemChange)
 

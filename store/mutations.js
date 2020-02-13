@@ -162,7 +162,7 @@ export default {
         }
       })
 
-      if (userHide && setting.length > 0) {
+      if (userHide && setting.length > 0 && val.product_id != 'TSLQ') {
         return ''
       }
 
@@ -234,6 +234,10 @@ export default {
 
       //寫入store 目前最新成交價錢
       state.nowNewPrice[val.product_id] = val.newest_price
+
+      if (val.product_id == 'TSLQ') {
+        val.row_hide  = false
+      }
 
       return val
     })
