@@ -19,7 +19,7 @@
           tbody.tbody(@scroll="tbodyScroll($event)")
             tr(v-for="row in items2")
               td {{ row.flocalTime }}
-              td {{ row.price }}
+              td(:class="getClass(row)") {{ row.price }}
               td {{ row.amount }}
             tr(class="non-data" v-if="items2.length == 0")
               td 無資料
@@ -53,6 +53,7 @@ export default {
   computed: mapState({
     items2: 'items2',
     clickItemId: 'clickItemId',
+    nowMainItem: 'nowMainItem',
     listColorStyle: state => state.localStorage.customSetting.listColorStyle,
   }),
   mounted() {
@@ -73,32 +74,26 @@ export default {
     handleItemDetailTabs(e) {
       this.itemDetailTabShow = e
     },
-    tableCenterHeightLight({ row, rowIndex }) {
-      // 在列表垂置置中的位置加入 border-tr
-      if(rowIndex == 5) {
-        return 'border-tr';
-      }
-    },
-    tableCellClassName({ row, column, columnIndex }) {
-      if(columnIndex == 1) {
-        if(row.change == 'up') {
-          //相反
-          if (this.listColorStyle == 2) {
-            return 'text__success';
-          }
+    getClass(row) {
+      let color = this.nowMainItem.color
 
-          return 'text__danger';
-        } else {
-          //相反
-          if (this.listColorStyle == 2) {
-            return 'text__danger';
-          }
-
+      if(color == 'text__danger') {
+        //相反
+        if (this.listColorStyle == 2) {
           return 'text__success';
         }
+
+        return color;
+      } else {
+        //相反
+        if (this.listColorStyle == 2) {
+          return 'text__success';
+        }
+
+        return color;
       }
     },
-    openModal (type, title) {
+    openModal(type, title) {
       this.dialog.clickType = type
       this.dialog.title = title
       this.dialog.isOpen = true
