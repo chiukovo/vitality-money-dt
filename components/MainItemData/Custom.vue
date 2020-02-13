@@ -44,7 +44,7 @@ div(class="h-100")
           th(v-if="checkHide('說明')") 說明
           th(v-if="checkHide('商品類別')") 商品類別
       tbody.tbody(@scroll="tbodyScroll($event, true)")
-        tr(v-for="row in mainItem" v-if="!row.row_hide" @click="trClick($event)")
+        tr(v-for="row in mainItem" v-show="!row.row_hide" @click="trClick($event)")
           td(v-if="checkHide('商品')")
             .cell(:class="clickItemId == row.product_id ? 'bg__danger' : ''" @click="clickItem(row)")
               span(:class="row.state != 2 ? 'text__secondary' : ''") {{ row.product_name }}

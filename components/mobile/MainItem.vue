@@ -26,10 +26,7 @@
       table.custom__table(:class="'fontStyle-' + fontStyle")
         thead.thead
           tr
-            th(style="width:120px")
-              span 商品
-                .table-toggle
-                  a(@click.stop="settingShow = true")
+            th(style="width: 120px")
             th(v-if="checkHide('成交價')") 成交
             th(v-if="checkHide('買進價')") 買進
             th(v-if="checkHide('賣出價')") 賣出
@@ -45,19 +42,9 @@
             th(v-if="checkHide('交易')") 交易
             th(v-if="checkHide('最後成交價')" style="width: 130px;") 最後成交價
             th(v-if="checkHide('最後交易日')" style="width: 130px;") 最後交易日
-        tbody.tbody(@scroll="tbodyScroll($event, true)")
-          tr(v-for="row in mainItem" v-if="!row.row_hide")
+        tbody.tbody(@scroll="tbodyScroll($event, false, true)")
+          tr(v-for="row in mainItem" v-show="!row.row_hide")
             td(v-if="checkHide('商品')" style="width:120px")
-              .first
-                .myname
-                  .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
-                  .mycfd
-                .mybox(v-if="typeof $store.state.uncoveredCountDetail[row['product_id']] != 'undefined'")
-                  .nopingb {{ $store.state.uncoveredCountDetail[row['product_id']] > 0 ? $store.state.uncoveredCountDetail[row['product_id']] : 0 }}
-                  .nopings {{ $store.state.uncoveredCountDetail[row['product_id']] < 0 ? Math.abs($store.state.uncoveredCountDetail[row['product_id']]) : 0 }}
-                //- .mybar
-                  .progress-bar.progress-bar__total
-                    .progress-bar__inner(style="width: 10%")
             td(v-if="checkHide('成交價')")
               span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
             td(v-if="checkHide('買進價')")
@@ -88,6 +75,26 @@
               span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
             td(v-if="checkHide('最後交易日')" style="width: 130px;")
               span {{ row.end_date }}
+      table.custom__table.mob__table(:class="'fontStyle-' + fontStyle")
+        thead.thead
+          tr
+            th(style="width:120px")
+              span 商品
+                .table-toggle
+                  a(@click.stop="settingShow = true")
+        tbody.tbody
+          tr(v-for="row in mainItem" v-show="!row.row_hide")
+            td(v-if="checkHide('商品')" style="width:120px")
+              .first
+                .myname
+                  .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
+                  .mycfd
+                .mybox(v-if="typeof $store.state.uncoveredCountDetail[row['product_id']] != 'undefined'")
+                  .nopingb {{ $store.state.uncoveredCountDetail[row['product_id']] > 0 ? $store.state.uncoveredCountDetail[row['product_id']] : 0 }}
+                  .nopings {{ $store.state.uncoveredCountDetail[row['product_id']] < 0 ? Math.abs($store.state.uncoveredCountDetail[row['product_id']]) : 0 }}
+                //- .mybar
+                  .progress-bar.progress-bar__total
+                    .progress-bar__inner(style="width: 10%")
     //-會員明細
     div(v-if="settingType == 3")
       UserDetailList
@@ -132,11 +139,11 @@ export default {
   }),
   watch: {
     fontStyle() {
-      this.$refs.xTable.refreshColumn()
+      this.computedTableContent(true)
     },
   },
   mounted() {
-    this.computedTableContent()
+    this.computedTableContent(true)
   },
   methods: {
     clickTab(type) {

@@ -364,7 +364,7 @@ Vue.mixin({
 
       target.classList.add("current")
     },
-    tbodyScroll(event, fixedLeft) {
+    tbodyScroll(event, fixedLeft, mobMain) {
       const target = event.target.parentNode
 
       if (target == null) {
@@ -381,6 +381,12 @@ Vue.mixin({
         return
       }
 
+      if (mobMain) {
+        let fakeTbody = document.querySelector('.mob__table .tbody')
+
+        fakeTbody.scrollTop = tbody.scrollTop
+      }
+
       const scrollLeft = tbody.scrollLeft
 
       thead.style.left = '-' + scrollLeft + 'px'
@@ -392,7 +398,7 @@ Vue.mixin({
         }
       }
     },
-    computedTableContent() {
+    computedTableContent(isMobMain) {
       const _this = this
 
       setTimeout(function() {
@@ -421,6 +427,14 @@ Vue.mixin({
             //only scrollY
             if (tbody.scrollHeight > content.clientHeight && tbody.scrollWidth < content.clientWidth) {
               num = 16
+            }
+
+            if (isMobMain) {
+              let fakeTable = document.querySelector('.mob__table')
+              let fakeTbody = fakeTable.querySelector('.tbody')
+
+              fakeTable.style.top = el.offsetTop + 'px'
+              fakeTbody.style.height = h - thead.offsetHeight + 'px'
             }
 
             if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
