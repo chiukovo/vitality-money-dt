@@ -52,7 +52,7 @@ export default {
     const userId = state.localStorage.userAuth.userId
     const token = state.localStorage.userAuth.token
 
-    axios.post(process.env.NUXT_ENV_API_URL + "/query_ordderlist?lang=" + lang, qs.stringify({
+    axios.post(process.env.NUXT_ENV_API_URL + "/query_orderlist?lang=" + lang, qs.stringify({
       UserID: userId,
       Token: token,
     }))
