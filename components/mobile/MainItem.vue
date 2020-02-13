@@ -26,7 +26,7 @@
       table.custom__table(:class="'fontStyle-' + fontStyle")
         thead.thead
           tr
-            th
+            th(style="width:100px")
               span 商品
                 .table-toggle
                   a(@click.stop="settingShow = true")
@@ -47,7 +47,7 @@
             th(v-if="checkHide('最後交易日')" style="width: 100px;") 最後交易日
         tbody.tbody(@scroll="tbodyScroll($event, true)")
           tr(v-for="row in mainItem" v-if="!row.row_hide")
-            td(v-if="checkHide('商品')")
+            td(v-if="checkHide('商品')" style="width:100px")
               .first
                 .myname
                   .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
