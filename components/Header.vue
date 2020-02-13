@@ -38,9 +38,6 @@
             MainFontSize
           li.dropdown-item.dropdown-toggle(href="#") 切換漲跌顏色
             SetListDataColor
-          li.dropdown-item.dropdown-toggle 損益設定
-            ul.dropdown-submenu
-              li.is-active 行情輸入
           li.dropdown-item.dropdown-toggle 音效
             ul.dropdown-submenu
               li(:class="$store.state.localStorage.customSetting.sound ? 'is-active': ''" @click="setCustomSetting('sound')") 開啟

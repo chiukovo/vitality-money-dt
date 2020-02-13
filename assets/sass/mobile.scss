@@ -656,10 +656,6 @@ $material-icons-font-path: '~material-icons/iconfont/';
 }
 
 .mainItem {
-  .vxe-body--column {
-    position: relative;
-  }
-
   .bg__danger,
   .bg__success {
     position: absolute;
@@ -679,12 +675,6 @@ $material-icons-font-path: '~material-icons/iconfont/';
     justify-content: flex-end;
   }
 }
-
-.vxe-header--column .vxe-cell {
-  font-weight: normal;
-  font-size: 13px;
-}
-
 
 .itemDetail__Total {
   .row {
@@ -1391,25 +1381,6 @@ select {
 	}
 }
 
-
-.fontStyle-3.vxe-table {
-  font-size: 22px;
-  .vxe-header--column .vxe-cell {
-    height: auto;
-  }
-}
-.fontStyle-2.vxe-table {
-  font-size: 20px;
-  .vxe-header--column .vxe-cell {
-    height: auto;
-  }
-}
-.fontStyle-1.vxe-table {
-  font-size: 18px;
-}
-.fontStyle-0.vxe-table {
-  font-size: 16px;
-}
 .PriceBox {
   display: flex;
   flex-direction: column;

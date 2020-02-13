@@ -11,19 +11,6 @@ Vue.mixin({
     numberToPrecision(num) {
       return parseFloat(num.toPrecision(12))
     },
-    vxeTableScrollEvent({ scrollTop, scrollLeft, isX, isY }) {
-      if (isY) {
-        this.beforeScrollY = scrollTop
-      }
-
-      if (isX) {
-        this.beforeScrollX = scrollLeft
-      }
-
-      if (!isX && !isY && scrollTop == 0 && scrollLeft == 0) {
-        this.$refs.xTable.scrollTo(this.beforeScrollX, this.beforeScrollY)
-      }
-    },
     checkDevice() {
       const isMobile = this.$device.isMobile
       const name = this.$nuxt.$route.name.split('-')
