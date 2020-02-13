@@ -15,6 +15,13 @@
   outline: 0;
 }
 
+.custom__table .tbody .non-data {
+  height: 100%;
+  td {
+    text-align: center !important;
+  }
+}
+
 // button
 button {
   min-width: $button-min-width;

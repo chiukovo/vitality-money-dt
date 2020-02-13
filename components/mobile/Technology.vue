@@ -81,6 +81,7 @@ export default {
       if (type == 2) {
         //目前選擇商品
         this.selectItemId = this.$store.state.clickItemId
+        this.changeSelectId()
       }
     },
   },

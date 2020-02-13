@@ -254,6 +254,12 @@ export default {
         },
         getBars: function(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
           var split_symbol = symbolInfo.ticker.split(/[:/]/)
+
+          //加權指數
+          if (typeof split_symbol[1] == 'undefined') {
+            split_symbol[1] = 'TSLQ'
+          }
+
           this_vue.$store.dispatch(
             'CALL_QUERY_NEW_TECH',
             {
