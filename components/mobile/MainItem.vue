@@ -45,6 +45,13 @@
         tbody.tbody(@scroll="tbodyScroll($event, false, true)")
           tr(v-for="row in mainItem" v-show="!row.row_hide")
             td(v-if="checkHide('商品')" style="width:120px")
+              .first
+                .myname
+                  .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
+                  .mycfd
+                .mybox(v-if="typeof $store.state.uncoveredCountDetail[row['product_id']] != 'undefined'")
+                  .nopingb {{ $store.state.uncoveredCountDetail[row['product_id']] > 0 ? $store.state.uncoveredCountDetail[row['product_id']] : 0 }}
+                  .nopings {{ $store.state.uncoveredCountDetail[row['product_id']] < 0 ? Math.abs($store.state.uncoveredCountDetail[row['product_id']]) : 0 }}
             td(v-if="checkHide('成交價')")
               span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
             td(v-if="checkHide('買進價')")
