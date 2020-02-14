@@ -111,7 +111,7 @@ Vue.mixin({
       _this.multiOrderData.push({
         name: row.Name,
         userName: _this.$store.state.userInfo.Account,
-        buy: row.BuyOrSell == 0 ? '多' : '空',
+        buy: row.BuyOrSell,
         price: row.FinalPrice,
         submit: row.Quantity,
         itemId: row.ID,
@@ -124,7 +124,7 @@ Vue.mixin({
       this.multiDeleteData = [{
         name: this.$store.state.itemName,
         userName: this.$store.state.userInfo.Account,
-        buy: row.BuyOrSell == 0 ? '多' : '空',
+        buy: row.BuyOrSell,
         price: row.Odtype,
         submit: row.Quantity,
         itemId: row.ID,
@@ -160,7 +160,7 @@ Vue.mixin({
           _this.multiDeleteData.push({
             name: row.Name,
             userName: _this.$store.state.userInfo.Account,
-            buy: row.BuyOrSell == 0 ? '多' : '空',
+            buy: row.BuyOrSell,
             price: row.Odtype,
             submit: row.Quantity,
             itemId: row.ID,
@@ -186,7 +186,7 @@ Vue.mixin({
             _this.multiDeleteData.push({
               name: row.Name,
               userName: _this.$store.state.userInfo.Account,
-              buy: row.BuyOrSell == 0 ? '多' : '空',
+              buy: row.BuyOrSell,
               price: row.Odtype,
               submit: row.Quantity,
               itemId: row.ID,
@@ -211,7 +211,7 @@ Vue.mixin({
         _this.multiOrderData.push({
           name: row.Name,
           userName: _this.$store.state.userInfo.Account,
-          buy: row.BuyOrSell == 0 ? '多' : '空',
+          buy: row.BuyOrSell,
           price: row.FinalPrice,
           submit: row.Quantity,
           itemId: row.ID,
@@ -234,7 +234,7 @@ Vue.mixin({
             _this.multiOrderData.push({
               name: row.Name,
               userName: _this.$store.state.userInfo.Account,
-              buy: row.BuyOrSell == 0 ? '多' : '空',
+              buy: row.BuyOrSell,
               price: row.FinalPrice,
               submit: row.Quantity,
               itemId: row.ID,
@@ -309,11 +309,12 @@ Vue.mixin({
         _this.multiDeleteData.push({
           name: _this.$store.state.itemName,
           userName: _this.$store.state.userInfo.Account,
-          buy: row.BuyOrSell == 0 ? '多' : '空',
+          buy: row.BuyOrSell,
           price: row.Odtype,
           submit: row.Quantity,
           itemId: row.ID,
           serial: row.Serial,
+          orderTime: row.OrderTime,
         })
       })
     },

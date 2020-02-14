@@ -411,6 +411,10 @@ Vue.mixin({
             w = content.offsetWidth
             h = content.offsetHeight
 
+            if (w == 0 && h == 0) {
+              return
+            }
+
             //only scrollY
             if (tbody.scrollHeight > content.clientHeight && tbody.scrollWidth < content.clientWidth) {
               num = 16
