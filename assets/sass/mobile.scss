@@ -312,9 +312,6 @@ $material-icons-font-path: '~material-icons/iconfont/';
         font-size: 16px;
       }
     }
-    .tran-item__name {
-      // font-size: 14px;
-    }
     .tran-item__yellow {
       color: #fff8c6;
       > span {
@@ -1404,7 +1401,6 @@ select {
   list-style: none;
   padding: 0;
   margin: 0;
-
   li {
     display: flex;
     span {
@@ -1433,9 +1429,8 @@ select {
 .mob__table {
   position: absolute !important;
   width: 120px !important;
-
   tbody::-webkit-scrollbar {
-      display: none;
+    display: none;
   }
 }
 
