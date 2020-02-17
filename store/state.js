@@ -7,6 +7,7 @@ export default () => ({
   },
   mainItem: [],
   serviceMessages: [],
+  serviceErrorMsg: '',
   nowMainItem: [],
   updateMainItem: [],
   nowFiveMoney: [],

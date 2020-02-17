@@ -55,8 +55,9 @@ export default {
   setHasMessage(state, data) {
     state.hasMessage = data
   },
-  setServiceMessages(state, data) {
-    state.serviceMessages = data
+  setServiceMessages(state, response) {
+    state.serviceMessages = response.msg
+    state.serviceErrorMsg = response.errorMsg
   },
   setUserInfoStyleHeight(state, data) {
     state.userInfoStyleHeight = data

@@ -5,7 +5,7 @@
       button(@click="clearConfirmMsg").button__white 清除訊息
   .history-content__body(:style="{height: $parent.height.message}")
     .chat
-      //- .chat-area.no-service 尚未啟用線上客服，請洽管理員開通。
+      .chat-area.no-service(v-if="serviceErrorMsg != ''") {{ serviceErrorMsg }}
       #chat-area.chat-area
         .message-list(v-for="message in messages")
           .from-service-group(v-if="message.FromService")
@@ -18,7 +18,7 @@
             .from-customer.chat-content {{ message.Content }}
       .chat-input-wrap
         input.chat-input(v-model="sendMsg" placeholder="請在此輸入文字後，點擊ENTER送出"
-        @keyup.enter="send")
+        @keyup.enter="send" :disabled="serviceErrorMsg != ''")
 </template>
 
 <script>
@@ -39,7 +39,8 @@ export default {
   computed: mapState({
     userAuth: state => state.localStorage.userAuth,
     lang: state => state.localStorage.lang,
-    serviceMessages: 'serviceMessages'
+    serviceMessages: 'serviceMessages',
+    serviceErrorMsg: 'serviceErrorMsg'
   }),
   mounted() {
     this.$store.dispatch('CALL_SERVICE_MESSAGE')
