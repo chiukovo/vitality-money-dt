@@ -16,7 +16,7 @@
           tbody
             tr
               td: .cell.text__center
-                select(v-model='selectItemId' @change="changeSelectId")
+                select(v-model='selectItemId' @change="changeSelectId").select
                   option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
               td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
               td: .cell.text__center(:class="nowMainItem.color")
