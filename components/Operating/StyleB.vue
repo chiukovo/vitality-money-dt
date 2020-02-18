@@ -43,6 +43,7 @@
         el-dialog(
           :visible.sync='dialogVisible'
           :modal='false'
+          v-dialogDrag
           width="400px"
           title='口數快捷設定')
             .header-custom(slot='title') 口數快捷設定
@@ -68,6 +69,7 @@
     el-dialog(
       :visible.sync='orderConfirm'
       :modal='false'
+      v-dialogDrag
       width="400px"
       title='確認下單')
       .header-custom(slot='title')

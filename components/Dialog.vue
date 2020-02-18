@@ -5,6 +5,7 @@
       :before-close='handleClose'
       :close-on-click-modal='false'
       :width='diaiogSize'
+      v-dialogDrag
       :modal='false')
     .header-custom(slot='title')
       |  {{ typeof title == 'undefined' ? $store.state.itemName : title }}

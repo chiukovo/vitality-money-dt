@@ -3,6 +3,7 @@
   el-dialog(
     :visible.sync='settingShow'
     :modal='false'
+    v-dialogDrag
     :width="customItemShow ? '300px' : ''"
     :before-close='handleClose')
     .header-custom(slot='title') 設定
@@ -13,7 +14,7 @@
       li.button(@click="clickUserDetailList()") 會員明細
   .main.mainItem
     Dialog(
-      :click-type="dialog.clickType",
+      :click-type="dialog.clickType"
       :visible.sync="dialog.isOpen")
     .mainItem-tabs.tabs-nav
       .tabs__item(@click="clickTab(1)" :class="{'is-active': $store.state.mainItemTabs == 1}") 自訂

@@ -58,6 +58,7 @@
     height="500px"
     :title="detail.title"
     :visible.sync="innerVisible"
+    v-dialogDrag
     append-to-body
     v-if="innerVisible")
     HistoryWinLossDetail(:detail="detail" v-if="innerVisible")
