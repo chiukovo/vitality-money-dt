@@ -31,7 +31,7 @@
     .operating-2
       el-form(ref='form' size='mini' label-width='70px')
         el-form-item(label='限價:')
-          button.nowPrice.button__warning(type="button") 現價
+          button.nowPrice.button__warning(type="button" @click="getNowPrice") 現價
           .number-input(:class="buyType != 1 ? 'disabled' : ''")
             button.button__increase(type="button" @click="addLimitPoint('--')")
             input(type="text" v-model='nowPrice' :min="0" :disabled="buyType != 1")
@@ -89,14 +89,14 @@
             |  確認下單
           .m-10
             table.custom__table.general
-              thead.thead
+              thead
                 tr
                   th 目標商品
                   th 用戶名稱
                   th 買賣
                   th 價格
                   th 口數
-              tbody.tbody
+              tbody
                 tr(v-for="row in confirmData")
                   td {{ row.name }}
                   td {{ row.userName }}
@@ -167,8 +167,8 @@ export default {
     commidyArray() {
       this.getNowOverall()
     },
-    clickItemId(itemId) {
-      this.getNowPrice(itemId)
+    clickItemId() {
+      this.getNowPrice()
       this.getNowOverall()
     },
     customGroup(data) {
@@ -309,7 +309,8 @@ export default {
         }
       })
     },
-    getNowPrice(itemId) {
+    getNowPrice() {
+      const itemId = this.clickItemId
       const nowNewPrice = this.$store.state.nowNewPrice
 
       this.nowPrice = nowNewPrice[itemId]

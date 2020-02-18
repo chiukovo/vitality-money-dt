@@ -8,8 +8,8 @@ el-dialog(
     |  {{ title }}
   //-全平
   div
-    .title(style="color: #0477b6;") 全部平倉
-    table.custom__table.large
+    .title.m-1(style="color: #0477b6;") 全部平倉
+    table.custom__table.general
       thead.thead
         tr
           th 序號
@@ -28,9 +28,9 @@ el-dialog(
         tr(class="non-data" v-if="overAllList.length == 0")
           td 無資料
   //-刪單
-  div(v-if="dayCover == 1")
-    .title(style="color: #0477b6;") 刪單
-    table.custom__table.large
+  div(v-show="dayCover == 1")
+    .title.m-1(style="color: #0477b6;") 刪單
+    table.custom__table.general
       thead.thead
         tr
           th 序號
@@ -50,9 +50,9 @@ el-dialog(
           td {{ dateOnlyHis(row.OrderTime) }}
         tr(class="non-data" v-if="deleteList.length == 0")
           td 無資料
-    .dialog__footer
-      button.button.button__light(@click="cancel") 取消
-      button.button(type='primary' @click="doSendOverAll") 確認
+  .dialog__footer
+    button.button.button__light(@click="cancel") 取消
+    button.button(type='primary' @click="doSendOverAll") 確認
 </template>
 
 <script>
