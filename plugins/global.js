@@ -333,6 +333,9 @@ Vue.mixin({
       })
 
       this.$store.dispatch('CALL_CHANGE_CHART_SYMBOL', id)
+
+      //計算
+      this.computedTableContent()
     },
     showErrorMsg(msg) {
       this.$alert(msg, 'Api Server Error', {
@@ -428,7 +431,7 @@ Vue.mixin({
               fakeTbody.style.height = h - thead.offsetHeight + 'px'
             }
 
-            if (w + 'px' == tbody.style.width && w + 'px' == thead.style.width) {
+            if (w + 'px' == tbody.style.width && (w - num) + 'px' == thead.style.width) {
               if (tbody.style.height == h - thead.offsetHeight + 'px' && num == 0) {
                 return
               }
