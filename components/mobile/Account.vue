@@ -56,6 +56,7 @@
     el-dialog(
       :visible.sync='dialogShow'
       :modal='false'
+      v-dialogDrag
       width="300px"
       title='dialogTitle')
       .header-custom(slot='title') {{ dialogTitle }}

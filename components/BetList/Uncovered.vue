@@ -71,6 +71,7 @@
   el-dialog(
     :visible.sync='editDialog'
     :modal='false'
+    v-dialogDrag
     width="330px")
     .header-custom(slot='title')
       span 損益設定
@@ -160,6 +161,7 @@
   el-dialog(
     :visible.sync='multiOrderConfirm'
     :modal='false'
+    v-dialogDrag
     :show-close='false'
     width="600px"
     title='確認平倉')
@@ -193,6 +195,7 @@
   el-dialog(
     width="50%"
     height="500px"
+    v-dialogDrag
     :title="detail.title"
     :visible.sync="innerVisible"
     append-to-body)

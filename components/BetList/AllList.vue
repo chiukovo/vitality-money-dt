@@ -67,6 +67,7 @@
   el-dialog(
     :visible.sync='editDialog'
     :modal='false'
+    v-dialogDrag
     width="330px")
     .header-custom(slot='title')
       span 改價減量
@@ -146,6 +147,7 @@
   el-dialog(
     :visible.sync='deleteConfirm'
     :modal='false'
+    v-dialogDrag
     :show-close='false'
     width="600px"
     title='確認刪除'
@@ -183,6 +185,7 @@
   el-dialog(
     :visible.sync='multiOrderConfirm'
     :modal='false'
+    v-dialogDrag
     :show-close='false'
     width="600px"
     title='確認平倉'

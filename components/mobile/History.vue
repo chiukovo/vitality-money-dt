@@ -116,6 +116,7 @@
     el-dialog(
       :visible.sync='editDialog'
       :modal='false'
+      v-dialogDrag
       width="80%")
       .header-custom(slot='title')
         span {{ editTitle }}
@@ -201,6 +202,7 @@
     el-dialog(
       :visible.sync='multiOrderConfirm'
       :modal='false'
+      v-dialogDrag
       :show-close='false'
       width="95%"
       title='全部未平倉單')
@@ -227,6 +229,7 @@
     el-dialog(
       :visible.sync='deleteConfirm'
       :modal='false'
+      v-dialogDrag
       :show-close='false'
       width="200px"
       title='確認刪除')
@@ -256,6 +259,7 @@
     //-控制選項
     el-dialog(
       :visible.sync='showControl'
+      v-dialogDrag
       :modal='false')
       .header-custom(slot='title' style="height: 25px;")
       template

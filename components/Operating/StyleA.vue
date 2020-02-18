@@ -56,6 +56,7 @@
     el-dialog(
       :visible.sync='orderConfirm'
       :modal='false'
+      v-dialogDrag
       width="400px"
       title='確認下單')
       .header-custom(slot='title')

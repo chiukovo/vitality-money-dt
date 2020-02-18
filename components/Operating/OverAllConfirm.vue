@@ -3,6 +3,7 @@
 el-dialog(
   :visible.sync='$parent.overAllConfirm'
   :modal='false'
+  v-dialogDrag
   width="500px")
   .header-custom(slot='title')
     |  {{ title }}
