@@ -3,7 +3,7 @@
 	.page
 		MainHeader
 		//- 商品報價
-		MainItem(v-if='tabShow == 1')
+		MainItem(v-if='tabShow == 1' @handleTab="handleTab")
 		//- 技術
 		Technology(v-show='tabShow == 2' :tabShow="tabShow")
 		//- 商品下單

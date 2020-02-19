@@ -92,7 +92,7 @@
                   a(@click.stop="settingShow = true")
         tbody.tbody
           tr(v-for="row in mainItem" v-show="!row.row_hide")
-            td(v-if="checkHide('商品')" style="width:120px")
+            td(v-if="checkHide('商品')" style="width:120px" @click="clickItem(row)")
               .first
                 .myname
                   .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
@@ -167,8 +167,10 @@ export default {
       this.customItemShow = false
       this.settingShow = false
     },
-    clickItem({ row }) {
+    clickItem(row) {
+      console.log(row)
       this.preSetClickItemId(row.product_id, row.product_name)
+      this.$emit('handleTab', 3)
     },
     handleClose() {
       this.customItemShow = false
