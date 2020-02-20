@@ -989,7 +989,8 @@ button {
   width: 100%;
   background: $table-bg-color;
   &.table__mini {
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: bold;
     line-height: 1;
   }
   th,
@@ -1026,7 +1027,10 @@ button {
         color: #fff;
         background: transparent;
         border-color: transparent;
-        padding: 2px 5px;
+        padding: 2px 2px 2px 6px;
+        select {
+          color: #fff;
+        }
       }
     }
   }

@@ -3,7 +3,7 @@
   .main(class="over-y-auto")
     #area_top
       .area(style="width: 100%; overflow-x: auto;")
-        table.table.table__mini(style="width: 440px")
+        table.table.table__mini(style="width: 480px")
           thead
             tr
               th(width="90"): .cell.text__center 商品
@@ -16,8 +16,9 @@
           tbody
             tr
               td: .cell.text__center
-                select(v-model='selectItemId' @change="changeSelectId").select
-                  option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
+                .select
+                  select(v-model='selectItemId' @change="changeSelectId").select
+                    option(v-for="item in mainItem" :value='item.product_id') {{ item.product_name }}
               td: .cell.text__center(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
               td: .cell.text__center(:class="nowMainItem.color")
                 template
