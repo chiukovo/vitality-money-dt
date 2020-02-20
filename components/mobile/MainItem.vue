@@ -115,47 +115,52 @@
         width="96%")
         .header-custom(slot='title')
           |  下單
-        ul.area-order.area-order-theme1
-          li
-            label.title 商品
-              span {{ nowMainItem.product_name }}
-          li
-            label.radio.inline
-              input.radio__input(type="radio" v-model='buyType' value='0')
-              span.radio__label 市價
-            label.radio.inline
-              input.radio__input(type="radio" v-model='buyType' value='2')
-              span.radio__label 收盤單
-            label.radio.inline
-              input.radio__input(type="radio" v-model='buyType' value='1')
-              span.radio__label 限價單
-          li
-            label.title 限價
-            .number-input(:class="buyType != 1 ? 'disabled' : ''")
-              button.button__decrease(@click="addLimitPoint('--')")
-              input(type="text" v-model='nowPrice' :min="0")
-              button.button__increase(@click="addLimitPoint('++')")
-          li
-            label.title 口數
-            .number-input
-              button.button__decrease(@click="changeSubmitNum('-')")
-              input(type="text" v-model='submitNum' :min="0")
-              button.button__increase(@click="changeSubmitNum('+')")
-          li
-            label.title 獲利點需大於 {{ profitMin }} 點點數
-            .number-input
-              button.button__decrease(type="button" @click="profit--")
-              input(type="text" v-model='profit')
-              button.button__increase(type="button" @click="profit++")
-          li
-            label.title 損失點需大於 {{ damageMin }} 點點數
-            .number-input
-              button.button__decrease(type="button" @click="damage--")
-              input(type="text" v-model='damage')
-              button.button__increase(type="button" @click="damage++")
-          li.button-group
-            button.button__danger(@click="checkOrder(0)") 多單
-            button.button__success(@click="checkOrder(1)") 空單
+        .area
+          ul.area-order.area-order-theme3
+            li
+              label.title 商品
+                span {{ nowMainItem.product_name }}
+            li
+              label.radio.inline
+                input.radio__input(type="radio" v-model='buyType' value='0')
+                span.radio__label 市價
+              label.radio.inline
+                input.radio__input(type="radio" v-model='buyType' value='2')
+                span.radio__label 收盤單
+              label.radio.inline
+                input.radio__input(type="radio" v-model='buyType' value='1')
+                span.radio__label 限價單
+            li
+              label.title 限價
+              .number-input(:class="buyType != 1 ? 'disabled' : ''")
+                button.button__decrease(@click="addLimitPoint('--')")
+                input(type="text" v-model='nowPrice' :min="0")
+                button.button__increase(@click="addLimitPoint('++')")
+            li
+              label.title 口數
+              .number-input
+                button.button__decrease(@click="changeSubmitNum('-')")
+                input(type="text" v-model='submitNum' :min="0")
+                button.button__increase(@click="changeSubmitNum('+')")
+            li.flex-direction-column
+              .text 獲利點需大於
+                span  {{ profitMin }}
+                |  點點數
+              .number-input
+                button.button__decrease(type="button" @click="profit--")
+                input(type="text" v-model='profit')
+                button.button__increase(type="button" @click="profit++")
+            li.flex-direction-column
+              .text 損失點需大於
+                span  {{ damageMin }}
+                |  點點數
+              .number-input
+                button.button__decrease(type="button" @click="damage--")
+                input(type="text" v-model='damage')
+                button.button__increase(type="button" @click="damage++")
+            li.button-group
+              button.button__danger(@click="checkOrder(0)") 多單
+              button.button__success(@click="checkOrder(1)") 空單
     //-下單確認
     div(v-if="orderConfirm")
       el-dialog(
