@@ -391,6 +391,7 @@ export default {
         }
       })
 
+      this.getNowPrice()
       this.operatingShow = true
     },
     clickTab(type) {
