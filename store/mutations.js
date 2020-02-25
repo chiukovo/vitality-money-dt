@@ -762,10 +762,6 @@ export default {
     let result = []
     let needAdd = true
 
-    if (data.length == 0) {
-      return
-    }
-
     result = data.map(function(val) {
       // 取得點數現價差，要更新在未平單上
       val.thisSerialPointDiff = 0
