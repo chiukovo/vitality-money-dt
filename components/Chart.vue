@@ -29,6 +29,7 @@ export default {
       type: Boolean,
       default: true,
     },
+    tabShow: {}
   },
   data() {
     return {
@@ -115,6 +116,15 @@ export default {
     }
   },
   watch: {
+    tabShow(type) {
+      const _this = this
+
+      if (this.$store.state.isMobile) {
+        if (type == 3) {
+          _this.windowChange()
+        }
+      }
+    },
     theme() {
       if (this.theme == 'white') {
         this.whiteTheme()

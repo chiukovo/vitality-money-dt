@@ -56,7 +56,7 @@
       button.leftButton(@click="showContentType--" v-show="showContentType != 1")
         i.material-icons chevron_left
       .area-main.area-main-block1(v-show="showContentType == 1" :style="midHeight")
-        Chart(theme="black")
+        Chart(theme="black" :tabShow="tabShow")
       .area-main.area-main-block2(v-show="showContentType == 2")
         //- 五檔揭示
         table.table.progress-table
@@ -163,7 +163,7 @@
         .fiveBox(v-else style="padding: 10px" :style="midHeight") 無資料(五檔)
 
       .right
-        Chart(theme="black" :style="midHeight")
+        Chart(theme="black" :style="midHeight" :tabShow="tabShow")
     #area_bottom.area
       .area-order.area-order-theme2(v-if="orderMode == 2")
         table
