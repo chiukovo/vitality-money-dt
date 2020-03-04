@@ -12,8 +12,15 @@ Vue.mixin({
       return parseFloat(num.toPrecision(12))
     },
     checkDevice() {
-      const isMobile = this.$device.isMobile
+      let isMobile = this.$device.isMobile
       const name = this.$nuxt.$route.name.split('-')
+
+      //平板設定為手機板
+      if (!isMobile) {
+        if (this.$device.isTablet) {
+          isMobile = true
+        }
+      }
 
       //pc
       if (!isMobile) {
