@@ -63,6 +63,7 @@ module.exports = {
   */
   build: {
     babel: {
+      sourceType: 'unambiguous',
       "plugins":[
         [
           "component",
@@ -73,6 +74,9 @@ module.exports = {
         ]
       ]
     },
+    transpile: [
+      'nuxt-vuex-localstorage'
+    ],
    },
   proxy: {
     '/api': {

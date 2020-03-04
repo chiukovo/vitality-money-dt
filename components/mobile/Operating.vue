@@ -27,7 +27,7 @@
               td: .cell.text__center {{ nowMainItem.newest_time }}
               td: .cell.text__center {{ nowMainItem.state_name }}
       .area(style="width: 100%; overflow-x: auto;")
-        table.table.table__mini(style="width: 600px")
+        table.table.table__mini(style="width: 768px")
           thead
             tr
               th: .cell.text__center 昨收價
