@@ -66,8 +66,6 @@ export default {
 		if (this.autoLogin) {
 			this.account = remember.account
 			this.password = remember.password
-
-			this.checkToLogin()
 		}
 	},
 	methods: {
