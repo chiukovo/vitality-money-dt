@@ -29,10 +29,10 @@
           tr
             th(style="width: 120px")
             th(v-if="checkHide('成交價')") 成交
-            th(v-if="checkHide('買進價')") 買進
-            th(v-if="checkHide('賣出價')") 賣出
             th(v-if="checkHide('漲跌')") 漲跌
             th(v-if="checkHide('漲幅%')") 漲幅%
+            th(v-if="checkHide('買進價')") 買進
+            th(v-if="checkHide('賣出價')") 賣出
             th(v-if="checkHide('單量')") 單量
             th(v-if="checkHide('總量')") 總量
             th(v-if="checkHide('昨收價')") 昨收
@@ -55,14 +55,14 @@
                   .nopings {{ $store.state.uncoveredCountDetail[row['product_id']] < 0 ? Math.abs($store.state.uncoveredCountDetail[row['product_id']]) : 0 }}
             td(v-if="checkHide('成交價')" @click="openOperation(row)")
               span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
-            td(v-if="checkHide('買進價')")
-              span(:class="[row.bp_price_change,row.computed_color]") {{ row['bp_price'] }}
-            td(v-if="checkHide('賣出價')")
-              span(:class="[row.sp_price_change,row.computed_color]") {{ row['sp_price'] }}
             td(v-if="checkHide('漲跌')")
               span(:class="[row.gain_change,row.computed_color]") {{ row.gain }}
             td(v-if="checkHide('漲幅%')")
               span(:class="[row.gain_percent_change,row.computed_color]") {{ row.gain_percent }}%
+            td(v-if="checkHide('買進價')")
+              span(:class="[row.bp_price_change,row.computed_color]") {{ row['bp_price'] }}
+            td(v-if="checkHide('賣出價')")
+              span(:class="[row.sp_price_change,row.computed_color]") {{ row['sp_price'] }}
             td(v-if="checkHide('單量')")
               span(:class="row.newest_qty_change") {{ row.newest_qty }}
             td(v-if="checkHide('總量')")
