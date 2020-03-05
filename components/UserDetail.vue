@@ -25,7 +25,7 @@
         td {{ userInfo.EndTime }}
     .table-title 商品資訊
     div
-      table.custom__table.large
+      table.custom__table.general
         thead.thead
           tr
             th 商品名稱

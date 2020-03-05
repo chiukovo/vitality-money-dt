@@ -166,7 +166,7 @@
         Chart(theme="black" :style="midHeight" :tabShow="tabShow")
     #area_bottom.area
       .area-order.area-order-theme2(v-if="orderMode == 2")
-        table
+        table(style="margin: auto")
           tbody
             tr
               td(colspan="2")
