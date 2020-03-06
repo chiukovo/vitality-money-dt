@@ -47,7 +47,7 @@ div(class="h-100")
         tr(v-for="row in mainItem" v-show="!row.row_hide" @click="trClick($event)")
           td(v-if="checkHide('商品')")
             .cell(:class="clickItemId == row.product_id ? 'bg__danger' : ''" @click="clickItem(row)")
-              span(:class="row.state != 2 ? 'text__secondary' : ''") {{ row.product_name }}{{ row['monthday'] }}
+              span(:class="row.state_color") {{ row.product_name }}{{ row['monthday'] }}
           td(v-if="checkHide('倉位多')")
             .cell(v-if="typeof uncoveredCountDetail[row.product_id] != 'undefined' && uncoveredCountDetail[row.product_id] > 0" class="text__center bg__danger") {{ uncoveredCountDetail[row.product_id] }}
           td(v-if="checkHide('倉位空')")

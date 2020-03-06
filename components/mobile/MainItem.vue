@@ -92,7 +92,7 @@
                   a(@click.stop="settingShow = true")
         tbody.tbody
           tr(v-for="row in mainItem" v-show="!row.row_hide")
-            td(v-if="checkHide('商品')" style="width:120px" @click="clickItem(row)")
+            td(v-if="checkHide('商品')" style="width:120px" :class="row.state_color" @click="clickItem(row)")
               .first
                 .myname
                   .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
