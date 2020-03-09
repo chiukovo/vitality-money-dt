@@ -90,7 +90,7 @@
               span 商品
                 .table-toggle
                   a(@click.stop="settingShow = true")
-        tbody.tbody
+        tbody.tbody(@scroll="tbodyScroll($event, false, true)")
           tr(v-for="row in mainItem" v-show="!row.row_hide")
             td(v-if="checkHide('商品')" style="width:120px" :class="row.state_color" @click="clickItem(row)")
               .first
