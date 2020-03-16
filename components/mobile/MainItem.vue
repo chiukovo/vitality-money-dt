@@ -27,7 +27,7 @@
       table.custom__table(:class="'fontStyle-' + fontStyle")
         thead.thead
           tr
-            th(style="width: 120px")
+            th(style="width: 110px")
             th(v-if="checkHide('成交價')") 成交
             th(v-if="checkHide('漲跌')") 漲跌
             th(v-if="checkHide('漲幅%')") 漲幅%
@@ -45,7 +45,7 @@
             th(v-if="checkHide('最後交易日')" style="width: 130px;") 最後交易日
         tbody.tbody(@scroll="tbodyScroll($event, false, true)")
           tr(v-for="row in mainItem" v-show="!row.row_hide")
-            td(v-if="checkHide('商品')" style="width:120px")
+            td(v-if="checkHide('商品')" style="width:110px")
               .first
                 .myname
                   .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
@@ -86,13 +86,13 @@
       table.custom__table.mob__table(:class="'fontStyle-' + fontStyle")
         thead.thead
           tr
-            th(style="width:120px")
+            th(style="width:110px")
               span 商品
                 .table-toggle
                   a(@click.stop="settingShow = true")
         tbody.tbody(@scroll="tbodyScroll($event, false, true)")
           tr(v-for="row in mainItem" v-show="!row.row_hide")
-            td(v-if="checkHide('商品')" style="width:120px" :class="row.state_color" @click="clickItem(row)")
+            td(v-if="checkHide('商品')" style="width:110px" :class="row.state_color" @click="clickItem(row)")
               .first
                 .myname
                   .mycfdw(:class="row.state_name == '未開盤' ? 'text__secondary' : ''") {{ row['product_name'] }}{{ row['monthday'] }}
