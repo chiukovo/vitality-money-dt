@@ -106,7 +106,7 @@
           ul(style="width: 60%;")
             li
               span.label 最後成交價:
-              span(:class="nowMainItem.color") {{ nowMainItem.newest_price }}
+              span(:class="nowMainItem.color") {{ nowMainItem.yesterday_last_price }}
             li
               span.label 禁新:
               |{{ nowMainItem.cover_point1 }} / {{ nowMainItem.cover_point2 }}

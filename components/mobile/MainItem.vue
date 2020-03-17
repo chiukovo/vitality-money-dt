@@ -80,7 +80,7 @@
             td(v-if="checkHide('交易')")
               span(:class="row.state_color") {{ row.state_name }}
             td(v-if="checkHide('最後成交價')" style="width: 130px;")
-              span(:class="[row.newest_price_change,row.computed_color]") {{ row.newest_price }}
+              span {{ row.yesterday_last_price }}
             td(v-if="checkHide('最後交易日')" style="width: 130px;")
               span {{ row.end_date }}
       table.custom__table.mob__table(:class="'fontStyle-' + fontStyle")

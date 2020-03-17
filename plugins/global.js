@@ -94,7 +94,7 @@ Vue.mixin({
         {id: 'lowest_price', name: '最低價', show: true},
         {id: 'newest_time', name: '時間', show: true},
         {id: 'state_name', name: '交易', show: true},
-        {id: 'newest_price', name: '最後成交價', show: true},
+        {id: 'yesterday_last_price', name: '最後成交價', show: true},
         {id: 'end_date', name: '最後交易日', show: true},
         {id: 'doc', name: '說明', show: true},
         {id: 'itemType', name: '商品類別', show: true},
