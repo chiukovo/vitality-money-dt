@@ -1,6 +1,6 @@
 <template lang='pug'>
 .userDetail
-    table.table-userDetail
+    table.table-userDetail(v-if="!onlyItem")
       tr
         td.table-userDetail__title 會員帳號
         td {{ userInfo.Account }}
@@ -23,7 +23,6 @@
       tr
         td.table-userDetail__title 結算時間
         td {{ userInfo.EndTime }}
-    .table-title 商品資訊
     div
       table.custom__table.general
         thead.thead
@@ -39,10 +38,10 @@
             th 留倉上限
             th 留倉天數
             th 禁新
-            th 狀態
             th 強平
+            th 狀態
         tbody.tbody(@scroll="tbodyScroll($event)")
-          tr(v-for="row in commidyArray" @click="trClick($event)")
+          tr(v-for="row in commidyArray" @click="trClick($event)" v-if="checkShow(row)")
             td {{ row.Name }}
             td(style="width: 110px") {{ row.OpenMaxPoint }}
             td {{ row.Fee }}
@@ -78,12 +77,14 @@ export default {
     'clickItemId',
   ]),
   methods: {
-    tableCellClassName({ row, column, columnIndex }) {
+    checkShow(row) {
       if (this.onlyItem === true) {
         if (row.ID != this.itemId) {
-          return 'hide'
+          return false
         }
       }
+
+      return true
     },
   }
 }
