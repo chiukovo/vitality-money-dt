@@ -102,6 +102,10 @@ export default {
         } else {
           val.state_name = '未開盤'
         }
+        val.yesterday_last_price = Number(data[1])
+        val.open_date_time = data[2]
+        val.close_date_time = data[3]
+        val.state = 0
       }
 
       return val
@@ -119,6 +123,7 @@ export default {
         val.open_price = Number(data[5])
         val.highest_price = Number(data[6])
         val.lowest_price = Number(data[7])
+        val.state = 2
       }
 
       return val
@@ -182,10 +187,13 @@ export default {
       val.yesterday_close_price = Number(val.yesterday_close_price)
 
       //參考價 +- 參考價*禁新%
-      val.new_point1 = val.yesterday_close_price + val.yesterday_close_price * newPoint
-      val.new_point2 = val.yesterday_close_price - val.yesterday_close_price * newPoint
-      val.cover_point1 = val.yesterday_close_price + val.yesterday_close_price * cover
-      val.cover_point2 = val.yesterday_close_price - val.yesterday_close_price * cover
+      const offsetNew = Math.ceil(val.yesterday_close_price * newPoint / 100);
+      const offsetCover = parseInt(cover / 100 * val.yesterday_close_price);
+
+      val.new_point1 = val.yesterday_close_price - offsetNew
+      val.new_point2 = val.yesterday_close_price + offsetNew
+      val.cover_point1 = val.yesterday_close_price - offsetCover
+      val.cover_point2 = val.yesterday_close_price + offsetCover
 
       //顏色 昨收價 < 成交價 紅
       val.color = ''
@@ -598,10 +606,13 @@ export default {
       val.yesterday_close_price = Number(val.yesterday_close_price)
 
       //參考價 +- 參考價*禁新%
-      val.new_point1 = val.yesterday_close_price + val.yesterday_close_price * newPoint
-      val.new_point2 = val.yesterday_close_price - val.yesterday_close_price * newPoint
-      val.cover_point1 = val.yesterday_close_price + val.yesterday_close_price * cover
-      val.cover_point2 = val.yesterday_close_price - val.yesterday_close_price * cover
+      const offsetNew = Math.ceil(val.yesterday_close_price * newPoint / 100);
+      const offsetCover = parseInt(cover / 100 * val.yesterday_close_price);
+
+      val.new_point1 = val.yesterday_close_price - offsetNew
+      val.new_point2 = val.yesterday_close_price + offsetNew
+      val.cover_point1 = val.yesterday_close_price - offsetCover
+      val.cover_point2 = val.yesterday_close_price + offsetCover
 
       //只放入有用到的
       setData = {
